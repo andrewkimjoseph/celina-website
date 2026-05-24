@@ -65,7 +65,7 @@
   --radius: 0.875rem;
   /* Emerald Prestige: deep emerald, emerald, gold, warm cream */
   --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
-  --font-body: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Manrope", ui-sans-serif, system-ui, sans-serif;
   --background: oklch(0.97 0.02 95);
   --foreground: oklch(0.22 0.05 160);
   --card: oklch(0.995 0.01 95);
