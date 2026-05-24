@@ -16,6 +16,7 @@ import { faNpm, faGithub } from "@fortawesome/free-brands-svg-icons";
 import celinaLogo from "@/assets/celina-logo.png";
 import celoWordmarkSnow from "@/assets/celo-wordmark-snow.svg";
 import { TOOLS as TOOL_DOCS } from "@/data/tools";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -126,7 +127,7 @@ function Index() {
   return (
     <main className="min-h-screen bg-background text-foreground">
       {/* Nav */}
-      <header className="sticky top-0 z-50 border-b border-foreground/10 bg-[var(--celo-cream)]/80 backdrop-blur-md">
+      <header className="sticky top-0 z-50 border-b border-foreground/10 bg-background/80 backdrop-blur-md">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
           <a href="#top" className="flex items-center gap-2">
             <img src={celinaLogo} alt="Celina" className="h-9 w-9 rounded-full ring-1 ring-[var(--celo-forest)]/30" />
@@ -141,6 +142,7 @@ function Index() {
             <a href={NPM_URL} target="_blank" rel="noreferrer" className="ml-1 inline-flex items-center gap-1.5 rounded-md bg-[var(--celo-forest)] px-3 py-1.5 text-sm font-medium text-[var(--celo-cream)] transition hover:bg-[var(--celo-deep)]">
               <FontAwesomeIcon icon={faNpm} className="h-3.5 w-3.5" /> npm
             </a>
+            <ThemeToggle />
           </nav>
         </div>
       </header>
