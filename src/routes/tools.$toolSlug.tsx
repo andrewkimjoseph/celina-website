@@ -34,8 +34,8 @@ export const Route = createFileRoute("/tools/$toolSlug")({
       <div>
         <h1 className="text-3xl font-bold">Tool not found</h1>
         <p className="mt-2 text-muted-foreground">No Celina tool matches that URL.</p>
-        <Link to="/" className="mt-6 inline-flex items-center gap-2 rounded-md bg-[var(--celo-deep)] px-4 py-2 text-sm font-medium text-[var(--celo-cream)]">
-          <FontAwesomeIcon icon={faArrowLeft} className="h-3.5 w-3.5" /> Back home
+        <Link to="/tools" className="mt-6 inline-flex items-center gap-2 rounded-md bg-[var(--celo-deep)] px-4 py-2 text-sm font-medium text-[var(--celo-cream)]">
+          <FontAwesomeIcon icon={faArrowLeft} className="h-3.5 w-3.5" /> All tools
         </Link>
       </div>
     </div>
@@ -76,8 +76,7 @@ function ToolPage() {
           </Link>
           <div className="flex items-center gap-2">
             <Link
-              to="/"
-              hash="tools"
+              to="/tools"
               className="inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm text-foreground/70 transition hover:text-foreground"
             >
               <FontAwesomeIcon icon={faArrowLeft} className="h-3.5 w-3.5" /> All tools
@@ -91,6 +90,8 @@ function ToolPage() {
         {/* Breadcrumb */}
         <div className="mb-6 flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-muted-foreground">
           <Link to="/" className="hover:text-foreground">Celina</Link>
+          <span>/</span>
+          <Link to="/tools" className="hover:text-foreground">Tools</Link>
           <span>/</span>
           <span className="text-foreground/80">{tool.category}</span>
         </div>
@@ -209,7 +210,7 @@ function ToolPage() {
                   ? "This tool broadcasts a transaction. "
                   : "This tool simulates a signed call. "}
                 Fetch the server&apos;s public key with{" "}
-                <Link to="/$toolSlug" params={{ toolSlug: "get-wallet-encryption-public-key" }} className="font-mono text-xs underline">
+                <Link to="/tools/$toolSlug" params={{ toolSlug: "get-wallet-encryption-public-key" }} className="font-mono text-xs underline">
                   get_wallet_encryption_public_key
                 </Link>
                 , encrypt your private key locally (RSA-OAEP), and pass it as{" "}
@@ -239,8 +240,7 @@ function ToolPage() {
               Install Celina
             </Link>
             <Link
-              to="/"
-              hash="tools"
+              to="/tools"
               className="inline-flex items-center gap-2 rounded-lg border border-foreground/15 px-4 py-2 text-sm font-medium text-foreground/80 transition hover:bg-accent"
             >
               Browse all tools
