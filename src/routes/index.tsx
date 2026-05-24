@@ -410,6 +410,11 @@ function Index() {
                 Learn about MCP
               </a>
             </div>
+
+            <div className="mt-10 flex items-center gap-3 border-t border-[var(--celo-cream)]/15 pt-6 text-[10px] uppercase tracking-[0.28em] text-[var(--celo-cream)]/60">
+              <span>Powered by</span>
+              <img src={celoWordmarkSnow} alt="Celo" className="h-3.5 w-auto opacity-90" />
+            </div>
           </div>
         </div>
       </section>
