@@ -251,8 +251,8 @@ function Index() {
             { icon: faLock, title: "Keys never stored", body: "Write tools accept RSA-encrypted keys, decrypted ephemerally." },
           ].map((f) => (
             <div key={f.title} className="bg-background p-8">
-              <div className="inline-flex h-11 w-11 items-center justify-center rounded-lg bg-[var(--celo-yellow)]/20 ring-1 ring-[var(--celo-yellow)]/40">
-                <FontAwesomeIcon icon={f.icon} className="h-5 w-5 text-[var(--celo-deep)]" />
+              <div className="inline-flex h-11 w-11 items-center justify-center rounded-lg bg-[var(--celo-yellow)]/20 ring-1 ring-[var(--celo-yellow)]/40 dark:bg-[var(--celo-yellow)] dark:ring-[var(--celo-yellow)]">
+                <FontAwesomeIcon icon={f.icon} className="h-5 w-5 text-[var(--celo-deep)] dark:text-[var(--celo-ink)]" />
               </div>
               <h3 className="mt-5 text-lg font-semibold tracking-tight" style={{ fontFamily: "var(--font-display)" }}>{f.title}</h3>
               <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">{f.body}</p>
