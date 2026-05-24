@@ -26,14 +26,8 @@ const NPM_URL = "https://www.npmjs.com/package/@andrewkimjoseph/celina";
 const CURSOR_CONFIG = `{
   "mcpServers": {
     "celina": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "mcp-remote",
-        "https://mcp.celina.andrewkimjoseph.com/mcp",
-        "--transport",
-        "http-only"
-      ]
+      "type": "streamable-http",
+      "url": "https://mcp.celina.andrewkimjoseph.com/mcp"
     }
   }
 }`;
@@ -41,14 +35,8 @@ const CURSOR_CONFIG = `{
 const CLAUDE_CONFIG = `{
   "mcpServers": {
     "celina": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "mcp-remote",
-        "https://mcp.celina.andrewkimjoseph.com/mcp",
-        "--transport",
-        "http-only"
-      ]
+      "type": "streamable-http",
+      "url": "https://mcp.celina.andrewkimjoseph.com/mcp"
     }
   }
 }`;
