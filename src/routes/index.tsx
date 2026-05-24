@@ -174,7 +174,7 @@ function Index() {
             <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
               <a
                 href="#install"
-                className="group inline-flex items-center gap-2 rounded-lg bg-[var(--celo-deep)] px-6 py-3.5 text-sm font-semibold text-[var(--celo-cream)] shadow-[var(--shadow-pop)] transition hover:-translate-y-0.5 hover:bg-[var(--celo-ink)]"
+                className="group inline-flex items-center gap-2 rounded-lg bg-[var(--celo-deep)] px-6 py-3.5 text-sm font-semibold text-[var(--celo-cream)] shadow-[var(--shadow-pop)] ring-2 ring-transparent transition hover:-translate-y-0.5 hover:bg-[var(--celo-ink)] hover:ring-[var(--celo-yellow)]"
               >
                 <FontAwesomeIcon icon={faWandMagicSparkles} className="h-4 w-4 text-[var(--celo-yellow)]" />
                 Add to Cursor / Claude
