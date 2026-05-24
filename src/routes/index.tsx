@@ -302,20 +302,20 @@ function Index() {
           </article>
         </div>
 
-        {/* Remote */}
+        {/* Remote — Streamable HTTP */}
         <div className="mt-10 min-w-0 overflow-hidden rounded-2xl border-2 border-dashed border-[var(--celo-yellow)]/60 bg-background p-7">
           <div className="flex flex-wrap items-baseline gap-3">
             <h3 className="text-xl font-semibold tracking-tight" style={{ fontFamily: "var(--font-display)" }}>
               <FontAwesomeIcon icon={faCircleNodes} className="mr-2 h-4 w-4 text-[var(--celo-forest)]" />
-              Direct Streamable HTTP endpoint
+              Streamable HTTP
             </h3>
             <span className="rounded-full bg-[var(--celo-forest)] px-2.5 py-0.5 text-xs font-bold uppercase tracking-[0.18em] text-[var(--celo-cream)]">Remote</span>
           </div>
           <p className="mt-2 text-sm text-muted-foreground">
-            Point any MCP client directly at the deployed Render endpoint. No local install needed.
+            For LLMs that support MCP Streamable HTTP natively. No local install needed — just paste the config.
           </p>
           <div className="mt-5">
-            <CodeBlock code={`https://mcp.celina.andrewkimjoseph.com/mcp`} />
+            <CodeBlock code={`{\n  "mcpServers": {\n    "celina": {\n      "type": "streamable-http",\n      "url": "https://mcp.celina.andrewkimjoseph.com/mcp"\n    }\n  }\n}`} />
           </div>
         </div>
 
