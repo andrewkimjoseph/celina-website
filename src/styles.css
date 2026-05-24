@@ -63,36 +63,37 @@
 
 :root {
   --radius: 0.875rem;
-  /* Celo-inspired palette: warm cream bg, forest ink, signature yellow */
-  --background: oklch(0.985 0.015 95);
-  --foreground: oklch(0.22 0.06 145);
+  /* Celina logo palette: deep navy ink, teal, gold, soft cream */
+  --background: oklch(0.985 0.012 90);
+  --foreground: oklch(0.22 0.05 240);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.22 0.06 145);
+  --card-foreground: oklch(0.22 0.05 240);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.22 0.06 145);
-  --primary: oklch(0.45 0.13 140);
+  --popover-foreground: oklch(0.22 0.05 240);
+  --primary: oklch(0.62 0.11 195);
   --primary-foreground: oklch(0.985 0.02 95);
-  --secondary: oklch(0.95 0.04 95);
-  --secondary-foreground: oklch(0.25 0.07 145);
-  --muted: oklch(0.95 0.025 100);
-  --muted-foreground: oklch(0.5 0.04 140);
-  --accent: oklch(0.92 0.19 105);
-  --accent-foreground: oklch(0.22 0.08 145);
+  --secondary: oklch(0.95 0.025 200);
+  --secondary-foreground: oklch(0.25 0.06 240);
+  --muted: oklch(0.95 0.02 210);
+  --muted-foreground: oklch(0.5 0.04 230);
+  --accent: oklch(0.83 0.14 85);
+  --accent-foreground: oklch(0.22 0.05 240);
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(0.88 0.03 100);
-  --input: oklch(0.92 0.025 100);
-  --ring: oklch(0.45 0.13 140);
+  --border: oklch(0.88 0.025 210);
+  --input: oklch(0.92 0.02 210);
+  --ring: oklch(0.62 0.11 195);
 
-  --celo-yellow: oklch(0.92 0.19 105);
-  --celo-forest: oklch(0.35 0.12 145);
-  --celo-ink: oklch(0.18 0.04 145);
-  --celo-cream: oklch(0.985 0.015 95);
+  /* Brand tokens pulled from the Celina logo */
+  --celo-yellow: oklch(0.83 0.14 85);   /* gold */
+  --celo-forest: oklch(0.62 0.11 195);  /* teal */
+  --celo-ink: oklch(0.20 0.05 245);     /* deep navy */
+  --celo-cream: oklch(0.97 0.02 85);    /* warm cream */
 
-  --gradient-hero: radial-gradient(ellipse at top left, oklch(0.92 0.19 105 / 0.5), transparent 55%),
-                   radial-gradient(ellipse at bottom right, oklch(0.5 0.14 145 / 0.18), transparent 60%);
-  --shadow-soft: 0 1px 0 oklch(0.22 0.06 145 / 0.04), 0 12px 32px -12px oklch(0.22 0.06 145 / 0.18);
-  --shadow-pop: 6px 6px 0 0 oklch(0.18 0.04 145);
+  --gradient-hero: radial-gradient(ellipse at top left, oklch(0.62 0.11 195 / 0.35), transparent 55%),
+                   radial-gradient(ellipse at bottom right, oklch(0.83 0.14 85 / 0.3), transparent 60%);
+  --shadow-soft: 0 1px 0 oklch(0.20 0.05 245 / 0.04), 0 12px 32px -12px oklch(0.20 0.05 245 / 0.22);
+  --shadow-pop: 6px 6px 0 0 oklch(0.20 0.05 245);
 
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
