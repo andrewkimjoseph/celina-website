@@ -247,12 +247,12 @@ function Index() {
 
       {/* Install */}
       <section id="install" className="border-t border-foreground/10 bg-[var(--celo-cream)]/40">
-        <div className="mx-auto max-w-6xl px-6 py-24">
+        <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-24">
         <div className="mb-12 flex flex-col items-start sm:items-center sm:text-center">
           <span className="rounded-full border border-[var(--celo-deep)]/30 bg-background px-3 py-1 text-xs font-bold uppercase tracking-[0.22em] text-[var(--celo-deep)]">
             § Install
           </span>
-          <h2 className="mt-4 text-4xl font-bold tracking-tight sm:text-6xl" style={{ fontFamily: "var(--font-display)" }}>
+          <h2 className="mt-4 text-3xl font-bold tracking-tight sm:text-5xl lg:text-6xl" style={{ fontFamily: "var(--font-display)" }}>
             Hook Celina into your agent
           </h2>
           <p className="mt-3 max-w-xl text-base text-muted-foreground sm:text-lg">
@@ -331,12 +331,12 @@ function Index() {
 
       {/* Tools */}
       <section id="tools" className="border-t border-foreground/10">
-        <div className="mx-auto max-w-6xl px-6 py-24">
+        <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-24">
           <div className="mb-10 flex flex-col items-start sm:items-center sm:text-center">
             <span className="rounded-full border border-[var(--celo-deep)]/30 bg-background px-3 py-1 text-xs font-bold uppercase tracking-[0.22em] text-[var(--celo-deep)]">
               § Tools v0.1
             </span>
-            <h2 className="mt-4 text-4xl font-bold tracking-tight sm:text-6xl" style={{ fontFamily: "var(--font-display)" }}>
+            <h2 className="mt-4 text-3xl font-bold tracking-tight sm:text-5xl lg:text-6xl" style={{ fontFamily: "var(--font-display)" }}>
               12 tools. One agent. Whole chain.
             </h2>
             <p className="mt-3 max-w-xl text-base text-muted-foreground sm:text-lg">
@@ -370,15 +370,15 @@ function Index() {
       </section>
 
       {/* CTA */}
-      <section className="mx-auto max-w-6xl px-6 py-24">
-        <div className="relative overflow-hidden rounded-3xl bg-[var(--celo-deep)] p-10 text-[var(--celo-cream)] shadow-[var(--shadow-pop)] sm:p-16">
+      <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-24">
+        <div className="relative overflow-hidden rounded-3xl bg-[var(--celo-deep)] p-8 text-[var(--celo-cream)] shadow-[var(--shadow-pop)] sm:p-12 lg:p-16">
           <div className="absolute -right-20 -top-20 h-72 w-72 rounded-full bg-[var(--celo-yellow)] opacity-40 blur-3xl" />
           <div className="absolute -bottom-32 -left-20 h-72 w-72 rounded-full bg-[var(--celo-forest)] opacity-50 blur-3xl" />
           <div className="relative">
             <span className="rounded-full border border-[var(--celo-cream)]/30 px-3 py-1 text-xs font-bold uppercase tracking-[0.22em] text-[var(--celo-cream)]/80">
               Ship it
             </span>
-            <h2 className="mt-5 max-w-2xl text-4xl font-bold tracking-tight sm:text-6xl" style={{ fontFamily: "var(--font-display)" }}>
+            <h2 className="mt-5 max-w-2xl text-3xl font-bold tracking-tight sm:text-5xl lg:text-6xl" style={{ fontFamily: "var(--font-display)" }}>
               Give your agent a wallet. <span className="text-[var(--celo-yellow)]">Say hi to Celina.</span>
             </h2>
             <p className="mt-4 max-w-xl text-base text-[var(--celo-cream)]/75 sm:text-lg">
