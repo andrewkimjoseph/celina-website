@@ -189,7 +189,7 @@ function Index() {
             </div>
 
             {/* npm install one-liner */}
-            <div className="mt-8 flex w-full max-w-full items-center gap-2 overflow-hidden rounded-full border border-[var(--celo-deep)]/40 bg-[var(--celo-ink)] py-2 pl-4 pr-2 text-xs text-[var(--celo-cream)] shadow-[var(--shadow-soft)] sm:inline-flex sm:w-auto sm:gap-3 sm:pl-5 sm:text-sm">
+            <div className="mt-8 flex w-full max-w-full items-center gap-2 overflow-hidden rounded-full border border-[var(--celo-deep)]/40 bg-[var(--celo-ink)] py-2 pl-4 pr-2 text-[11px] text-[var(--celo-cream)] shadow-[var(--shadow-soft)] sm:inline-flex sm:w-auto sm:gap-3 sm:pl-5 sm:text-sm">
               <span className="font-mono text-[var(--celo-yellow)]">$</span>
               <code className="flex-1 overflow-x-auto whitespace-nowrap font-mono">npm i @andrewkimjoseph/celina</code>
               <CopyButton text="npm i @andrewkimjoseph/celina" />
