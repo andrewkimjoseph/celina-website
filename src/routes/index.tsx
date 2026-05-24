@@ -458,7 +458,7 @@ function Index() {
             {TOOLS.map((t) => (
               <Link
                 key={t.name}
-                to="/$toolSlug"
+                to="/tools/$toolSlug"
                 params={{ toolSlug: t.slug }}
                 className="group block rounded-xl border border-foreground/10 bg-card p-4 transition hover:-translate-y-0.5 hover:border-[var(--celo-forest)]/40 hover:shadow-[var(--shadow-soft)]"
               >
