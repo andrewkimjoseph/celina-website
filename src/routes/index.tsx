@@ -262,7 +262,7 @@ function Index() {
 
         <div className="grid gap-8 lg:grid-cols-2">
           {/* Cursor */}
-          <article className="rounded-2xl border border-foreground/15 bg-card p-7 shadow-[var(--shadow-soft)]">
+          <article className="min-w-0 overflow-hidden rounded-2xl border border-foreground/15 bg-card p-7 shadow-[var(--shadow-soft)]">
             <div className="mb-1 flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-[var(--celo-forest)]">
               <FontAwesomeIcon icon={faTerminal} className="h-3.5 w-3.5" /> Cursor
             </div>
@@ -278,7 +278,7 @@ function Index() {
           </article>
 
           {/* Claude Desktop */}
-          <article className="rounded-2xl border border-foreground/15 bg-card p-7 shadow-[var(--shadow-soft)]">
+          <article className="min-w-0 overflow-hidden rounded-2xl border border-foreground/15 bg-card p-7 shadow-[var(--shadow-soft)]">
             <div className="mb-1 flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-[var(--celo-forest)]">
               <FontAwesomeIcon icon={faTerminal} className="h-3.5 w-3.5" /> Claude Desktop
             </div>
@@ -295,7 +295,7 @@ function Index() {
         </div>
 
         {/* Remote */}
-        <div className="mt-10 rounded-2xl border-2 border-dashed border-[var(--celo-yellow)]/60 bg-background p-7">
+        <div className="mt-10 min-w-0 overflow-hidden rounded-2xl border-2 border-dashed border-[var(--celo-yellow)]/60 bg-background p-7">
           <div className="flex flex-wrap items-baseline gap-3">
             <h3 className="text-xl font-semibold tracking-tight" style={{ fontFamily: "var(--font-display)" }}>
               <FontAwesomeIcon icon={faCircleNodes} className="mr-2 h-4 w-4 text-[var(--celo-forest)]" />
