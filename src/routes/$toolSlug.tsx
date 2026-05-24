@@ -4,6 +4,7 @@ import { faArrowLeft, faLock, faBolt, faCircleNodes, faTerminal, faCopy, faCheck
 import { useState } from "react";
 import { TOOL_BY_SLUG, type ToolDoc } from "@/data/tools";
 import celinaLogo from "@/assets/celina-logo.png";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 export const Route = createFileRoute("/$toolSlug")({
   loader: ({ params }) => {
@@ -65,7 +66,7 @@ function ToolPage() {
   return (
     <main className="min-h-screen bg-background text-foreground">
       {/* Nav */}
-      <header className="sticky top-0 z-50 border-b border-foreground/10 bg-[var(--celo-cream)]/80 backdrop-blur-md">
+      <header className="sticky top-0 z-50 border-b border-foreground/10 bg-background/80 backdrop-blur-md">
         <div className="mx-auto flex max-w-4xl items-center justify-between px-6 py-4">
           <Link to="/" className="flex items-center gap-2">
             <img src={celinaLogo} alt="Celina" className="h-9 w-9 rounded-full ring-1 ring-[var(--celo-forest)]/30" />
@@ -73,13 +74,16 @@ function ToolPage() {
               Celina
             </span>
           </Link>
-          <Link
-            to="/"
-            hash="tools"
-            className="inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm text-foreground/70 transition hover:text-foreground"
-          >
-            <FontAwesomeIcon icon={faArrowLeft} className="h-3.5 w-3.5" /> All tools
-          </Link>
+          <div className="flex items-center gap-2">
+            <Link
+              to="/"
+              hash="tools"
+              className="inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm text-foreground/70 transition hover:text-foreground"
+            >
+              <FontAwesomeIcon icon={faArrowLeft} className="h-3.5 w-3.5" /> All tools
+            </Link>
+            <ThemeToggle />
+          </div>
         </div>
       </header>
 
@@ -128,7 +132,7 @@ function ToolPage() {
 
         {/* Inputs */}
         <section className="mt-12">
-          <h2 className="text-xs font-bold uppercase tracking-[0.22em] text-[var(--celo-deep)]">§ Inputs</h2>
+          <h2 className="text-xs font-bold uppercase tracking-[0.22em] text-foreground">§ Inputs</h2>
           {tool.inputs.length === 0 ? (
             <p className="mt-3 rounded-xl border border-foreground/10 bg-card p-5 text-sm text-muted-foreground">
               This tool takes no parameters.
@@ -136,7 +140,7 @@ function ToolPage() {
           ) : (
             <div className="mt-3 overflow-hidden rounded-xl border border-foreground/10 bg-card">
               <table className="w-full text-left text-sm">
-                <thead className="bg-[var(--celo-cream)]/60 text-xs uppercase tracking-[0.14em] text-muted-foreground">
+                <thead className="bg-muted/40 text-xs uppercase tracking-[0.14em] text-muted-foreground">
                   <tr>
                     <th className="px-4 py-2.5 font-semibold">Name</th>
                     <th className="px-4 py-2.5 font-semibold">Type</th>
@@ -147,7 +151,7 @@ function ToolPage() {
                   {tool.inputs.map((f) => (
                     <tr key={f.name} className="border-t border-foreground/10 align-top">
                       <td className="px-4 py-3">
-                        <code className="font-mono text-[13px] font-semibold text-[var(--celo-deep)]">{f.name}</code>
+                        <code className="font-mono text-[13px] font-semibold text-foreground">{f.name}</code>
                         {f.required && (
                           <span className="ml-2 rounded border border-[var(--celo-ink)]/30 bg-[var(--celo-yellow)]/40 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wider text-[var(--celo-ink)]">
                             Required
@@ -168,7 +172,7 @@ function ToolPage() {
 
         {/* Returns */}
         <section className="mt-10">
-          <h2 className="text-xs font-bold uppercase tracking-[0.22em] text-[var(--celo-deep)]">§ Returns</h2>
+          <h2 className="text-xs font-bold uppercase tracking-[0.22em] text-foreground">§ Returns</h2>
           <div className="mt-3 rounded-xl border border-foreground/10 bg-card p-5 text-sm">
             <code className="font-mono text-[13px] text-foreground/85">{tool.returns}</code>
           </div>
@@ -177,12 +181,12 @@ function ToolPage() {
         {/* Examples */}
         {tool.examples && tool.examples.length > 0 && (
           <section className="mt-10">
-            <h2 className="text-xs font-bold uppercase tracking-[0.22em] text-[var(--celo-deep)]">§ Try saying</h2>
+            <h2 className="text-xs font-bold uppercase tracking-[0.22em] text-foreground">§ Try saying</h2>
             <ul className="mt-3 space-y-2">
               {tool.examples.map((e) => (
                 <li
                   key={e}
-                  className="flex items-center justify-between gap-3 rounded-xl border border-dashed border-[var(--celo-forest)]/40 bg-[var(--celo-cream)]/40 px-4 py-3 text-sm italic text-foreground/80"
+                  className="flex items-center justify-between gap-3 rounded-xl border border-dashed border-[var(--celo-forest)]/40 bg-muted/40 px-4 py-3 text-sm italic text-foreground/80"
                 >
                   <span>{e}</span>
                   <CopyInline text={e} />

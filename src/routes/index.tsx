@@ -16,6 +16,7 @@ import { faNpm, faGithub } from "@fortawesome/free-brands-svg-icons";
 import celinaLogo from "@/assets/celina-logo.png";
 import celoWordmarkSnow from "@/assets/celo-wordmark-snow.svg";
 import { TOOLS as TOOL_DOCS } from "@/data/tools";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -126,7 +127,7 @@ function Index() {
   return (
     <main className="min-h-screen bg-background text-foreground">
       {/* Nav */}
-      <header className="sticky top-0 z-50 border-b border-foreground/10 bg-[var(--celo-cream)]/80 backdrop-blur-md">
+      <header className="sticky top-0 z-50 border-b border-foreground/10 bg-background/80 backdrop-blur-md">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
           <a href="#top" className="flex items-center gap-2">
             <img src={celinaLogo} alt="Celina" className="h-9 w-9 rounded-full ring-1 ring-[var(--celo-forest)]/30" />
@@ -141,6 +142,7 @@ function Index() {
             <a href={NPM_URL} target="_blank" rel="noreferrer" className="ml-1 inline-flex items-center gap-1.5 rounded-md bg-[var(--celo-forest)] px-3 py-1.5 text-sm font-medium text-[var(--celo-cream)] transition hover:bg-[var(--celo-deep)]">
               <FontAwesomeIcon icon={faNpm} className="h-3.5 w-3.5" /> npm
             </a>
+            <ThemeToggle />
           </nav>
         </div>
       </header>
@@ -155,7 +157,7 @@ function Index() {
         }} />
         <div className="mx-auto max-w-6xl px-6 pt-20 pb-12 sm:pt-28">
           <div className="flex flex-col items-center text-center">
-            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-[var(--celo-forest)]/25 bg-[var(--celo-cream)]/70 px-3 py-1 text-xs font-medium text-[var(--celo-deep)] backdrop-blur">
+            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-[var(--celo-forest)]/40 bg-card/80 px-3 py-1 text-xs font-medium text-foreground backdrop-blur">
               <span className="relative flex h-2 w-2">
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[var(--celo-yellow)] opacity-70" />
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-[var(--celo-forest)]" />
@@ -167,7 +169,7 @@ function Index() {
               <br className="hidden sm:block" />
               {" "}a wallet on{" "}
               <span className="relative inline-block whitespace-nowrap">
-                <span className="relative z-10 italic text-[var(--celo-deep)]">Celo</span>
+                <span className="relative z-10 italic text-foreground">Celo</span>
                 <span className="absolute inset-x-0 bottom-2 -z-0 h-4 bg-[var(--celo-yellow)]/70 sm:h-5" />
               </span>
             </h1>
@@ -190,7 +192,7 @@ function Index() {
                 href={NPM_URL}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-2 rounded-lg border border-[var(--celo-deep)]/30 bg-background px-6 py-3.5 text-sm font-semibold text-foreground transition hover:border-[var(--celo-deep)] hover:bg-[var(--celo-cream)]"
+                className="inline-flex items-center gap-2 rounded-lg border border-border bg-card px-6 py-3.5 text-sm font-semibold text-foreground transition hover:border-[var(--celo-forest)] hover:bg-muted"
               >
                 <FontAwesomeIcon icon={faNpm} className="h-4 w-4" /> View on npm
               </a>
@@ -260,10 +262,10 @@ function Index() {
       </section>
 
       {/* Install */}
-      <section id="install" className="border-t border-foreground/10 bg-[var(--celo-cream)]/40">
+      <section id="install" className="border-t border-foreground/10 bg-muted/30">
         <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-24">
         <div className="mb-12 flex flex-col items-start sm:items-center sm:text-center">
-          <span className="rounded-full border border-[var(--celo-deep)]/30 bg-background px-3 py-1 text-xs font-bold uppercase tracking-[0.22em] text-[var(--celo-deep)]">
+          <span className="rounded-full border border-border bg-card px-3 py-1 text-xs font-bold uppercase tracking-[0.22em] text-foreground">
             § Install
           </span>
           <h2 className="mt-4 text-3xl font-bold tracking-tight sm:text-5xl lg:text-6xl" style={{ fontFamily: "var(--font-display)" }}>
@@ -286,9 +288,9 @@ function Index() {
               For LLMs that support MCP Streamable HTTP natively. No local install — just paste and go.
             </p>
             <ol className="mt-4 space-y-2 text-sm text-foreground/80">
-              <li><span className="font-semibold text-[var(--celo-deep)]">01.</span> Open your client&apos;s MCP settings</li>
-              <li><span className="font-semibold text-[var(--celo-deep)]">02.</span> Paste the snippet below into <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">mcpServers</span></li>
-              <li><span className="font-semibold text-[var(--celo-deep)]">03.</span> Reload — Celina&apos;s tools appear in chat</li>
+              <li><span className="font-semibold text-foreground">01.</span> Open your client&apos;s MCP settings</li>
+              <li><span className="font-semibold text-foreground">02.</span> Paste the snippet below into <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">mcpServers</span></li>
+              <li><span className="font-semibold text-foreground">03.</span> Reload — Celina&apos;s tools appear in chat</li>
             </ol>
             <div className="mt-5">
               <CodeBlock code={CURSOR_CONFIG} />
@@ -306,9 +308,9 @@ function Index() {
               <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">≥ 18</span> on your machine.
             </p>
             <ol className="mt-4 space-y-2 text-sm text-foreground/80">
-              <li><span className="font-semibold text-[var(--celo-deep)]">01.</span> Open your MCP config file (e.g. <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">claude_desktop_config.json</span>)</li>
-              <li><span className="font-semibold text-[var(--celo-deep)]">02.</span> Merge the snippet below into <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">mcpServers</span></li>
-              <li><span className="font-semibold text-[var(--celo-deep)]">03.</span> Restart the client — <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">npx</span> fetches Celina on first run</li>
+              <li><span className="font-semibold text-foreground">01.</span> Open your MCP config file (e.g. <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">claude_desktop_config.json</span>)</li>
+              <li><span className="font-semibold text-foreground">02.</span> Merge the snippet below into <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">mcpServers</span></li>
+              <li><span className="font-semibold text-foreground">03.</span> Restart the client — <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">npx</span> fetches Celina on first run</li>
             </ol>
             <div className="mt-5">
               <CodeBlock code={LOCAL_BRIDGE_CONFIG} />
@@ -341,7 +343,7 @@ function Index() {
       <section id="local-llms" className="border-t border-foreground/10">
         <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-24">
           <div className="mb-12 flex flex-col items-start sm:items-center sm:text-center">
-            <span className="rounded-full border border-[var(--celo-deep)]/30 bg-background px-3 py-1 text-xs font-bold uppercase tracking-[0.22em] text-[var(--celo-deep)]">
+            <span className="rounded-full border border-border bg-card px-3 py-1 text-xs font-bold uppercase tracking-[0.22em] text-foreground">
               § Local LLMs
             </span>
             <h2 className="mt-4 text-3xl font-bold tracking-tight sm:text-5xl lg:text-6xl" style={{ fontFamily: "var(--font-display)" }}>
@@ -358,10 +360,10 @@ function Index() {
               <div className="mb-1 text-xs font-bold uppercase tracking-[0.18em] text-[var(--celo-forest)]">LM Studio 0.3.17+</div>
               <h3 className="text-xl font-semibold tracking-tight" style={{ fontFamily: "var(--font-display)" }}>Native MCP hosting</h3>
               <ol className="mt-4 space-y-2 text-sm text-foreground/80">
-                <li><span className="font-semibold text-[var(--celo-deep)]">01.</span> Program → Install → <em>Edit mcp.json</em></li>
-                <li><span className="font-semibold text-[var(--celo-deep)]">02.</span> Add Celina under <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">mcpServers</span></li>
-                <li><span className="font-semibold text-[var(--celo-deep)]">03.</span> Enable <em>Allow calling servers from mcp.json</em></li>
-                <li><span className="font-semibold text-[var(--celo-deep)]">04.</span> Chat with a tool-capable model (Qwen 2.5, Llama 3.1+)</li>
+                <li><span className="font-semibold text-foreground">01.</span> Program → Install → <em>Edit mcp.json</em></li>
+                <li><span className="font-semibold text-foreground">02.</span> Add Celina under <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">mcpServers</span></li>
+                <li><span className="font-semibold text-foreground">03.</span> Enable <em>Allow calling servers from mcp.json</em></li>
+                <li><span className="font-semibold text-foreground">04.</span> Chat with a tool-capable model (Qwen 2.5, Llama 3.1+)</li>
               </ol>
               <div className="mt-5">
                 <CodeBlock code={LM_STUDIO_CONFIG} />
@@ -379,9 +381,9 @@ function Index() {
                 Open WebUI speaks streamable HTTP natively — point it straight at the hosted endpoint.
               </p>
               <ol className="mt-4 space-y-2 text-sm text-foreground/80">
-                <li><span className="font-semibold text-[var(--celo-deep)]">01.</span> Admin Settings → External Tools → <em>Add Server</em></li>
-                <li><span className="font-semibold text-[var(--celo-deep)]">02.</span> Type: <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">MCP (Streamable HTTP)</span></li>
-                <li><span className="font-semibold text-[var(--celo-deep)]">03.</span> Paste the URL below</li>
+                <li><span className="font-semibold text-foreground">01.</span> Admin Settings → External Tools → <em>Add Server</em></li>
+                <li><span className="font-semibold text-foreground">02.</span> Type: <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">MCP (Streamable HTTP)</span></li>
+                <li><span className="font-semibold text-foreground">03.</span> Paste the URL below</li>
               </ol>
               <div className="mt-5">
                 <CodeBlock code="https://mcp.celina.andrewkimjoseph.com/mcp" />
@@ -399,9 +401,9 @@ function Index() {
                 Drop a YAML file into your workspace and Continue picks it up in agent mode.
               </p>
               <ol className="mt-4 space-y-2 text-sm text-foreground/80">
-                <li><span className="font-semibold text-[var(--celo-deep)]">01.</span> Create <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">.continue/mcpServers/celina.yaml</span></li>
-                <li><span className="font-semibold text-[var(--celo-deep)]">02.</span> Paste the snippet below</li>
-                <li><span className="font-semibold text-[var(--celo-deep)]">03.</span> Switch Continue to agent mode and prompt</li>
+                <li><span className="font-semibold text-foreground">01.</span> Create <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">.continue/mcpServers/celina.yaml</span></li>
+                <li><span className="font-semibold text-foreground">02.</span> Paste the snippet below</li>
+                <li><span className="font-semibold text-foreground">03.</span> Switch Continue to agent mode and prompt</li>
               </ol>
               <div className="mt-5">
                 <CodeBlock code={CONTINUE_CONFIG} />
@@ -430,7 +432,7 @@ function Index() {
       <section id="tools" className="border-t border-foreground/10">
         <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-24">
           <div className="mb-10 flex flex-col items-start sm:items-center sm:text-center">
-            <span className="rounded-full border border-[var(--celo-deep)]/30 bg-background px-3 py-1 text-xs font-bold uppercase tracking-[0.22em] text-[var(--celo-deep)]">
+            <span className="rounded-full border border-border bg-card px-3 py-1 text-xs font-bold uppercase tracking-[0.22em] text-foreground">
               § Tools v0.1
             </span>
             <h2 className="mt-4 text-3xl font-bold tracking-tight sm:text-5xl lg:text-6xl" style={{ fontFamily: "var(--font-display)" }}>
@@ -450,7 +452,7 @@ function Index() {
                 className="group block rounded-xl border border-foreground/10 bg-card p-4 transition hover:-translate-y-0.5 hover:border-[var(--celo-forest)]/40 hover:shadow-[var(--shadow-soft)]"
               >
                 <div className="flex items-center justify-between">
-                  <code className="font-mono text-sm font-semibold text-[var(--celo-deep)] group-hover:underline">{t.name}</code>
+                  <code className="font-mono text-sm font-semibold text-foreground group-hover:underline">{t.name}</code>
                   <span
                     className={`rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.14em] ${
                       t.type === "write"

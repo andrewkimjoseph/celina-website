@@ -114,9 +114,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 });
 
 function RootShell({ children }: { children: React.ReactNode }) {
+  const themeScript = `(function(){try{var s=localStorage.getItem('celina-theme');var d=s?s==='dark':true;var c=document.documentElement.classList;if(d)c.add('dark');else c.remove('dark');}catch(e){document.documentElement.classList.add('dark');}})();`;
   return (
     <html lang="en" className="dark">
       <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         <HeadContent />
       </head>
       <body>
