@@ -12,7 +12,7 @@ const NPM_URL = "https://www.npmjs.com/package/@andrewkimjoseph/celina";
 
 const CURSOR_CONFIG = `{
   "mcpServers": {
-    "celo": {
+    "celina": {
       "command": "npx",
       "args": [
         "-y",
@@ -27,7 +27,7 @@ const CURSOR_CONFIG = `{
 
 const CLAUDE_CONFIG = `{
   "mcpServers": {
-    "celo": {
+    "celina": {
       "command": "npx",
       "args": [
         "-y",
