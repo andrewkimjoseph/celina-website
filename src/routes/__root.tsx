@@ -79,11 +79,15 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { title: "Celina — The Celo MCP Server for LLMs" },
       { name: "description", content: "Give Claude, Cursor, and your favorite LLMs read + write access to Celo mainnet in under a minute." },
       { name: "author", content: "andrewkimjoseph" },
-      { property: "og:title", content: "Celina — The Celo MCP Server" },
-      { property: "og:description", content: "Plug your agent into Celo: balances, stablecoins, sends, and chain reads via MCP." },
+      { property: "og:title", content: "Celina — The Celo MCP Server for LLMs" },
+      { property: "og:description", content: "Give Claude, Cursor, and your favorite LLMs read + write access to Celo mainnet in under a minute." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:title", content: "Celina — The Celo MCP Server for LLMs" },
+      { name: "twitter:description", content: "Give Claude, Cursor, and your favorite LLMs read + write access to Celo mainnet in under a minute." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/a71702b4-ac8b-4699-a732-be7a23ad30b1/id-preview-b0572be9--626fe03d-742e-4d54-a434-a46fcacfa892.lovable.app-1779608346038.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/a71702b4-ac8b-4699-a732-be7a23ad30b1/id-preview-b0572be9--626fe03d-742e-4d54-a434-a46fcacfa892.lovable.app-1779608346038.png" },
     ],
     links: [
       {
