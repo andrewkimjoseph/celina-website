@@ -36,16 +36,33 @@ const LOCAL_BRIDGE_CONFIG = `{
   "mcpServers": {
     "celina": {
       "command": "npx",
-      "args": [
-        "-y",
-        "mcp-remote",
-        "https://mcp.celina.andrewkimjoseph.com/mcp",
-        "--transport",
-        "http-only"
-      ]
+      "args": ["-y", "@andrewkimjoseph/celina"]
     }
   }
 }`;
+
+const LM_STUDIO_CONFIG = `{
+  "mcpServers": {
+    "celina": {
+      "command": "npx",
+      "args": ["-y", "@andrewkimjoseph/celina"],
+      "env": {
+        "CELO_PRIVATE_KEY": "0x..."
+      }
+    }
+  }
+}`;
+
+const CONTINUE_CONFIG = `name: Celina
+version: 0.0.1
+schema: v1
+mcpServers:
+  - name: celina
+    type: stdio
+    command: npx
+    args:
+      - "-y"
+      - "@andrewkimjoseph/celina"`;
 
 function CopyButton({ text }: { text: string }) {
   const [copied, setCopied] = useState(false);
@@ -127,6 +144,7 @@ function Index() {
           <nav className="flex items-center gap-1 text-sm">
             <a href="#demo" className="hidden rounded-md px-3 py-1.5 text-foreground/70 transition hover:text-foreground sm:inline">Demo</a>
             <a href="#install" className="hidden rounded-md px-3 py-1.5 text-foreground/70 transition hover:text-foreground sm:inline">Install</a>
+            <a href="#local-llms" className="hidden rounded-md px-3 py-1.5 text-foreground/70 transition hover:text-foreground sm:inline">Local LLMs</a>
             <a href="#tools" className="hidden rounded-md px-3 py-1.5 text-foreground/70 transition hover:text-foreground sm:inline">Tools</a>
             <a href={NPM_URL} target="_blank" rel="noreferrer" className="ml-1 inline-flex items-center gap-1.5 rounded-md bg-[var(--celo-forest)] px-3 py-1.5 text-sm font-medium text-[var(--celo-cream)] transition hover:bg-[var(--celo-deep)]">
               <FontAwesomeIcon icon={faNpm} className="h-3.5 w-3.5" /> npm
@@ -162,8 +180,10 @@ function Index() {
               </span>
             </h1>
             <p className="mt-6 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-xl">
-              <span className="font-semibold text-foreground">Celina</span> is an open-source MCP server that gives Claude, Cursor, and any agent
-              read &amp; write access to Celo mainnet — balances, stablecoins, sends, and chain reads.
+              <span className="font-semibold text-foreground">Celina</span> is an open-source{" "}
+              <a className="underline decoration-[var(--celo-yellow)] decoration-2 underline-offset-4 hover:text-foreground" href="https://modelcontextprotocol.io" target="_blank" rel="noreferrer">Model Context Protocol</a>{" "}
+              server that gives LLMs read &amp; write access to Celo mainnet — balances, stablecoins,
+              sends, and chain reads.
             </p>
             <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
               <a
@@ -233,7 +253,7 @@ function Index() {
         <div className="mt-20 grid gap-px overflow-hidden rounded-2xl border border-foreground/10 bg-foreground/10 sm:grid-cols-3">
           {[
             { icon: faBolt, title: "1-minute setup", body: "Drop a JSON snippet into Cursor or Claude Desktop. Done." },
-            { icon: faCoins, title: "Mainnet ready", body: "CELO, cUSD, USDC, USDT, and Mento stablecoins out of the box." },
+            { icon: faCoins, title: "Mainnet ready", body: "CELO, all 15 Mento stablecoins, USDC, USDT, GoodDollar — all built in." },
             { icon: faLock, title: "Keys never stored", body: "Write tools accept RSA-encrypted keys, decrypted ephemerally." },
           ].map((f) => (
             <div key={f.title} className="bg-background p-8">
@@ -286,21 +306,25 @@ function Index() {
           {/* Local bridge */}
           <article className="min-w-0 overflow-hidden rounded-2xl border border-foreground/15 bg-card p-7 shadow-[var(--shadow-soft)]">
             <div className="mb-1 flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-[var(--celo-forest)]">
-              <FontAwesomeIcon icon={faTerminal} className="h-3.5 w-3.5" /> Local bridge
+              <FontAwesomeIcon icon={faTerminal} className="h-3.5 w-3.5" /> Local stdio
             </div>
-            <h3 className="text-2xl font-semibold tracking-tight" style={{ fontFamily: "var(--font-display)" }}>stdio via mcp-remote</h3>
+            <h3 className="text-2xl font-semibold tracking-tight" style={{ fontFamily: "var(--font-display)" }}>Run it locally with npx</h3>
             <p className="mt-2 text-sm text-muted-foreground">
-              For clients that only speak stdio (older Claude Desktop builds, etc.). Requires Node.js{" "}
+              For stdio-only clients (Claude Desktop, Continue, MCP Inspector). Requires Node.js{" "}
               <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">≥ 18</span> on your machine.
             </p>
             <ol className="mt-4 space-y-2 text-sm text-foreground/80">
               <li><span className="font-semibold text-[var(--celo-deep)]">01.</span> Open your MCP config file (e.g. <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">claude_desktop_config.json</span>)</li>
               <li><span className="font-semibold text-[var(--celo-deep)]">02.</span> Merge the snippet below into <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">mcpServers</span></li>
-              <li><span className="font-semibold text-[var(--celo-deep)]">03.</span> Restart the client — <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">npx</span> spawns the bridge on first run</li>
+              <li><span className="font-semibold text-[var(--celo-deep)]">03.</span> Restart the client — <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">npx</span> fetches Celina on first run</li>
             </ol>
             <div className="mt-5">
               <CodeBlock code={LOCAL_BRIDGE_CONFIG} />
             </div>
+            <p className="mt-3 text-xs text-muted-foreground">
+              For local write tools, add an <code className="rounded bg-secondary px-1 py-0.5">env</code> block with{" "}
+              <code className="rounded bg-secondary px-1 py-0.5">CELO_PRIVATE_KEY</code> — never commit the key.
+            </p>
           </article>
         </div>
 
@@ -319,6 +343,95 @@ function Index() {
             </p>
           </div>
         </div>
+        </div>
+      </section>
+
+      {/* Local LLMs */}
+      <section id="local-llms" className="border-t border-foreground/10">
+        <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-24">
+          <div className="mb-12 flex flex-col items-start sm:items-center sm:text-center">
+            <span className="rounded-full border border-[var(--celo-deep)]/30 bg-background px-3 py-1 text-xs font-bold uppercase tracking-[0.22em] text-[var(--celo-deep)]">
+              § Local LLMs
+            </span>
+            <h2 className="mt-4 text-3xl font-bold tracking-tight sm:text-5xl lg:text-6xl" style={{ fontFamily: "var(--font-display)" }}>
+              Run Celina with your own model
+            </h2>
+            <p className="mt-3 max-w-2xl text-base text-muted-foreground sm:text-lg">
+              Celina is a plain MCP server. Pair it with any MCP-aware local stack — Ollama, LM Studio, llama.cpp — through a client that supports tool calling.
+            </p>
+          </div>
+
+          <div className="grid gap-8 lg:grid-cols-3">
+            {/* LM Studio */}
+            <article className="min-w-0 overflow-hidden rounded-2xl border border-foreground/15 bg-card p-7 shadow-[var(--shadow-soft)]">
+              <div className="mb-1 text-xs font-bold uppercase tracking-[0.18em] text-[var(--celo-forest)]">LM Studio 0.3.17+</div>
+              <h3 className="text-xl font-semibold tracking-tight" style={{ fontFamily: "var(--font-display)" }}>Native MCP hosting</h3>
+              <ol className="mt-4 space-y-2 text-sm text-foreground/80">
+                <li><span className="font-semibold text-[var(--celo-deep)]">01.</span> Program → Install → <em>Edit mcp.json</em></li>
+                <li><span className="font-semibold text-[var(--celo-deep)]">02.</span> Add Celina under <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">mcpServers</span></li>
+                <li><span className="font-semibold text-[var(--celo-deep)]">03.</span> Enable <em>Allow calling servers from mcp.json</em></li>
+                <li><span className="font-semibold text-[var(--celo-deep)]">04.</span> Chat with a tool-capable model (Qwen 2.5, Llama 3.1+)</li>
+              </ol>
+              <div className="mt-5">
+                <CodeBlock code={LM_STUDIO_CONFIG} />
+              </div>
+              <p className="mt-3 text-xs text-muted-foreground">
+                Omit <code className="rounded bg-secondary px-1 py-0.5">CELO_PRIVATE_KEY</code> for read-only.
+              </p>
+            </article>
+
+            {/* Open WebUI */}
+            <article className="min-w-0 overflow-hidden rounded-2xl border border-foreground/15 bg-card p-7 shadow-[var(--shadow-soft)]">
+              <div className="mb-1 text-xs font-bold uppercase tracking-[0.18em] text-[var(--celo-forest)]">Open WebUI + Ollama</div>
+              <h3 className="text-xl font-semibold tracking-tight" style={{ fontFamily: "var(--font-display)" }}>Streamable HTTP, no install</h3>
+              <p className="mt-2 text-sm text-muted-foreground">
+                Open WebUI speaks streamable HTTP natively — point it straight at the hosted endpoint.
+              </p>
+              <ol className="mt-4 space-y-2 text-sm text-foreground/80">
+                <li><span className="font-semibold text-[var(--celo-deep)]">01.</span> Admin Settings → External Tools → <em>Add Server</em></li>
+                <li><span className="font-semibold text-[var(--celo-deep)]">02.</span> Type: <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">MCP (Streamable HTTP)</span></li>
+                <li><span className="font-semibold text-[var(--celo-deep)]">03.</span> Paste the URL below</li>
+              </ol>
+              <div className="mt-5">
+                <CodeBlock code="https://mcp.celina.andrewkimjoseph.com/mcp" />
+              </div>
+              <p className="mt-3 text-xs text-muted-foreground">
+                Running in Docker? Use <code className="rounded bg-secondary px-1 py-0.5">host.docker.internal</code> for a local server.
+              </p>
+            </article>
+
+            {/* Continue */}
+            <article className="min-w-0 overflow-hidden rounded-2xl border border-foreground/15 bg-card p-7 shadow-[var(--shadow-soft)]">
+              <div className="mb-1 text-xs font-bold uppercase tracking-[0.18em] text-[var(--celo-forest)]">Continue · VS Code</div>
+              <h3 className="text-xl font-semibold tracking-tight" style={{ fontFamily: "var(--font-display)" }}>Agent mode in your editor</h3>
+              <p className="mt-2 text-sm text-muted-foreground">
+                Drop a YAML file into your workspace and Continue picks it up in agent mode.
+              </p>
+              <ol className="mt-4 space-y-2 text-sm text-foreground/80">
+                <li><span className="font-semibold text-[var(--celo-deep)]">01.</span> Create <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">.continue/mcpServers/celina.yaml</span></li>
+                <li><span className="font-semibold text-[var(--celo-deep)]">02.</span> Paste the snippet below</li>
+                <li><span className="font-semibold text-[var(--celo-deep)]">03.</span> Switch Continue to agent mode and prompt</li>
+              </ol>
+              <div className="mt-5">
+                <CodeBlock code={CONTINUE_CONFIG} />
+              </div>
+            </article>
+          </div>
+
+          <div className="mt-10 grid gap-4 rounded-2xl border border-foreground/10 bg-card p-6 sm:grid-cols-3">
+            <div className="text-sm">
+              <p className="font-semibold">Pick a tool-capable model</p>
+              <p className="mt-1 text-muted-foreground">Small or older models may skip tools or call them wrong. Qwen 2.5, Llama 3.1+, Mistral are safe bets.</p>
+            </div>
+            <div className="text-sm">
+              <p className="font-semibold">Start read-only</p>
+              <p className="mt-1 text-muted-foreground">Try <em>"What's the USDm balance of 0x…?"</em> or <em>"Is this wallet GoodDollar whitelisted?"</em> before wiring write access.</p>
+            </div>
+            <div className="text-sm">
+              <p className="font-semibold">Test without an LLM</p>
+              <p className="mt-1 text-muted-foreground">Use MCP Inspector (<code className="rounded bg-secondary px-1 py-0.5 text-xs">npm run inspect</code>) to hit Celina&apos;s tools directly.</p>
+            </div>
+          </div>
         </div>
       </section>
 
