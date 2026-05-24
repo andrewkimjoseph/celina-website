@@ -207,7 +207,7 @@ function Index() {
             {/* Built on Celo */}
             <div className="mt-8 flex items-center gap-3 text-xs uppercase tracking-[0.22em] text-muted-foreground">
               <span>Built on</span>
-              <img src={celoWordmarkOnyx} alt="Celo" className="h-4 w-auto opacity-80" />
+              <img src={celoWordmarkSnow} alt="Celo" className="h-4 w-auto opacity-80" />
             </div>
           </div>
         </div>
