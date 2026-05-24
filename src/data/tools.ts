@@ -19,7 +19,7 @@ export interface ToolDoc {
   /** longer description shown on the tool page */
   description: string;
   kind: ToolKind;
-  category: "Blockchain" | "Account" | "Token" | "Transaction" | "Mento FX" | "Wallet" | "GoodDollar";
+  category: "Blockchain" | "Account" | "Token" | "Transaction" | "Mento FX" | "Wallet" | "GoodDollar" | "Aave";
   inputs: ToolField[];
   /** What the LLM should expect back */
   returns: string;
@@ -279,6 +279,41 @@ export const TOOLS: ToolDoc[] = [
     ],
     returns: "{ approvalHash?, swapHash, status, blockNumber }",
     examples: ["Convert 100 USDm to EURm."],
+  },
+  {
+    name: "supply_aave_usdt",
+    slug: "supply-aave-usdt",
+    title: "Supply Aave USDT",
+    summary: "Lend USDT to Aave V3 for aUSDT",
+    description:
+      "Supply (lend) USDT to Aave V3 on Celo mainnet. Deposits USDT and receives aUSDT interest-bearing tokens. Sends an ERC-20 approval first if needed. The caller must encrypt their private key with get_wallet_encryption_public_key before calling — or set CELO_PRIVATE_KEY locally.",
+    kind: "write",
+    category: "Aave",
+    requiresEncryptedKey: true,
+    inputs: [
+      { name: "amount", type: "string", required: true, description: "Human-readable USDT amount, e.g. '100'." },
+      ENC_KEY,
+    ],
+    returns: "{ approvalHash?, supplyHash, status, blockNumber }",
+    examples: ["Lend 100 USDT to Aave on Celo."],
+  },
+  {
+    name: "withdraw_aave_usdt",
+    slug: "withdraw-aave-usdt",
+    title: "Withdraw Aave USDT",
+    summary: "Redeem aUSDT back to USDT",
+    description:
+      "Withdraw USDT from Aave V3 on Celo mainnet by redeeming aUSDT. Pass an explicit amount or set withdrawMax to pull the full supplied balance. The caller must encrypt their private key with get_wallet_encryption_public_key before calling — or set CELO_PRIVATE_KEY locally.",
+    kind: "write",
+    category: "Aave",
+    requiresEncryptedKey: true,
+    inputs: [
+      { name: "amount", type: "string", required: false, description: "Human-readable USDT amount, e.g. '100'. Omit when withdrawMax is true." },
+      { name: "withdrawMax", type: "boolean", required: false, description: "Withdraw the full supplied USDT balance from Aave." },
+      ENC_KEY,
+    ],
+    returns: "{ hash, status, blockNumber, amountWithdrawn }",
+    examples: ["Withdraw all my USDT from Aave."],
   },
 ];
 
