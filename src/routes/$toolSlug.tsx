@@ -4,6 +4,7 @@ import { faArrowLeft, faLock, faBolt, faCircleNodes, faTerminal, faCopy, faCheck
 import { useState } from "react";
 import { TOOL_BY_SLUG, type ToolDoc } from "@/data/tools";
 import celinaLogo from "@/assets/celina-logo.png";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 export const Route = createFileRoute("/$toolSlug")({
   loader: ({ params }) => {
@@ -65,7 +66,7 @@ function ToolPage() {
   return (
     <main className="min-h-screen bg-background text-foreground">
       {/* Nav */}
-      <header className="sticky top-0 z-50 border-b border-foreground/10 bg-[var(--celo-cream)]/80 backdrop-blur-md">
+      <header className="sticky top-0 z-50 border-b border-foreground/10 bg-background/80 backdrop-blur-md">
         <div className="mx-auto flex max-w-4xl items-center justify-between px-6 py-4">
           <Link to="/" className="flex items-center gap-2">
             <img src={celinaLogo} alt="Celina" className="h-9 w-9 rounded-full ring-1 ring-[var(--celo-forest)]/30" />
@@ -80,6 +81,7 @@ function ToolPage() {
           >
             <FontAwesomeIcon icon={faArrowLeft} className="h-3.5 w-3.5" /> All tools
           </Link>
+          <ThemeToggle />
         </div>
       </header>
 
