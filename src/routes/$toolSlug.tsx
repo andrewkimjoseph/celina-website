@@ -182,9 +182,10 @@ function ToolPage() {
               {tool.examples.map((e) => (
                 <li
                   key={e}
-                  className="rounded-xl border border-dashed border-[var(--celo-forest)]/40 bg-[var(--celo-cream)]/40 px-4 py-3 text-sm italic text-foreground/80"
+                  className="flex items-center justify-between gap-3 rounded-xl border border-dashed border-[var(--celo-forest)]/40 bg-[var(--celo-cream)]/40 px-4 py-3 text-sm italic text-foreground/80"
                 >
-                  &ldquo;{e}&rdquo;
+                  <span>{e}</span>
+                  <CopyInline text={e} />
                 </li>
               ))}
             </ul>
