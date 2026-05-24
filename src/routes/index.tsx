@@ -14,7 +14,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { faNpm, faGithub } from "@fortawesome/free-brands-svg-icons";
 import celinaLogo from "@/assets/celina-logo.png";
-import celoWordmarkSnow from "@/assets/celo-wordmark-snow.svg";
+import celoWordmarkGreen from "@/assets/celo-wordmark-green.svg";
+import celoWordmarkYellow from "@/assets/celo-wordmark-yellow.svg";
 import { TOOLS as TOOL_DOCS } from "@/data/tools";
 import { ThemeToggle } from "@/components/theme-toggle";
 
@@ -208,7 +209,8 @@ function Index() {
             {/* Built on Celo */}
             <div className="mt-8 flex items-center gap-3 text-xs uppercase tracking-[0.22em] text-muted-foreground">
               <span>Built on</span>
-              <img src={celoWordmarkSnow} alt="Celo" className="h-4 w-auto opacity-80" />
+              <img src={celoWordmarkGreen} alt="Celo" className="h-4 w-auto opacity-80 dark:hidden" />
+              <img src={celoWordmarkYellow} alt="Celo" className="hidden h-4 w-auto opacity-90 dark:inline-block" />
             </div>
           </div>
         </div>
@@ -506,7 +508,8 @@ function Index() {
 
             <div className="mt-10 flex items-center gap-3 border-t border-[var(--celo-cream)]/15 pt-6 text-[10px] uppercase tracking-[0.28em] text-[var(--celo-cream)]/60">
               <span>Powered by</span>
-              <img src={celoWordmarkSnow} alt="Celo" className="h-3.5 w-auto opacity-90" />
+              <img src={celoWordmarkGreen} alt="Celo" className="h-3.5 w-auto opacity-90 dark:hidden" />
+              <img src={celoWordmarkYellow} alt="Celo" className="hidden h-3.5 w-auto opacity-95 dark:inline-block" />
             </div>
           </div>
         </div>
