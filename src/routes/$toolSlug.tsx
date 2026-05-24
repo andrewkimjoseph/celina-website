@@ -96,7 +96,7 @@ function ToolPage() {
           <span
             className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.18em] ${
               isWrite
-                ? "bg-[var(--celo-yellow)] text-[var(--celo-ink)]"
+                ? "border border-[var(--celo-ink)]/40 bg-[var(--celo-yellow)] text-[var(--celo-ink)]"
                 : "border border-[var(--celo-forest)]/40 text-[var(--celo-forest)]"
             }`}
           >
@@ -149,7 +149,7 @@ function ToolPage() {
                       <td className="px-4 py-3">
                         <code className="font-mono text-[13px] font-semibold text-[var(--celo-deep)]">{f.name}</code>
                         {f.required && (
-                          <span className="ml-2 rounded bg-[var(--celo-yellow)]/40 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wider text-[var(--celo-ink)]">
+                          <span className="ml-2 rounded border border-[var(--celo-ink)]/30 bg-[var(--celo-yellow)]/40 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wider text-[var(--celo-ink)]">
                             Required
                           </span>
                         )}
