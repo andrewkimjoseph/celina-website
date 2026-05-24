@@ -344,7 +344,7 @@ function Index() {
               § Tools v0.1
             </span>
             <h2 className="mt-4 text-3xl font-bold tracking-tight sm:text-5xl lg:text-6xl" style={{ fontFamily: "var(--font-display)" }}>
-              12 tools. One agent. Whole chain.
+              11 tools. One agent. Whole chain.
             </h2>
             <p className="mt-3 max-w-xl text-base text-muted-foreground sm:text-lg">
               Everything your LLM needs to read state and move value on Celo mainnet.
