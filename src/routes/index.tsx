@@ -36,16 +36,33 @@ const LOCAL_BRIDGE_CONFIG = `{
   "mcpServers": {
     "celina": {
       "command": "npx",
-      "args": [
-        "-y",
-        "mcp-remote",
-        "https://mcp.celina.andrewkimjoseph.com/mcp",
-        "--transport",
-        "http-only"
-      ]
+      "args": ["-y", "@andrewkimjoseph/celina"]
     }
   }
 }`;
+
+const LM_STUDIO_CONFIG = `{
+  "mcpServers": {
+    "celina": {
+      "command": "npx",
+      "args": ["-y", "@andrewkimjoseph/celina"],
+      "env": {
+        "CELO_PRIVATE_KEY": "0x..."
+      }
+    }
+  }
+}`;
+
+const CONTINUE_CONFIG = `name: Celina
+version: 0.0.1
+schema: v1
+mcpServers:
+  - name: celina
+    type: stdio
+    command: npx
+    args:
+      - "-y"
+      - "@andrewkimjoseph/celina"`;
 
 function CopyButton({ text }: { text: string }) {
   const [copied, setCopied] = useState(false);
