@@ -14,7 +14,6 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { faNpm, faGithub } from "@fortawesome/free-brands-svg-icons";
 import celinaLogo from "@/assets/celina-logo.png";
-import celoWordmarkOnyx from "@/assets/celo-wordmark-onyx.svg";
 import celoWordmarkSnow from "@/assets/celo-wordmark-snow.svg";
 import { TOOLS as TOOL_DOCS } from "@/data/tools";
 
