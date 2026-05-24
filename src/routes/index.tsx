@@ -8,7 +8,7 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-const NPM_URL = "https://www.npmjs.com/package/@andrewkimjoseph/celo-mcp";
+const NPM_URL = "https://www.npmjs.com/package/@andrewkimjoseph/celina-mcp";
 
 const CURSOR_CONFIG = `{
   "mcpServers": {
