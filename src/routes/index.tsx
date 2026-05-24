@@ -14,6 +14,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { faNpm, faGithub } from "@fortawesome/free-brands-svg-icons";
 import celinaLogo from "@/assets/celina-logo.png";
+import celoWordmarkOnyx from "@/assets/celo-wordmark-onyx.svg";
+import celoWordmarkSnow from "@/assets/celo-wordmark-snow.svg";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -172,7 +174,7 @@ function Index() {
             <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
               <a
                 href="#install"
-                className="group inline-flex items-center gap-2 rounded-lg bg-[var(--celo-deep)] px-6 py-3.5 text-sm font-semibold text-[var(--celo-cream)] shadow-[var(--shadow-pop)] transition hover:-translate-y-0.5 hover:bg-[var(--celo-ink)]"
+                className="group inline-flex items-center gap-2 rounded-lg bg-[var(--celo-deep)] px-6 py-3.5 text-sm font-semibold text-[var(--celo-cream)] shadow-[var(--shadow-pop)] ring-2 ring-transparent transition hover:-translate-y-0.5 hover:bg-[var(--celo-ink)] hover:ring-[var(--celo-yellow)]"
               >
                 <FontAwesomeIcon icon={faWandMagicSparkles} className="h-4 w-4 text-[var(--celo-yellow)]" />
                 Add to Cursor / Claude
@@ -193,6 +195,12 @@ function Index() {
               <span className="font-mono text-[var(--celo-yellow)]">$</span>
               <code className="flex-1 overflow-x-auto whitespace-nowrap font-mono">npm i @andrewkimjoseph/celina</code>
               <CopyButton text="npm i @andrewkimjoseph/celina" />
+            </div>
+
+            {/* Built on Celo */}
+            <div className="mt-8 flex items-center gap-3 text-xs uppercase tracking-[0.22em] text-muted-foreground">
+              <span>Built on</span>
+              <img src={celoWordmarkOnyx} alt="Celo" className="h-4 w-auto opacity-80" />
             </div>
           </div>
         </div>
@@ -401,6 +409,11 @@ function Index() {
               >
                 Learn about MCP
               </a>
+            </div>
+
+            <div className="mt-10 flex items-center gap-3 border-t border-[var(--celo-cream)]/15 pt-6 text-[10px] uppercase tracking-[0.28em] text-[var(--celo-cream)]/60">
+              <span>Powered by</span>
+              <img src={celoWordmarkSnow} alt="Celo" className="h-3.5 w-auto opacity-90" />
             </div>
           </div>
         </div>
