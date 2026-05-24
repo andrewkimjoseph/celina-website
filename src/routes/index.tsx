@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { Check, Copy, Github, Package, Terminal, Zap, Lock, Coins, Sparkles } from "lucide-react";
+import celinaLogo from "@/assets/celina-logo.png";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -71,10 +72,12 @@ function CodeBlock({ code }: { code: string }) {
 function CelinaMark({ className = "" }: { className?: string }) {
   return (
     <div className={`relative inline-flex items-center justify-center ${className}`}>
-      <div className="absolute inset-0 rounded-full bg-[var(--celo-yellow)] blur-2xl opacity-50" />
-      <div className="relative flex h-16 w-16 items-center justify-center rounded-full bg-[var(--celo-yellow)] text-[var(--celo-ink)] shadow-[var(--shadow-pop)] border-2 border-[var(--celo-ink)]">
-        <span className="text-2xl font-black tracking-tight">C</span>
-      </div>
+      <div className="absolute inset-0 rounded-full bg-[var(--celo-forest)] blur-3xl opacity-40" />
+      <img
+        src={celinaLogo}
+        alt="Celina — Celo MCP Server"
+        className="relative h-32 w-32 rounded-full shadow-[var(--shadow-pop)] sm:h-40 sm:w-40"
+      />
     </div>
   );
 }
@@ -101,7 +104,7 @@ function Index() {
       <header className="sticky top-0 z-50 border-b border-foreground/10 bg-background/70 backdrop-blur-md">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
           <a href="#top" className="flex items-center gap-2">
-            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[var(--celo-yellow)] border border-[var(--celo-ink)] text-[var(--celo-ink)] font-black">C</div>
+            <img src={celinaLogo} alt="Celina" className="h-9 w-9 rounded-full" />
             <span className="font-semibold tracking-tight">Celina</span>
             <span className="hidden text-xs text-muted-foreground sm:inline">· Celo MCP</span>
           </a>
