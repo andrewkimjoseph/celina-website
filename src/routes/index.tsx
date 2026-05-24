@@ -129,9 +129,9 @@ function Index() {
             <span className="hidden text-xs uppercase tracking-[0.18em] text-muted-foreground sm:inline">· Celo MCP</span>
           </a>
           <nav className="flex items-center gap-1 text-sm">
-            <a href="#demo" className="rounded-md px-3 py-1.5 text-foreground/70 transition hover:text-foreground">Demo</a>
-            <a href="#install" className="rounded-md px-3 py-1.5 text-foreground/70 transition hover:text-foreground">Install</a>
-            <a href="#tools" className="rounded-md px-3 py-1.5 text-foreground/70 transition hover:text-foreground">Tools</a>
+            <a href="#demo" className="hidden rounded-md px-3 py-1.5 text-foreground/70 transition hover:text-foreground sm:inline">Demo</a>
+            <a href="#install" className="hidden rounded-md px-3 py-1.5 text-foreground/70 transition hover:text-foreground sm:inline">Install</a>
+            <a href="#tools" className="hidden rounded-md px-3 py-1.5 text-foreground/70 transition hover:text-foreground sm:inline">Tools</a>
             <a href={NPM_URL} target="_blank" rel="noreferrer" className="ml-1 inline-flex items-center gap-1.5 rounded-md bg-[var(--celo-forest)] px-3 py-1.5 text-sm font-medium text-[var(--celo-cream)] transition hover:bg-[var(--celo-deep)]">
               <FontAwesomeIcon icon={faNpm} className="h-3.5 w-3.5" /> npm
             </a>
