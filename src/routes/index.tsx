@@ -144,6 +144,7 @@ function Index() {
           <nav className="flex items-center gap-1 text-sm">
             <a href="#demo" className="hidden rounded-md px-3 py-1.5 text-foreground/70 transition hover:text-foreground sm:inline">Demo</a>
             <a href="#install" className="hidden rounded-md px-3 py-1.5 text-foreground/70 transition hover:text-foreground sm:inline">Install</a>
+            <a href="#local-llms" className="hidden rounded-md px-3 py-1.5 text-foreground/70 transition hover:text-foreground sm:inline">Local LLMs</a>
             <a href="#tools" className="hidden rounded-md px-3 py-1.5 text-foreground/70 transition hover:text-foreground sm:inline">Tools</a>
             <a href={NPM_URL} target="_blank" rel="noreferrer" className="ml-1 inline-flex items-center gap-1.5 rounded-md bg-[var(--celo-forest)] px-3 py-1.5 text-sm font-medium text-[var(--celo-cream)] transition hover:bg-[var(--celo-deep)]">
               <FontAwesomeIcon icon={faNpm} className="h-3.5 w-3.5" /> npm
@@ -179,8 +180,10 @@ function Index() {
               </span>
             </h1>
             <p className="mt-6 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-xl">
-              <span className="font-semibold text-foreground">Celina</span> is an open-source MCP server that gives Claude, Cursor, and any agent
-              read &amp; write access to Celo mainnet — balances, stablecoins, sends, and chain reads.
+              <span className="font-semibold text-foreground">Celina</span> is an open-source{" "}
+              <a className="underline decoration-[var(--celo-yellow)] decoration-2 underline-offset-4 hover:text-foreground" href="https://modelcontextprotocol.io" target="_blank" rel="noreferrer">Model Context Protocol</a>{" "}
+              server that gives LLMs read &amp; write access to Celo mainnet — balances, stablecoins,
+              sends, and chain reads.
             </p>
             <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
               <a
@@ -250,7 +253,7 @@ function Index() {
         <div className="mt-20 grid gap-px overflow-hidden rounded-2xl border border-foreground/10 bg-foreground/10 sm:grid-cols-3">
           {[
             { icon: faBolt, title: "1-minute setup", body: "Drop a JSON snippet into Cursor or Claude Desktop. Done." },
-            { icon: faCoins, title: "Mainnet ready", body: "CELO, cUSD, USDC, USDT, and Mento stablecoins out of the box." },
+            { icon: faCoins, title: "Mainnet ready", body: "CELO, all 15 Mento stablecoins, USDC, USDT, GoodDollar — all built in." },
             { icon: faLock, title: "Keys never stored", body: "Write tools accept RSA-encrypted keys, decrypted ephemerally." },
           ].map((f) => (
             <div key={f.title} className="bg-background p-8">
