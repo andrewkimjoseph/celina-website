@@ -32,11 +32,17 @@ const CURSOR_CONFIG = `{
   }
 }`;
 
-const CLAUDE_CONFIG = `{
+const LOCAL_BRIDGE_CONFIG = `{
   "mcpServers": {
     "celina": {
-      "type": "streamable-http",
-      "url": "https://mcp.celina.andrewkimjoseph.com/mcp"
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-remote",
+        "https://mcp.celina.andrewkimjoseph.com/mcp",
+        "--transport",
+        "http-only"
+      ]
     }
   }
 }`;
