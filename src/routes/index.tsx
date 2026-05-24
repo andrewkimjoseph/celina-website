@@ -1,6 +1,17 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { Check, Copy, Github, Package, Terminal, Zap, Lock, Coins, Sparkles } from "lucide-react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faCheck,
+  faCopy,
+  faTerminal,
+  faBolt,
+  faLock,
+  faCoins,
+  faWandMagicSparkles,
+  faBoxOpen,
+} from "@fortawesome/free-solid-svg-icons";
+import { faNpm, faGithub } from "@fortawesome/free-brands-svg-icons";
 import celinaLogo from "@/assets/celina-logo.png";
 import celinaBanner from "@/assets/celina-banner.png";
 
