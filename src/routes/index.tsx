@@ -8,7 +8,7 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-const NPM_URL = "https://www.npmjs.com/package/@andrewkimjoseph/celina-mcp";
+const NPM_URL = "https://www.npmjs.com/package/@andrewkimjoseph/celina";
 
 const CURSOR_CONFIG = `{
   "mcpServers": {
@@ -170,8 +170,8 @@ function Index() {
             {/* npm install one-liner */}
             <div className="mt-10 inline-flex items-center gap-3 rounded-full border border-foreground/15 bg-[oklch(0.18_0.04_145)] py-2 pl-5 pr-2 text-sm text-[oklch(0.92_0.05_100)] shadow-[var(--shadow-soft)]">
               <span className="text-[var(--celo-yellow)]">$</span>
-              <code className="font-mono">npm i @andrewkimjoseph/celina-mcp</code>
-              <CopyButton text="npm i @andrewkimjoseph/celina-mcp" />
+              <code className="font-mono">npm i @andrewkimjoseph/celina</code>
+              <CopyButton text="npm i @andrewkimjoseph/celina" />
             </div>
           </div>
         </div>
