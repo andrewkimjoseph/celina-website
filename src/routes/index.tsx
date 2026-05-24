@@ -224,14 +224,14 @@ function Index() {
             />
           </BrowserFrame>
 
-          <figcaption className="mt-6 flex flex-col items-start gap-2 sm:flex-row sm:items-center sm:justify-between">
-            <div className="flex items-center gap-3 text-sm">
-              <span className="rounded-full bg-[var(--celo-deep)] px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.18em] text-[var(--celo-cream)]">Live demo</span>
+          <figcaption className="mt-6 flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
+            <div className="flex flex-col items-start gap-2 text-sm sm:flex-row sm:items-center sm:gap-3">
+              <span className="whitespace-nowrap rounded-full bg-[var(--celo-deep)] px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.18em] text-[var(--celo-cream)]">Live demo</span>
               <span className="text-muted-foreground">
                 Claude using Celina to read balances and move value on Celo mainnet.
               </span>
             </div>
-            <code className="text-xs text-muted-foreground/80">mcp.celina.andrewkimjoseph.com</code>
+            <code className="break-all text-xs text-muted-foreground/80">mcp.celina.andrewkimjoseph.com</code>
           </figcaption>
         </figure>
 
