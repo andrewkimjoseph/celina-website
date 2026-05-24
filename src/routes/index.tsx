@@ -343,6 +343,95 @@ function Index() {
         </div>
       </section>
 
+      {/* Local LLMs */}
+      <section id="local-llms" className="border-t border-foreground/10">
+        <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-24">
+          <div className="mb-12 flex flex-col items-start sm:items-center sm:text-center">
+            <span className="rounded-full border border-[var(--celo-deep)]/30 bg-background px-3 py-1 text-xs font-bold uppercase tracking-[0.22em] text-[var(--celo-deep)]">
+              § Local LLMs
+            </span>
+            <h2 className="mt-4 text-3xl font-bold tracking-tight sm:text-5xl lg:text-6xl" style={{ fontFamily: "var(--font-display)" }}>
+              Run Celina with your own model
+            </h2>
+            <p className="mt-3 max-w-2xl text-base text-muted-foreground sm:text-lg">
+              Celina is a plain MCP server. Pair it with any MCP-aware local stack — Ollama, LM Studio, llama.cpp — through a client that supports tool calling.
+            </p>
+          </div>
+
+          <div className="grid gap-8 lg:grid-cols-3">
+            {/* LM Studio */}
+            <article className="min-w-0 overflow-hidden rounded-2xl border border-foreground/15 bg-card p-7 shadow-[var(--shadow-soft)]">
+              <div className="mb-1 text-xs font-bold uppercase tracking-[0.18em] text-[var(--celo-forest)]">LM Studio 0.3.17+</div>
+              <h3 className="text-xl font-semibold tracking-tight" style={{ fontFamily: "var(--font-display)" }}>Native MCP hosting</h3>
+              <ol className="mt-4 space-y-2 text-sm text-foreground/80">
+                <li><span className="font-semibold text-[var(--celo-deep)]">01.</span> Program → Install → <em>Edit mcp.json</em></li>
+                <li><span className="font-semibold text-[var(--celo-deep)]">02.</span> Add Celina under <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">mcpServers</span></li>
+                <li><span className="font-semibold text-[var(--celo-deep)]">03.</span> Enable <em>Allow calling servers from mcp.json</em></li>
+                <li><span className="font-semibold text-[var(--celo-deep)]">04.</span> Chat with a tool-capable model (Qwen 2.5, Llama 3.1+)</li>
+              </ol>
+              <div className="mt-5">
+                <CodeBlock code={LM_STUDIO_CONFIG} />
+              </div>
+              <p className="mt-3 text-xs text-muted-foreground">
+                Omit <code className="rounded bg-secondary px-1 py-0.5">CELO_PRIVATE_KEY</code> for read-only.
+              </p>
+            </article>
+
+            {/* Open WebUI */}
+            <article className="min-w-0 overflow-hidden rounded-2xl border border-foreground/15 bg-card p-7 shadow-[var(--shadow-soft)]">
+              <div className="mb-1 text-xs font-bold uppercase tracking-[0.18em] text-[var(--celo-forest)]">Open WebUI + Ollama</div>
+              <h3 className="text-xl font-semibold tracking-tight" style={{ fontFamily: "var(--font-display)" }}>Streamable HTTP, no install</h3>
+              <p className="mt-2 text-sm text-muted-foreground">
+                Open WebUI speaks streamable HTTP natively — point it straight at the hosted endpoint.
+              </p>
+              <ol className="mt-4 space-y-2 text-sm text-foreground/80">
+                <li><span className="font-semibold text-[var(--celo-deep)]">01.</span> Admin Settings → External Tools → <em>Add Server</em></li>
+                <li><span className="font-semibold text-[var(--celo-deep)]">02.</span> Type: <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">MCP (Streamable HTTP)</span></li>
+                <li><span className="font-semibold text-[var(--celo-deep)]">03.</span> Paste the URL below</li>
+              </ol>
+              <div className="mt-5">
+                <CodeBlock code="https://mcp.celina.andrewkimjoseph.com/mcp" />
+              </div>
+              <p className="mt-3 text-xs text-muted-foreground">
+                Running in Docker? Use <code className="rounded bg-secondary px-1 py-0.5">host.docker.internal</code> for a local server.
+              </p>
+            </article>
+
+            {/* Continue */}
+            <article className="min-w-0 overflow-hidden rounded-2xl border border-foreground/15 bg-card p-7 shadow-[var(--shadow-soft)]">
+              <div className="mb-1 text-xs font-bold uppercase tracking-[0.18em] text-[var(--celo-forest)]">Continue · VS Code</div>
+              <h3 className="text-xl font-semibold tracking-tight" style={{ fontFamily: "var(--font-display)" }}>Agent mode in your editor</h3>
+              <p className="mt-2 text-sm text-muted-foreground">
+                Drop a YAML file into your workspace and Continue picks it up in agent mode.
+              </p>
+              <ol className="mt-4 space-y-2 text-sm text-foreground/80">
+                <li><span className="font-semibold text-[var(--celo-deep)]">01.</span> Create <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">.continue/mcpServers/celina.yaml</span></li>
+                <li><span className="font-semibold text-[var(--celo-deep)]">02.</span> Paste the snippet below</li>
+                <li><span className="font-semibold text-[var(--celo-deep)]">03.</span> Switch Continue to agent mode and prompt</li>
+              </ol>
+              <div className="mt-5">
+                <CodeBlock code={CONTINUE_CONFIG} />
+              </div>
+            </article>
+          </div>
+
+          <div className="mt-10 grid gap-4 rounded-2xl border border-foreground/10 bg-card p-6 sm:grid-cols-3">
+            <div className="text-sm">
+              <p className="font-semibold">Pick a tool-capable model</p>
+              <p className="mt-1 text-muted-foreground">Small or older models may skip tools or call them wrong. Qwen 2.5, Llama 3.1+, Mistral are safe bets.</p>
+            </div>
+            <div className="text-sm">
+              <p className="font-semibold">Start read-only</p>
+              <p className="mt-1 text-muted-foreground">Try <em>"What's the USDm balance of 0x…?"</em> or <em>"Is this wallet GoodDollar whitelisted?"</em> before wiring write access.</p>
+            </div>
+            <div className="text-sm">
+              <p className="font-semibold">Test without an LLM</p>
+              <p className="mt-1 text-muted-foreground">Use MCP Inspector (<code className="rounded bg-secondary px-1 py-0.5 text-xs">npm run inspect</code>) to hit Celina&apos;s tools directly.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Tools */}
       <section id="tools" className="border-t border-foreground/10">
         <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-24">
