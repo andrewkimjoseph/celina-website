@@ -6,7 +6,7 @@ import { TOOL_BY_SLUG, type ToolDoc } from "@/data/tools";
 import celinaLogo from "@/assets/celina-logo.png";
 import { ThemeToggle } from "@/components/theme-toggle";
 
-export const Route = createFileRoute("/$toolSlug")({
+export const Route = createFileRoute("/tools/$toolSlug")({
   loader: ({ params }) => {
     const tool = TOOL_BY_SLUG[params.toolSlug];
     if (!tool) throw notFound();
