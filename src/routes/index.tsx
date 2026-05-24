@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { Check, Copy, Github, Package, Terminal, Zap, Lock, Coins, Sparkles } from "lucide-react";
 import celinaLogo from "@/assets/celina-logo.png";
+import celinaBanner from "@/assets/celina-banner.png";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -178,6 +179,16 @@ function Index() {
 
       {/* Features strip */}
       <section className="border-y border-foreground/10 bg-secondary/50">
+        <div className="mx-auto max-w-6xl px-6 pt-16">
+          <figure className="overflow-hidden rounded-2xl border border-foreground/10 shadow-[var(--shadow-pop)]">
+            <img
+              src={celinaBanner}
+              alt="Celina — MCP Server for the Celo Network. Connect. Build. Empower."
+              className="block h-auto w-full"
+              loading="lazy"
+            />
+          </figure>
+        </div>
         <div className="mx-auto grid max-w-6xl grid-cols-1 gap-px overflow-hidden bg-foreground/10 sm:grid-cols-3">
           {[
             { icon: Zap, title: "1-minute setup", body: "Drop a JSON snippet into Cursor or Claude Desktop. Done." },
