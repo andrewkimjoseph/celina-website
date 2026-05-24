@@ -8,20 +8,32 @@ export const Route = createFileRoute("/")({
 
 const NPM_URL = "https://www.npmjs.com/package/@andrewkimjoseph/celo-mcp";
 
-const REMOTE_CONFIG = `{
+const CURSOR_CONFIG = `{
   "mcpServers": {
     "celina": {
-      "type": "streamable-http",
-      "url": "https://your-service-name.onrender.com/mcp"
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-remote",
+        "https://celo-mcp.onrender.com/mcp",
+        "--transport",
+        "http-only"
+      ]
     }
   }
 }`;
 
-const LOCAL_CONFIG = `{
+const CLAUDE_CONFIG = `{
   "mcpServers": {
     "celina": {
       "command": "npx",
-      "args": ["-y", "@andrewkimjoseph/celo-mcp"]
+      "args": [
+        "-y",
+        "mcp-remote",
+        "https://celo-mcp.onrender.com/mcp",
+        "--transport",
+        "http-only"
+      ]
     }
   }
 }`;
