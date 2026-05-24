@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -16,6 +16,7 @@ import { faNpm, faGithub } from "@fortawesome/free-brands-svg-icons";
 import celinaLogo from "@/assets/celina-logo.png";
 import celoWordmarkOnyx from "@/assets/celo-wordmark-onyx.svg";
 import celoWordmarkSnow from "@/assets/celo-wordmark-snow.svg";
+import { TOOLS as TOOL_DOCS } from "@/data/tools";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -115,20 +116,12 @@ function BrowserFrame({ children, url = "claude.ai" }: { children: React.ReactNo
   );
 }
 
-const TOOLS = [
-  { name: "get_network_status", type: "read", desc: "Chain ID, block, gas price" },
-  { name: "get_celo_balances", type: "read", desc: "CELO + ERC-20 balances" },
-  { name: "get_stablecoin_balances", type: "read", desc: "Mento, USDC, USDT & more" },
-  { name: "get_block", type: "read", desc: "Block by number/hash/latest" },
-  { name: "get_transaction", type: "read", desc: "Transaction + receipt" },
-  { name: "get_account", type: "read", desc: "CELO balance, nonce" },
-  { name: "get_token_info", type: "read", desc: "Token metadata" },
-  { name: "estimate_send", type: "read", desc: "Gas estimate" },
-  { name: "send_token", type: "write", desc: "Send CELO or ERC-20" },
-  { name: "get_wallet_encryption_public_key", type: "read", desc: "RSA public key" },
-  { name: "get_latest_blocks", type: "read", desc: "Recent blocks" },
-  { name: "get_gooddollar_whitelisting_info", type: "read", desc: "GoodDollar IdentityV4 whitelisting status" },
-];
+const TOOLS = TOOL_DOCS.map((t) => ({
+  name: t.name,
+  slug: t.slug,
+  type: t.kind,
+  desc: t.summary,
+}));
 
 function Index() {
   return (
@@ -442,21 +435,23 @@ function Index() {
               § Tools v0.1
             </span>
             <h2 className="mt-4 text-3xl font-bold tracking-tight sm:text-5xl lg:text-6xl" style={{ fontFamily: "var(--font-display)" }}>
-              12 tools. One agent. Whole chain.
+              {TOOLS.length} tools. One agent. Whole chain.
             </h2>
             <p className="mt-3 max-w-xl text-base text-muted-foreground sm:text-lg">
-              Everything your LLM needs to read state and move value on Celo mainnet.
+              Everything your LLM needs to read state and move value on Celo mainnet. Click any tool for the full spec.
             </p>
           </div>
 
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {TOOLS.map((t) => (
-              <div
+              <Link
                 key={t.name}
-                className="group rounded-xl border border-foreground/10 bg-card p-4 transition hover:-translate-y-0.5 hover:border-[var(--celo-forest)]/40 hover:shadow-[var(--shadow-soft)]"
+                to="/$toolSlug"
+                params={{ toolSlug: t.slug }}
+                className="group block rounded-xl border border-foreground/10 bg-card p-4 transition hover:-translate-y-0.5 hover:border-[var(--celo-forest)]/40 hover:shadow-[var(--shadow-soft)]"
               >
                 <div className="flex items-center justify-between">
-                  <code className="font-mono text-sm font-semibold text-[var(--celo-deep)]">{t.name}</code>
+                  <code className="font-mono text-sm font-semibold text-[var(--celo-deep)] group-hover:underline">{t.name}</code>
                   <span
                     className={`rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.14em] ${
                       t.type === "write"
@@ -468,7 +463,7 @@ function Index() {
                   </span>
                 </div>
                 <p className="mt-1.5 text-sm text-muted-foreground">{t.desc}</p>
-              </div>
+              </Link>
             ))}
           </div>
         </div>
