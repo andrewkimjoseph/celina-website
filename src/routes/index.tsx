@@ -8,20 +8,32 @@ export const Route = createFileRoute("/")({
 
 const NPM_URL = "https://www.npmjs.com/package/@andrewkimjoseph/celo-mcp";
 
-const REMOTE_CONFIG = `{
+const CURSOR_CONFIG = `{
   "mcpServers": {
     "celina": {
-      "type": "streamable-http",
-      "url": "https://your-service-name.onrender.com/mcp"
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-remote",
+        "https://celo-mcp.onrender.com/mcp",
+        "--transport",
+        "http-only"
+      ]
     }
   }
 }`;
 
-const LOCAL_CONFIG = `{
+const CLAUDE_CONFIG = `{
   "mcpServers": {
     "celina": {
       "command": "npx",
-      "args": ["-y", "@andrewkimjoseph/celo-mcp"]
+      "args": [
+        "-y",
+        "mcp-remote",
+        "https://celo-mcp.onrender.com/mcp",
+        "--transport",
+        "http-only"
+      ]
     }
   }
 }`;
@@ -204,8 +216,8 @@ function Index() {
               <li><span className="font-semibold">2.</span> Click <em>Add new MCP server</em> and paste the config below</li>
               <li><span className="font-semibold">3.</span> Reload — Celina&apos;s tools appear in chat</li>
             </ol>
-            <div className="mt-5">
-              <CodeBlock code={LOCAL_CONFIG} />
+          <div className="mt-5">
+              <CodeBlock code={CURSOR_CONFIG} />
             </div>
           </article>
 
@@ -221,7 +233,7 @@ function Index() {
               <li><span className="font-semibold">3.</span> Restart Claude Desktop</li>
             </ol>
             <div className="mt-5">
-              <CodeBlock code={LOCAL_CONFIG} />
+              <CodeBlock code={CLAUDE_CONFIG} />
             </div>
           </article>
         </div>
@@ -229,14 +241,14 @@ function Index() {
         {/* Remote */}
         <div className="mt-10 rounded-2xl border-2 border-dashed border-foreground/20 bg-secondary/30 p-7">
           <div className="flex flex-wrap items-baseline gap-3">
-            <h3 className="text-xl font-bold tracking-tight">Prefer hosted? Use the Streamable HTTP endpoint</h3>
+            <h3 className="text-xl font-bold tracking-tight">Direct Streamable HTTP endpoint</h3>
             <span className="rounded-full bg-[var(--celo-forest)] px-2.5 py-0.5 text-xs font-bold uppercase tracking-wider text-[var(--celo-cream)]">Remote</span>
           </div>
           <p className="mt-2 text-sm text-muted-foreground">
-            Deploy the included Render Blueprint, then point any MCP client at it. Great for hackathons.
+            Point any MCP client directly at the deployed Render endpoint. No local install needed.
           </p>
           <div className="mt-5">
-            <CodeBlock code={REMOTE_CONFIG} />
+            <CodeBlock code={`https://celo-mcp.onrender.com/mcp`} />
           </div>
         </div>
 
