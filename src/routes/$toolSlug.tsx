@@ -74,14 +74,16 @@ function ToolPage() {
               Celina
             </span>
           </Link>
-          <Link
-            to="/"
-            hash="tools"
-            className="inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm text-foreground/70 transition hover:text-foreground"
-          >
-            <FontAwesomeIcon icon={faArrowLeft} className="h-3.5 w-3.5" /> All tools
-          </Link>
-          <ThemeToggle />
+          <div className="flex items-center gap-2">
+            <Link
+              to="/"
+              hash="tools"
+              className="inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm text-foreground/70 transition hover:text-foreground"
+            >
+              <FontAwesomeIcon icon={faArrowLeft} className="h-3.5 w-3.5" /> All tools
+            </Link>
+            <ThemeToggle />
+          </div>
         </div>
       </header>
 
