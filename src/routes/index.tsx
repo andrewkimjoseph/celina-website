@@ -139,7 +139,7 @@ function Index() {
             <a href="#install" className="hidden rounded-md px-3 py-1.5 text-foreground/70 transition hover:text-foreground sm:inline">Install</a>
             <a href="#local-llms" className="hidden rounded-md px-3 py-1.5 text-foreground/70 transition hover:text-foreground sm:inline">Local LLMs</a>
             <a href="#tools" className="hidden rounded-md px-3 py-1.5 text-foreground/70 transition hover:text-foreground sm:inline">Tools</a>
-            <a href={NPM_URL} target="_blank" rel="noreferrer" className="ml-1 inline-flex items-center gap-1.5 rounded-md bg-[var(--celo-forest)] px-3 py-1.5 text-sm font-medium text-[var(--celo-cream)] transition hover:bg-[var(--celo-deep)]">
+            <a href={NPM_URL} target="_blank" rel="noreferrer" className="ml-1 inline-flex items-center gap-1.5 rounded-md bg-[var(--celo-forest)] px-3 py-1.5 text-sm font-medium text-[var(--celo-cream)] transition hover:bg-[var(--celo-deep)] dark:text-[var(--celo-ink)]">
               <FontAwesomeIcon icon={faNpm} className="h-3.5 w-3.5" /> npm
             </a>
             <ThemeToggle />
