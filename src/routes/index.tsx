@@ -455,7 +455,7 @@ function Index() {
                   <span
                     className={`rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.14em] ${
                       t.type === "write"
-                        ? "bg-[var(--celo-yellow)] text-[var(--celo-ink)]"
+                        ? "border border-[var(--celo-ink)]/40 bg-[var(--celo-yellow)] text-[var(--celo-ink)]"
                         : "border border-[var(--celo-forest)]/30 text-[var(--celo-forest)]"
                     }`}
                   >
