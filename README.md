@@ -40,18 +40,26 @@ Route files live in `src/routes/`. The landing page is `src/routes/index.tsx`.
 
 ### Local stdio
 
+For stdio-only clients like Claude Desktop (free plan), bridge to the hosted endpoint with `mcp-remote`:
+
 ```json
 {
   "mcpServers": {
     "celina": {
       "command": "npx",
-      "args": ["-y", "@andrewkimjoseph/celina"]
+      "args": [
+        "-y",
+        "mcp-remote",
+        "https://mcp.celina.andrewkimjoseph.com/mcp",
+        "--transport",
+        "http-only"
+      ]
     }
   }
 }
 ```
 
-For local write tools, add `"env": { "CELO_PRIVATE_KEY": "0x..." }` — never commit the key.
+To run the server fully locally instead, swap the args for `["-y", "@andrewkimjoseph/celina"]` and add `"env": { "CELO_PRIVATE_KEY": "0x..." }` for write tools — never commit the key.
 
 ## License
 

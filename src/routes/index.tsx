@@ -39,7 +39,13 @@ const LOCAL_BRIDGE_CONFIG = `{
   "mcpServers": {
     "celina": {
       "command": "npx",
-      "args": ["-y", "@andrewkimjoseph/celina"]
+      "args": [
+        "-y",
+        "mcp-remote",
+        "https://mcp.celina.andrewkimjoseph.com/mcp",
+        "--transport",
+        "http-only"
+      ]
     }
   }
 }`;
@@ -308,7 +314,8 @@ function Index() {
             </div>
             <h3 className="text-2xl font-semibold tracking-tight" style={{ fontFamily: "var(--font-display)" }}>Run it locally with npx</h3>
             <p className="mt-2 text-sm text-muted-foreground">
-              For stdio-only clients (Claude Desktop, Continue, MCP Inspector). Requires Node.js{" "}
+              For stdio-only clients (Claude Desktop free plan, Continue, MCP Inspector). Bridges to the hosted endpoint via{" "}
+              <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">mcp-remote</span>. Requires Node.js{" "}
               <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">≥ 18</span> on your machine.
             </p>
             <ol className="mt-4 space-y-2 text-sm text-foreground/80">
