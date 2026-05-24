@@ -8,16 +8,16 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-const NPM_URL = "https://www.npmjs.com/package/@andrewkimjoseph/celo-mcp";
+const NPM_URL = "https://www.npmjs.com/package/@andrewkimjoseph/celina-mcp";
 
 const CURSOR_CONFIG = `{
   "mcpServers": {
-    "celina": {
+    "celo": {
       "command": "npx",
       "args": [
         "-y",
         "mcp-remote",
-        "https://celo-mcp.onrender.com/mcp",
+        "https://mcp.celina.andrewkimjoseph.com/mcp",
         "--transport",
         "http-only"
       ]
@@ -27,12 +27,12 @@ const CURSOR_CONFIG = `{
 
 const CLAUDE_CONFIG = `{
   "mcpServers": {
-    "celina": {
+    "celo": {
       "command": "npx",
       "args": [
         "-y",
         "mcp-remote",
-        "https://celo-mcp.onrender.com/mcp",
+        "https://mcp.celina.andrewkimjoseph.com/mcp",
         "--transport",
         "http-only"
       ]
@@ -170,8 +170,8 @@ function Index() {
             {/* npm install one-liner */}
             <div className="mt-10 inline-flex items-center gap-3 rounded-full border border-foreground/15 bg-[oklch(0.18_0.04_145)] py-2 pl-5 pr-2 text-sm text-[oklch(0.92_0.05_100)] shadow-[var(--shadow-soft)]">
               <span className="text-[var(--celo-yellow)]">$</span>
-              <code className="font-mono">npm i @andrewkimjoseph/celo-mcp</code>
-              <CopyButton text="npm i @andrewkimjoseph/celo-mcp" />
+              <code className="font-mono">npm i @andrewkimjoseph/celina-mcp</code>
+              <CopyButton text="npm i @andrewkimjoseph/celina-mcp" />
             </div>
           </div>
         </div>
@@ -262,7 +262,7 @@ function Index() {
             Point any MCP client directly at the deployed Render endpoint. No local install needed.
           </p>
           <div className="mt-5">
-            <CodeBlock code={`https://celo-mcp.onrender.com/mcp`} />
+            <CodeBlock code={`https://mcp.celina.andrewkimjoseph.com/mcp`} />
           </div>
         </div>
 
