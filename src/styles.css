@@ -114,25 +114,38 @@
 }
 
 .dark {
-  --background: oklch(0.129 0.042 264.695);
-  --foreground: oklch(0.984 0.003 247.858);
-  --card: oklch(0.208 0.042 265.755);
-  --card-foreground: oklch(0.984 0.003 247.858);
-  --popover: oklch(0.208 0.042 265.755);
-  --popover-foreground: oklch(0.984 0.003 247.858);
-  --primary: oklch(0.929 0.013 255.508);
-  --primary-foreground: oklch(0.208 0.042 265.755);
-  --secondary: oklch(0.279 0.041 260.031);
-  --secondary-foreground: oklch(0.984 0.003 247.858);
-  --muted: oklch(0.279 0.041 260.031);
-  --muted-foreground: oklch(0.704 0.04 256.788);
-  --accent: oklch(0.279 0.041 260.031);
-  --accent-foreground: oklch(0.984 0.003 247.858);
-  --destructive: oklch(0.704 0.191 22.216);
-  --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.551 0.027 264.364);
+  /* Emerald Prestige — dark variant */
+  --background: oklch(0.18 0.04 165);
+  --foreground: oklch(0.97 0.025 90);
+  --card: oklch(0.22 0.05 165);
+  --card-foreground: oklch(0.97 0.025 90);
+  --popover: oklch(0.22 0.05 165);
+  --popover-foreground: oklch(0.97 0.025 90);
+  --primary: oklch(0.97 0.19 110);
+  --primary-foreground: oklch(0.18 0.04 165);
+  --secondary: oklch(0.27 0.06 165);
+  --secondary-foreground: oklch(0.97 0.025 90);
+  --muted: oklch(0.27 0.06 165);
+  --muted-foreground: oklch(0.78 0.03 120);
+  --accent: oklch(0.76 0.13 85);
+  --accent-foreground: oklch(0.18 0.04 165);
+  --destructive: oklch(0.62 0.22 27);
+  --destructive-foreground: oklch(0.97 0.025 90);
+  --border: oklch(0.97 0.19 110 / 18%);
+  --input: oklch(1 0 0 / 12%);
+  --ring: oklch(0.97 0.19 110);
+
+  /* Brand tokens — keep yellow vivid, deepen surfaces */
+  --celo-yellow: oklch(0.97 0.19 110);
+  --celo-forest: oklch(0.45 0.09 165);
+  --celo-deep: oklch(0.27 0.06 165);
+  --celo-ink: oklch(0.14 0.03 165);
+  --celo-cream: oklch(0.97 0.025 90);
+
+  --gradient-hero: radial-gradient(ellipse at top left, oklch(0.97 0.19 110 / 0.10), transparent 55%),
+                   radial-gradient(ellipse at bottom right, oklch(0.45 0.09 165 / 0.35), transparent 60%);
+  --shadow-soft: 0 1px 0 oklch(0 0 0 / 0.4), 0 12px 32px -12px oklch(0 0 0 / 0.6);
+  --shadow-pop: 6px 6px 0 0 oklch(0.97 0.19 110);
   --chart-1: oklch(0.488 0.243 264.376);
   --chart-2: oklch(0.696 0.17 162.48);
   --chart-3: oklch(0.769 0.188 70.08);
