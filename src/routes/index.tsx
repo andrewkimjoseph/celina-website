@@ -9,7 +9,6 @@ import {
   faLock,
   faCoins,
   faWandMagicSparkles,
-  faBoxOpen,
 } from "@fortawesome/free-solid-svg-icons";
 import { faNpm, faGithub } from "@fortawesome/free-brands-svg-icons";
 import celinaLogo from "@/assets/celina-logo.png";
