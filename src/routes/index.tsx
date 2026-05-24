@@ -9,10 +9,11 @@ import {
   faLock,
   faCoins,
   faWandMagicSparkles,
+  faArrowRight,
+  faCircleNodes,
 } from "@fortawesome/free-solid-svg-icons";
 import { faNpm, faGithub } from "@fortawesome/free-brands-svg-icons";
 import celinaLogo from "@/assets/celina-logo.png";
-import celinaBanner from "@/assets/celina-banner.png";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -73,22 +74,30 @@ function CodeBlock({ code }: { code: string }) {
       <div className="absolute right-3 top-3 z-10">
         <CopyButton text={code} />
       </div>
-      <pre className="overflow-x-auto rounded-xl border border-foreground/10 bg-[oklch(0.18_0.04_145)] p-5 pr-20 text-sm leading-relaxed text-[oklch(0.92_0.05_100)] shadow-[var(--shadow-soft)]">
+      <pre className="overflow-x-auto rounded-xl border border-[var(--celo-deep)]/40 bg-[var(--celo-ink)] p-5 pr-20 text-sm leading-relaxed text-[var(--celo-cream)] shadow-[var(--shadow-soft)]">
         <code>{code}</code>
       </pre>
     </div>
   );
 }
 
-function CelinaMark({ className = "" }: { className?: string }) {
+function BrowserFrame({ children, url = "claude.ai" }: { children: React.ReactNode; url?: string }) {
   return (
-    <div className={`relative inline-flex items-center justify-center ${className}`}>
-      <div className="absolute inset-0 rounded-full bg-[var(--celo-forest)] blur-3xl opacity-40" />
-      <img
-        src={celinaLogo}
-        alt="Celina — Celo MCP Server"
-        className="relative h-32 w-32 rounded-full shadow-[var(--shadow-pop)] sm:h-40 sm:w-40"
-      />
+    <div className="relative overflow-hidden rounded-2xl border border-foreground/15 bg-[var(--celo-ink)] shadow-[0_40px_80px_-30px_oklch(0.18_0.04_165_/_0.55)]">
+      {/* Title bar */}
+      <div className="flex items-center gap-3 border-b border-white/10 bg-[oklch(0.22_0.04_165)] px-4 py-2.5">
+        <div className="flex gap-1.5">
+          <span className="h-3 w-3 rounded-full bg-[#ff5f57]" />
+          <span className="h-3 w-3 rounded-full bg-[#febc2e]" />
+          <span className="h-3 w-3 rounded-full bg-[#28c840]" />
+        </div>
+        <div className="mx-auto flex max-w-md flex-1 items-center justify-center gap-2 rounded-md bg-white/5 px-3 py-1 text-xs font-medium text-white/60">
+          <FontAwesomeIcon icon={faLock} className="h-2.5 w-2.5 text-[var(--celo-yellow)]" />
+          <span className="truncate font-mono">{url}</span>
+        </div>
+        <div className="w-12" />
+      </div>
+      {children}
     </div>
   );
 }
@@ -112,74 +121,76 @@ function Index() {
   return (
     <main className="min-h-screen bg-background text-foreground">
       {/* Nav */}
-      <header className="sticky top-0 z-50 border-b border-foreground/10 bg-background/70 backdrop-blur-md">
+      <header className="sticky top-0 z-50 border-b border-foreground/10 bg-[var(--celo-cream)]/80 backdrop-blur-md">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
           <a href="#top" className="flex items-center gap-2">
-            <img src={celinaLogo} alt="Celina" className="h-9 w-9 rounded-full" />
-            <span className="font-semibold tracking-tight">Celina</span>
-            <span className="hidden text-xs text-muted-foreground sm:inline">· Celo MCP</span>
+            <img src={celinaLogo} alt="Celina" className="h-9 w-9 rounded-full ring-1 ring-[var(--celo-forest)]/30" />
+            <span className="font-display text-lg font-semibold tracking-tight" style={{ fontFamily: "var(--font-display)" }}>Celina</span>
+            <span className="hidden text-xs uppercase tracking-[0.18em] text-muted-foreground sm:inline">· Celo MCP</span>
           </a>
           <nav className="flex items-center gap-1 text-sm">
+            <a href="#demo" className="rounded-md px-3 py-1.5 text-foreground/70 transition hover:text-foreground">Demo</a>
             <a href="#install" className="rounded-md px-3 py-1.5 text-foreground/70 transition hover:text-foreground">Install</a>
             <a href="#tools" className="rounded-md px-3 py-1.5 text-foreground/70 transition hover:text-foreground">Tools</a>
-            <a href={NPM_URL} target="_blank" rel="noreferrer" className="ml-1 inline-flex items-center gap-1.5 rounded-md bg-foreground px-3 py-1.5 text-sm font-medium text-background transition hover:opacity-90">
+            <a href={NPM_URL} target="_blank" rel="noreferrer" className="ml-1 inline-flex items-center gap-1.5 rounded-md bg-[var(--celo-forest)] px-3 py-1.5 text-sm font-medium text-[var(--celo-cream)] transition hover:bg-[var(--celo-deep)]">
               <FontAwesomeIcon icon={faNpm} className="h-3.5 w-3.5" /> npm
             </a>
           </nav>
         </div>
       </header>
 
-      {/* Hero */}
+      {/* Hero — magazine */}
       <section id="top" className="relative overflow-hidden">
         <div className="absolute inset-0 -z-10" style={{ backgroundImage: "var(--gradient-hero)" }} />
         <div className="absolute inset-x-0 top-0 -z-10 h-[600px]" style={{
-          backgroundImage: "linear-gradient(to right, oklch(0.22 0.06 145 / 0.05) 1px, transparent 1px), linear-gradient(to bottom, oklch(0.22 0.06 145 / 0.05) 1px, transparent 1px)",
+          backgroundImage: "linear-gradient(to right, oklch(0.36 0.08 165 / 0.06) 1px, transparent 1px), linear-gradient(to bottom, oklch(0.36 0.08 165 / 0.06) 1px, transparent 1px)",
           backgroundSize: "44px 44px",
-          maskImage: "radial-gradient(ellipse at center, black 30%, transparent 75%)",
+          maskImage: "radial-gradient(ellipse at center, black 25%, transparent 70%)",
         }} />
-        <div className="mx-auto max-w-6xl px-6 pt-20 pb-24 sm:pt-28 sm:pb-32">
+        <div className="mx-auto max-w-6xl px-6 pt-20 pb-12 sm:pt-28">
           <div className="flex flex-col items-center text-center">
-            <CelinaMark className="mb-8" />
-            <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-foreground/15 bg-background/60 px-3 py-1 text-xs font-medium text-foreground/70 backdrop-blur">
+            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-[var(--celo-forest)]/25 bg-[var(--celo-cream)]/70 px-3 py-1 text-xs font-medium text-[var(--celo-deep)] backdrop-blur">
               <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[var(--celo-forest)] opacity-60" />
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[var(--celo-yellow)] opacity-70" />
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-[var(--celo-forest)]" />
               </span>
-              v0.1 · Live on Celo mainnet
+              <span className="uppercase tracking-[0.18em]">v0.1 · Live on Celo mainnet</span>
             </div>
-            <h1 className="max-w-4xl text-balance text-5xl font-black tracking-tight sm:text-7xl">
-              Meet <span className="relative inline-block">
-                <span className="relative z-10">Celina</span>
-                <span className="absolute inset-x-0 bottom-1 -z-0 h-4 bg-[var(--celo-yellow)] sm:h-5" />
-              </span>
-              <span className="block text-foreground/70 text-3xl sm:text-4xl font-semibold mt-3">
-                Your LLM&apos;s plug into Celo.
+            <h1 className="max-w-5xl text-balance text-6xl font-bold tracking-tight sm:text-8xl" style={{ fontFamily: "var(--font-display)" }}>
+              Give your LLM
+              <br className="hidden sm:block" />
+              {" "}a wallet on{" "}
+              <span className="relative inline-block whitespace-nowrap">
+                <span className="relative z-10 italic text-[var(--celo-deep)]">Celo</span>
+                <span className="absolute inset-x-0 bottom-2 -z-0 h-4 bg-[var(--celo-yellow)]/70 sm:h-5" />
               </span>
             </h1>
-            <p className="mt-6 max-w-2xl text-lg text-muted-foreground sm:text-xl">
-              An open-source MCP server that gives Claude, Cursor, and any agent read &amp; write
-              access to Celo mainnet — balances, stablecoins, sends, and chain reads.
+            <p className="mt-6 max-w-2xl text-lg leading-relaxed text-muted-foreground sm:text-xl">
+              <span className="font-semibold text-foreground">Celina</span> is an open-source MCP server that gives Claude, Cursor, and any agent
+              read &amp; write access to Celo mainnet — balances, stablecoins, sends, and chain reads.
             </p>
-            <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+            <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
               <a
                 href="#install"
-                className="inline-flex items-center gap-2 rounded-lg bg-foreground px-5 py-3 text-sm font-semibold text-background shadow-[var(--shadow-pop)] transition hover:-translate-y-0.5"
+                className="group inline-flex items-center gap-2 rounded-lg bg-[var(--celo-deep)] px-6 py-3.5 text-sm font-semibold text-[var(--celo-cream)] shadow-[var(--shadow-pop)] transition hover:-translate-y-0.5 hover:bg-[var(--celo-ink)]"
               >
-                <FontAwesomeIcon icon={faWandMagicSparkles} className="h-4 w-4" /> Add to Cursor / Claude
+                <FontAwesomeIcon icon={faWandMagicSparkles} className="h-4 w-4 text-[var(--celo-yellow)]" />
+                Add to Cursor / Claude
+                <FontAwesomeIcon icon={faArrowRight} className="h-3 w-3 transition group-hover:translate-x-0.5" />
               </a>
               <a
                 href={NPM_URL}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-2 rounded-lg border-2 border-foreground bg-background px-5 py-3 text-sm font-semibold text-foreground transition hover:bg-accent"
+                className="inline-flex items-center gap-2 rounded-lg border border-[var(--celo-deep)]/30 bg-background px-6 py-3.5 text-sm font-semibold text-foreground transition hover:border-[var(--celo-deep)] hover:bg-[var(--celo-cream)]"
               >
                 <FontAwesomeIcon icon={faNpm} className="h-4 w-4" /> View on npm
               </a>
             </div>
 
             {/* npm install one-liner */}
-            <div className="mt-10 inline-flex items-center gap-3 rounded-full border border-foreground/15 bg-[oklch(0.18_0.04_145)] py-2 pl-5 pr-2 text-sm text-[oklch(0.92_0.05_100)] shadow-[var(--shadow-soft)]">
-              <span className="text-[var(--celo-yellow)]">$</span>
+            <div className="mt-8 inline-flex items-center gap-3 rounded-full border border-[var(--celo-deep)]/40 bg-[var(--celo-ink)] py-2 pl-5 pr-2 text-sm text-[var(--celo-cream)] shadow-[var(--shadow-soft)]">
+              <span className="font-mono text-[var(--celo-yellow)]">$</span>
               <code className="font-mono">npm i @andrewkimjoseph/celina</code>
               <CopyButton text="npm i @andrewkimjoseph/celina" />
             </div>
@@ -187,58 +198,79 @@ function Index() {
         </div>
       </section>
 
-      {/* Features strip */}
-      <section className="border-y border-foreground/10 bg-secondary/50">
-        <div className="mx-auto max-w-6xl px-6 pt-16">
-          <figure className="overflow-hidden rounded-2xl border border-foreground/10 shadow-[var(--shadow-pop)]">
-            <img
-              src={celinaBanner}
-              alt="Celina — MCP Server for the Celo Network. Connect. Build. Empower."
-              className="block h-auto w-full"
-              loading="lazy"
+      {/* Demo — featured magazine artifact */}
+      <section id="demo" className="mx-auto max-w-6xl px-6 pb-24">
+        <figure className="relative">
+          {/* Gold corner accent */}
+          <div className="absolute -left-4 -top-4 hidden h-24 w-24 rounded-tl-3xl border-l-4 border-t-4 border-[var(--celo-yellow)] sm:block" />
+          <div className="absolute -bottom-4 -right-4 hidden h-24 w-24 rounded-br-3xl border-b-4 border-r-4 border-[var(--celo-forest)] sm:block" />
+
+          <BrowserFrame url="claude.ai — Celina MCP">
+            <video
+              src="/claude-demo.mp4"
+              autoPlay
+              muted
+              loop
+              playsInline
+              className="block aspect-video w-full bg-[var(--celo-ink)] object-cover"
             />
-          </figure>
-        </div>
-        <div className="mx-auto grid max-w-6xl grid-cols-1 gap-px overflow-hidden bg-foreground/10 sm:grid-cols-3">
+          </BrowserFrame>
+
+          <figcaption className="mt-6 flex flex-col items-start gap-2 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex items-center gap-3 text-sm">
+              <span className="rounded-full bg-[var(--celo-deep)] px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.18em] text-[var(--celo-cream)]">Live demo</span>
+              <span className="text-muted-foreground">
+                Claude using Celina to read balances and move value on Celo mainnet.
+              </span>
+            </div>
+            <code className="text-xs text-muted-foreground/80">mcp.celina.andrewkimjoseph.com</code>
+          </figcaption>
+        </figure>
+
+        {/* Features under the demo */}
+        <div className="mt-20 grid gap-px overflow-hidden rounded-2xl border border-foreground/10 bg-foreground/10 sm:grid-cols-3">
           {[
             { icon: faBolt, title: "1-minute setup", body: "Drop a JSON snippet into Cursor or Claude Desktop. Done." },
             { icon: faCoins, title: "Mainnet ready", body: "CELO, cUSD, USDC, USDT, and Mento stablecoins out of the box." },
             { icon: faLock, title: "Keys never stored", body: "Write tools accept RSA-encrypted keys, decrypted ephemerally." },
           ].map((f) => (
             <div key={f.title} className="bg-background p-8">
-              <FontAwesomeIcon icon={f.icon} className="h-6 w-6 text-[var(--celo-forest)]" />
-              <h3 className="mt-4 font-semibold tracking-tight">{f.title}</h3>
-              <p className="mt-1 text-sm text-muted-foreground">{f.body}</p>
+              <div className="inline-flex h-11 w-11 items-center justify-center rounded-lg bg-[var(--celo-yellow)]/20 ring-1 ring-[var(--celo-yellow)]/40">
+                <FontAwesomeIcon icon={f.icon} className="h-5 w-5 text-[var(--celo-deep)]" />
+              </div>
+              <h3 className="mt-5 text-lg font-semibold tracking-tight" style={{ fontFamily: "var(--font-display)" }}>{f.title}</h3>
+              <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">{f.body}</p>
             </div>
           ))}
         </div>
       </section>
 
       {/* Install */}
-      <section id="install" className="mx-auto max-w-6xl px-6 py-24">
+      <section id="install" className="border-t border-foreground/10 bg-[var(--celo-cream)]/40">
+        <div className="mx-auto max-w-6xl px-6 py-24">
         <div className="mb-12 flex flex-col items-start sm:items-center sm:text-center">
-          <span className="rounded-full bg-[var(--celo-yellow)] px-3 py-1 text-xs font-bold uppercase tracking-wider text-[var(--celo-ink)]">
-            Install
+          <span className="rounded-full border border-[var(--celo-deep)]/30 bg-background px-3 py-1 text-xs font-bold uppercase tracking-[0.22em] text-[var(--celo-deep)]">
+            § Install
           </span>
-          <h2 className="mt-4 text-4xl font-black tracking-tight sm:text-5xl">
+          <h2 className="mt-4 text-4xl font-bold tracking-tight sm:text-6xl" style={{ fontFamily: "var(--font-display)" }}>
             Hook Celina into your agent
           </h2>
-          <p className="mt-3 max-w-xl text-muted-foreground">
+          <p className="mt-3 max-w-xl text-base text-muted-foreground sm:text-lg">
             Pick your client, copy the config, restart. Celina shows up as MCP tools your LLM can call.
           </p>
         </div>
 
         <div className="grid gap-8 lg:grid-cols-2">
           {/* Cursor */}
-          <article className="rounded-2xl border-2 border-foreground/15 bg-card p-7 shadow-[var(--shadow-soft)]">
-            <div className="mb-1 flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[var(--celo-forest)]">
+          <article className="rounded-2xl border border-foreground/15 bg-card p-7 shadow-[var(--shadow-soft)]">
+            <div className="mb-1 flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-[var(--celo-forest)]">
               <FontAwesomeIcon icon={faTerminal} className="h-3.5 w-3.5" /> Cursor
             </div>
-            <h3 className="text-2xl font-bold tracking-tight">Add to Cursor</h3>
+            <h3 className="text-2xl font-semibold tracking-tight" style={{ fontFamily: "var(--font-display)" }}>Add to Cursor</h3>
             <ol className="mt-4 space-y-2 text-sm text-foreground/80">
-              <li><span className="font-semibold">1.</span> Open Cursor → <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">Settings → MCP</span></li>
-              <li><span className="font-semibold">2.</span> Click <em>Add new MCP server</em> and paste the config below</li>
-              <li><span className="font-semibold">3.</span> Reload — Celina&apos;s tools appear in chat</li>
+              <li><span className="font-semibold text-[var(--celo-deep)]">01.</span> Open Cursor → <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">Settings → MCP</span></li>
+              <li><span className="font-semibold text-[var(--celo-deep)]">02.</span> Click <em>Add new MCP server</em> and paste the config below</li>
+              <li><span className="font-semibold text-[var(--celo-deep)]">03.</span> Reload — Celina&apos;s tools appear in chat</li>
             </ol>
           <div className="mt-5">
               <CodeBlock code={CURSOR_CONFIG} />
@@ -246,15 +278,15 @@ function Index() {
           </article>
 
           {/* Claude Desktop */}
-          <article className="rounded-2xl border-2 border-foreground/15 bg-card p-7 shadow-[var(--shadow-soft)]">
-            <div className="mb-1 flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[var(--celo-forest)]">
+          <article className="rounded-2xl border border-foreground/15 bg-card p-7 shadow-[var(--shadow-soft)]">
+            <div className="mb-1 flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-[var(--celo-forest)]">
               <FontAwesomeIcon icon={faTerminal} className="h-3.5 w-3.5" /> Claude Desktop
             </div>
-            <h3 className="text-2xl font-bold tracking-tight">Add to Claude</h3>
+            <h3 className="text-2xl font-semibold tracking-tight" style={{ fontFamily: "var(--font-display)" }}>Add to Claude</h3>
             <ol className="mt-4 space-y-2 text-sm text-foreground/80">
-              <li><span className="font-semibold">1.</span> Open <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">claude_desktop_config.json</span></li>
-              <li><span className="font-semibold">2.</span> Merge the snippet below into <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">mcpServers</span></li>
-              <li><span className="font-semibold">3.</span> Restart Claude Desktop</li>
+              <li><span className="font-semibold text-[var(--celo-deep)]">01.</span> Open <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">claude_desktop_config.json</span></li>
+              <li><span className="font-semibold text-[var(--celo-deep)]">02.</span> Merge the snippet below into <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">mcpServers</span></li>
+              <li><span className="font-semibold text-[var(--celo-deep)]">03.</span> Restart Claude Desktop</li>
             </ol>
             <div className="mt-5">
               <CodeBlock code={CLAUDE_CONFIG} />
@@ -263,10 +295,13 @@ function Index() {
         </div>
 
         {/* Remote */}
-        <div className="mt-10 rounded-2xl border-2 border-dashed border-foreground/20 bg-secondary/30 p-7">
+        <div className="mt-10 rounded-2xl border-2 border-dashed border-[var(--celo-yellow)]/60 bg-background p-7">
           <div className="flex flex-wrap items-baseline gap-3">
-            <h3 className="text-xl font-bold tracking-tight">Direct Streamable HTTP endpoint</h3>
-            <span className="rounded-full bg-[var(--celo-forest)] px-2.5 py-0.5 text-xs font-bold uppercase tracking-wider text-[var(--celo-cream)]">Remote</span>
+            <h3 className="text-xl font-semibold tracking-tight" style={{ fontFamily: "var(--font-display)" }}>
+              <FontAwesomeIcon icon={faCircleNodes} className="mr-2 h-4 w-4 text-[var(--celo-forest)]" />
+              Direct Streamable HTTP endpoint
+            </h3>
+            <span className="rounded-full bg-[var(--celo-forest)] px-2.5 py-0.5 text-xs font-bold uppercase tracking-[0.18em] text-[var(--celo-cream)]">Remote</span>
           </div>
           <p className="mt-2 text-sm text-muted-foreground">
             Point any MCP client directly at the deployed Render endpoint. No local install needed.
@@ -277,7 +312,7 @@ function Index() {
         </div>
 
         {/* Write tools note */}
-        <div className="mt-10 flex items-start gap-4 rounded-xl border border-foreground/10 bg-background p-5">
+        <div className="mt-10 flex items-start gap-4 rounded-xl border border-foreground/10 bg-card p-5">
           <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[var(--celo-yellow)] text-[var(--celo-ink)]">
             <FontAwesomeIcon icon={faLock} className="h-4 w-4" />
           </div>
@@ -291,19 +326,20 @@ function Index() {
             </p>
           </div>
         </div>
+        </div>
       </section>
 
       {/* Tools */}
-      <section id="tools" className="border-t border-foreground/10 bg-secondary/40">
+      <section id="tools" className="border-t border-foreground/10">
         <div className="mx-auto max-w-6xl px-6 py-24">
           <div className="mb-10 flex flex-col items-start sm:items-center sm:text-center">
-            <span className="rounded-full bg-[var(--celo-forest)] px-3 py-1 text-xs font-bold uppercase tracking-wider text-[var(--celo-cream)]">
-              Tools v0.1
+            <span className="rounded-full border border-[var(--celo-deep)]/30 bg-background px-3 py-1 text-xs font-bold uppercase tracking-[0.22em] text-[var(--celo-deep)]">
+              § Tools v0.1
             </span>
-            <h2 className="mt-4 text-4xl font-black tracking-tight sm:text-5xl">
+            <h2 className="mt-4 text-4xl font-bold tracking-tight sm:text-6xl" style={{ fontFamily: "var(--font-display)" }}>
               12 tools. One agent. Whole chain.
             </h2>
-            <p className="mt-3 max-w-xl text-muted-foreground">
+            <p className="mt-3 max-w-xl text-base text-muted-foreground sm:text-lg">
               Everything your LLM needs to read state and move value on Celo mainnet.
             </p>
           </div>
@@ -312,15 +348,15 @@ function Index() {
             {TOOLS.map((t) => (
               <div
                 key={t.name}
-                className="group rounded-xl border border-foreground/10 bg-card p-4 transition hover:-translate-y-0.5 hover:border-foreground/30 hover:shadow-[var(--shadow-soft)]"
+                className="group rounded-xl border border-foreground/10 bg-card p-4 transition hover:-translate-y-0.5 hover:border-[var(--celo-forest)]/40 hover:shadow-[var(--shadow-soft)]"
               >
                 <div className="flex items-center justify-between">
-                  <code className="font-mono text-sm font-semibold text-foreground">{t.name}</code>
+                  <code className="font-mono text-sm font-semibold text-[var(--celo-deep)]">{t.name}</code>
                   <span
-                    className={`rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider ${
+                    className={`rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.14em] ${
                       t.type === "write"
                         ? "bg-[var(--celo-yellow)] text-[var(--celo-ink)]"
-                        : "bg-secondary text-muted-foreground"
+                        : "border border-[var(--celo-forest)]/30 text-[var(--celo-forest)]"
                     }`}
                   >
                     {t.type}
@@ -335,13 +371,17 @@ function Index() {
 
       {/* CTA */}
       <section className="mx-auto max-w-6xl px-6 py-24">
-        <div className="relative overflow-hidden rounded-3xl border-2 border-foreground bg-[var(--celo-ink)] p-10 text-[var(--celo-cream)] shadow-[var(--shadow-pop)] sm:p-16">
-          <div className="absolute -right-20 -top-20 h-72 w-72 rounded-full bg-[var(--celo-yellow)] opacity-30 blur-3xl" />
+        <div className="relative overflow-hidden rounded-3xl bg-[var(--celo-deep)] p-10 text-[var(--celo-cream)] shadow-[var(--shadow-pop)] sm:p-16">
+          <div className="absolute -right-20 -top-20 h-72 w-72 rounded-full bg-[var(--celo-yellow)] opacity-40 blur-3xl" />
+          <div className="absolute -bottom-32 -left-20 h-72 w-72 rounded-full bg-[var(--celo-forest)] opacity-50 blur-3xl" />
           <div className="relative">
-            <h2 className="max-w-2xl text-4xl font-black tracking-tight sm:text-5xl">
+            <span className="rounded-full border border-[var(--celo-cream)]/30 px-3 py-1 text-xs font-bold uppercase tracking-[0.22em] text-[var(--celo-cream)]/80">
+              Ship it
+            </span>
+            <h2 className="mt-5 max-w-2xl text-4xl font-bold tracking-tight sm:text-6xl" style={{ fontFamily: "var(--font-display)" }}>
               Give your agent a wallet. <span className="text-[var(--celo-yellow)]">Say hi to Celina.</span>
             </h2>
-            <p className="mt-4 max-w-xl text-base text-[var(--celo-cream)]/70">
+            <p className="mt-4 max-w-xl text-base text-[var(--celo-cream)]/75 sm:text-lg">
               Open source. MIT licensed. Built for the next wave of on-chain agents.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
@@ -349,7 +389,7 @@ function Index() {
                 href={NPM_URL}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-2 rounded-lg bg-[var(--celo-yellow)] px-5 py-3 text-sm font-bold text-[var(--celo-ink)] transition hover:-translate-y-0.5"
+                className="inline-flex items-center gap-2 rounded-lg bg-[var(--celo-yellow)] px-6 py-3.5 text-sm font-bold text-[var(--celo-ink)] transition hover:-translate-y-0.5"
               >
                 <FontAwesomeIcon icon={faNpm} className="h-4 w-4" /> Install from npm
               </a>
@@ -357,7 +397,7 @@ function Index() {
                 href="https://modelcontextprotocol.io/"
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-2 rounded-lg border border-[var(--celo-cream)]/30 px-5 py-3 text-sm font-semibold text-[var(--celo-cream)] transition hover:bg-[var(--celo-cream)]/10"
+                className="inline-flex items-center gap-2 rounded-lg border border-[var(--celo-cream)]/30 px-6 py-3.5 text-sm font-semibold text-[var(--celo-cream)] transition hover:bg-[var(--celo-cream)]/10"
               >
                 Learn about MCP
               </a>
