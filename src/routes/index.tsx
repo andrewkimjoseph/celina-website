@@ -76,7 +76,7 @@ function CodeBlock({ code }: { code: string }) {
       <div className="absolute right-3 top-3 z-10">
         <CopyButton text={code} />
       </div>
-      <pre className="overflow-x-auto rounded-xl border border-[var(--celo-deep)]/40 bg-[var(--celo-ink)] p-5 pr-20 text-sm leading-relaxed text-[var(--celo-cream)] shadow-[var(--shadow-soft)]">
+      <pre className="overflow-hidden whitespace-pre-wrap break-all rounded-xl border border-[var(--celo-deep)]/40 bg-[var(--celo-ink)] p-4 pr-20 text-[12px] leading-relaxed text-[var(--celo-cream)] shadow-[var(--shadow-soft)] sm:p-5 sm:text-sm">
         <code>{code}</code>
       </pre>
     </div>
