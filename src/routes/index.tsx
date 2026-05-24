@@ -156,7 +156,7 @@ function Index() {
               </span>
               <span className="uppercase tracking-[0.18em]">v0.1 · Live on Celo mainnet</span>
             </div>
-            <h1 className="max-w-5xl text-balance text-6xl font-bold tracking-tight sm:text-8xl" style={{ fontFamily: "var(--font-display)" }}>
+            <h1 className="max-w-5xl text-balance text-5xl font-bold tracking-tight sm:text-7xl lg:text-8xl" style={{ fontFamily: "var(--font-display)" }}>
               Give your LLM
               <br className="hidden sm:block" />
               {" "}a wallet on{" "}
@@ -165,7 +165,7 @@ function Index() {
                 <span className="absolute inset-x-0 bottom-2 -z-0 h-4 bg-[var(--celo-yellow)]/70 sm:h-5" />
               </span>
             </h1>
-            <p className="mt-6 max-w-2xl text-lg leading-relaxed text-muted-foreground sm:text-xl">
+            <p className="mt-6 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-xl">
               <span className="font-semibold text-foreground">Celina</span> is an open-source MCP server that gives Claude, Cursor, and any agent
               read &amp; write access to Celo mainnet — balances, stablecoins, sends, and chain reads.
             </p>
@@ -189,9 +189,9 @@ function Index() {
             </div>
 
             {/* npm install one-liner */}
-            <div className="mt-8 inline-flex items-center gap-3 rounded-full border border-[var(--celo-deep)]/40 bg-[var(--celo-ink)] py-2 pl-5 pr-2 text-sm text-[var(--celo-cream)] shadow-[var(--shadow-soft)]">
+            <div className="mt-8 flex w-full max-w-full items-center gap-2 overflow-hidden rounded-full border border-[var(--celo-deep)]/40 bg-[var(--celo-ink)] py-2 pl-4 pr-2 text-xs text-[var(--celo-cream)] shadow-[var(--shadow-soft)] sm:inline-flex sm:w-auto sm:gap-3 sm:pl-5 sm:text-sm">
               <span className="font-mono text-[var(--celo-yellow)]">$</span>
-              <code className="font-mono">npm i @andrewkimjoseph/celina</code>
+              <code className="flex-1 overflow-x-auto whitespace-nowrap font-mono">npm i @andrewkimjoseph/celina</code>
               <CopyButton text="npm i @andrewkimjoseph/celina" />
             </div>
           </div>
@@ -199,7 +199,7 @@ function Index() {
       </section>
 
       {/* Demo — featured magazine artifact */}
-      <section id="demo" className="mx-auto max-w-6xl px-6 pb-24">
+      <section id="demo" className="mx-auto max-w-6xl px-4 pb-20 sm:px-6 sm:pb-24">
         <figure className="relative">
           {/* Gold corner accent */}
           <div className="absolute -left-4 -top-4 hidden h-24 w-24 rounded-tl-3xl border-l-4 border-t-4 border-[var(--celo-yellow)] sm:block" />
@@ -247,12 +247,12 @@ function Index() {
 
       {/* Install */}
       <section id="install" className="border-t border-foreground/10 bg-[var(--celo-cream)]/40">
-        <div className="mx-auto max-w-6xl px-6 py-24">
+        <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-24">
         <div className="mb-12 flex flex-col items-start sm:items-center sm:text-center">
           <span className="rounded-full border border-[var(--celo-deep)]/30 bg-background px-3 py-1 text-xs font-bold uppercase tracking-[0.22em] text-[var(--celo-deep)]">
             § Install
           </span>
-          <h2 className="mt-4 text-4xl font-bold tracking-tight sm:text-6xl" style={{ fontFamily: "var(--font-display)" }}>
+          <h2 className="mt-4 text-3xl font-bold tracking-tight sm:text-5xl lg:text-6xl" style={{ fontFamily: "var(--font-display)" }}>
             Hook Celina into your agent
           </h2>
           <p className="mt-3 max-w-xl text-base text-muted-foreground sm:text-lg">
@@ -331,12 +331,12 @@ function Index() {
 
       {/* Tools */}
       <section id="tools" className="border-t border-foreground/10">
-        <div className="mx-auto max-w-6xl px-6 py-24">
+        <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-24">
           <div className="mb-10 flex flex-col items-start sm:items-center sm:text-center">
             <span className="rounded-full border border-[var(--celo-deep)]/30 bg-background px-3 py-1 text-xs font-bold uppercase tracking-[0.22em] text-[var(--celo-deep)]">
               § Tools v0.1
             </span>
-            <h2 className="mt-4 text-4xl font-bold tracking-tight sm:text-6xl" style={{ fontFamily: "var(--font-display)" }}>
+            <h2 className="mt-4 text-3xl font-bold tracking-tight sm:text-5xl lg:text-6xl" style={{ fontFamily: "var(--font-display)" }}>
               12 tools. One agent. Whole chain.
             </h2>
             <p className="mt-3 max-w-xl text-base text-muted-foreground sm:text-lg">
@@ -370,15 +370,15 @@ function Index() {
       </section>
 
       {/* CTA */}
-      <section className="mx-auto max-w-6xl px-6 py-24">
-        <div className="relative overflow-hidden rounded-3xl bg-[var(--celo-deep)] p-10 text-[var(--celo-cream)] shadow-[var(--shadow-pop)] sm:p-16">
+      <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-24">
+        <div className="relative overflow-hidden rounded-3xl bg-[var(--celo-deep)] p-8 text-[var(--celo-cream)] shadow-[var(--shadow-pop)] sm:p-12 lg:p-16">
           <div className="absolute -right-20 -top-20 h-72 w-72 rounded-full bg-[var(--celo-yellow)] opacity-40 blur-3xl" />
           <div className="absolute -bottom-32 -left-20 h-72 w-72 rounded-full bg-[var(--celo-forest)] opacity-50 blur-3xl" />
           <div className="relative">
             <span className="rounded-full border border-[var(--celo-cream)]/30 px-3 py-1 text-xs font-bold uppercase tracking-[0.22em] text-[var(--celo-cream)]/80">
               Ship it
             </span>
-            <h2 className="mt-5 max-w-2xl text-4xl font-bold tracking-tight sm:text-6xl" style={{ fontFamily: "var(--font-display)" }}>
+            <h2 className="mt-5 max-w-2xl text-3xl font-bold tracking-tight sm:text-5xl lg:text-6xl" style={{ fontFamily: "var(--font-display)" }}>
               Give your agent a wallet. <span className="text-[var(--celo-yellow)]">Say hi to Celina.</span>
             </h2>
             <p className="mt-4 max-w-xl text-base text-[var(--celo-cream)]/75 sm:text-lg">
