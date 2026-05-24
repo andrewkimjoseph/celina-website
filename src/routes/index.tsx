@@ -156,7 +156,7 @@ function Index() {
               </span>
               <span className="uppercase tracking-[0.18em]">v0.1 · Live on Celo mainnet</span>
             </div>
-            <h1 className="max-w-5xl text-balance text-6xl font-bold tracking-tight sm:text-8xl" style={{ fontFamily: "var(--font-display)" }}>
+            <h1 className="max-w-5xl text-balance text-5xl font-bold tracking-tight sm:text-7xl lg:text-8xl" style={{ fontFamily: "var(--font-display)" }}>
               Give your LLM
               <br className="hidden sm:block" />
               {" "}a wallet on{" "}
@@ -165,7 +165,7 @@ function Index() {
                 <span className="absolute inset-x-0 bottom-2 -z-0 h-4 bg-[var(--celo-yellow)]/70 sm:h-5" />
               </span>
             </h1>
-            <p className="mt-6 max-w-2xl text-lg leading-relaxed text-muted-foreground sm:text-xl">
+            <p className="mt-6 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-xl">
               <span className="font-semibold text-foreground">Celina</span> is an open-source MCP server that gives Claude, Cursor, and any agent
               read &amp; write access to Celo mainnet — balances, stablecoins, sends, and chain reads.
             </p>
@@ -189,9 +189,9 @@ function Index() {
             </div>
 
             {/* npm install one-liner */}
-            <div className="mt-8 inline-flex items-center gap-3 rounded-full border border-[var(--celo-deep)]/40 bg-[var(--celo-ink)] py-2 pl-5 pr-2 text-sm text-[var(--celo-cream)] shadow-[var(--shadow-soft)]">
+            <div className="mt-8 flex w-full max-w-full items-center gap-2 overflow-hidden rounded-full border border-[var(--celo-deep)]/40 bg-[var(--celo-ink)] py-2 pl-4 pr-2 text-xs text-[var(--celo-cream)] shadow-[var(--shadow-soft)] sm:inline-flex sm:w-auto sm:gap-3 sm:pl-5 sm:text-sm">
               <span className="font-mono text-[var(--celo-yellow)]">$</span>
-              <code className="font-mono">npm i @andrewkimjoseph/celina</code>
+              <code className="flex-1 overflow-x-auto whitespace-nowrap font-mono">npm i @andrewkimjoseph/celina</code>
               <CopyButton text="npm i @andrewkimjoseph/celina" />
             </div>
           </div>
@@ -199,7 +199,7 @@ function Index() {
       </section>
 
       {/* Demo — featured magazine artifact */}
-      <section id="demo" className="mx-auto max-w-6xl px-6 pb-24">
+      <section id="demo" className="mx-auto max-w-6xl px-4 pb-20 sm:px-6 sm:pb-24">
         <figure className="relative">
           {/* Gold corner accent */}
           <div className="absolute -left-4 -top-4 hidden h-24 w-24 rounded-tl-3xl border-l-4 border-t-4 border-[var(--celo-yellow)] sm:block" />
