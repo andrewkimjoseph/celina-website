@@ -263,54 +263,45 @@ function Index() {
         </div>
 
         <div className="grid gap-8 lg:grid-cols-2">
-          {/* Cursor */}
+          {/* Remote — Streamable HTTP */}
           <article className="min-w-0 overflow-hidden rounded-2xl border border-foreground/15 bg-card p-7 shadow-[var(--shadow-soft)]">
-            <div className="mb-1 flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-[var(--celo-forest)]">
-              <FontAwesomeIcon icon={faTerminal} className="h-3.5 w-3.5" /> Cursor
+            <div className="mb-1 flex flex-wrap items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-[var(--celo-forest)]">
+              <FontAwesomeIcon icon={faCircleNodes} className="h-3.5 w-3.5" /> Remote
+              <span className="rounded-full bg-[var(--celo-forest)] px-2 py-0.5 text-[10px] tracking-[0.18em] text-[var(--celo-cream)]">Recommended</span>
             </div>
-            <h3 className="text-2xl font-semibold tracking-tight" style={{ fontFamily: "var(--font-display)" }}>Add to Cursor</h3>
+            <h3 className="text-2xl font-semibold tracking-tight" style={{ fontFamily: "var(--font-display)" }}>Streamable HTTP</h3>
+            <p className="mt-2 text-sm text-muted-foreground">
+              For LLMs that support MCP Streamable HTTP natively. No local install — just paste and go.
+            </p>
             <ol className="mt-4 space-y-2 text-sm text-foreground/80">
-              <li><span className="font-semibold text-[var(--celo-deep)]">01.</span> Open Cursor → <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">Settings → MCP</span></li>
-              <li><span className="font-semibold text-[var(--celo-deep)]">02.</span> Click <em>Add new MCP server</em> and paste the config below</li>
+              <li><span className="font-semibold text-[var(--celo-deep)]">01.</span> Open your client&apos;s MCP settings</li>
+              <li><span className="font-semibold text-[var(--celo-deep)]">02.</span> Paste the snippet below into <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">mcpServers</span></li>
               <li><span className="font-semibold text-[var(--celo-deep)]">03.</span> Reload — Celina&apos;s tools appear in chat</li>
             </ol>
-          <div className="mt-5">
+            <div className="mt-5">
               <CodeBlock code={CURSOR_CONFIG} />
             </div>
           </article>
 
-          {/* Claude Desktop */}
+          {/* Local bridge */}
           <article className="min-w-0 overflow-hidden rounded-2xl border border-foreground/15 bg-card p-7 shadow-[var(--shadow-soft)]">
             <div className="mb-1 flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-[var(--celo-forest)]">
-              <FontAwesomeIcon icon={faTerminal} className="h-3.5 w-3.5" /> Claude Desktop
+              <FontAwesomeIcon icon={faTerminal} className="h-3.5 w-3.5" /> Local bridge
             </div>
-            <h3 className="text-2xl font-semibold tracking-tight" style={{ fontFamily: "var(--font-display)" }}>Add to Claude</h3>
+            <h3 className="text-2xl font-semibold tracking-tight" style={{ fontFamily: "var(--font-display)" }}>stdio via mcp-remote</h3>
+            <p className="mt-2 text-sm text-muted-foreground">
+              For clients that only speak stdio (older Claude Desktop builds, etc.). Requires Node.js{" "}
+              <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">≥ 18</span> on your machine.
+            </p>
             <ol className="mt-4 space-y-2 text-sm text-foreground/80">
-              <li><span className="font-semibold text-[var(--celo-deep)]">01.</span> Open <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">claude_desktop_config.json</span></li>
+              <li><span className="font-semibold text-[var(--celo-deep)]">01.</span> Open your MCP config file (e.g. <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">claude_desktop_config.json</span>)</li>
               <li><span className="font-semibold text-[var(--celo-deep)]">02.</span> Merge the snippet below into <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">mcpServers</span></li>
-              <li><span className="font-semibold text-[var(--celo-deep)]">03.</span> Restart Claude Desktop</li>
+              <li><span className="font-semibold text-[var(--celo-deep)]">03.</span> Restart the client — <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">npx</span> spawns the bridge on first run</li>
             </ol>
             <div className="mt-5">
-              <CodeBlock code={CLAUDE_CONFIG} />
+              <CodeBlock code={LOCAL_BRIDGE_CONFIG} />
             </div>
           </article>
-        </div>
-
-        {/* Remote — Streamable HTTP */}
-        <div className="mt-10 min-w-0 overflow-hidden rounded-2xl border-2 border-dashed border-[var(--celo-yellow)]/60 bg-background p-7">
-          <div className="flex flex-wrap items-baseline gap-3">
-            <h3 className="text-xl font-semibold tracking-tight" style={{ fontFamily: "var(--font-display)" }}>
-              <FontAwesomeIcon icon={faCircleNodes} className="mr-2 h-4 w-4 text-[var(--celo-forest)]" />
-              Streamable HTTP
-            </h3>
-            <span className="rounded-full bg-[var(--celo-forest)] px-2.5 py-0.5 text-xs font-bold uppercase tracking-[0.18em] text-[var(--celo-cream)]">Remote</span>
-          </div>
-          <p className="mt-2 text-sm text-muted-foreground">
-            For LLMs that support MCP Streamable HTTP natively. No local install needed — just paste the config.
-          </p>
-          <div className="mt-5">
-            <CodeBlock code={`{\n  "mcpServers": {\n    "celina": {\n      "type": "streamable-http",\n      "url": "https://mcp.celina.andrewkimjoseph.com/mcp"\n    }\n  }\n}`} />
-          </div>
         </div>
 
         {/* Write tools note */}
