@@ -112,7 +112,6 @@ const TOOLS = [
   { name: "get_transaction", type: "read", desc: "Transaction + receipt" },
   { name: "get_account", type: "read", desc: "CELO balance, nonce" },
   { name: "get_token_info", type: "read", desc: "Token metadata" },
-  { name: "get_swap_quote", type: "read", desc: "Swap preview" },
   { name: "estimate_send", type: "read", desc: "Gas estimate" },
   { name: "send_token", type: "write", desc: "Send CELO or ERC-20" },
   { name: "get_wallet_encryption_public_key", type: "read", desc: "RSA public key" },
