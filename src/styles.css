@@ -137,8 +137,9 @@
 
   /* Brand tokens — keep yellow vivid, deepen surfaces */
   --celo-yellow: oklch(0.97 0.19 110);
-  --celo-forest: oklch(0.45 0.09 165);
-  --celo-deep: oklch(0.27 0.06 165);
+  /* Brighten emerald used for text/badges so it stays legible on dark surfaces */
+  --celo-forest: oklch(0.82 0.16 150);
+  --celo-deep: oklch(0.34 0.07 165);
   --celo-ink: oklch(0.14 0.03 165);
   --celo-cream: oklch(0.97 0.025 90);
 
