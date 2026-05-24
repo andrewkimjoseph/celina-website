@@ -336,8 +336,7 @@ function Index() {
           <div className="text-sm">
             <p className="font-semibold">Sending transactions?</p>
             <p className="mt-1 text-muted-foreground">
-              Write tools (<code className="rounded bg-secondary px-1 py-0.5 text-xs">send_token</code>,{" "}
-              <code className="rounded bg-secondary px-1 py-0.5 text-xs">estimate_send</code>) accept an
+              Write tools accept an
               RSA-encrypted private key per request — never plaintext. The server decrypts it
               ephemerally to sign, then discards it.
             </p>
