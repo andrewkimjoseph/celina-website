@@ -157,7 +157,7 @@ function Index() {
         }} />
         <div className="mx-auto max-w-6xl px-6 pt-20 pb-12 sm:pt-28">
           <div className="flex flex-col items-center text-center">
-            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-[var(--celo-forest)]/25 bg-[var(--celo-cream)]/70 px-3 py-1 text-xs font-medium text-[var(--celo-deep)] backdrop-blur">
+            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-[var(--celo-forest)]/40 bg-card/80 px-3 py-1 text-xs font-medium text-foreground backdrop-blur">
               <span className="relative flex h-2 w-2">
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[var(--celo-yellow)] opacity-70" />
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-[var(--celo-forest)]" />
@@ -169,7 +169,7 @@ function Index() {
               <br className="hidden sm:block" />
               {" "}a wallet on{" "}
               <span className="relative inline-block whitespace-nowrap">
-                <span className="relative z-10 italic text-[var(--celo-deep)]">Celo</span>
+                <span className="relative z-10 italic text-foreground">Celo</span>
                 <span className="absolute inset-x-0 bottom-2 -z-0 h-4 bg-[var(--celo-yellow)]/70 sm:h-5" />
               </span>
             </h1>
@@ -192,7 +192,7 @@ function Index() {
                 href={NPM_URL}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-2 rounded-lg border border-[var(--celo-deep)]/30 bg-background px-6 py-3.5 text-sm font-semibold text-foreground transition hover:border-[var(--celo-deep)] hover:bg-[var(--celo-cream)]"
+                className="inline-flex items-center gap-2 rounded-lg border border-border bg-card px-6 py-3.5 text-sm font-semibold text-foreground transition hover:border-[var(--celo-forest)] hover:bg-muted"
               >
                 <FontAwesomeIcon icon={faNpm} className="h-4 w-4" /> View on npm
               </a>
@@ -262,10 +262,10 @@ function Index() {
       </section>
 
       {/* Install */}
-      <section id="install" className="border-t border-foreground/10 bg-[var(--celo-cream)]/40">
+      <section id="install" className="border-t border-foreground/10 bg-muted/30">
         <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-24">
         <div className="mb-12 flex flex-col items-start sm:items-center sm:text-center">
-          <span className="rounded-full border border-[var(--celo-deep)]/30 bg-background px-3 py-1 text-xs font-bold uppercase tracking-[0.22em] text-[var(--celo-deep)]">
+          <span className="rounded-full border border-border bg-card px-3 py-1 text-xs font-bold uppercase tracking-[0.22em] text-foreground">
             § Install
           </span>
           <h2 className="mt-4 text-3xl font-bold tracking-tight sm:text-5xl lg:text-6xl" style={{ fontFamily: "var(--font-display)" }}>
