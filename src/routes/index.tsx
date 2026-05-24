@@ -1,6 +1,16 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { Check, Copy, Github, Package, Terminal, Zap, Lock, Coins, Sparkles } from "lucide-react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faCheck,
+  faCopy,
+  faTerminal,
+  faBolt,
+  faLock,
+  faCoins,
+  faWandMagicSparkles,
+} from "@fortawesome/free-solid-svg-icons";
+import { faNpm, faGithub } from "@fortawesome/free-brands-svg-icons";
 import celinaLogo from "@/assets/celina-logo.png";
 import celinaBanner from "@/assets/celina-banner.png";
 
@@ -51,7 +61,7 @@ function CopyButton({ text }: { text: string }) {
       }}
       className="inline-flex items-center gap-1.5 rounded-md border border-foreground/15 bg-background/80 px-2.5 py-1 text-xs font-medium text-foreground/80 backdrop-blur transition hover:bg-accent hover:text-accent-foreground"
     >
-      {copied ? <Check className="h-3.5 w-3.5" /> : <Copy className="h-3.5 w-3.5" />}
+      <FontAwesomeIcon icon={copied ? faCheck : faCopy} className="h-3.5 w-3.5" />
       {copied ? "Copied" : "Copy"}
     </button>
   );
@@ -113,7 +123,7 @@ function Index() {
             <a href="#install" className="rounded-md px-3 py-1.5 text-foreground/70 transition hover:text-foreground">Install</a>
             <a href="#tools" className="rounded-md px-3 py-1.5 text-foreground/70 transition hover:text-foreground">Tools</a>
             <a href={NPM_URL} target="_blank" rel="noreferrer" className="ml-1 inline-flex items-center gap-1.5 rounded-md bg-foreground px-3 py-1.5 text-sm font-medium text-background transition hover:opacity-90">
-              <Package className="h-3.5 w-3.5" /> npm
+              <FontAwesomeIcon icon={faNpm} className="h-3.5 w-3.5" /> npm
             </a>
           </nav>
         </div>
@@ -155,7 +165,7 @@ function Index() {
                 href="#install"
                 className="inline-flex items-center gap-2 rounded-lg bg-foreground px-5 py-3 text-sm font-semibold text-background shadow-[var(--shadow-pop)] transition hover:-translate-y-0.5"
               >
-                <Sparkles className="h-4 w-4" /> Add to Cursor / Claude
+                <FontAwesomeIcon icon={faWandMagicSparkles} className="h-4 w-4" /> Add to Cursor / Claude
               </a>
               <a
                 href={NPM_URL}
@@ -163,7 +173,7 @@ function Index() {
                 rel="noreferrer"
                 className="inline-flex items-center gap-2 rounded-lg border-2 border-foreground bg-background px-5 py-3 text-sm font-semibold text-foreground transition hover:bg-accent"
               >
-                <Package className="h-4 w-4" /> View on npm
+                <FontAwesomeIcon icon={faNpm} className="h-4 w-4" /> View on npm
               </a>
             </div>
 
@@ -191,12 +201,12 @@ function Index() {
         </div>
         <div className="mx-auto grid max-w-6xl grid-cols-1 gap-px overflow-hidden bg-foreground/10 sm:grid-cols-3">
           {[
-            { icon: Zap, title: "1-minute setup", body: "Drop a JSON snippet into Cursor or Claude Desktop. Done." },
-            { icon: Coins, title: "Mainnet ready", body: "CELO, cUSD, USDC, USDT, and Mento stablecoins out of the box." },
-            { icon: Lock, title: "Keys never stored", body: "Write tools accept RSA-encrypted keys, decrypted ephemerally." },
+            { icon: faBolt, title: "1-minute setup", body: "Drop a JSON snippet into Cursor or Claude Desktop. Done." },
+            { icon: faCoins, title: "Mainnet ready", body: "CELO, cUSD, USDC, USDT, and Mento stablecoins out of the box." },
+            { icon: faLock, title: "Keys never stored", body: "Write tools accept RSA-encrypted keys, decrypted ephemerally." },
           ].map((f) => (
             <div key={f.title} className="bg-background p-8">
-              <f.icon className="h-6 w-6 text-[var(--celo-forest)]" />
+              <FontAwesomeIcon icon={f.icon} className="h-6 w-6 text-[var(--celo-forest)]" />
               <h3 className="mt-4 font-semibold tracking-tight">{f.title}</h3>
               <p className="mt-1 text-sm text-muted-foreground">{f.body}</p>
             </div>
@@ -222,7 +232,7 @@ function Index() {
           {/* Cursor */}
           <article className="rounded-2xl border-2 border-foreground/15 bg-card p-7 shadow-[var(--shadow-soft)]">
             <div className="mb-1 flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[var(--celo-forest)]">
-              <Terminal className="h-3.5 w-3.5" /> Cursor
+              <FontAwesomeIcon icon={faTerminal} className="h-3.5 w-3.5" /> Cursor
             </div>
             <h3 className="text-2xl font-bold tracking-tight">Add to Cursor</h3>
             <ol className="mt-4 space-y-2 text-sm text-foreground/80">
@@ -238,7 +248,7 @@ function Index() {
           {/* Claude Desktop */}
           <article className="rounded-2xl border-2 border-foreground/15 bg-card p-7 shadow-[var(--shadow-soft)]">
             <div className="mb-1 flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[var(--celo-forest)]">
-              <Terminal className="h-3.5 w-3.5" /> Claude Desktop
+              <FontAwesomeIcon icon={faTerminal} className="h-3.5 w-3.5" /> Claude Desktop
             </div>
             <h3 className="text-2xl font-bold tracking-tight">Add to Claude</h3>
             <ol className="mt-4 space-y-2 text-sm text-foreground/80">
@@ -269,7 +279,7 @@ function Index() {
         {/* Write tools note */}
         <div className="mt-10 flex items-start gap-4 rounded-xl border border-foreground/10 bg-background p-5">
           <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[var(--celo-yellow)] text-[var(--celo-ink)]">
-            <Lock className="h-4 w-4" />
+            <FontAwesomeIcon icon={faLock} className="h-4 w-4" />
           </div>
           <div className="text-sm">
             <p className="font-semibold">Sending transactions?</p>
@@ -341,7 +351,7 @@ function Index() {
                 rel="noreferrer"
                 className="inline-flex items-center gap-2 rounded-lg bg-[var(--celo-yellow)] px-5 py-3 text-sm font-bold text-[var(--celo-ink)] transition hover:-translate-y-0.5"
               >
-                <Package className="h-4 w-4" /> Install from npm
+                <FontAwesomeIcon icon={faNpm} className="h-4 w-4" /> Install from npm
               </a>
               <a
                 href="https://modelcontextprotocol.io/"
@@ -364,10 +374,10 @@ function Index() {
           </p>
           <div className="flex items-center gap-4 text-sm text-muted-foreground">
             <a href={NPM_URL} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1.5 hover:text-foreground">
-              <Package className="h-4 w-4" /> npm
+              <FontAwesomeIcon icon={faNpm} className="h-4 w-4" /> npm
             </a>
             <a href="https://modelcontextprotocol.io/" target="_blank" rel="noreferrer" className="inline-flex items-center gap-1.5 hover:text-foreground">
-              <Github className="h-4 w-4" /> MCP spec
+              <FontAwesomeIcon icon={faGithub} className="h-4 w-4" /> MCP spec
             </a>
           </div>
         </div>
