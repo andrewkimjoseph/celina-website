@@ -9,6 +9,10 @@ import {
 } from "@tanstack/react-router";
 
 import appCss from "../styles.css?url";
+import faviconIco from "../assets/favicon.ico?url";
+import favicon16 from "../assets/favicon-16x16.png?url";
+import favicon32 from "../assets/favicon-32x32.png?url";
+import appleTouchIcon from "../assets/favicon-180x180.png?url";
 
 function NotFoundComponent() {
   return (
