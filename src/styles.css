@@ -87,7 +87,7 @@
   --ring: oklch(0.36 0.08 165);
 
   /* Emerald Prestige brand tokens */
-  --celo-yellow: oklch(0.76 0.13 85);    /* gold #c9a84c */
+  --celo-yellow: oklch(0.97 0.19 110);   /* official Celo yellow #FCFF52 */
   --celo-forest: oklch(0.36 0.08 165);   /* emerald #0d7a5f */
   --celo-deep: oklch(0.27 0.06 165);     /* deep emerald #064e3b */
   --celo-ink: oklch(0.18 0.04 165);      /* near-black emerald */
