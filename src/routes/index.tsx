@@ -116,6 +116,7 @@ const TOOLS = [
   { name: "send_token", type: "write", desc: "Send CELO or ERC-20" },
   { name: "get_wallet_encryption_public_key", type: "read", desc: "RSA public key" },
   { name: "get_latest_blocks", type: "read", desc: "Recent blocks" },
+  { name: "get_gooddollar_whitelisting_info", type: "read", desc: "GoodDollar IdentityV4 whitelisting status" },
 ];
 
 function Index() {
@@ -344,7 +345,7 @@ function Index() {
               § Tools v0.1
             </span>
             <h2 className="mt-4 text-3xl font-bold tracking-tight sm:text-5xl lg:text-6xl" style={{ fontFamily: "var(--font-display)" }}>
-              11 tools. One agent. Whole chain.
+              12 tools. One agent. Whole chain.
             </h2>
             <p className="mt-3 max-w-xl text-base text-muted-foreground sm:text-lg">
               Everything your LLM needs to read state and move value on Celo mainnet.
