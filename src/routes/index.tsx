@@ -556,9 +556,9 @@ function Index() {
 
       {/* CTA */}
       <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-24">
-        <div className="relative overflow-hidden rounded-3xl bg-[var(--celo-deep)] p-8 text-[var(--celo-cream)] shadow-[var(--shadow-pop)] sm:p-12 lg:p-16">
-          <div className="absolute -right-20 -top-20 h-72 w-72 rounded-full bg-[var(--celo-yellow)] opacity-40 blur-3xl" />
-          <div className="absolute -bottom-32 -left-20 h-72 w-72 rounded-full bg-[var(--celo-forest)] opacity-50 blur-3xl" />
+        <div className="relative overflow-hidden rounded-3xl border border-[var(--celo-yellow)]/20 bg-[var(--celo-ink)] p-8 text-[var(--celo-cream)] shadow-[var(--shadow-pop)] sm:p-12 lg:p-16">
+          <div className="absolute -right-20 -top-20 h-72 w-72 rounded-full bg-[var(--celo-yellow)] opacity-30 blur-3xl" />
+          <div className="absolute -bottom-32 -left-20 h-72 w-72 rounded-full bg-[var(--celo-forest)] opacity-60 blur-3xl" />
           <div className="relative">
             <span className="rounded-full border border-[var(--celo-cream)]/30 px-3 py-1 text-xs font-bold uppercase tracking-[0.22em] text-[var(--celo-cream)]/80">
               Ship it
