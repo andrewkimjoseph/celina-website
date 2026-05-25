@@ -13,8 +13,7 @@ import {
   faCircleNodes,
 } from "@fortawesome/free-solid-svg-icons";
 import { faNpm, faGithub } from "@fortawesome/free-brands-svg-icons";
-import celinaLogoGreen from "@/assets/celina-logo-green.png";
-import celinaLogoYellow from "@/assets/celina-logo-yellow.png";
+import celinaLogo from "@/assets/celina-logo-clady.png";
 import celoWordmarkGreen from "@/assets/celo-wordmark-green.svg";
 import celoWordmarkYellow from "@/assets/celo-wordmark-yellow.svg";
 import { TOOLS as TOOL_DOCS } from "@/data/tools";
@@ -138,8 +137,7 @@ function Index() {
       <header className="sticky top-0 z-50 border-b border-foreground/10 bg-background/80 backdrop-blur-md">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
           <a href="#top" className="flex items-center gap-2">
-            <img src={celinaLogoGreen} alt="Celina" className="h-9 w-9 rounded-full ring-1 ring-[var(--celo-forest)]/30 dark:hidden" />
-            <img src={celinaLogoYellow} alt="Celina" className="hidden h-9 w-9 rounded-full ring-1 ring-[var(--celo-yellow)]/40 dark:inline-block" />
+            <img src={celinaLogo} alt="Celina" width={36} height={36} className="h-9 w-9" />
             <span className="font-display text-lg font-semibold tracking-tight" style={{ fontFamily: "var(--font-display)" }}>Celina</span>
             <span className="hidden text-xs uppercase tracking-[0.18em] text-muted-foreground sm:inline">· Celo MCP</span>
           </a>
