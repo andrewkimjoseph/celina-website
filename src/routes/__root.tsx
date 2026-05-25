@@ -16,7 +16,7 @@ import "@fontsource/space-grotesk/700.css";
 import "@fontsource/manrope/400.css";
 import "@fontsource/manrope/500.css";
 import "@fontsource/manrope/600.css";
-import faviconLogo from "../assets/celina-logo-clady.png?url";
+
 
 function NotFoundComponent() {
   return (
