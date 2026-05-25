@@ -104,9 +104,9 @@ function CodeBlock({ code }: { code: string }) {
 
 function BrowserFrame({ children, url = "claude.ai" }: { children: React.ReactNode; url?: string }) {
   return (
-    <div className="relative overflow-hidden rounded-2xl border border-foreground/15 bg-[var(--celo-ink)] shadow-[0_40px_80px_-30px_oklch(0.18_0.04_165_/_0.55)]">
+    <div className="relative overflow-hidden rounded-2xl border border-foreground/15 bg-[var(--celo-ink)] shadow-[0_40px_80px_-30px_oklch(0_0_0/0.6)]">
       {/* Title bar */}
-      <div className="flex items-center gap-3 border-b border-white/10 bg-[oklch(0.22_0.04_165)] px-4 py-2.5">
+      <div className="flex items-center gap-3 border-b border-white/10 bg-black/40 px-4 py-2.5">
         <div className="flex gap-1.5">
           <span className="h-3 w-3 rounded-full bg-[#ff5f57]" />
           <span className="h-3 w-3 rounded-full bg-[#febc2e]" />
