@@ -157,66 +157,134 @@ function Index() {
       {/* Hero — magazine */}
       <section id="top" className="relative overflow-hidden">
         <div className="absolute inset-0 -z-10" style={{ backgroundImage: "var(--gradient-hero)" }} />
-        <div className="absolute inset-x-0 top-0 -z-10 h-[600px]" style={{
-          backgroundImage: "linear-gradient(to right, oklch(0.36 0.08 165 / 0.06) 1px, transparent 1px), linear-gradient(to bottom, oklch(0.36 0.08 165 / 0.06) 1px, transparent 1px)",
-          backgroundSize: "44px 44px",
-          maskImage: "radial-gradient(ellipse at center, black 25%, transparent 70%)",
-        }} />
-        <div className="mx-auto max-w-6xl px-6 pt-20 pb-12 sm:pt-28">
-          <div className="flex flex-col items-center text-center">
-            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-[var(--celo-forest)]/40 bg-card/80 px-3 py-1 text-xs font-medium text-foreground backdrop-blur">
-              <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[var(--celo-yellow)] opacity-70" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-[var(--celo-forest)]" />
-              </span>
-              <span className="uppercase tracking-[0.18em]">v0.1 · Live on Celo mainnet</span>
-            </div>
-            <h1 className="max-w-5xl text-balance text-5xl font-bold tracking-tight sm:text-7xl lg:text-8xl" style={{ fontFamily: "var(--font-display)" }}>
-              Give your LLM
-              <br className="hidden sm:block" />
-              {" "}a wallet on{" "}
-              <span className="relative inline-block whitespace-nowrap">
-                <span className="relative z-10 italic text-foreground">Celo</span>
-                <span className="absolute inset-x-0 bottom-2 -z-0 h-4 bg-[var(--celo-yellow)]/70 sm:h-5" />
-              </span>
-            </h1>
-            <p className="mt-6 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-xl">
-              <span className="font-semibold text-foreground">Celina</span> is an open-source{" "}
-              <a className="underline decoration-[var(--celo-yellow)] decoration-2 underline-offset-4 hover:text-foreground" href="https://modelcontextprotocol.io" target="_blank" rel="noreferrer">Model Context Protocol</a>{" "}
-              server that gives LLMs read &amp; write access to Celo mainnet — balances, stablecoins,
-              sends, and chain reads.
-            </p>
-            <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
-              <a
-                href="#install"
-                className="group inline-flex items-center gap-2 rounded-lg bg-[var(--celo-deep)] px-6 py-3.5 text-sm font-semibold text-[var(--celo-cream)] shadow-[var(--shadow-pop)] ring-2 ring-transparent transition hover:-translate-y-0.5 hover:bg-[var(--celo-ink)] hover:ring-[var(--celo-yellow)]"
+        {/* Subtle dot grid */}
+        <div
+          className="absolute inset-x-0 top-0 -z-10 h-[700px]"
+          style={{
+            backgroundImage: "radial-gradient(oklch(0.55 0.02 280 / 0.18) 1px, transparent 1px)",
+            backgroundSize: "22px 22px",
+            maskImage: "radial-gradient(ellipse at center, black 20%, transparent 75%)",
+          }}
+        />
+        <div className="mx-auto max-w-6xl px-6 pt-16 pb-16 sm:pt-24 sm:pb-20">
+          <div className="grid items-center gap-12 lg:grid-cols-[1.1fr_1fr] lg:gap-10">
+            {/* Left column */}
+            <div className="flex flex-col items-start text-left">
+              <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-[var(--celo-forest)]/40 bg-card/80 px-3 py-1 text-xs font-medium text-foreground backdrop-blur">
+                <span className="relative flex h-2 w-2">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[var(--celo-yellow)] opacity-70" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-[var(--celo-yellow)]" />
+                </span>
+                <span className="uppercase tracking-[0.18em]">v0.1 · Live on Celo mainnet</span>
+              </div>
+              <h1
+                className="text-balance text-5xl font-bold tracking-tight sm:text-6xl lg:text-7xl"
+                style={{ fontFamily: "var(--font-display)" }}
               >
-                <FontAwesomeIcon icon={faWandMagicSparkles} className="h-4 w-4 text-[var(--celo-yellow)]" />
-                Add to Cursor / Claude
-                <FontAwesomeIcon icon={faArrowRight} className="h-3 w-3 transition group-hover:translate-x-0.5" />
-              </a>
-              <a
-                href={NPM_URL}
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center gap-2 rounded-lg border border-border bg-card px-6 py-3.5 text-sm font-semibold text-foreground transition hover:border-[var(--celo-forest)] hover:bg-muted"
-              >
-                <FontAwesomeIcon icon={faNpm} className="h-4 w-4" /> View on npm
-              </a>
+                Give your LLM{" "}
+                <span className="relative inline-block whitespace-nowrap">
+                  <span className="relative z-10 italic text-foreground">a wallet</span>
+                  <span className="absolute inset-x-0 bottom-1.5 -z-0 h-3 bg-[var(--celo-yellow)]/70 sm:h-4" />
+                </span>{" "}
+                on Celo.
+              </h1>
+              {/* Editorial horizon line */}
+              <div className="mt-6 h-px w-24 bg-[var(--celo-yellow)]" />
+              <p className="mt-6 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">
+                <span className="font-semibold text-foreground">Celina</span> is an open-source{" "}
+                <a
+                  className="underline decoration-[var(--celo-yellow)] decoration-2 underline-offset-4 hover:text-foreground"
+                  href="https://modelcontextprotocol.io"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Model Context Protocol
+                </a>{" "}
+                server that gives LLMs read &amp; write access to Celo mainnet — balances,
+                stablecoins, sends, and chain reads.
+              </p>
+              <div className="mt-8 flex flex-wrap items-center gap-3">
+                <a
+                  href="#install"
+                  className="group inline-flex items-center gap-2 rounded-lg bg-[var(--celo-yellow)] px-6 py-3.5 text-sm font-semibold text-[var(--celo-ink)] ring-2 ring-transparent transition hover:-translate-y-0.5 hover:ring-[var(--celo-yellow)]/40"
+                >
+                  <FontAwesomeIcon icon={faWandMagicSparkles} className="h-4 w-4" />
+                  Add to Cursor / Claude
+                  <FontAwesomeIcon icon={faArrowRight} className="h-3 w-3 transition group-hover:translate-x-0.5" />
+                </a>
+                <a
+                  href={NPM_URL}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-2 rounded-lg border border-border bg-card px-6 py-3.5 text-sm font-semibold text-foreground transition hover:border-[var(--celo-yellow)] hover:bg-muted"
+                >
+                  <FontAwesomeIcon icon={faNpm} className="h-4 w-4" /> View on npm
+                </a>
+              </div>
+
+              <div className="mt-8 flex w-full max-w-full items-center gap-2 overflow-hidden rounded-full border border-[var(--celo-yellow)]/20 bg-[var(--celo-ink)] py-2 pl-4 pr-2 text-[11px] text-[var(--celo-cream)] shadow-[var(--shadow-soft)] sm:inline-flex sm:w-auto sm:gap-3 sm:pl-5 sm:text-sm">
+                <span className="font-mono text-[var(--celo-yellow)]">$</span>
+                <code className="flex-1 overflow-x-auto whitespace-nowrap font-mono">npm i @andrewkimjoseph/celina</code>
+                <CopyButton text="npm i @andrewkimjoseph/celina" />
+              </div>
+
+              <div className="mt-8 flex items-center gap-3 text-xs uppercase tracking-[0.22em] text-muted-foreground">
+                <span>Built on</span>
+                <img src={celoWordmarkGreen} alt="Celo" className="h-4 w-auto opacity-80 dark:hidden" />
+                <img src={celoWordmarkYellow} alt="Celo" className="hidden h-4 w-auto opacity-90 dark:inline-block" />
+              </div>
             </div>
 
-            {/* npm install one-liner */}
-            <div className="mt-8 flex w-full max-w-full items-center gap-2 overflow-hidden rounded-full border border-[var(--celo-deep)]/40 bg-[var(--celo-ink)] py-2 pl-4 pr-2 text-[11px] text-[var(--celo-cream)] shadow-[var(--shadow-soft)] sm:inline-flex sm:w-auto sm:gap-3 sm:pl-5 sm:text-sm">
-              <span className="font-mono text-[var(--celo-yellow)]">$</span>
-              <code className="flex-1 overflow-x-auto whitespace-nowrap font-mono">npm i @andrewkimjoseph/celina</code>
-              <CopyButton text="npm i @andrewkimjoseph/celina" />
-            </div>
+            {/* Right column — Agent panel mock */}
+            <div className="relative hidden lg:block">
+              <div className="absolute -inset-6 -z-10 rounded-3xl bg-[var(--celo-yellow)]/10 blur-2xl" />
+              <div className="relative overflow-hidden rounded-2xl border border-[var(--celo-yellow)]/20 bg-[var(--celo-ink)] shadow-[var(--shadow-soft)]">
+                {/* Panel header */}
+                <div className="flex items-center justify-between border-b border-white/5 bg-black/30 px-4 py-2.5">
+                  <div className="flex items-center gap-2 text-[11px] uppercase tracking-[0.18em] text-[var(--celo-cream)]/60">
+                    <FontAwesomeIcon icon={faTerminal} className="h-3 w-3 text-[var(--celo-yellow)]" />
+                    celina · agent
+                  </div>
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-[var(--celo-yellow)]/15 px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.16em] text-[var(--celo-yellow)]">
+                    <span className="h-1.5 w-1.5 rounded-full bg-[var(--celo-yellow)]" /> live
+                  </span>
+                </div>
 
-            {/* Built on Celo */}
-            <div className="mt-8 flex items-center gap-3 text-xs uppercase tracking-[0.22em] text-muted-foreground">
-              <span>Built on</span>
-              <img src={celoWordmarkGreen} alt="Celo" className="h-4 w-auto opacity-80 dark:hidden" />
-              <img src={celoWordmarkYellow} alt="Celo" className="hidden h-4 w-auto opacity-90 dark:inline-block" />
+                {/* Transcript */}
+                <div className="space-y-4 px-5 py-5 font-mono text-[12px] leading-relaxed text-[var(--celo-cream)]/90 sm:text-[13px]">
+                  <div className="flex gap-3">
+                    <span className="shrink-0 text-[var(--celo-yellow)]">{">"}</span>
+                    <span>What&apos;s the USDm balance of <span className="text-[var(--celo-yellow)]">0x4a…f10c</span>?</span>
+                  </div>
+                  <div className="rounded-lg border border-white/5 bg-white/5 px-3 py-2 text-[var(--celo-cream)]/70">
+                    <div className="text-[10px] uppercase tracking-[0.18em] text-[var(--celo-yellow)]/80">tool · get_stablecoin_balances</div>
+                    <div className="mt-1.5 whitespace-pre text-[11px]">{"{ address: \"0x4a…f10c\", stablecoins: [\"USDm\"] }"}</div>
+                  </div>
+                  <div className="flex gap-3">
+                    <span className="shrink-0 text-[var(--celo-yellow)]">↳</span>
+                    <span>
+                      <span className="text-[var(--celo-cream)]">USDm</span>{" "}
+                      <span className="text-[var(--celo-yellow)]">1,248.32</span>
+                      <span className="text-[var(--celo-cream)]/60"> · last block 30,418,221</span>
+                    </span>
+                  </div>
+                  <div className="flex gap-3 border-t border-white/5 pt-4">
+                    <span className="shrink-0 text-[var(--celo-yellow)]">{">"}</span>
+                    <span>Now send <span className="text-[var(--celo-yellow)]">5 USDm</span> to celina.eth.</span>
+                  </div>
+                  <div className="rounded-lg border border-[var(--celo-yellow)]/30 bg-[var(--celo-yellow)]/[0.06] px-3 py-2">
+                    <div className="text-[10px] uppercase tracking-[0.18em] text-[var(--celo-yellow)]">tool · send_token  ⚡ write</div>
+                    <div className="mt-1.5 text-[var(--celo-cream)]/80">
+                      tx <span className="text-[var(--celo-yellow)]">0x9c2…aa31</span> confirmed in block 30,418,224
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between border-t border-white/5 bg-black/30 px-4 py-2 text-[10px] uppercase tracking-[0.16em] text-[var(--celo-cream)]/40">
+                  <span>mcp.celina.andrewkimjoseph.com</span>
+                  <span>{TOOLS.length} tools</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
