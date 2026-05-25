@@ -521,28 +521,35 @@ function Index() {
           </div>
 
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {TOOLS.map((t) => (
-              <Link
-                key={t.name}
-                to="/tools/$toolSlug"
-                params={{ toolSlug: t.slug }}
-                className="group block rounded-xl border border-foreground/10 bg-card p-4 transition hover:-translate-y-0.5 hover:border-[var(--celo-forest)]/40 hover:shadow-[var(--shadow-soft)]"
-              >
-                <div className="flex items-center justify-between">
-                  <code className="font-mono text-sm font-semibold text-foreground group-hover:underline">{t.name}</code>
+            {TOOLS.map((t) => {
+              const isWrite = t.type === "write";
+              return (
+                <Link
+                  key={t.name}
+                  to="/tools/$toolSlug"
+                  params={{ toolSlug: t.slug }}
+                  className="group relative block overflow-hidden rounded-xl border border-foreground/10 bg-card p-4 transition hover:-translate-y-0.5 hover:border-[var(--celo-yellow)]/60"
+                >
                   <span
-                    className={`rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.14em] ${
-                      t.type === "write"
-                        ? "border border-[var(--celo-ink)]/40 bg-[var(--celo-yellow)] text-[var(--celo-ink)]"
-                        : "border border-[var(--celo-forest)]/30 text-[var(--celo-forest)]"
-                    }`}
-                  >
-                    {t.type}
-                  </span>
-                </div>
-                <p className="mt-1.5 text-sm text-muted-foreground">{t.desc}</p>
-              </Link>
-            ))}
+                    aria-hidden
+                    className="absolute left-0 top-0 h-full w-0.5 bg-[var(--celo-yellow)] opacity-0 transition-opacity group-hover:opacity-100"
+                  />
+                  <div className="flex items-center justify-between gap-2">
+                    <code className="truncate font-mono text-sm font-semibold text-foreground group-hover:underline">{t.name}</code>
+                    <span
+                      className={`shrink-0 rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.14em] ${
+                        isWrite
+                          ? "bg-[var(--celo-yellow)] text-[var(--celo-ink)]"
+                          : "border border-[var(--celo-yellow)]/40 text-[var(--celo-yellow)]"
+                      }`}
+                    >
+                      {t.type}
+                    </span>
+                  </div>
+                  <p className="mt-1.5 text-sm text-muted-foreground">{t.desc}</p>
+                </Link>
+              );
+            })}
           </div>
         </div>
       </section>
