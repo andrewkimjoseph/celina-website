@@ -16,10 +16,7 @@ import "@fontsource/space-grotesk/700.css";
 import "@fontsource/manrope/400.css";
 import "@fontsource/manrope/500.css";
 import "@fontsource/manrope/600.css";
-import faviconIco from "../assets/favicon-64x64.png?url";
-import favicon16 from "../assets/favicon-16x16.png?url";
-import favicon32 from "../assets/favicon-32x32.png?url";
-import appleTouchIcon from "../assets/favicon-180x180.png?url";
+import faviconLogo from "../assets/celina-logo-clady.png?url";
 
 function NotFoundComponent() {
   return (
@@ -101,10 +98,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         rel: "stylesheet",
         href: appCss,
       },
-      { rel: "icon", href: faviconIco },
-      { rel: "icon", type: "image/png", sizes: "16x16", href: favicon16 },
-      { rel: "icon", type: "image/png", sizes: "32x32", href: favicon32 },
-      { rel: "apple-touch-icon", sizes: "180x180", href: appleTouchIcon },
+      { rel: "icon", type: "image/png", sizes: "32x32", href: faviconLogo },
+      { rel: "icon", type: "image/png", sizes: "16x16", href: faviconLogo },
+      { rel: "apple-touch-icon", sizes: "180x180", href: faviconLogo },
     ],
   }),
   shellComponent: RootShell,
