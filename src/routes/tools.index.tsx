@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faBolt, faCircleNodes } from "@fortawesome/free-solid-svg-icons";
 import { TOOLS, type ToolDoc } from "@/data/tools";
-import celinaLogo from "@/assets/celina-logo.png";
+import celinaLogo from "@/assets/celina-logo-clady.png";
 import { ThemeToggle } from "@/components/theme-toggle";
 
 export const Route = createFileRoute("/tools/")({
@@ -35,7 +35,7 @@ function ToolsIndex() {
       <header className="sticky top-0 z-50 border-b border-foreground/10 bg-background/80 backdrop-blur-md">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
           <Link to="/" className="flex items-center gap-2">
-            <img src={celinaLogo} alt="Celina" className="h-9 w-9 rounded-full ring-1 ring-[var(--celo-forest)]/30" />
+            <img src={celinaLogo} alt="Celina" width={36} height={36} className="h-9 w-9" />
             <span className="font-display text-lg font-semibold tracking-tight" style={{ fontFamily: "var(--font-display)" }}>
               Celina
             </span>
@@ -106,8 +106,12 @@ function ToolsIndex() {
                       key={t.name}
                       to="/tools/$toolSlug"
                       params={{ toolSlug: t.slug }}
-                      className="group block rounded-xl border border-foreground/10 bg-card p-4 transition hover:-translate-y-0.5 hover:border-[var(--celo-forest)]/40 hover:shadow-[var(--shadow-soft)]"
+                      className="group relative block overflow-hidden rounded-xl border border-foreground/10 bg-card p-4 transition hover:-translate-y-0.5 hover:border-[var(--celo-yellow)]/60"
                     >
+                      <span
+                        aria-hidden
+                        className="absolute left-0 top-0 h-full w-0.5 bg-[var(--celo-yellow)] opacity-0 transition-opacity group-hover:opacity-100"
+                      />
                       <div className="flex items-center justify-between gap-2">
                         <code className="truncate font-mono text-sm font-semibold text-foreground group-hover:underline">
                           {t.name}
@@ -115,8 +119,8 @@ function ToolsIndex() {
                         <span
                           className={`inline-flex shrink-0 items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.14em] ${
                             isWrite
-                              ? "border border-[var(--celo-ink)]/40 bg-[var(--celo-yellow)] text-[var(--celo-ink)]"
-                              : "border border-[var(--celo-forest)]/30 text-[var(--celo-forest)]"
+                              ? "bg-[var(--celo-yellow)] text-[var(--celo-ink)]"
+                              : "border border-[var(--celo-yellow)]/40 text-[var(--celo-yellow)]"
                           }`}
                         >
                           <FontAwesomeIcon
