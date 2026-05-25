@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faLock, faBolt, faCircleNodes, faTerminal, faCopy, faCheck } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 import { TOOL_BY_SLUG, type ToolDoc } from "@/data/tools";
-import celinaLogo from "@/assets/celina-logo.png";
+import celinaLogo from "@/assets/celina-logo-clady.png";
 import { ThemeToggle } from "@/components/theme-toggle";
 
 export const Route = createFileRoute("/tools/$toolSlug")({
@@ -69,7 +69,7 @@ function ToolPage() {
       <header className="sticky top-0 z-50 border-b border-foreground/10 bg-background/80 backdrop-blur-md">
         <div className="mx-auto flex max-w-4xl items-center justify-between px-6 py-4">
           <Link to="/" className="flex items-center gap-2">
-            <img src={celinaLogo} alt="Celina" className="h-9 w-9 rounded-full ring-1 ring-[var(--celo-forest)]/30" />
+            <img src={celinaLogo} alt="Celina" width={36} height={36} className="h-9 w-9" />
             <span className="font-display text-lg font-semibold tracking-tight" style={{ fontFamily: "var(--font-display)" }}>
               Celina
             </span>
