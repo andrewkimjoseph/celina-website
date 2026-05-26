@@ -345,7 +345,7 @@ function Index() {
           </p>
         </div>
 
-        <div className="grid gap-8 lg:grid-cols-2">
+        <div className="mx-auto max-w-3xl">
           {/* Local bridge */}
           <article className="min-w-0 overflow-hidden rounded-2xl border border-foreground/15 bg-card p-7 shadow-[var(--shadow-soft)]">
             <div className="mb-1 flex flex-wrap items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-[var(--celo-forest)]">
