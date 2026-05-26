@@ -22,6 +22,8 @@ import {
 import { faNpm, faGithub } from "@fortawesome/free-brands-svg-icons";
 import { useStatsStore, STALE_MS } from "@/lib/stats-store";
 import type { CelinaTxRow } from "@/lib/dune.functions";
+import { useNpmStore } from "@/lib/npm-store";
+import type { NpmDownloadDay } from "@/lib/npm.functions";
 import { ThemeToggle } from "@/components/theme-toggle";
 import celinaLogoCelo from "@/assets/celina-logo-celo.png";
 import celinaLogoBlack from "@/assets/celina-logo-black.png";
@@ -214,28 +216,48 @@ const tooltipStyle = {
 
 function StatsPage() {
   const { rows, fetchedAt, loading, error, refresh } = useStatsStore();
+  const {
+    rows: npmRows,
+    fetchedAt: npmFetchedAt,
+    loading: npmLoading,
+    error: npmError,
+    refresh: refreshNpm,
+  } = useNpmStore();
   const [page, setPage] = useState(0);
   const pageSize = 25;
   const [now, setNow] = useState(() => Date.now());
 
   useEffect(() => {
     refresh();
-    const refetchId = setInterval(() => refresh(), STALE_MS);
+    refreshNpm();
+    const refetchId = setInterval(() => {
+      refresh();
+      refreshNpm();
+    }, STALE_MS);
     const tickId = setInterval(() => setNow(Date.now()), 1000);
     return () => {
       clearInterval(refetchId);
       clearInterval(tickId);
     };
-  }, [refresh]);
+  }, [refresh, refreshNpm]);
 
-  const msUntilReady =
-    fetchedAt ? Math.max(0, STALE_MS - (now - fetchedAt)) : 0;
+  const oldestFetchedAt =
+    fetchedAt && npmFetchedAt
+      ? Math.min(fetchedAt, npmFetchedAt)
+      : fetchedAt || npmFetchedAt;
+  const msUntilReady = oldestFetchedAt
+    ? Math.max(0, STALE_MS - (now - oldestFetchedAt))
+    : 0;
   const cooldown = msUntilReady > 0;
   const cooldownLabel = (() => {
     const s = Math.ceil(msUntilReady / 1000);
     if (s >= 60) return `Refresh in ${Math.ceil(s / 60)}m`;
     return `Refresh in ${s}s`;
   })();
+
+  const npmAgg = useMemo(() => aggregateNpm(npmRows), [npmRows]);
+  const busy = loading || npmLoading;
+  const combinedError = error || npmError;
 
   const agg = useMemo(() => aggregate(rows), [rows]);
 
