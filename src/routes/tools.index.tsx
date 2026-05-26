@@ -74,13 +74,14 @@ function ToolsIndex() {
 
         <nav className="mt-8 flex flex-wrap gap-2 text-sm">
           {categories.map((c) => (
-            <a
+            <Link
               key={c}
-              href={`#${slugify(c)}`}
+              to="/tools/$category"
+              params={{ category: categorySlug(c as ToolDoc["category"]) }}
               className="rounded-full border border-foreground/15 bg-card px-3 py-1 text-xs font-semibold text-foreground/80 transition hover:border-[var(--celo-forest)]/40 hover:text-foreground"
             >
               {c} <span className="text-muted-foreground">· {byCategory[c].length}</span>
-            </a>
+            </Link>
           ))}
         </nav>
 
