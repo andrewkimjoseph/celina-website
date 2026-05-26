@@ -428,6 +428,29 @@ function Index() {
             </p>
           </div>
         </div>
+
+        {/* Claude Desktop free-plan bridge */}
+        <div className="mt-6 rounded-xl border border-foreground/10 bg-card p-5">
+          <div className="flex items-start gap-4">
+            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[var(--celo-forest)] text-[var(--celo-cream)] dark:text-[var(--celo-ink)]">
+              <FontAwesomeIcon icon={faCircleNodes} className="h-4 w-4" />
+            </div>
+            <div className="text-sm">
+              <p className="font-semibold">Claude Desktop · free plan</p>
+              <p className="mt-1 text-muted-foreground">
+                Free-plan Claude Desktop only supports stdio servers. Bridge the hosted endpoint with{" "}
+                <a className="underline decoration-[var(--celo-yellow)] underline-offset-2 hover:text-foreground" href="https://github.com/geelen/mcp-remote" target="_blank" rel="noreferrer">mcp-remote</a>:
+                install once with <code className="rounded bg-secondary px-1 py-0.5 text-xs">npm i -g mcp-remote</code>, then paste the snippet below into <code className="rounded bg-secondary px-1 py-0.5 text-xs">claude_desktop_config.json</code> and fully quit + relaunch Claude.
+              </p>
+              <div className="mt-4">
+                <CodeBlock code={CLAUDE_DESKTOP_BRIDGE_CONFIG} />
+              </div>
+              <p className="mt-3 text-xs text-muted-foreground">
+                Pro / Max / Team / Enterprise users can skip the bridge and add the hosted URL under <em>Settings → Integrations</em>.
+              </p>
+            </div>
+          </div>
+        </div>
         </div>
       </section>
 
