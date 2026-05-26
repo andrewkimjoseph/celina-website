@@ -50,7 +50,7 @@ function CopyInline({ text }: { text: string }) {
         setCopied(true);
         setTimeout(() => setCopied(false), 1400);
       }}
-      className="inline-flex items-center gap-1.5 rounded-md border border-foreground/15 bg-background px-2 py-1 text-[11px] font-medium text-foreground/70 transition hover:bg-accent"
+      className="inline-flex items-center gap-1.5 rounded-md border border-foreground/15 bg-background px-2 py-1 text-[11px] font-medium text-foreground/70 transition hover:bg-accent hover:text-accent-foreground"
     >
       <FontAwesomeIcon icon={copied ? faCheck : faCopy} className="h-3 w-3" />
       {copied ? "Copied" : "Copy"}
