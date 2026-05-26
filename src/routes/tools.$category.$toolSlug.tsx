@@ -67,7 +67,7 @@ function ToolPage() {
     <main className="min-h-screen bg-background text-foreground">
       <SiteHeader />
 
-      <article className="mx-auto max-w-4xl px-6 pb-24 pt-12 sm:pt-16">
+      <article className="mx-auto max-w-6xl px-6 pb-24 pt-12 sm:pt-16">
         <div className="mb-6 flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-muted-foreground">
           <Link to="/" className="hover:text-foreground">Celina</Link>
           <span>/</span>
