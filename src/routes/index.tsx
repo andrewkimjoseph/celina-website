@@ -10,7 +10,6 @@ import {
   faCoins,
   faWandMagicSparkles,
   faArrowRight,
-  faCircleNodes,
 } from "@fortawesome/free-solid-svg-icons";
 import { faNpm, faGithub } from "@fortawesome/free-brands-svg-icons";
 import celinaLogoCelo from "@/assets/celina-logo-celo.png";
