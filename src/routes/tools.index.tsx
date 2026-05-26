@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faBolt, faCircleNodes } from "@fortawesome/free-solid-svg-icons";
-import { TOOLS, type ToolDoc } from "@/data/tools";
+import { TOOLS, type ToolDoc, categorySlug } from "@/data/tools";
 import celinaLogo from "@/assets/celina-logo-clady.png";
 import { ThemeToggle } from "@/components/theme-toggle";
 
@@ -104,8 +104,8 @@ function ToolsIndex() {
                   return (
                     <Link
                       key={t.name}
-                      to="/tools/$toolSlug"
-                      params={{ toolSlug: t.slug }}
+                      to="/tools/$category/$toolSlug"
+                      params={{ category: categorySlug(t.category), toolSlug: t.slug }}
                       className="group relative block overflow-hidden rounded-xl border border-foreground/10 bg-card p-4 transition hover:-translate-y-0.5 hover:border-[var(--celo-yellow)]/60"
                     >
                       <span
