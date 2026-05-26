@@ -354,25 +354,6 @@ function Index() {
         </div>
 
         <div className="grid gap-8 lg:grid-cols-2">
-          {/* Remote — Streamable HTTP */}
-          <article className="min-w-0 overflow-hidden rounded-2xl border border-foreground/15 bg-card p-7 shadow-[var(--shadow-soft)]">
-            <div className="mb-1 flex flex-wrap items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-[var(--celo-forest)]">
-              <FontAwesomeIcon icon={faCircleNodes} className="h-3.5 w-3.5" /> Remote
-            </div>
-            <h3 className="text-2xl font-semibold tracking-tight" style={{ fontFamily: "var(--font-display)" }}>Streamable HTTP</h3>
-            <p className="mt-2 text-sm text-muted-foreground">
-              For LLMs that support MCP Streamable HTTP natively. No local install — just paste and go.
-            </p>
-            <ol className="mt-4 space-y-2 text-sm text-foreground/80">
-              <li><span className="font-semibold text-foreground">01.</span> Open your client&apos;s MCP settings</li>
-              <li><span className="font-semibold text-foreground">02.</span> Paste the snippet below into <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">mcpServers</span></li>
-              <li><span className="font-semibold text-foreground">03.</span> Reload — Celina&apos;s tools appear in chat</li>
-            </ol>
-            <div className="mt-5">
-              <CodeBlock code={CURSOR_CONFIG} />
-            </div>
-          </article>
-
           {/* Local bridge */}
           <article className="min-w-0 overflow-hidden rounded-2xl border border-foreground/15 bg-card p-7 shadow-[var(--shadow-soft)]">
             <div className="mb-1 flex flex-wrap items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-[var(--celo-forest)]">
@@ -396,6 +377,25 @@ function Index() {
               Keep <code className="rounded bg-secondary px-1 py-0.5">CELO_PRIVATE_KEY</code> and{" "}
               <code className="rounded bg-secondary px-1 py-0.5">SELF_AGENT_PRIVATE_KEY</code> out of source control — they stay on your machine.
             </p>
+          </article>
+
+          {/* Remote — Streamable HTTP */}
+          <article className="min-w-0 overflow-hidden rounded-2xl border border-foreground/15 bg-card p-7 shadow-[var(--shadow-soft)]">
+            <div className="mb-1 flex flex-wrap items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-[var(--celo-forest)]">
+              <FontAwesomeIcon icon={faCircleNodes} className="h-3.5 w-3.5" /> Remote
+            </div>
+            <h3 className="text-2xl font-semibold tracking-tight" style={{ fontFamily: "var(--font-display)" }}>Streamable HTTP</h3>
+            <p className="mt-2 text-sm text-muted-foreground">
+              For LLMs that support MCP Streamable HTTP natively. No local install — just paste and go.
+            </p>
+            <ol className="mt-4 space-y-2 text-sm text-foreground/80">
+              <li><span className="font-semibold text-foreground">01.</span> Open your client&apos;s MCP settings</li>
+              <li><span className="font-semibold text-foreground">02.</span> Paste the snippet below into <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">mcpServers</span></li>
+              <li><span className="font-semibold text-foreground">03.</span> Reload — Celina&apos;s tools appear in chat</li>
+            </ol>
+            <div className="mt-5">
+              <CodeBlock code={CURSOR_CONFIG} />
+            </div>
           </article>
         </div>
 
