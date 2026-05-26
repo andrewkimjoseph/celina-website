@@ -11,6 +11,7 @@ import {
   aggregateNpm,
   tooltipStyle,
   yellow,
+  lineStroke,
   forest,
   ResponsiveContainer,
   LineChart,
@@ -106,7 +107,7 @@ function OverviewPage() {
                 <XAxis dataKey="label" stroke="var(--muted-foreground)" fontSize={10} tickLine={false} hide />
                 <YAxis stroke="var(--muted-foreground)" fontSize={10} tickLine={false} axisLine={false} width={32} />
                 <Tooltip contentStyle={tooltipStyle} cursor={{ stroke: "var(--border)" }} />
-                <Line type="monotone" dataKey="cumulative" stroke={yellow} strokeWidth={2.5} dot={false} />
+                <Line type="monotone" dataKey="cumulative" stroke={lineStroke} strokeWidth={2.5} dot={false} />
               </LineChart>
             </ResponsiveContainer>
           </SectionCard>
