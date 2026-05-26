@@ -123,8 +123,8 @@ function Index() {
             <div className="flex flex-col items-start text-left">
               <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-[var(--celo-forest)]/40 bg-card/80 px-3 py-1 text-xs font-medium text-foreground backdrop-blur">
                 <span className="relative flex h-2 w-2">
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[var(--celo-yellow)] opacity-70" />
-                  <span className="relative inline-flex h-2 w-2 rounded-full bg-[var(--celo-yellow)]" />
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[var(--celo-forest)] opacity-70 dark:bg-[var(--celo-yellow)]" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-[var(--celo-forest)] dark:bg-[var(--celo-yellow)]" />
                 </span>
                 <span className="uppercase tracking-[0.18em]">Live on Celo mainnet</span>
               </div>
