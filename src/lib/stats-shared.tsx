@@ -19,7 +19,7 @@ export const NPM_STAT_URL =
 
 export { Bar, BarChart, CartesianGrid, Cell, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis };
 
-export const yellow = "var(--celo-yellow)";
+export const yellow = "var(--chart-line)";
 export const forest = "var(--celo-forest)";
 
 export const tooltipStyle = {
