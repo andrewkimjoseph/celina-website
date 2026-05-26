@@ -120,7 +120,7 @@ function ToolsIndex() {
                           className={`inline-flex shrink-0 items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.14em] ${
                             isWrite
                               ? "bg-[var(--celo-yellow)] text-[var(--celo-ink)]"
-                              : "border border-[var(--celo-forest)]/50 text-[var(--celo-forest)] dark:border-[var(--celo-yellow)]/50 dark:text-[var(--celo-yellow)]"
+                              : "bg-[var(--celo-forest)] text-[var(--celo-yellow)] dark:bg-[var(--celo-yellow)]/15 dark:text-[var(--celo-yellow)] dark:border dark:border-[var(--celo-yellow)]/40"
                           }`}
                         >
                           <FontAwesomeIcon
