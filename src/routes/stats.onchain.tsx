@@ -63,7 +63,7 @@ function OnchainPage() {
       <section className="mx-auto max-w-6xl px-4 pb-6 sm:px-6">
         <div className="mb-5">
           <div className="inline-flex items-center gap-2 rounded-full border border-[var(--celo-forest)]/40 bg-card/80 px-3 py-1 text-xs font-medium text-foreground">
-            <FontAwesomeIcon icon={faChartLine} className="h-3 w-3 text-[var(--celo-yellow)]" />
+            <FontAwesomeIcon icon={faChartLine} className="h-3 w-3 text-[var(--celo-forest)] dark:text-foreground" />
             <span className="uppercase tracking-[0.18em]">On-chain activity · Dune Analytics</span>
           </div>
           <h2
