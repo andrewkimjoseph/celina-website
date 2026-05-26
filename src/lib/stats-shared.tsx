@@ -13,9 +13,9 @@ import {
 import type { CelinaTxRow } from "@/lib/dune.functions";
 import type { NpmDownloadDay } from "@/lib/npm.functions";
 
-export const NPM_URL = "https://www.npmjs.com/package/@andrewkimjoseph/celina";
+export const NPM_URL = "https://www.npmjs.com/package/@andrewkimjoseph/celina-mcp";
 export const NPM_STAT_URL =
-  "https://npm-stat.com/charts.html?package=@andrewkimjoseph/celina";
+  "https://npm-stat.com/charts.html?package=@andrewkimjoseph/celina-mcp";
 
 export { Bar, BarChart, CartesianGrid, Cell, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis };
 
