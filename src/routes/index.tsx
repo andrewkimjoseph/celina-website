@@ -281,7 +281,7 @@ function Index() {
             <div className="flex flex-col items-start gap-2 text-sm sm:flex-row sm:items-center sm:gap-3">
               <span className="whitespace-nowrap rounded-full bg-[var(--celo-deep)] px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.18em] text-[var(--celo-cream)]">Live demo</span>
               <span className="text-muted-foreground">
-                Claude using Celina to read balances and move value on Celo mainnet.
+                Claude using Celina to supply to and withdraw from Aave.
               </span>
             </div>
             
