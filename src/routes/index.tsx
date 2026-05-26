@@ -21,14 +21,14 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-const NPM_URL = "https://www.npmjs.com/package/@andrewkimjoseph/celina";
+const NPM_URL = "https://www.npmjs.com/package/@andrewkimjoseph/celina-mcp";
 
 const LOCAL_BRIDGE_CONFIG = `{
   "mcpServers": {
-    "celina": {
+    "celina-mcp": {
       "type": "stdio",
       "command": "npx",
-      "args": ["-y", "@andrewkimjoseph/celina"],
+      "args": ["-y", "@andrewkimjoseph/celina-mcp"],
       "env": {
         "CELO_PRIVATE_KEY": "0x...",
         "SELF_AGENT_PRIVATE_KEY": "0x..."
@@ -172,8 +172,8 @@ function Index() {
 
               <div className="mt-8 flex w-full max-w-full items-center gap-2 overflow-hidden rounded-full border border-[var(--celo-yellow)]/20 bg-[var(--celo-ink)] py-2 pl-4 pr-2 text-[11px] text-[var(--celo-cream)] shadow-[var(--shadow-soft)] sm:inline-flex sm:w-auto sm:gap-3 sm:pl-5 sm:text-sm">
                 <span className="font-mono text-[var(--celo-yellow)]">$</span>
-                <code className="flex-1 overflow-x-auto whitespace-nowrap font-mono">npm i @andrewkimjoseph/celina@latest</code>
-                <CopyButton text="npm i @andrewkimjoseph/celina@latest" />
+                <code className="flex-1 overflow-x-auto whitespace-nowrap font-mono">npm i @andrewkimjoseph/celina-mcp@latest</code>
+                <CopyButton text="npm i @andrewkimjoseph/celina-mcp@latest" />
               </div>
 
               <div className="mt-8 flex items-center gap-3 text-xs uppercase tracking-[0.22em] text-muted-foreground">
@@ -229,7 +229,7 @@ function Index() {
                 </div>
 
                 <div className="flex items-center justify-between border-t border-white/5 bg-black/30 px-4 py-2 text-[10px] uppercase tracking-[0.16em] text-[var(--celo-cream)]/40">
-                  <span>npx @andrewkimjoseph/celina</span>
+                  <span>npx @andrewkimjoseph/celina-mcp</span>
                   <span>{TOOLS.length} tools</span>
                 </div>
               </div>
@@ -314,7 +314,7 @@ function Index() {
               <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">≥ 20</span>.
             </p>
             <ol className="mt-4 space-y-2 text-sm text-foreground/80">
-              <li><span className="font-semibold text-foreground">01.</span> Run <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">npm i @andrewkimjoseph/celina@latest</span></li>
+              <li><span className="font-semibold text-foreground">01.</span> Run <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">npm i @andrewkimjoseph/celina-mcp@latest</span></li>
               <li><span className="font-semibold text-foreground">02.</span> Open your MCP config (e.g. <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">claude_desktop_config.json</span>, Cursor <em>Settings → MCP</em>) and merge the snippet below into <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">mcpServers</span></li>
               <li><span className="font-semibold text-foreground">03.</span> Restart the client</li>
             </ol>
