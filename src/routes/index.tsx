@@ -114,6 +114,7 @@ function Index() {
             <a href="#demo" className="hidden rounded-md px-3 py-1.5 text-foreground/70 transition hover:text-foreground sm:inline">Demo</a>
             <a href="#install" className="hidden rounded-md px-3 py-1.5 text-foreground/70 transition hover:text-foreground sm:inline">Install</a>
             <Link to="/tools" className="hidden rounded-md px-3 py-1.5 text-foreground/70 transition hover:text-foreground sm:inline">Tools</Link>
+            <Link to="/stats" className="hidden rounded-md px-3 py-1.5 text-foreground/70 transition hover:text-foreground sm:inline">Stats</Link>
             <a href={NPM_URL} target="_blank" rel="noreferrer" className="ml-1 inline-flex items-center gap-1.5 rounded-md bg-[var(--celo-forest)] px-3 py-1.5 text-sm font-medium text-[var(--celo-cream)] transition hover:bg-[var(--celo-deep)] hover:text-[var(--celo-cream)] dark:bg-white dark:text-[var(--celo-ink)] dark:hover:bg-[var(--celo-yellow)] dark:hover:text-[var(--celo-ink)]">
               <FontAwesomeIcon icon={faNpm} className="h-3.5 w-3.5" /> npm
             </a>
@@ -452,6 +453,7 @@ function Index() {
             Built by <a className="font-medium text-foreground hover:underline" href="https://www.npmjs.com/~andrewkimjoseph" target="_blank" rel="noreferrer">@andrewkimjoseph</a> · MIT
           </p>
           <div className="flex items-center gap-4 text-sm text-muted-foreground">
+            <Link to="/stats" className="hover:text-foreground">Stats</Link>
             <a href={NPM_URL} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1.5 hover:text-foreground">
               <FontAwesomeIcon icon={faNpm} className="h-4 w-4" /> npm
             </a>
