@@ -235,7 +235,7 @@ export const TOOLS: ToolDoc[] = [
     title: "Execute Mento FX",
     summary: "Send approval + Mento FX swap on mainnet",
     description:
-      "Execute a Mento FX conversion on mainnet (e.g. USDm → EURm via Mento oracle pools). Sends the ERC-20 approval first if needed, then the FX trade. The caller must encrypt their private key with get_wallet_encryption_public_key before calling — or set CELO_PRIVATE_KEY locally.",
+      "Execute a Mento FX conversion on mainnet (e.g. USDm → EURm via Mento oracle pools). Sends the ERC-20 approval first if needed, then the FX trade. Requires CELO_PRIVATE_KEY in your MCP client env.",
     kind: "write",
     category: "Mento FX",
     inputs: [
@@ -255,7 +255,7 @@ export const TOOLS: ToolDoc[] = [
     title: "Supply Aave",
     summary: "Lend tokens to Aave V3 on Celo",
     description:
-      "Supply (lend) supported tokens to Aave V3 on Celo mainnet and receive aTokens. Supports USDT, WETH, USDm, USDC, CELO, and EURm. Sends an ERC-20 approval first if needed. The caller must encrypt their private key with get_wallet_encryption_public_key before calling — or set CELO_PRIVATE_KEY locally.",
+      "Supply (lend) supported tokens to Aave V3 on Celo mainnet and receive aTokens. Supports USDT, WETH, USDm, USDC, CELO, and EURm. Sends an ERC-20 approval first if needed. Requires CELO_PRIVATE_KEY in your MCP client env.",
     kind: "write",
     category: "Aave",
     inputs: [
@@ -271,7 +271,7 @@ export const TOOLS: ToolDoc[] = [
     title: "Withdraw Aave",
     summary: "Redeem aTokens back to underlying",
     description:
-      "Withdraw supported tokens from Aave V3 on Celo mainnet by redeeming aTokens. Supports USDT, WETH, USDm, USDC, CELO, and EURm. Pass an explicit amount or set withdrawMax to pull the full supplied balance. The caller must encrypt their private key with get_wallet_encryption_public_key before calling — or set CELO_PRIVATE_KEY locally.",
+      "Withdraw supported tokens from Aave V3 on Celo mainnet by redeeming aTokens. Supports USDT, WETH, USDm, USDC, CELO, and EURm. Pass an explicit amount or set withdrawMax to pull the full supplied balance. Requires CELO_PRIVATE_KEY in your MCP client env.",
     kind: "write",
     category: "Aave",
     inputs: [
@@ -375,11 +375,10 @@ export const TOOLS: ToolDoc[] = [
     title: "Get Self Agent Identity",
     summary: "On-chain identity for configured Self agent",
     description:
-      "Return the configured Self agent's on-chain identity, credentials summary, and proof expiry. Requires SELF_AGENT_PRIVATE_KEY or encryptedSelfAgentPrivateKey.",
+      "Return the configured Self agent's on-chain identity, credentials summary, and proof expiry. Requires SELF_AGENT_PRIVATE_KEY in your MCP client env.",
     kind: "read",
     category: "Self",
     inputs: [
-      { name: "encryptedSelfAgentPrivateKey", type: "string", required: false, description: "RSA-OAEP encrypted Self agent private key (base64). Omit if running locally with SELF_AGENT_PRIVATE_KEY set." },
     ],
     returns: "{ agentId, address, credentials, proofExpiry, … }",
   },
@@ -394,7 +393,6 @@ export const TOOLS: ToolDoc[] = [
     category: "Self",
     inputs: [
       { name: "agent_id", type: "integer", required: false, description: "Optional explicit agent ID." },
-      { name: "encryptedSelfAgentPrivateKey", type: "string", required: false, description: "RSA-OAEP encrypted Self agent private key (base64)." },
     ],
     returns: "{ sessionId, qrUrl, … }",
   },
@@ -408,7 +406,6 @@ export const TOOLS: ToolDoc[] = [
     kind: "write",
     category: "Self",
     inputs: [
-      { name: "encryptedSelfAgentPrivateKey", type: "string", required: false, description: "RSA-OAEP encrypted Self agent private key (base64)." },
     ],
     returns: "{ sessionId, qrUrl, … }",
   },
@@ -425,7 +422,6 @@ export const TOOLS: ToolDoc[] = [
       { name: "method", type: "GET | POST | PUT | DELETE", required: true, description: "HTTP method to sign." },
       { name: "url", type: "string (http/https)", required: true, description: "Full URL being signed." },
       { name: "body", type: "string", required: false, description: "Optional request body." },
-      { name: "encryptedSelfAgentPrivateKey", type: "string", required: false, description: "RSA-OAEP encrypted Self agent private key (base64)." },
     ],
     returns: "{ headers: { 'x-self-agent-signature', 'x-self-agent-timestamp', … } }",
   },
@@ -443,7 +439,6 @@ export const TOOLS: ToolDoc[] = [
       { name: "url", type: "string (http/https)", required: true, description: "Target URL." },
       { name: "body", type: "string", required: false, description: "Optional request body." },
       { name: "content_type", type: "string", required: false, description: "Content-Type header. Defaults to application/json." },
-      { name: "encryptedSelfAgentPrivateKey", type: "string", required: false, description: "RSA-OAEP encrypted Self agent private key (base64)." },
     ],
     returns: "{ status, headers, body }",
   },
