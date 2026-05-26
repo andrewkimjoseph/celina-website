@@ -358,7 +358,6 @@ function Index() {
           <article className="min-w-0 overflow-hidden rounded-2xl border border-foreground/15 bg-card p-7 shadow-[var(--shadow-soft)]">
             <div className="mb-1 flex flex-wrap items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-[var(--celo-forest)]">
               <FontAwesomeIcon icon={faCircleNodes} className="h-3.5 w-3.5" /> Remote
-              <span className="rounded-full bg-[var(--celo-forest)] px-2 py-0.5 text-[10px] tracking-[0.18em] text-[var(--celo-cream)] dark:text-[var(--celo-ink)]">Recommended</span>
             </div>
             <h3 className="text-2xl font-semibold tracking-tight" style={{ fontFamily: "var(--font-display)" }}>Streamable HTTP</h3>
             <p className="mt-2 text-sm text-muted-foreground">
@@ -376,26 +375,26 @@ function Index() {
 
           {/* Local bridge */}
           <article className="min-w-0 overflow-hidden rounded-2xl border border-foreground/15 bg-card p-7 shadow-[var(--shadow-soft)]">
-            <div className="mb-1 flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-[var(--celo-forest)]">
+            <div className="mb-1 flex flex-wrap items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-[var(--celo-forest)]">
               <FontAwesomeIcon icon={faTerminal} className="h-3.5 w-3.5" /> Local stdio
+              <span className="rounded-full bg-[var(--celo-forest)] px-2 py-0.5 text-[10px] tracking-[0.18em] text-[var(--celo-cream)] dark:text-[var(--celo-ink)]">Recommended</span>
             </div>
-            <h3 className="text-2xl font-semibold tracking-tight" style={{ fontFamily: "var(--font-display)" }}>Run it locally with npx</h3>
+            <h3 className="text-2xl font-semibold tracking-tight" style={{ fontFamily: "var(--font-display)" }}>Run it locally with Node</h3>
             <p className="mt-2 text-sm text-muted-foreground">
-              For stdio-only clients (Claude Desktop free plan, Continue, MCP Inspector). Bridges to the hosted endpoint via{" "}
-              <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">mcp-remote</span>. Requires Node.js{" "}
-              <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">≥ 18</span> on your machine.
+              Install the package, then point your MCP client at the built entry. Works in any stdio-only client (Claude Desktop, Continue, MCP Inspector). Requires Node.js{" "}
+              <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">≥ 18</span>.
             </p>
             <ol className="mt-4 space-y-2 text-sm text-foreground/80">
-              <li><span className="font-semibold text-foreground">01.</span> Open your MCP config file (e.g. <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">claude_desktop_config.json</span>)</li>
-              <li><span className="font-semibold text-foreground">02.</span> Merge the snippet below into <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">mcpServers</span></li>
-              <li><span className="font-semibold text-foreground">03.</span> Restart the client — <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">npx</span> fetches Celina on first run</li>
+              <li><span className="font-semibold text-foreground">01.</span> Run <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">npm i @andrewkimjoseph/celina</span></li>
+              <li><span className="font-semibold text-foreground">02.</span> Open your MCP config (e.g. <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">claude_desktop_config.json</span>) and merge the snippet below into <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">mcpServers</span></li>
+              <li><span className="font-semibold text-foreground">03.</span> Replace the path with your absolute path to <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">build/index.js</span>, then restart the client</li>
             </ol>
             <div className="mt-5">
               <CodeBlock code={LOCAL_BRIDGE_CONFIG} />
             </div>
             <p className="mt-3 text-xs text-muted-foreground">
-              For local write tools, add an <code className="rounded bg-secondary px-1 py-0.5">env</code> block with{" "}
-              <code className="rounded bg-secondary px-1 py-0.5">CELO_PRIVATE_KEY</code> — never commit the key.
+              Keep <code className="rounded bg-secondary px-1 py-0.5">CELO_PRIVATE_KEY</code> and{" "}
+              <code className="rounded bg-secondary px-1 py-0.5">SELF_AGENT_PRIVATE_KEY</code> out of source control — they stay on your machine.
             </p>
           </article>
         </div>
