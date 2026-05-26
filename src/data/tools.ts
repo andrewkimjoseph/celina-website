@@ -29,14 +29,6 @@ export interface ToolDoc {
   requiresEncryptedKey?: boolean;
 }
 
-const ENC_KEY: ToolField = {
-  name: "encryptedPrivateKey",
-  type: "string",
-  required: false,
-  description:
-    "RSA-OAEP encrypted private key (base64). Encrypt locally with get_wallet_encryption_public_key. Omit if running locally with CELO_PRIVATE_KEY set.",
-};
-
 export const TOOLS: ToolDoc[] = [
   {
     name: "get_network_status",
