@@ -463,3 +463,20 @@ export const TOOLS: ToolDoc[] = [
 export const TOOL_BY_SLUG: Record<string, ToolDoc> = Object.fromEntries(
   TOOLS.map((t) => [t.slug, t]),
 );
+
+export function categorySlug(category: ToolDoc["category"]): string {
+  return category.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+}
+
+export const CATEGORY_SLUGS = Array.from(
+  new Set(TOOLS.map((t) => categorySlug(t.category))),
+);
+
+export const CATEGORY_BY_SLUG: Record<string, ToolDoc["category"]> =
+  Object.fromEntries(TOOLS.map((t) => [categorySlug(t.category), t.category]));
+
+export function findTool(catSlug: string, toolSlug: string): ToolDoc | undefined {
+  return TOOLS.find(
+    (t) => categorySlug(t.category) === catSlug && t.slug === toolSlug,
+  );
+}
