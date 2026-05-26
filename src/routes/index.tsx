@@ -333,7 +333,7 @@ function Index() {
               <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">≥ 20</span>.
             </p>
             <ol className="mt-4 space-y-2 text-sm text-foreground/80">
-              <li><span className="font-semibold text-foreground">01.</span> Run <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">npm i @andrewkimjoseph/celina</span> (optional but recommended — caches the package locally for faster MCP startup)</li>
+              <li><span className="font-semibold text-foreground">01.</span> Run <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">npm i @andrewkimjoseph/celina@latest</span></li>
               <li><span className="font-semibold text-foreground">02.</span> Open your MCP config (e.g. <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">claude_desktop_config.json</span>, Cursor <em>Settings → MCP</em>) and merge the snippet below into <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">mcpServers</span></li>
               <li><span className="font-semibold text-foreground">03.</span> Restart the client</li>
             </ol>
