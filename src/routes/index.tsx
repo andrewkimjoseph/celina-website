@@ -12,13 +12,10 @@ import {
   faArrowRight,
 } from "@fortawesome/free-solid-svg-icons";
 import { faNpm, faGithub } from "@fortawesome/free-brands-svg-icons";
-import celinaLogoCelo from "@/assets/celina-logo-celo.png";
-import celinaLogoBlack from "@/assets/celina-logo-black.png";
 import celoWordmarkOnyx from "@/assets/celo-wordmark-onyx.svg";
 import celoWordmarkYellow from "@/assets/celo-wordmark-yellow.svg";
 import { TOOLS as TOOL_DOCS, categorySlug } from "@/data/tools";
 import { SiteHeader } from "@/components/site-header";
-import { ThemeToggle } from "@/components/theme-toggle";
 
 export const Route = createFileRoute("/")({
   component: Index,
