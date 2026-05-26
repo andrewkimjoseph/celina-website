@@ -39,8 +39,8 @@ const LOCAL_BRIDGE_CONFIG = `{
   "mcpServers": {
     "celina": {
       "type": "stdio",
-      "command": "node",
-      "args": ["/absolute/path/to/celina/build/index.js"],
+      "command": "npx",
+      "args": ["-y", "@andrewkimjoseph/celina@latest"],
       "env": {
         "CELO_PRIVATE_KEY": "0x...",
         "SELF_AGENT_PRIVATE_KEY": "0x..."
@@ -53,8 +53,8 @@ const LM_STUDIO_CONFIG = `{
   "mcpServers": {
     "celina": {
       "type": "stdio",
-      "command": "node",
-      "args": ["/absolute/path/to/celina/build/index.js"],
+      "command": "npx",
+      "args": ["-y", "@andrewkimjoseph/celina@latest"],
       "env": {
         "CELO_PRIVATE_KEY": "0x...",
         "SELF_AGENT_PRIVATE_KEY": "0x..."
@@ -72,7 +72,20 @@ mcpServers:
     command: npx
     args:
       - "-y"
-      - "@andrewkimjoseph/celina"`;
+      - "@andrewkimjoseph/celina@latest"`;
+
+const CLAUDE_DESKTOP_BRIDGE_CONFIG = `{
+  "mcpServers": {
+    "celina": {
+      "command": "mcp-remote",
+      "args": [
+        "https://mcp.celina.andrewkimjoseph.com/mcp",
+        "--transport",
+        "http-only"
+      ]
+    }
+  }
+}`;
 
 function CopyButton({ text }: { text: string }) {
   const [copied, setCopied] = useState(false);
