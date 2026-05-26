@@ -12,7 +12,10 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as StatsRouteImport } from './routes/stats'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ToolsIndexRouteImport } from './routes/tools.index'
+import { Route as StatsIndexRouteImport } from './routes/stats.index'
 import { Route as ToolsToolSlugRouteImport } from './routes/tools.$toolSlug'
+import { Route as StatsPackageRouteImport } from './routes/stats.package'
+import { Route as StatsOnchainRouteImport } from './routes/stats.onchain'
 
 const StatsRoute = StatsRouteImport.update({
   id: '/stats',
@@ -29,42 +32,86 @@ const ToolsIndexRoute = ToolsIndexRouteImport.update({
   path: '/tools/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const StatsIndexRoute = StatsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => StatsRoute,
+} as any)
 const ToolsToolSlugRoute = ToolsToolSlugRouteImport.update({
   id: '/tools/$toolSlug',
   path: '/tools/$toolSlug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const StatsPackageRoute = StatsPackageRouteImport.update({
+  id: '/package',
+  path: '/package',
+  getParentRoute: () => StatsRoute,
+} as any)
+const StatsOnchainRoute = StatsOnchainRouteImport.update({
+  id: '/onchain',
+  path: '/onchain',
+  getParentRoute: () => StatsRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/stats': typeof StatsRoute
+  '/stats': typeof StatsRouteWithChildren
+  '/stats/onchain': typeof StatsOnchainRoute
+  '/stats/package': typeof StatsPackageRoute
   '/tools/$toolSlug': typeof ToolsToolSlugRoute
+  '/stats/': typeof StatsIndexRoute
   '/tools/': typeof ToolsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/stats': typeof StatsRoute
+  '/stats/onchain': typeof StatsOnchainRoute
+  '/stats/package': typeof StatsPackageRoute
   '/tools/$toolSlug': typeof ToolsToolSlugRoute
+  '/stats': typeof StatsIndexRoute
   '/tools': typeof ToolsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/stats': typeof StatsRoute
+  '/stats': typeof StatsRouteWithChildren
+  '/stats/onchain': typeof StatsOnchainRoute
+  '/stats/package': typeof StatsPackageRoute
   '/tools/$toolSlug': typeof ToolsToolSlugRoute
+  '/stats/': typeof StatsIndexRoute
   '/tools/': typeof ToolsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/stats' | '/tools/$toolSlug' | '/tools/'
+  fullPaths:
+    | '/'
+    | '/stats'
+    | '/stats/onchain'
+    | '/stats/package'
+    | '/tools/$toolSlug'
+    | '/stats/'
+    | '/tools/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/stats' | '/tools/$toolSlug' | '/tools'
-  id: '__root__' | '/' | '/stats' | '/tools/$toolSlug' | '/tools/'
+  to:
+    | '/'
+    | '/stats/onchain'
+    | '/stats/package'
+    | '/tools/$toolSlug'
+    | '/stats'
+    | '/tools'
+  id:
+    | '__root__'
+    | '/'
+    | '/stats'
+    | '/stats/onchain'
+    | '/stats/package'
+    | '/tools/$toolSlug'
+    | '/stats/'
+    | '/tools/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  StatsRoute: typeof StatsRoute
+  StatsRoute: typeof StatsRouteWithChildren
   ToolsToolSlugRoute: typeof ToolsToolSlugRoute
   ToolsIndexRoute: typeof ToolsIndexRoute
 }
@@ -92,6 +139,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ToolsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/stats/': {
+      id: '/stats/'
+      path: '/'
+      fullPath: '/stats/'
+      preLoaderRoute: typeof StatsIndexRouteImport
+      parentRoute: typeof StatsRoute
+    }
     '/tools/$toolSlug': {
       id: '/tools/$toolSlug'
       path: '/tools/$toolSlug'
@@ -99,12 +153,40 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ToolsToolSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/stats/package': {
+      id: '/stats/package'
+      path: '/package'
+      fullPath: '/stats/package'
+      preLoaderRoute: typeof StatsPackageRouteImport
+      parentRoute: typeof StatsRoute
+    }
+    '/stats/onchain': {
+      id: '/stats/onchain'
+      path: '/onchain'
+      fullPath: '/stats/onchain'
+      preLoaderRoute: typeof StatsOnchainRouteImport
+      parentRoute: typeof StatsRoute
+    }
   }
 }
 
+interface StatsRouteChildren {
+  StatsOnchainRoute: typeof StatsOnchainRoute
+  StatsPackageRoute: typeof StatsPackageRoute
+  StatsIndexRoute: typeof StatsIndexRoute
+}
+
+const StatsRouteChildren: StatsRouteChildren = {
+  StatsOnchainRoute: StatsOnchainRoute,
+  StatsPackageRoute: StatsPackageRoute,
+  StatsIndexRoute: StatsIndexRoute,
+}
+
+const StatsRouteWithChildren = StatsRoute._addFileChildren(StatsRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  StatsRoute: StatsRoute,
+  StatsRoute: StatsRouteWithChildren,
   ToolsToolSlugRoute: ToolsToolSlugRoute,
   ToolsIndexRoute: ToolsIndexRoute,
 }
