@@ -9,6 +9,7 @@ import {
   aggregate,
   tooltipStyle,
   yellow,
+  lineStroke,
   forest,
   truncate,
   formatDateTime,
@@ -92,7 +93,7 @@ function OnchainPage() {
                 <XAxis dataKey="label" stroke="var(--muted-foreground)" fontSize={11} tickLine={false} />
                 <YAxis stroke="var(--muted-foreground)" fontSize={11} tickLine={false} axisLine={false} width={40} />
                 <Tooltip contentStyle={tooltipStyle} cursor={{ stroke: "var(--border)" }} />
-                <Line type="monotone" dataKey="cumulative" name="Cumulative" stroke={yellow} strokeWidth={2.5} dot={false} activeDot={{ r: 4, fill: yellow }} />
+                <Line type="monotone" dataKey="cumulative" name="Cumulative" stroke={lineStroke} strokeWidth={2.5} dot={false} activeDot={{ r: 4, fill: lineStroke }} />
               </LineChart>
             </ResponsiveContainer>
           </ChartCard>
