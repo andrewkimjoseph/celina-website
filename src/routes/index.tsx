@@ -37,14 +37,13 @@ const CURSOR_CONFIG = `{
 const LOCAL_BRIDGE_CONFIG = `{
   "mcpServers": {
     "celina": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "mcp-remote",
-        "https://mcp.celina.andrewkimjoseph.com/mcp",
-        "--transport",
-        "http-only"
-      ]
+      "type": "stdio",
+      "command": "node",
+      "args": ["/absolute/path/to/celina/build/index.js"],
+      "env": {
+        "CELO_PRIVATE_KEY": "0x...",
+        "SELF_AGENT_PRIVATE_KEY": "0x..."
+      }
     }
   }
 }`;
@@ -52,10 +51,12 @@ const LOCAL_BRIDGE_CONFIG = `{
 const LM_STUDIO_CONFIG = `{
   "mcpServers": {
     "celina": {
-      "command": "npx",
-      "args": ["-y", "@andrewkimjoseph/celina"],
+      "type": "stdio",
+      "command": "node",
+      "args": ["/absolute/path/to/celina/build/index.js"],
       "env": {
-        "CELO_PRIVATE_KEY": "0x..."
+        "CELO_PRIVATE_KEY": "0x...",
+        "SELF_AGENT_PRIVATE_KEY": "0x..."
       }
     }
   }
