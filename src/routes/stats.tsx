@@ -6,13 +6,11 @@ import {
   faChartLine,
   faTriangleExclamation,
 } from "@fortawesome/free-solid-svg-icons";
-import { faNpm, faGithub } from "@fortawesome/free-brands-svg-icons";
+import { faGithub, faNpm } from "@fortawesome/free-brands-svg-icons";
 import { useStatsStore, STALE_MS } from "@/lib/stats-store";
 import { useNpmStore } from "@/lib/npm-store";
-import { ThemeToggle } from "@/components/theme-toggle";
+import { SiteHeader } from "@/components/site-header";
 import { NPM_URL, timeAgo } from "@/lib/stats-shared";
-import celinaLogoCelo from "@/assets/celina-logo-celo.png";
-import celinaLogoBlack from "@/assets/celina-logo-black.png";
 
 export const Route = createFileRoute("/stats")({
   head: () => ({
@@ -92,25 +90,7 @@ function StatsLayout() {
 
   return (
     <main className="min-h-screen bg-background text-foreground">
-      <header className="sticky top-0 z-50 border-b border-foreground/10 bg-background/80 backdrop-blur-md">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-          <Link to="/" className="flex items-center gap-2">
-            <img src={celinaLogoBlack} alt="Celina" width={36} height={36} className="h-9 w-9 dark:hidden" />
-            <img src={celinaLogoCelo} alt="" aria-hidden width={36} height={36} className="hidden h-9 w-9 dark:block" />
-            <span className="font-display text-lg font-semibold tracking-tight" style={{ fontFamily: "var(--font-display)" }}>Celina</span>
-            <span className="hidden text-xs uppercase tracking-[0.18em] text-muted-foreground sm:inline">· Celo MCP</span>
-          </Link>
-          <nav className="flex items-center gap-1 text-sm">
-            <Link to="/" className="hidden rounded-md px-3 py-1.5 text-foreground/70 transition hover:text-foreground sm:inline">Home</Link>
-            <Link to="/tools" className="hidden rounded-md px-3 py-1.5 text-foreground/70 transition hover:text-foreground sm:inline">Tools</Link>
-            <Link to="/stats" className="hidden rounded-md px-3 py-1.5 font-semibold text-foreground sm:inline">Stats</Link>
-            <a href={NPM_URL} target="_blank" rel="noreferrer" className="ml-1 inline-flex items-center gap-1.5 rounded-md bg-[var(--celo-forest)] px-3 py-1.5 text-sm font-medium text-[var(--celo-cream)] transition hover:bg-[var(--celo-deep)] dark:bg-white dark:text-[var(--celo-ink)] dark:hover:bg-[var(--celo-yellow)]">
-              <FontAwesomeIcon icon={faNpm} className="h-3.5 w-3.5" /> npm
-            </a>
-            <ThemeToggle />
-          </nav>
-        </div>
-      </header>
+      <SiteHeader />
 
       <section className="mx-auto max-w-6xl px-4 pt-12 pb-6 sm:px-6 sm:pt-16">
         <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-end">
