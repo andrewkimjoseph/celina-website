@@ -240,8 +240,8 @@ function Index() {
 
               <div className="mt-8 flex w-full max-w-full items-center gap-2 overflow-hidden rounded-full border border-[var(--celo-yellow)]/20 bg-[var(--celo-ink)] py-2 pl-4 pr-2 text-[11px] text-[var(--celo-cream)] shadow-[var(--shadow-soft)] sm:inline-flex sm:w-auto sm:gap-3 sm:pl-5 sm:text-sm">
                 <span className="font-mono text-[var(--celo-yellow)]">$</span>
-                <code className="flex-1 overflow-x-auto whitespace-nowrap font-mono">npm i @andrewkimjoseph/celina</code>
-                <CopyButton text="npm i @andrewkimjoseph/celina" />
+                <code className="flex-1 overflow-x-auto whitespace-nowrap font-mono">npm i @andrewkimjoseph/celina@latest</code>
+                <CopyButton text="npm i @andrewkimjoseph/celina@latest" />
               </div>
 
               <div className="mt-8 flex items-center gap-3 text-xs uppercase tracking-[0.22em] text-muted-foreground">
@@ -377,13 +377,13 @@ function Index() {
             </div>
             <h3 className="text-2xl font-semibold tracking-tight" style={{ fontFamily: "var(--font-display)" }}>Run it locally with Node</h3>
             <p className="mt-2 text-sm text-muted-foreground">
-              Install the package, then point your MCP client at the built entry. Works in any stdio-only client (Claude Desktop, Continue, MCP Inspector). Requires Node.js{" "}
-              <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">≥ 18</span>.
+              Your client spawns <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">npx</span> and talks to Celina over stdio. Works in any stdio client (Cursor, Claude Desktop, LM Studio, Continue, MCP Inspector). Requires Node.js{" "}
+              <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">≥ 20</span>.
             </p>
             <ol className="mt-4 space-y-2 text-sm text-foreground/80">
-              <li><span className="font-semibold text-foreground">01.</span> Run <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">npm i @andrewkimjoseph/celina</span></li>
-              <li><span className="font-semibold text-foreground">02.</span> Open your MCP config (e.g. <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">claude_desktop_config.json</span>) and merge the snippet below into <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">mcpServers</span></li>
-              <li><span className="font-semibold text-foreground">03.</span> Replace the path with your absolute path to <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">build/index.js</span>, then restart the client</li>
+              <li><span className="font-semibold text-foreground">01.</span> Run <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">npm i @andrewkimjoseph/celina@latest</span> (optional — caches the package locally for faster startup)</li>
+              <li><span className="font-semibold text-foreground">02.</span> Open your MCP config (e.g. <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">claude_desktop_config.json</span>, Cursor <em>Settings → MCP</em>) and merge the snippet below into <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">mcpServers</span></li>
+              <li><span className="font-semibold text-foreground">03.</span> Restart the client</li>
             </ol>
             <div className="mt-5">
               <CodeBlock code={LOCAL_BRIDGE_CONFIG} />
