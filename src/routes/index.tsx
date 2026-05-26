@@ -10,7 +10,6 @@ import {
   faCoins,
   faWandMagicSparkles,
   faArrowRight,
-  faCircleNodes,
 } from "@fortawesome/free-solid-svg-icons";
 import { faNpm, faGithub } from "@fortawesome/free-brands-svg-icons";
 import celinaLogoCelo from "@/assets/celina-logo-celo.png";
@@ -26,21 +25,12 @@ export const Route = createFileRoute("/")({
 
 const NPM_URL = "https://www.npmjs.com/package/@andrewkimjoseph/celina";
 
-const CURSOR_CONFIG = `{
-  "mcpServers": {
-    "celina": {
-      "type": "streamable-http",
-      "url": "https://mcp.celina.andrewkimjoseph.com/mcp"
-    }
-  }
-}`;
-
 const LOCAL_BRIDGE_CONFIG = `{
   "mcpServers": {
     "celina": {
       "type": "stdio",
       "command": "npx",
-      "args": ["-y", "@andrewkimjoseph/celina@latest"],
+      "args": ["-y", "@andrewkimjoseph/celina"],
       "env": {
         "CELO_PRIVATE_KEY": "0x...",
         "SELF_AGENT_PRIVATE_KEY": "0x..."
@@ -54,7 +44,7 @@ const LM_STUDIO_CONFIG = `{
     "celina": {
       "type": "stdio",
       "command": "npx",
-      "args": ["-y", "@andrewkimjoseph/celina@latest"],
+      "args": ["-y", "@andrewkimjoseph/celina"],
       "env": {
         "CELO_PRIVATE_KEY": "0x...",
         "SELF_AGENT_PRIVATE_KEY": "0x..."
@@ -72,20 +62,7 @@ mcpServers:
     command: npx
     args:
       - "-y"
-      - "@andrewkimjoseph/celina@latest"`;
-
-const CLAUDE_DESKTOP_BRIDGE_CONFIG = `{
-  "mcpServers": {
-    "celina": {
-      "command": "mcp-remote",
-      "args": [
-        "https://mcp.celina.andrewkimjoseph.com/mcp",
-        "--transport",
-        "http-only"
-      ]
-    }
-  }
-}`;
+      - "@andrewkimjoseph/celina"`;
 
 function CopyButton({ text }: { text: string }) {
   const [copied, setCopied] = useState(false);
@@ -297,7 +274,7 @@ function Index() {
                 </div>
 
                 <div className="flex items-center justify-between border-t border-white/5 bg-black/30 px-4 py-2 text-[10px] uppercase tracking-[0.16em] text-[var(--celo-cream)]/40">
-                  <span>mcp.celina.andrewkimjoseph.com</span>
+                  <span>npx @andrewkimjoseph/celina</span>
                   <span>{TOOLS.length} tools</span>
                 </div>
               </div>
@@ -331,7 +308,7 @@ function Index() {
                 Claude using Celina to read balances and move value on Celo mainnet.
               </span>
             </div>
-            <code className="break-all text-xs text-muted-foreground/80">mcp.celina.andrewkimjoseph.com</code>
+            
           </figcaption>
         </figure>
 
@@ -381,7 +358,7 @@ function Index() {
               <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">≥ 20</span>.
             </p>
             <ol className="mt-4 space-y-2 text-sm text-foreground/80">
-              <li><span className="font-semibold text-foreground">01.</span> Run <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">npm i @andrewkimjoseph/celina@latest</span> (optional — caches the package locally for faster startup)</li>
+              <li><span className="font-semibold text-foreground">01.</span> Run <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">npm i @andrewkimjoseph/celina</span> (optional but recommended — caches the package locally for faster MCP startup)</li>
               <li><span className="font-semibold text-foreground">02.</span> Open your MCP config (e.g. <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">claude_desktop_config.json</span>, Cursor <em>Settings → MCP</em>) and merge the snippet below into <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">mcpServers</span></li>
               <li><span className="font-semibold text-foreground">03.</span> Restart the client</li>
             </ol>
@@ -394,24 +371,6 @@ function Index() {
             </p>
           </article>
 
-          {/* Remote — Streamable HTTP */}
-          <article className="min-w-0 overflow-hidden rounded-2xl border border-foreground/15 bg-card p-7 shadow-[var(--shadow-soft)]">
-            <div className="mb-1 flex flex-wrap items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-[var(--celo-forest)]">
-              <FontAwesomeIcon icon={faCircleNodes} className="h-3.5 w-3.5" /> Remote
-            </div>
-            <h3 className="text-2xl font-semibold tracking-tight" style={{ fontFamily: "var(--font-display)" }}>Streamable HTTP</h3>
-            <p className="mt-2 text-sm text-muted-foreground">
-              For LLMs that support MCP Streamable HTTP natively. No local install — just paste and go.
-            </p>
-            <ol className="mt-4 space-y-2 text-sm text-foreground/80">
-              <li><span className="font-semibold text-foreground">01.</span> Open your client&apos;s MCP settings</li>
-              <li><span className="font-semibold text-foreground">02.</span> Paste the snippet below into <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">mcpServers</span></li>
-              <li><span className="font-semibold text-foreground">03.</span> Reload — Celina&apos;s tools appear in chat</li>
-            </ol>
-            <div className="mt-5">
-              <CodeBlock code={CURSOR_CONFIG} />
-            </div>
-          </article>
         </div>
 
         {/* Write tools note */}
@@ -429,28 +388,6 @@ function Index() {
           </div>
         </div>
 
-        {/* Claude Desktop free-plan bridge */}
-        <div className="mt-6 rounded-xl border border-foreground/10 bg-card p-5">
-          <div className="flex items-start gap-4">
-            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[var(--celo-forest)] text-[var(--celo-cream)] dark:text-[var(--celo-ink)]">
-              <FontAwesomeIcon icon={faCircleNodes} className="h-4 w-4" />
-            </div>
-            <div className="text-sm">
-              <p className="font-semibold">Claude Desktop · free plan</p>
-              <p className="mt-1 text-muted-foreground">
-                Free-plan Claude Desktop only supports stdio servers. Bridge the hosted endpoint with{" "}
-                <a className="underline decoration-[var(--celo-yellow)] underline-offset-2 hover:text-foreground" href="https://github.com/geelen/mcp-remote" target="_blank" rel="noreferrer">mcp-remote</a>:
-                install once with <code className="rounded bg-secondary px-1 py-0.5 text-xs">npm i -g mcp-remote</code>, then paste the snippet below into <code className="rounded bg-secondary px-1 py-0.5 text-xs">claude_desktop_config.json</code> and fully quit + relaunch Claude.
-              </p>
-              <div className="mt-4">
-                <CodeBlock code={CLAUDE_DESKTOP_BRIDGE_CONFIG} />
-              </div>
-              <p className="mt-3 text-xs text-muted-foreground">
-                Pro / Max / Team / Enterprise users can skip the bridge and add the hosted URL under <em>Settings → Integrations</em>.
-              </p>
-            </div>
-          </div>
-        </div>
         </div>
       </section>
 
@@ -469,7 +406,7 @@ function Index() {
             </p>
           </div>
 
-          <div className="grid gap-8 lg:grid-cols-3">
+          <div className="grid gap-8 lg:grid-cols-2">
             {/* LM Studio */}
             <article className="min-w-0 overflow-hidden rounded-2xl border border-foreground/15 bg-card p-7 shadow-[var(--shadow-soft)]">
               <div className="mb-1 text-xs font-bold uppercase tracking-[0.18em] text-[var(--celo-forest)]">LM Studio 0.3.17+</div>
@@ -488,25 +425,6 @@ function Index() {
               </p>
             </article>
 
-            {/* Open WebUI */}
-            <article className="min-w-0 overflow-hidden rounded-2xl border border-foreground/15 bg-card p-7 shadow-[var(--shadow-soft)]">
-              <div className="mb-1 text-xs font-bold uppercase tracking-[0.18em] text-[var(--celo-forest)]">Open WebUI + Ollama</div>
-              <h3 className="text-xl font-semibold tracking-tight" style={{ fontFamily: "var(--font-display)" }}>Streamable HTTP, no install</h3>
-              <p className="mt-2 text-sm text-muted-foreground">
-                Open WebUI speaks streamable HTTP natively — point it straight at the hosted endpoint.
-              </p>
-              <ol className="mt-4 space-y-2 text-sm text-foreground/80">
-                <li><span className="font-semibold text-foreground">01.</span> Admin Settings → External Tools → <em>Add Server</em></li>
-                <li><span className="font-semibold text-foreground">02.</span> Type: <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">MCP (Streamable HTTP)</span></li>
-                <li><span className="font-semibold text-foreground">03.</span> Paste the URL below</li>
-              </ol>
-              <div className="mt-5">
-                <CodeBlock code="https://mcp.celina.andrewkimjoseph.com/mcp" />
-              </div>
-              <p className="mt-3 text-xs text-muted-foreground">
-                Running in Docker? Use <code className="rounded bg-secondary px-1 py-0.5">host.docker.internal</code> for a local server.
-              </p>
-            </article>
 
             {/* Continue */}
             <article className="min-w-0 overflow-hidden rounded-2xl border border-foreground/15 bg-card p-7 shadow-[var(--shadow-soft)]">
