@@ -25,8 +25,6 @@ export interface ToolDoc {
   returns: string;
   /** Optional example natural-language prompts */
   examples?: string[];
-  /** True if write tools need an encrypted key */
-  requiresEncryptedKey?: boolean;
 }
 
 export const TOOLS: ToolDoc[] = [
@@ -155,12 +153,10 @@ export const TOOLS: ToolDoc[] = [
       "Estimates gas for sending CELO or an ERC-20 token on mainnet without broadcasting. Useful for preview-and-confirm UX before send_token is called.",
     kind: "read",
     category: "Transaction",
-    requiresEncryptedKey: true,
     inputs: [
       { name: "to", type: "0x… address", required: true, description: "Recipient." },
       { name: "token", type: "symbol or 0x…", required: false, description: "Token to send. Defaults to CELO." },
       { name: "amount", type: "string", required: true, description: "Human-readable amount, e.g. '1.5'." },
-      ENC_KEY,
     ],
     returns: "{ gas, maxFeePerGas, maxPriorityFeePerGas, estimatedCostWei }",
     examples: ["Estimate the gas to send 1 USDm to 0x…"],
@@ -171,31 +167,16 @@ export const TOOLS: ToolDoc[] = [
     title: "Send Token",
     summary: "Broadcast a CELO or ERC-20 transfer",
     description:
-      "Send CELO or an ERC-20 token on Celo mainnet. The caller must encrypt their private key with the server's RSA public key (from get_wallet_encryption_public_key) before invoking — or set CELO_PRIVATE_KEY locally.",
+      "Send CELO or an ERC-20 token on Celo mainnet. Requires CELO_PRIVATE_KEY in your MCP client env.",
     kind: "write",
     category: "Transaction",
-    requiresEncryptedKey: true,
     inputs: [
       { name: "to", type: "0x… address", required: true, description: "Recipient." },
       { name: "token", type: "symbol or 0x…", required: false, description: "Token to send. Defaults to CELO." },
       { name: "amount", type: "string", required: true, description: "Human-readable amount, e.g. '0.01'." },
-      ENC_KEY,
     ],
     returns: "{ hash, status, blockNumber }",
     examples: ["Send 0.5 USDm to 0x…"],
-  },
-  {
-    name: "get_wallet_encryption_public_key",
-    slug: "get-wallet-encryption-public-key",
-    title: "Get Wallet Encryption Public Key",
-    summary: "Server's RSA public key for write ops",
-    description:
-      "Returns the server's RSA public key so the client can encrypt a private key before passing it to any write tool. In local stdio mode this is unused — set CELO_PRIVATE_KEY instead.",
-    kind: "read",
-    category: "Wallet",
-    inputs: [],
-    returns: "{ algorithm, publicKey (PEM) }",
-    examples: ["Give me the public key so I can encrypt my wallet."],
   },
   {
     name: "get_gooddollar_whitelisting_info",
