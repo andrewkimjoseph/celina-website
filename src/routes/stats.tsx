@@ -161,6 +161,73 @@ function aggregate(rows: CelinaTxRow[]): Aggregates {
   };
 }
 
+type NpmAgg = {
+  total365: number;
+  last7: number;
+  last30: number;
+  avg30: number;
+  daily90: Array<{ day: string; label: string; downloads: number }>;
+  cumulative: Array<{ day: string; label: string; total: number }>;
+  weekly: Array<{ week: string; downloads: number }>;
+  monthly: Array<{ month: string; label: string; downloads: number }>;
+};
+
+function isoWeek(d: Date) {
+  const date = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate()));
+  const dayNum = date.getUTCDay() || 7;
+  date.setUTCDate(date.getUTCDate() + 4 - dayNum);
+  const yearStart = new Date(Date.UTC(date.getUTCFullYear(), 0, 1));
+  const week = Math.ceil(((+date - +yearStart) / 86400000 + 1) / 7);
+  return `${date.getUTCFullYear()}-W${String(week).padStart(2, "0")}`;
+}
+
+function aggregateNpm(rows: NpmDownloadDay[]): NpmAgg {
+  const sorted = [...rows].sort((a, b) => a.day.localeCompare(b.day));
+  const total365 = sorted.reduce((s, r) => s + r.downloads, 0);
+  const last7 = sorted.slice(-7).reduce((s, r) => s + r.downloads, 0);
+  const last30 = sorted.slice(-30).reduce((s, r) => s + r.downloads, 0);
+  const avg30 = sorted.length ? Math.round(last30 / Math.min(30, sorted.length)) : 0;
+
+  const daily90 = sorted.slice(-90).map((r) => ({
+    day: r.day,
+    label: formatDateOnly(r.day),
+    downloads: r.downloads,
+  }));
+
+  let running = 0;
+  const cumulative = sorted.map((r) => {
+    running += r.downloads;
+    return { day: r.day, label: formatDateOnly(r.day), total: running };
+  });
+
+  const weekMap = new Map<string, number>();
+  const monthMap = new Map<string, number>();
+  for (const r of sorted) {
+    const d = new Date(`${r.day}T00:00:00Z`);
+    if (Number.isNaN(d.getTime())) continue;
+    const wk = isoWeek(d);
+    weekMap.set(wk, (weekMap.get(wk) ?? 0) + r.downloads);
+    const mo = r.day.slice(0, 7);
+    monthMap.set(mo, (monthMap.get(mo) ?? 0) + r.downloads);
+  }
+  const weekly = Array.from(weekMap.entries())
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([week, downloads]) => ({ week, downloads }));
+  const monthly = Array.from(monthMap.entries())
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([month, downloads]) => {
+      const [y, m] = month.split("-");
+      const dt = new Date(Date.UTC(Number(y), Number(m) - 1, 1));
+      return {
+        month,
+        label: dt.toLocaleDateString(undefined, { month: "short", year: "2-digit" }),
+        downloads,
+      };
+    });
+
+  return { total365, last7, last30, avg30, daily90, cumulative, weekly, monthly };
+}
+
 function ChartCard({
   title,
   subtitle,
