@@ -25,21 +25,12 @@ export const Route = createFileRoute("/")({
 
 const NPM_URL = "https://www.npmjs.com/package/@andrewkimjoseph/celina";
 
-const CURSOR_CONFIG = `{
-  "mcpServers": {
-    "celina": {
-      "type": "streamable-http",
-      "url": "https://mcp.celina.andrewkimjoseph.com/mcp"
-    }
-  }
-}`;
-
 const LOCAL_BRIDGE_CONFIG = `{
   "mcpServers": {
     "celina": {
       "type": "stdio",
       "command": "npx",
-      "args": ["-y", "@andrewkimjoseph/celina@latest"],
+      "args": ["-y", "@andrewkimjoseph/celina"],
       "env": {
         "CELO_PRIVATE_KEY": "0x...",
         "SELF_AGENT_PRIVATE_KEY": "0x..."
@@ -53,7 +44,7 @@ const LM_STUDIO_CONFIG = `{
     "celina": {
       "type": "stdio",
       "command": "npx",
-      "args": ["-y", "@andrewkimjoseph/celina@latest"],
+      "args": ["-y", "@andrewkimjoseph/celina"],
       "env": {
         "CELO_PRIVATE_KEY": "0x...",
         "SELF_AGENT_PRIVATE_KEY": "0x..."
@@ -71,20 +62,7 @@ mcpServers:
     command: npx
     args:
       - "-y"
-      - "@andrewkimjoseph/celina@latest"`;
-
-const CLAUDE_DESKTOP_BRIDGE_CONFIG = `{
-  "mcpServers": {
-    "celina": {
-      "command": "mcp-remote",
-      "args": [
-        "https://mcp.celina.andrewkimjoseph.com/mcp",
-        "--transport",
-        "http-only"
-      ]
-    }
-  }
-}`;
+      - "@andrewkimjoseph/celina"`;
 
 function CopyButton({ text }: { text: string }) {
   const [copied, setCopied] = useState(false);
