@@ -62,8 +62,11 @@ function PackagePage() {
               className="mt-3 text-2xl font-bold tracking-tight"
               style={{ fontFamily: "var(--font-display)" }}
             >
-              @andrewkimjoseph/celina downloads
+              @andrewkimjoseph/celina-mcp downloads
             </h2>
+            <p className="mt-1 text-xs text-muted-foreground">
+              Combined totals for <span className="font-medium text-foreground">celina-mcp</span> (current) and <span className="font-medium text-foreground">celina</span> (legacy wrapper).
+            </p>
           </div>
           <a
             href={NPM_STAT_URL}
