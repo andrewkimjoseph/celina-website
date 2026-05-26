@@ -200,7 +200,7 @@ function ToolPage() {
             <Link
               to="/tools/$category"
               params={{ category: catSlug }}
-              className="inline-flex items-center gap-2 rounded-lg border border-foreground/15 px-4 py-2 text-sm font-medium text-foreground/80 transition hover:bg-accent"
+              className="inline-flex items-center gap-2 rounded-lg border border-foreground/20 bg-background px-4 py-2 text-sm font-medium text-foreground transition hover:bg-accent hover:text-accent-foreground"
             >
               More {tool.category} tools
             </Link>
