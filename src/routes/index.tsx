@@ -13,7 +13,7 @@ import {
   faCircleNodes,
 } from "@fortawesome/free-solid-svg-icons";
 import { faNpm, faGithub } from "@fortawesome/free-brands-svg-icons";
-import celinaLogo from "@/assets/celina-logo-clady.png";
+import celinaLogo from "@/assets/celina-logo-yellow.png";
 import celoWordmarkGreen from "@/assets/celo-wordmark-green.svg";
 import celoWordmarkYellow from "@/assets/celo-wordmark-yellow.svg";
 import { TOOLS as TOOL_DOCS } from "@/data/tools";
