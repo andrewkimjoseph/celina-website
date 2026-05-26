@@ -273,7 +273,7 @@ function Index() {
                   </div>
                   <div className="flex gap-3 border-t border-white/5 pt-4">
                     <span className="shrink-0 text-[var(--celo-yellow)]">{">"}</span>
-                    <span>Now send <span className="text-[var(--celo-yellow)]">5 USDm</span> to celina.eth.</span>
+                    <span>Now send <span className="text-[var(--celo-yellow)]">5 USDm</span> to andrewkimjosep.celo.eth.</span>
                   </div>
                   <div className="rounded-lg border border-[var(--celo-yellow)]/30 bg-[var(--celo-yellow)]/[0.06] px-3 py-2">
                     <div className="text-[10px] uppercase tracking-[0.18em] text-[var(--celo-yellow)]">tool · send_token  ⚡ write</div>
