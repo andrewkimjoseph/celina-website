@@ -116,7 +116,7 @@ function StatsLayout() {
         <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-end">
           <div>
             <div className="inline-flex items-center gap-2 rounded-full border border-[var(--celo-forest)]/40 bg-card/80 px-3 py-1 text-xs font-medium text-foreground">
-              <FontAwesomeIcon icon={faChartLine} className="h-3 w-3 text-[var(--celo-yellow)]" />
+              <FontAwesomeIcon icon={faChartLine} className="h-3 w-3 text-[var(--celo-forest)] dark:text-foreground" />
               <span className="uppercase tracking-[0.18em]">Live · Updated {timeAgo(oldestFetchedAt)}</span>
             </div>
             <h1
