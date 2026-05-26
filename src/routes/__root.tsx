@@ -90,8 +90,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:site", content: "@Lovable" },
       { name: "twitter:title", content: "Celina — The Celo MCP Server for LLMs" },
       { name: "twitter:description", content: "Give Claude, Cursor, and your favorite LLMs read + write access to Celo mainnet in under a minute." },
-      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/a71702b4-ac8b-4699-a732-be7a23ad30b1/id-preview-b0572be9--626fe03d-742e-4d54-a434-a46fcacfa892.lovable.app-1779608346038.png" },
-      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/a71702b4-ac8b-4699-a732-be7a23ad30b1/id-preview-b0572be9--626fe03d-742e-4d54-a434-a46fcacfa892.lovable.app-1779608346038.png" },
+      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/Q29nlNheFxeBZWdInbKmVPulbJu2/social-images/social-1779790321080-ChatGPT_Image_May_26,_2026,_01_11_50_PM.webp" },
+      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/Q29nlNheFxeBZWdInbKmVPulbJu2/social-images/social-1779790321080-ChatGPT_Image_May_26,_2026,_01_11_50_PM.webp" },
     ],
     links: [
       {
