@@ -19,7 +19,7 @@ export interface ToolDoc {
   /** longer description shown on the tool page */
   description: string;
   kind: ToolKind;
-  category: "Blockchain" | "Account" | "Token" | "Transaction" | "Mento FX" | "Wallet" | "GoodDollar" | "Aave";
+  category: "Blockchain" | "Account" | "Token" | "Transaction" | "Mento FX" | "Wallet" | "GoodDollar" | "Aave" | "Self";
   inputs: ToolField[];
   /** What the LLM should expect back */
   returns: string;
@@ -314,6 +314,176 @@ export const TOOLS: ToolDoc[] = [
     ],
     returns: "{ hash, status, blockNumber, amountWithdrawn }",
     examples: ["Withdraw all my USDT from Aave."],
+  },
+  {
+    name: "verify_self_agent",
+    slug: "verify-self-agent",
+    title: "Verify Self Agent",
+    summary: "Check if an agent is a verified human",
+    description:
+      "Verify whether an agent address is backed by a real human on Self Agent ID (Celo mainnet). Checks on-chain registration, proof provider, credentials, and proof expiry.",
+    kind: "read",
+    category: "Self",
+    inputs: [
+      { name: "agent_address", type: "0x… address", required: true, description: "Agent address to verify." },
+      { name: "require_age", type: "0 | 18 | 21", required: false, description: "Minimum age requirement. Defaults to 0 (no age check)." },
+      { name: "require_ofac", type: "boolean", required: false, description: "Require OFAC sanctions check. Defaults to false." },
+      { name: "require_self_provider", type: "boolean", required: false, description: "Require Self as proof provider. Defaults to true." },
+    ],
+    returns: "{ isVerified, registration, credentials, proofExpiry, … }",
+    examples: ["Is 0x… a verified human on Self?"],
+  },
+  {
+    name: "lookup_self_agent",
+    slug: "lookup-self-agent",
+    title: "Look Up Self Agent",
+    summary: "Resolve a Self Agent ID by numeric ID",
+    description:
+      "Look up a Self Agent ID by numeric on-chain ID via ai.self.xyz, enriched with on-chain proof expiry from the registry.",
+    kind: "read",
+    category: "Self",
+    inputs: [
+      { name: "agent_id", type: "integer", required: true, description: "Numeric on-chain Self Agent ID." },
+    ],
+    returns: "{ agentId, address, metadata, proofExpiry, … }",
+    examples: ["Look up Self agent 42."],
+  },
+  {
+    name: "verify_self_request",
+    slug: "verify-self-request",
+    title: "Verify Self Agent Request",
+    summary: "Validate signed Self agent HTTP headers",
+    description:
+      "Verify incoming HTTP request headers signed by a Self Agent (x-self-agent-signature, x-self-agent-timestamp). Recovers signer from signature and checks on-chain registration.",
+    kind: "read",
+    category: "Self",
+    inputs: [
+      { name: "agent_signature", type: "0x… hex", required: true, description: "x-self-agent-signature header value." },
+      { name: "agent_timestamp", type: "string", required: true, description: "x-self-agent-timestamp header value." },
+      { name: "method", type: "string", required: true, description: "HTTP method of the signed request." },
+      { name: "path", type: "string", required: true, description: "Request path that was signed." },
+      { name: "body", type: "string", required: false, description: "Request body that was signed, if any." },
+      { name: "keytype", type: "string", required: false, description: "Optional key type hint." },
+      { name: "agent_key", type: "0x… hex", required: false, description: "Optional explicit agent public key." },
+    ],
+    returns: "{ valid, signer, registration }",
+  },
+  {
+    name: "register_self_agent",
+    slug: "register-self-agent",
+    title: "Register Self Agent",
+    summary: "Start Self Agent ID registration (QR flow)",
+    description:
+      "Start Self Agent ID registration. Returns a QR/deep link for the human to scan with the Self app. Poll with check_self_registration.",
+    kind: "write",
+    category: "Self",
+    inputs: [
+      { name: "mode", type: "linked | wallet-free | smartwallet | self-custody | ed25519 | ed25519-linked", required: false, description: "Registration mode. Defaults to wallet-free." },
+      { name: "minimum_age", type: "0 | 18 | 21", required: false, description: "Minimum age credential." },
+      { name: "ofac", type: "boolean", required: false, description: "Require OFAC check." },
+      { name: "human_address", type: "0x… address", required: false, description: "Human's wallet address (for linked modes)." },
+      { name: "agent_name", type: "string", required: false, description: "Display name for the agent." },
+      { name: "agent_description", type: "string", required: false, description: "Short description of the agent." },
+    ],
+    returns: "{ sessionId, qrUrl, deepLink, … }",
+    examples: ["Register me as a Self agent."],
+  },
+  {
+    name: "check_self_registration",
+    slug: "check-self-registration",
+    title: "Check Self Registration",
+    summary: "Poll a Self registration / refresh session",
+    description:
+      "Poll a pending Self registration, proof refresh, or deregistration session. Returns private_key_hex when registration completes.",
+    kind: "read",
+    category: "Self",
+    inputs: [
+      { name: "session_id", type: "string", required: true, description: "Session ID returned by register_self_agent or refresh_self_proof." },
+    ],
+    returns: "{ status, agentId?, private_key_hex?, … }",
+  },
+  {
+    name: "get_self_identity",
+    slug: "get-self-identity",
+    title: "Get Self Agent Identity",
+    summary: "On-chain identity for configured Self agent",
+    description:
+      "Return the configured Self agent's on-chain identity, credentials summary, and proof expiry. Requires SELF_AGENT_PRIVATE_KEY or encryptedSelfAgentPrivateKey.",
+    kind: "read",
+    category: "Self",
+    requiresEncryptedKey: true,
+    inputs: [
+      { name: "encryptedSelfAgentPrivateKey", type: "string", required: false, description: "RSA-OAEP encrypted Self agent private key (base64). Omit if running locally with SELF_AGENT_PRIVATE_KEY set." },
+    ],
+    returns: "{ agentId, address, credentials, proofExpiry, … }",
+  },
+  {
+    name: "refresh_self_proof",
+    slug: "refresh-self-proof",
+    title: "Refresh Self Proof",
+    summary: "Re-run human proof after expiry",
+    description:
+      "Start a human proof refresh after on-chain proof expiry (isProofFresh is false). Returns an error while the proof is still fresh. Poll completion with check_self_registration.",
+    kind: "write",
+    category: "Self",
+    requiresEncryptedKey: true,
+    inputs: [
+      { name: "agent_id", type: "integer", required: false, description: "Optional explicit agent ID." },
+      { name: "encryptedSelfAgentPrivateKey", type: "string", required: false, description: "RSA-OAEP encrypted Self agent private key (base64)." },
+    ],
+    returns: "{ sessionId, qrUrl, … }",
+  },
+  {
+    name: "deregister_self_agent",
+    slug: "deregister-self-agent",
+    title: "Deregister Self Agent",
+    summary: "Irreversibly deregister a Self agent",
+    description:
+      "Start irreversible Self agent deregistration. Human must confirm via Self app QR. Poll with check_self_registration.",
+    kind: "write",
+    category: "Self",
+    requiresEncryptedKey: true,
+    inputs: [
+      { name: "encryptedSelfAgentPrivateKey", type: "string", required: false, description: "RSA-OAEP encrypted Self agent private key (base64)." },
+    ],
+    returns: "{ sessionId, qrUrl, … }",
+  },
+  {
+    name: "sign_self_request",
+    slug: "sign-self-request",
+    title: "Sign Self Agent Request",
+    summary: "Produce x-self-agent-* headers for an HTTP call",
+    description:
+      "Sign an HTTP request with the configured Self agent identity. Returns x-self-agent-* headers for gated APIs. For Self demo endpoints on Celo mainnet, use ?network=celo-mainnet.",
+    kind: "read",
+    category: "Self",
+    requiresEncryptedKey: true,
+    inputs: [
+      { name: "method", type: "GET | POST | PUT | DELETE", required: true, description: "HTTP method to sign." },
+      { name: "url", type: "string (http/https)", required: true, description: "Full URL being signed." },
+      { name: "body", type: "string", required: false, description: "Optional request body." },
+      { name: "encryptedSelfAgentPrivateKey", type: "string", required: false, description: "RSA-OAEP encrypted Self agent private key (base64)." },
+    ],
+    returns: "{ headers: { 'x-self-agent-signature', 'x-self-agent-timestamp', … } }",
+  },
+  {
+    name: "authenticated_self_fetch",
+    slug: "authenticated-self-fetch",
+    title: "Authenticated Self Fetch",
+    summary: "HTTP fetch with Self agent auth applied",
+    description:
+      "Make an HTTP request with Self Agent ID authentication headers applied automatically. For Self demo endpoints on Celo mainnet, use ?network=celo-mainnet.",
+    kind: "write",
+    category: "Self",
+    requiresEncryptedKey: true,
+    inputs: [
+      { name: "method", type: "GET | POST | PUT | DELETE", required: true, description: "HTTP method." },
+      { name: "url", type: "string (http/https)", required: true, description: "Target URL." },
+      { name: "body", type: "string", required: false, description: "Optional request body." },
+      { name: "content_type", type: "string", required: false, description: "Content-Type header. Defaults to application/json." },
+      { name: "encryptedSelfAgentPrivateKey", type: "string", required: false, description: "RSA-OAEP encrypted Self agent private key (base64)." },
+    ],
+    returns: "{ status, headers, body }",
   },
 ];
 
