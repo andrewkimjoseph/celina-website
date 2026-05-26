@@ -20,7 +20,7 @@ import {
   faTriangleExclamation,
 } from "@fortawesome/free-solid-svg-icons";
 import { faNpm, faGithub } from "@fortawesome/free-brands-svg-icons";
-import { useStatsStore } from "@/lib/stats-store";
+import { useStatsStore, STALE_MS } from "@/lib/stats-store";
 import type { CelinaTxRow } from "@/lib/dune.functions";
 import { ThemeToggle } from "@/components/theme-toggle";
 import celinaLogoCelo from "@/assets/celina-logo-celo.png";
@@ -216,10 +216,26 @@ function StatsPage() {
   const { rows, fetchedAt, loading, error, refresh } = useStatsStore();
   const [page, setPage] = useState(0);
   const pageSize = 25;
+  const [now, setNow] = useState(() => Date.now());
 
   useEffect(() => {
     refresh();
+    const refetchId = setInterval(() => refresh(), STALE_MS);
+    const tickId = setInterval(() => setNow(Date.now()), 1000);
+    return () => {
+      clearInterval(refetchId);
+      clearInterval(tickId);
+    };
   }, [refresh]);
+
+  const msUntilReady =
+    fetchedAt ? Math.max(0, STALE_MS - (now - fetchedAt)) : 0;
+  const cooldown = msUntilReady > 0;
+  const cooldownLabel = (() => {
+    const s = Math.ceil(msUntilReady / 1000);
+    if (s >= 60) return `Refresh in ${Math.ceil(s / 60)}m`;
+    return `Refresh in ${s}s`;
+  })();
 
   const agg = useMemo(() => aggregate(rows), [rows]);
 
@@ -283,15 +299,15 @@ function StatsPage() {
               Updated {timeAgo(fetchedAt)}
             </span>
             <button
-              onClick={() => refresh({ force: true })}
-              disabled={loading}
+              onClick={() => refresh()}
+              disabled={loading || cooldown}
               className="inline-flex items-center gap-2 rounded-lg border border-foreground/15 bg-card px-3.5 py-2 text-sm font-medium text-foreground transition hover:border-[var(--celo-yellow)] hover:bg-muted disabled:opacity-60"
             >
               <FontAwesomeIcon
                 icon={faRotate}
                 className={`h-3.5 w-3.5 ${loading ? "animate-spin" : ""}`}
               />
-              {loading ? "Refreshing" : "Refresh"}
+              {loading ? "Refreshing" : cooldown ? cooldownLabel : "Refresh"}
             </button>
           </div>
         </div>
