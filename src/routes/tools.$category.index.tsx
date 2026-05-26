@@ -2,7 +2,8 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faBolt, faCircleNodes } from "@fortawesome/free-solid-svg-icons";
 import { TOOLS, CATEGORY_BY_SLUG, categorySlug, type ToolDoc } from "@/data/tools";
-import celinaLogo from "@/assets/celina-logo-clady.png";
+import celinaLogoCelo from "@/assets/celina-logo-celo.png";
+import celinaLogoBlack from "@/assets/celina-logo-black.png";
 import { ThemeToggle } from "@/components/theme-toggle";
 
 export const Route = createFileRoute("/tools/$category/")({
@@ -55,7 +56,7 @@ function CategoryPage() {
       <header className="sticky top-0 z-50 border-b border-foreground/10 bg-background/80 backdrop-blur-md">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
           <Link to="/" className="flex items-center gap-2">
-            <img src={celinaLogo} alt="Celina" width={36} height={36} className="h-9 w-9" />
+            <img src={celinaLogoBlack} alt="Celina" width={36} height={36} className="h-9 w-9 dark:hidden" /><img src={celinaLogoCelo} alt="" aria-hidden width={36} height={36} className="hidden h-9 w-9 dark:block" />
             <span className="font-display text-lg font-semibold tracking-tight" style={{ fontFamily: "var(--font-display)" }}>
               Celina
             </span>
