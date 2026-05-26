@@ -6,11 +6,11 @@ import {
   faChartLine,
   faTriangleExclamation,
 } from "@fortawesome/free-solid-svg-icons";
-import { faGithub } from "@fortawesome/free-brands-svg-icons";
+import { faGithub, faNpm } from "@fortawesome/free-brands-svg-icons";
 import { useStatsStore, STALE_MS } from "@/lib/stats-store";
 import { useNpmStore } from "@/lib/npm-store";
 import { SiteHeader } from "@/components/site-header";
-import { timeAgo } from "@/lib/stats-shared";
+import { NPM_URL, timeAgo } from "@/lib/stats-shared";
 
 export const Route = createFileRoute("/stats")({
   head: () => ({
