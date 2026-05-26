@@ -1,68 +1,48 @@
-## Color overhaul — Celo Native
 
-Current theme is "Midnight + Yellow" (slate midnight + golden yellow). The
-palette you picked is the real Celo brand: bright Celo yellow `#FCFF52`,
-forest green `#476520`, pure black `#000000`, pure white `#FFFFFF`. We move
-the design system to that, keep Space Grotesk + Manrope/DM Sans typography
-untouched, and keep the full-width section structure of the home page.
+## Goal
 
-### What changes
+Add a Stats page powered by the Dune Analytics query for the CELINA tag, with charts and a transactions table linking out to Celoscan. Cache results client-side via a persisted zustand store; keep the Dune API key server-side.
 
-**1. `src/styles.css` — rewrite the token layer**
+## Steps
 
-Light mode
-- `--background`: pure white `#FFFFFF`
-- `--foreground`: pure black `#000000`
-- `--card`: white, with forest-tinted borders
-- `--primary`: forest `#476520` (buttons, links, structural accents)
-- `--accent`: Celo yellow `#FCFF52` (highlights, pills, hover states)
-- `--muted`: very pale yellow-tinted neutral
-- `--border`: soft black at low alpha
+### 1. Secret + dependencies
+- Add `DUNE_API_KEY` via the secrets tool (used by a TanStack server function — not a Cloud/Supabase integration).
+- Install `zustand` and `recharts` (recharts already used by `src/components/ui/chart.tsx`, verify and skip if present).
 
-Dark mode
-- `--background`: pure black `#000000`
-- `--foreground`: pure white `#FFFFFF`
-- `--card`: near-black with white border at low alpha
-- `--primary`: Celo yellow `#FCFF52` (yellow is the hero in dark)
-- `--accent`: yellow (hover stays yellow per your earlier rule)
-- `--muted-foreground`: warm off-white
+### 2. Server function — `src/lib/dune.functions.ts`
+- `getCelinaStats` = `createServerFn({ method: "GET" })` that uses plain `fetch` to call:
+  `https://api.dune.com/api/v1/query/7576390/results` with header `X-Dune-API-Key: process.env.DUNE_API_KEY`.
+- Parse `result.rows` into a typed `CelinaTxRow[]` (`day`, `txn_count`, `cumulative_txns`, `hash`, `block_time`, `block_number`, `from`, `to`).
+- Return a serializable DTO `{ rows, fetchedAt, error }` with graceful error fallback.
 
-Brand tokens (kept for compatibility with existing class usage)
-- `--celo-yellow`: `#FCFF52` (was a duller golden yellow)
-- `--celo-forest`: `#476520` (currently slate — restored to actual forest)
-- `--celo-deep`: black
-- `--celo-ink`: black
-- `--celo-cream`: white (light) / near-white (dark)
+### 3. Zustand store — `src/lib/stats-store.ts`
+- `useStatsStore` with `rows`, `fetchedAt`, `loading`, `error`, plus `refresh()` action that calls the server function.
+- Use `persist` middleware (localStorage, key `celina-stats`) so the chart loads instantly on revisit and only refetches in the background.
 
-Supporting tokens
-- `--gradient-hero`: yellow glow top-right, forest glow bottom-left
-- `--shadow-pop`: solid 6px offset shadow in forest (light) / yellow (dark)
-- `--shadow-soft`: soft drop using forest at low alpha
+### 4. Route — `src/routes/stats.tsx`
+- `createFileRoute("/stats")` with `head()` (title, description, og tags).
+- On mount: read from store; trigger `refresh()` if data is stale (>5 min) or empty.
+- Layout (single column, semantic tokens from `src/styles.css`, matching existing landing aesthetic):
+  - Header: "Celina on-chain stats" + last-updated timestamp + manual Refresh button.
+  - KPI cards: total transactions (max cumulative), transactions today, unique receivers, unique senders, days active.
+  - Charts (Recharts via existing `ChartContainer`):
+    - Daily transactions — bar chart (`day` vs `txn_count`, dedup per day).
+    - Cumulative growth — area/line chart (`day` vs `cumulative_txns`).
+    - Hourly activity — bar chart bucketed from `block_time`.
+    - Top receivers (`to`) — horizontal bar chart, top 8 with truncated addresses.
+    - Top senders (`from`) — horizontal bar chart, top 8.
+  - Transactions table: hash (mono, truncated, link `https://celoscan.io/tx/{hash}` in new tab with external-link icon), block time, block number, from→to (truncated, link to `https://celoscan.io/address/{addr}`). Paginated client-side (e.g., 25 per page) or "Load more".
+- Loading skeleton + error state.
 
-**2. Audit token usage in components**
+### 5. Navigation
+- Add "Stats" link to the header nav and footer in `src/routes/index.tsx` / shared layout (whichever holds current nav).
 
-Walk each file that references the old palette and re-verify after the swap.
-No behavior changes — just confirm contrast still works once forest replaces
-slate and pure black replaces midnight:
-- `src/routes/index.tsx` — hero, feature cards, "Sending transactions" note,
-  pill, footer
-- `src/routes/tools.index.tsx` — category pills, write/read badges, hover
-  ring
-- `src/routes/tools.$toolSlug.tsx` — page chrome
-- `src/components/theme-toggle.tsx` — icon contrast on both themes
+### 6. Verification
+- Typecheck clean.
+- Visit `/stats` in preview, confirm charts render and Celoscan links open correctly.
 
-If any spot uses raw hex/`text-white`/`bg-black` instead of a token, switch
-it to the semantic token in the same pass.
-
-**3. Keep untouched**
-
-- Typography (Space Grotesk display + Manrope body)
-- Page layout, section order, copy, components, animations
-- Favicon, logo, routes, all tool data
-
-### Visual feel after
-
-Brighter, higher-contrast Celo identity. Light mode reads like the celo.org
-marketing site (white canvas, forest type, yellow pops). Dark mode keeps
-yellow-on-black as the signature, but black is now true black instead of
-slate midnight. Hover-to-yellow behavior in dark mode is preserved.
+## Technical notes
+- Server fn isolates the key; the browser only receives row data.
+- Persisted store avoids refetch on every navigation; `refresh()` runs in background with a staleness check.
+- All colors via design tokens (`--primary`, `--muted`, `--accent`) — no hardcoded hex.
+- Address/hash truncation helper: `0xabcd…1234`.
