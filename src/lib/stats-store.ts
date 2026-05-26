@@ -1,0 +1,54 @@
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
+import { getCelinaStats, type CelinaTxRow } from "./dune.functions";
+
+type StatsState = {
+  rows: CelinaTxRow[];
+  fetchedAt: number | null;
+  loading: boolean;
+  error: string | null;
+  refresh: (opts?: { force?: boolean }) => Promise<void>;
+};
+
+const STALE_MS = 5 * 60 * 1000;
+
+export const useStatsStore = create<StatsState>()(
+  persist(
+    (set, get) => ({
+      rows: [],
+      fetchedAt: null,
+      loading: false,
+      error: null,
+      refresh: async (opts) => {
+        const { fetchedAt, loading } = get();
+        if (loading) return;
+        if (
+          !opts?.force &&
+          fetchedAt &&
+          Date.now() - fetchedAt < STALE_MS &&
+          get().rows.length > 0
+        )
+          return;
+        set({ loading: true, error: null });
+        try {
+          const result = await getCelinaStats();
+          set({
+            rows: result.rows,
+            fetchedAt: result.fetchedAt,
+            error: result.error,
+            loading: false,
+          });
+        } catch (e) {
+          set({
+            loading: false,
+            error: e instanceof Error ? e.message : "Failed to load stats",
+          });
+        }
+      },
+    }),
+    {
+      name: "celina-stats",
+      partialize: (s) => ({ rows: s.rows, fetchedAt: s.fetchedAt }),
+    },
+  ),
+);
