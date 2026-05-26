@@ -53,7 +53,7 @@ function PackagePage() {
         <div className="mb-5 flex items-start justify-between gap-3">
           <div>
             <div className="inline-flex items-center gap-2 rounded-full border border-[var(--celo-forest)]/40 bg-card/80 px-3 py-1 text-xs font-medium text-foreground">
-              <FontAwesomeIcon icon={faNpm} className="h-3.5 w-3.5 text-[var(--celo-yellow)]" />
+              <FontAwesomeIcon icon={faNpm} className="h-3.5 w-3.5 text-[var(--celo-forest)] dark:text-foreground" />
               <span className="uppercase tracking-[0.18em]">Package adoption · npm downloads</span>
             </div>
             <h2
