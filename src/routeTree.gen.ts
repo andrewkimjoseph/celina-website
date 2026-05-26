@@ -14,6 +14,8 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as ToolsIndexRouteImport } from './routes/tools.index'
 import { Route as StatsIndexRouteImport } from './routes/stats.index'
 import { Route as ToolsToolSlugRouteImport } from './routes/tools.$toolSlug'
+import { Route as StatsPackageRouteImport } from './routes/stats.package'
+import { Route as StatsOnchainRouteImport } from './routes/stats.onchain'
 
 const StatsRoute = StatsRouteImport.update({
   id: '/stats',
@@ -40,16 +42,30 @@ const ToolsToolSlugRoute = ToolsToolSlugRouteImport.update({
   path: '/tools/$toolSlug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const StatsPackageRoute = StatsPackageRouteImport.update({
+  id: '/package',
+  path: '/package',
+  getParentRoute: () => StatsRoute,
+} as any)
+const StatsOnchainRoute = StatsOnchainRouteImport.update({
+  id: '/onchain',
+  path: '/onchain',
+  getParentRoute: () => StatsRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/stats': typeof StatsRouteWithChildren
+  '/stats/onchain': typeof StatsOnchainRoute
+  '/stats/package': typeof StatsPackageRoute
   '/tools/$toolSlug': typeof ToolsToolSlugRoute
   '/stats/': typeof StatsIndexRoute
   '/tools/': typeof ToolsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/stats/onchain': typeof StatsOnchainRoute
+  '/stats/package': typeof StatsPackageRoute
   '/tools/$toolSlug': typeof ToolsToolSlugRoute
   '/stats': typeof StatsIndexRoute
   '/tools': typeof ToolsIndexRoute
@@ -58,16 +74,39 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/stats': typeof StatsRouteWithChildren
+  '/stats/onchain': typeof StatsOnchainRoute
+  '/stats/package': typeof StatsPackageRoute
   '/tools/$toolSlug': typeof ToolsToolSlugRoute
   '/stats/': typeof StatsIndexRoute
   '/tools/': typeof ToolsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/stats' | '/tools/$toolSlug' | '/stats/' | '/tools/'
+  fullPaths:
+    | '/'
+    | '/stats'
+    | '/stats/onchain'
+    | '/stats/package'
+    | '/tools/$toolSlug'
+    | '/stats/'
+    | '/tools/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/tools/$toolSlug' | '/stats' | '/tools'
-  id: '__root__' | '/' | '/stats' | '/tools/$toolSlug' | '/stats/' | '/tools/'
+  to:
+    | '/'
+    | '/stats/onchain'
+    | '/stats/package'
+    | '/tools/$toolSlug'
+    | '/stats'
+    | '/tools'
+  id:
+    | '__root__'
+    | '/'
+    | '/stats'
+    | '/stats/onchain'
+    | '/stats/package'
+    | '/tools/$toolSlug'
+    | '/stats/'
+    | '/tools/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -114,14 +153,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ToolsToolSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/stats/package': {
+      id: '/stats/package'
+      path: '/package'
+      fullPath: '/stats/package'
+      preLoaderRoute: typeof StatsPackageRouteImport
+      parentRoute: typeof StatsRoute
+    }
+    '/stats/onchain': {
+      id: '/stats/onchain'
+      path: '/onchain'
+      fullPath: '/stats/onchain'
+      preLoaderRoute: typeof StatsOnchainRouteImport
+      parentRoute: typeof StatsRoute
+    }
   }
 }
 
 interface StatsRouteChildren {
+  StatsOnchainRoute: typeof StatsOnchainRoute
+  StatsPackageRoute: typeof StatsPackageRoute
   StatsIndexRoute: typeof StatsIndexRoute
 }
 
 const StatsRouteChildren: StatsRouteChildren = {
+  StatsOnchainRoute: StatsOnchainRoute,
+  StatsPackageRoute: StatsPackageRoute,
   StatsIndexRoute: StatsIndexRoute,
 }
 

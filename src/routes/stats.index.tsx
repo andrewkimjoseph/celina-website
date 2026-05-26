@@ -7,7 +7,6 @@ import { useStatsStore } from "@/lib/stats-store";
 import { useNpmStore } from "@/lib/npm-store";
 import {
   KpiCard,
-  ChartCard,
   aggregate,
   aggregateNpm,
   tooltipStyle,
