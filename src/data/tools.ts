@@ -98,6 +98,22 @@ export const TOOLS: ToolDoc[] = [
     examples: ["How much CELO does 0x… hold?"],
   },
   {
+    name: "resolve_ens",
+    slug: "resolve-ens",
+    title: "Resolve ENS",
+    summary: "Resolve an ENS name to a Celo or Ethereum address",
+    description:
+      "Resolves an ENS name to an on-chain address using CCIP-Read. Defaults to Celo (coinType derived from chain ID 42220) and falls back to the Ethereum mainnet record (coinType 60) when no Celo record exists. Also accepts a raw 0x… address and returns it unchanged.",
+    kind: "read",
+    category: "Account",
+    inputs: [
+      { name: "name", type: "string", required: true, description: "ENS name (e.g. 'celina.eth') or a 0x… address to pass through." },
+      { name: "chain", type: "'celo' | 'ethereum'", required: false, description: "Which address record to resolve. Defaults to 'celo' with Ethereum fallback." },
+    ],
+    returns: "{ address, ens?: { name, normalizedName, resolvedVia? } }",
+    examples: ["Resolve celina.eth on Celo."],
+  },
+  {
     name: "get_celo_balances",
     slug: "get-celo-balances",
     title: "Get Celo Balances",
