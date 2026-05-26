@@ -8,6 +8,8 @@ import {
   ChartCard,
   aggregate,
   tooltipStyle,
+  tooltipItemStyle,
+  tooltipLabelStyle,
   yellow,
   lineStroke,
   forest,

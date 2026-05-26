@@ -9,6 +9,8 @@ import {
   ChartCard,
   aggregateNpm,
   tooltipStyle,
+  tooltipItemStyle,
+  tooltipLabelStyle,
   yellow,
   forest,
   NPM_STAT_URL,

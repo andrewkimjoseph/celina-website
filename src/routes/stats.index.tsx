@@ -10,6 +10,8 @@ import {
   aggregate,
   aggregateNpm,
   tooltipStyle,
+  tooltipItemStyle,
+  tooltipLabelStyle,
   yellow,
   lineStroke,
   forest,
