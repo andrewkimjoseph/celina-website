@@ -348,13 +348,6 @@ function Index() {
 
         </div>
 
-        {/* Write tools note */}
-        <div className="mx-auto mt-6 flex max-w-3xl items-center gap-3 rounded-lg border border-foreground/10 bg-card/50 px-4 py-3 text-xs text-muted-foreground">
-          <FontAwesomeIcon icon={faLock} className="h-3.5 w-3.5 shrink-0 text-[var(--celo-yellow)]" />
-          <p>
-            <span className="font-semibold text-foreground">Sending transactions?</span> Write tools accept an RSA-encrypted private key per request — never plaintext. Decrypted ephemerally to sign, then discarded.
-          </p>
-        </div>
 
         </div>
       </section>
