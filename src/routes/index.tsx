@@ -393,15 +393,15 @@ function Index() {
 
       {/* Local LLMs */}
       <section id="local-llms" className="border-t border-foreground/10">
-        <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-24">
-          <div className="mb-12 flex flex-col items-start sm:items-center sm:text-center">
+        <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6 sm:py-16">
+          <div className="mb-8 flex flex-col items-start sm:items-center sm:text-center">
             <span className="rounded-full border border-border bg-card px-3 py-1 text-xs font-bold uppercase tracking-[0.22em] text-foreground">
               § Local LLMs
             </span>
-            <h2 className="mt-4 text-3xl font-bold tracking-tight sm:text-5xl lg:text-6xl" style={{ fontFamily: "var(--font-display)" }}>
+            <h2 className="mt-3 text-2xl font-bold tracking-tight sm:text-3xl" style={{ fontFamily: "var(--font-display)" }}>
               Run Celina with your own model
             </h2>
-            <p className="mt-3 max-w-2xl text-base text-muted-foreground sm:text-lg">
+            <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
               Celina is a plain MCP server. Pair it with any MCP-aware local stack — Ollama, LM Studio, llama.cpp — through a client that supports tool calling.
             </p>
           </div>
