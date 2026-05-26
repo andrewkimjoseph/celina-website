@@ -116,7 +116,7 @@ function OverviewPage() {
             to="/stats/package"
             badge={
               <span className="inline-flex items-center gap-2 rounded-full border border-[var(--celo-forest)]/40 bg-card/80 px-3 py-1 text-[10px] font-medium uppercase tracking-[0.18em] text-foreground">
-                <FontAwesomeIcon icon={faNpm} className="h-3 w-3 text-[var(--celo-yellow)]" />
+                <FontAwesomeIcon icon={faNpm} className="h-3 w-3 text-foreground dark:text-[var(--celo-yellow)]" />
                 npm downloads
               </span>
             }
