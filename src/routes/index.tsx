@@ -16,7 +16,7 @@ import celinaLogoCelo from "@/assets/celina-logo-celo.png";
 import celinaLogoBlack from "@/assets/celina-logo-black.png";
 import celoWordmarkOnyx from "@/assets/celo-wordmark-onyx.svg";
 import celoWordmarkYellow from "@/assets/celo-wordmark-yellow.svg";
-import { TOOLS as TOOL_DOCS } from "@/data/tools";
+import { TOOLS as TOOL_DOCS, categorySlug } from "@/data/tools";
 import { ThemeToggle } from "@/components/theme-toggle";
 
 export const Route = createFileRoute("/")({
@@ -96,6 +96,7 @@ const TOOLS = TOOL_DOCS.map((t) => ({
   slug: t.slug,
   type: t.kind,
   desc: t.summary,
+  category: t.category,
 }));
 
 function Index() {
@@ -376,8 +377,8 @@ function Index() {
               return (
                 <Link
                   key={t.name}
-                  to="/tools/$toolSlug"
-                  params={{ toolSlug: t.slug }}
+                  to="/tools/$category/$toolSlug"
+                  params={{ category: categorySlug(t.category), toolSlug: t.slug }}
                   className="group relative block overflow-hidden rounded-xl border border-foreground/10 bg-card p-4 transition hover:-translate-y-0.5 hover:border-[var(--celo-yellow)]/60"
                 >
                   <span
