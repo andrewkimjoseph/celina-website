@@ -22,6 +22,8 @@ import {
 import { faNpm, faGithub } from "@fortawesome/free-brands-svg-icons";
 import { useStatsStore, STALE_MS } from "@/lib/stats-store";
 import type { CelinaTxRow } from "@/lib/dune.functions";
+import { useNpmStore } from "@/lib/npm-store";
+import type { NpmDownloadDay } from "@/lib/npm.functions";
 import { ThemeToggle } from "@/components/theme-toggle";
 import celinaLogoCelo from "@/assets/celina-logo-celo.png";
 import celinaLogoBlack from "@/assets/celina-logo-black.png";
@@ -159,6 +161,73 @@ function aggregate(rows: CelinaTxRow[]): Aggregates {
   };
 }
 
+type NpmAgg = {
+  total365: number;
+  last7: number;
+  last30: number;
+  avg30: number;
+  daily90: Array<{ day: string; label: string; downloads: number }>;
+  cumulative: Array<{ day: string; label: string; total: number }>;
+  weekly: Array<{ week: string; downloads: number }>;
+  monthly: Array<{ month: string; label: string; downloads: number }>;
+};
+
+function isoWeek(d: Date) {
+  const date = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate()));
+  const dayNum = date.getUTCDay() || 7;
+  date.setUTCDate(date.getUTCDate() + 4 - dayNum);
+  const yearStart = new Date(Date.UTC(date.getUTCFullYear(), 0, 1));
+  const week = Math.ceil(((+date - +yearStart) / 86400000 + 1) / 7);
+  return `${date.getUTCFullYear()}-W${String(week).padStart(2, "0")}`;
+}
+
+function aggregateNpm(rows: NpmDownloadDay[]): NpmAgg {
+  const sorted = [...rows].sort((a, b) => a.day.localeCompare(b.day));
+  const total365 = sorted.reduce((s, r) => s + r.downloads, 0);
+  const last7 = sorted.slice(-7).reduce((s, r) => s + r.downloads, 0);
+  const last30 = sorted.slice(-30).reduce((s, r) => s + r.downloads, 0);
+  const avg30 = sorted.length ? Math.round(last30 / Math.min(30, sorted.length)) : 0;
+
+  const daily90 = sorted.slice(-90).map((r) => ({
+    day: r.day,
+    label: formatDateOnly(r.day),
+    downloads: r.downloads,
+  }));
+
+  let running = 0;
+  const cumulative = sorted.map((r) => {
+    running += r.downloads;
+    return { day: r.day, label: formatDateOnly(r.day), total: running };
+  });
+
+  const weekMap = new Map<string, number>();
+  const monthMap = new Map<string, number>();
+  for (const r of sorted) {
+    const d = new Date(`${r.day}T00:00:00Z`);
+    if (Number.isNaN(d.getTime())) continue;
+    const wk = isoWeek(d);
+    weekMap.set(wk, (weekMap.get(wk) ?? 0) + r.downloads);
+    const mo = r.day.slice(0, 7);
+    monthMap.set(mo, (monthMap.get(mo) ?? 0) + r.downloads);
+  }
+  const weekly = Array.from(weekMap.entries())
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([week, downloads]) => ({ week, downloads }));
+  const monthly = Array.from(monthMap.entries())
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([month, downloads]) => {
+      const [y, m] = month.split("-");
+      const dt = new Date(Date.UTC(Number(y), Number(m) - 1, 1));
+      return {
+        month,
+        label: dt.toLocaleDateString(undefined, { month: "short", year: "2-digit" }),
+        downloads,
+      };
+    });
+
+  return { total365, last7, last30, avg30, daily90, cumulative, weekly, monthly };
+}
+
 function ChartCard({
   title,
   subtitle,
@@ -214,28 +283,48 @@ const tooltipStyle = {
 
 function StatsPage() {
   const { rows, fetchedAt, loading, error, refresh } = useStatsStore();
+  const {
+    rows: npmRows,
+    fetchedAt: npmFetchedAt,
+    loading: npmLoading,
+    error: npmError,
+    refresh: refreshNpm,
+  } = useNpmStore();
   const [page, setPage] = useState(0);
   const pageSize = 25;
   const [now, setNow] = useState(() => Date.now());
 
   useEffect(() => {
     refresh();
-    const refetchId = setInterval(() => refresh(), STALE_MS);
+    refreshNpm();
+    const refetchId = setInterval(() => {
+      refresh();
+      refreshNpm();
+    }, STALE_MS);
     const tickId = setInterval(() => setNow(Date.now()), 1000);
     return () => {
       clearInterval(refetchId);
       clearInterval(tickId);
     };
-  }, [refresh]);
+  }, [refresh, refreshNpm]);
 
-  const msUntilReady =
-    fetchedAt ? Math.max(0, STALE_MS - (now - fetchedAt)) : 0;
+  const oldestFetchedAt =
+    fetchedAt && npmFetchedAt
+      ? Math.min(fetchedAt, npmFetchedAt)
+      : fetchedAt || npmFetchedAt;
+  const msUntilReady = oldestFetchedAt
+    ? Math.max(0, STALE_MS - (now - oldestFetchedAt))
+    : 0;
   const cooldown = msUntilReady > 0;
   const cooldownLabel = (() => {
     const s = Math.ceil(msUntilReady / 1000);
     if (s >= 60) return `Refresh in ${Math.ceil(s / 60)}m`;
     return `Refresh in ${s}s`;
   })();
+
+  const npmAgg = useMemo(() => aggregateNpm(npmRows), [npmRows]);
+  const busy = loading || npmLoading;
+  const combinedError = error || npmError;
 
   const agg = useMemo(() => aggregate(rows), [rows]);
 
@@ -299,23 +388,26 @@ function StatsPage() {
               Updated {timeAgo(fetchedAt)}
             </span>
             <button
-              onClick={() => refresh()}
-              disabled={loading || cooldown}
+              onClick={() => {
+                refresh();
+                refreshNpm();
+              }}
+              disabled={busy || cooldown}
               className="inline-flex items-center gap-2 rounded-lg border border-foreground/15 bg-card px-3.5 py-2 text-sm font-medium text-foreground transition hover:border-[var(--celo-yellow)] hover:bg-muted disabled:opacity-60"
             >
               <FontAwesomeIcon
                 icon={faRotate}
-                className={`h-3.5 w-3.5 ${loading ? "animate-spin" : ""}`}
+                className={`h-3.5 w-3.5 ${busy ? "animate-spin" : ""}`}
               />
-              {loading ? "Refreshing" : cooldown ? cooldownLabel : "Refresh"}
+              {busy ? "Refreshing" : cooldown ? cooldownLabel : "Refresh"}
             </button>
           </div>
         </div>
 
-        {error && (
+        {combinedError && (
           <div className="mt-6 flex items-start gap-3 rounded-xl border border-destructive/30 bg-destructive/10 p-4 text-sm text-foreground">
             <FontAwesomeIcon icon={faTriangleExclamation} className="mt-0.5 h-4 w-4 text-destructive" />
-            <span>{error}</span>
+            <span>{combinedError}</span>
           </div>
         )}
       </section>
@@ -444,6 +536,92 @@ function StatsPage() {
                 <YAxis stroke="var(--muted-foreground)" fontSize={11} tickLine={false} axisLine={false} width={40} unit="%" />
                 <Tooltip contentStyle={tooltipStyle} cursor={{ fill: "var(--muted)" }} formatter={(v) => `${v}%`} />
                 <Bar dataKey="share" name="Share" fill={yellow} radius={[4, 4, 0, 0]} />
+              </BarChart>
+            </ResponsiveContainer>
+          </ChartCard>
+        </div>
+      </section>
+
+      {/* npm downloads */}
+      <section className="mx-auto max-w-6xl px-4 pb-6 sm:px-6">
+        <div className="mb-5 flex items-baseline justify-between gap-3">
+          <div>
+            <div className="inline-flex items-center gap-2 rounded-full border border-[var(--celo-forest)]/40 bg-card/80 px-3 py-1 text-xs font-medium text-foreground">
+              <FontAwesomeIcon icon={faNpm} className="h-3.5 w-3.5 text-[var(--celo-yellow)]" />
+              <span className="uppercase tracking-[0.18em]">npm downloads · last 365d</span>
+            </div>
+            <h2
+              className="mt-3 text-2xl font-bold tracking-tight"
+              style={{ fontFamily: "var(--font-display)" }}
+            >
+              Package adoption
+            </h2>
+          </div>
+          <a
+            href="https://npm-stat.com/charts.html?package=@andrewkimjoseph/celina"
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center gap-1.5 text-xs font-medium text-muted-foreground transition hover:text-foreground"
+          >
+            npm-stat.com
+            <FontAwesomeIcon icon={faArrowUpRightFromSquare} className="h-2.5 w-2.5" />
+          </a>
+        </div>
+
+        <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+          <KpiCard label="Total (365d)" value={npmAgg.total365.toLocaleString()} />
+          <KpiCard label="Last 7 days" value={npmAgg.last7.toLocaleString()} />
+          <KpiCard label="Last 30 days" value={npmAgg.last30.toLocaleString()} />
+          <KpiCard label="Avg / day (30d)" value={npmAgg.avg30.toLocaleString()} />
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-6xl px-4 pb-10 sm:px-6">
+        <div className="grid gap-4 lg:grid-cols-2">
+          <ChartCard title="Daily downloads" subtitle="last 90 days">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={npmAgg.daily90} margin={{ top: 8, right: 12, left: 0, bottom: 0 }}>
+                <CartesianGrid stroke="var(--border)" strokeDasharray="3 3" vertical={false} />
+                <XAxis dataKey="label" stroke="var(--muted-foreground)" fontSize={10} tickLine={false} interval={Math.max(0, Math.floor(npmAgg.daily90.length / 8))} />
+                <YAxis stroke="var(--muted-foreground)" fontSize={11} tickLine={false} axisLine={false} width={40} />
+                <Tooltip contentStyle={tooltipStyle} cursor={{ fill: "var(--muted)" }} />
+                <Bar dataKey="downloads" name="Downloads" fill={yellow} radius={[4, 4, 0, 0]} />
+              </BarChart>
+            </ResponsiveContainer>
+          </ChartCard>
+
+          <ChartCard title="Cumulative downloads" subtitle="last 365 days">
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart data={npmAgg.cumulative} margin={{ top: 8, right: 12, left: 0, bottom: 0 }}>
+                <CartesianGrid stroke="var(--border)" strokeDasharray="3 3" vertical={false} />
+                <XAxis dataKey="label" stroke="var(--muted-foreground)" fontSize={10} tickLine={false} interval={Math.max(0, Math.floor(npmAgg.cumulative.length / 8))} />
+                <YAxis stroke="var(--muted-foreground)" fontSize={11} tickLine={false} axisLine={false} width={40} />
+                <Tooltip contentStyle={tooltipStyle} cursor={{ stroke: "var(--border)" }} />
+                <Line type="monotone" dataKey="total" name="Cumulative" stroke={forest} strokeWidth={2.5} dot={false} activeDot={{ r: 4, fill: forest }} />
+              </LineChart>
+            </ResponsiveContainer>
+          </ChartCard>
+
+          <ChartCard title="Weekly downloads" subtitle="ISO weeks">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={npmAgg.weekly} margin={{ top: 8, right: 12, left: 0, bottom: 0 }}>
+                <CartesianGrid stroke="var(--border)" strokeDasharray="3 3" vertical={false} />
+                <XAxis dataKey="week" stroke="var(--muted-foreground)" fontSize={10} tickLine={false} interval={Math.max(0, Math.floor(npmAgg.weekly.length / 8))} />
+                <YAxis stroke="var(--muted-foreground)" fontSize={11} tickLine={false} axisLine={false} width={40} />
+                <Tooltip contentStyle={tooltipStyle} cursor={{ fill: "var(--muted)" }} />
+                <Bar dataKey="downloads" name="Downloads" fill={forest} radius={[4, 4, 0, 0]} />
+              </BarChart>
+            </ResponsiveContainer>
+          </ChartCard>
+
+          <ChartCard title="Monthly downloads" subtitle="rolling year">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={npmAgg.monthly} margin={{ top: 8, right: 12, left: 0, bottom: 0 }}>
+                <CartesianGrid stroke="var(--border)" strokeDasharray="3 3" vertical={false} />
+                <XAxis dataKey="label" stroke="var(--muted-foreground)" fontSize={11} tickLine={false} />
+                <YAxis stroke="var(--muted-foreground)" fontSize={11} tickLine={false} axisLine={false} width={40} />
+                <Tooltip contentStyle={tooltipStyle} cursor={{ fill: "var(--muted)" }} />
+                <Bar dataKey="downloads" name="Downloads" fill={yellow} radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </ChartCard>
