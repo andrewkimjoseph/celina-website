@@ -63,40 +63,40 @@
 
 :root {
   --radius: 0.875rem;
-  /* Midnight + Yellow — light variant (cool off-white + midnight ink) */
+  /* Celo Native — light variant (pure white + black + forest, yellow accents) */
   --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
   --font-body: "Manrope", ui-sans-serif, system-ui, sans-serif;
-  --background: oklch(0.97 0.005 280);     /* #f5f5fa cool off-white */
-  --foreground: oklch(0.18 0.02 280);      /* midnight ink */
-  --card: oklch(0.995 0.003 280);
-  --card-foreground: oklch(0.18 0.02 280);
+  --background: oklch(1 0 0);              /* #ffffff pure white */
+  --foreground: oklch(0 0 0);              /* #000000 pure black */
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0 0 0);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.18 0.02 280);
-  --primary: oklch(0.18 0.02 280);          /* midnight ink as primary surface */
-  --primary-foreground: oklch(0.97 0.005 280);
-  --secondary: oklch(0.93 0.008 280);
-  --secondary-foreground: oklch(0.18 0.02 280);
-  --muted: oklch(0.93 0.008 280);
-  --muted-foreground: oklch(0.45 0.02 280);
-  --accent: oklch(0.85 0.18 90);            /* yellow accent */
-  --accent-foreground: oklch(0.18 0.02 280);
+  --popover-foreground: oklch(0 0 0);
+  --primary: oklch(0.49 0.10 130);          /* #476520 Celo forest */
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.97 0.02 110);        /* very pale yellow */
+  --secondary-foreground: oklch(0 0 0);
+  --muted: oklch(0.96 0.005 110);
+  --muted-foreground: oklch(0.42 0.01 130);
+  --accent: oklch(0.97 0.20 110);           /* #FCFF52 Celo yellow */
+  --accent-foreground: oklch(0 0 0);
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(0.86 0.008 280);
-  --input: oklch(0.90 0.008 280);
-  --ring: oklch(0.85 0.18 90);
+  --border: oklch(0 0 0 / 0.12);
+  --input: oklch(0 0 0 / 0.15);
+  --ring: oklch(0.49 0.10 130);
 
-  /* Midnight + Yellow brand tokens (semantic names kept for compatibility) */
-  --celo-yellow: oklch(0.85 0.18 90);       /* #facc15 golden yellow accent */
-  --celo-forest: oklch(0.28 0.02 280);      /* slate — structural accent */
-  --celo-deep:   oklch(0.18 0.02 280);      /* midnight surface */
-  --celo-ink:    oklch(0.11 0.02 280);      /* deepest near-black */
-  --celo-cream:  oklch(0.97 0.005 280);     /* cool off-white */
+  /* Celo Native brand tokens */
+  --celo-yellow: oklch(0.97 0.20 110);      /* #FCFF52 bright Celo yellow */
+  --celo-forest: oklch(0.49 0.10 130);      /* #476520 forest green */
+  --celo-deep:   oklch(0.12 0 0);           /* near-black surface */
+  --celo-ink:    oklch(0 0 0);              /* #000000 pure black */
+  --celo-cream:  oklch(1 0 0);              /* #ffffff pure white */
 
-  --gradient-hero: radial-gradient(ellipse at top right, oklch(0.85 0.18 90 / 0.18), transparent 55%),
-                   radial-gradient(ellipse at bottom left, oklch(0.28 0.02 280 / 0.10), transparent 65%);
-  --shadow-soft: 0 1px 0 oklch(0.11 0.02 280 / 0.04), 0 12px 32px -12px oklch(0.11 0.02 280 / 0.18);
-  --shadow-pop: 6px 6px 0 0 oklch(0.11 0.02 280);
+  --gradient-hero: radial-gradient(ellipse at top right, oklch(0.97 0.20 110 / 0.35), transparent 55%),
+                   radial-gradient(ellipse at bottom left, oklch(0.49 0.10 130 / 0.14), transparent 65%);
+  --shadow-soft: 0 1px 0 oklch(0 0 0 / 0.05), 0 12px 32px -12px oklch(0 0 0 / 0.18);
+  --shadow-pop: 6px 6px 0 0 oklch(0.49 0.10 130);
 
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
@@ -114,38 +114,38 @@
 }
 
 .dark {
-  /* Midnight + Yellow — dark variant (brand default mood) */
-  --background: oklch(0.11 0.02 280);       /* #0a0a14 deepest near-black */
-  --foreground: oklch(0.97 0.005 280);
-  --card: oklch(0.18 0.02 280);             /* #161622 slate surface */
-  --card-foreground: oklch(0.97 0.005 280);
-  --popover: oklch(0.18 0.02 280);
-  --popover-foreground: oklch(0.97 0.005 280);
-  --primary: oklch(0.85 0.18 90);           /* yellow as primary */
-  --primary-foreground: oklch(0.11 0.02 280);
-  --secondary: oklch(0.22 0.02 280);
-  --secondary-foreground: oklch(0.97 0.005 280);
-  --muted: oklch(0.22 0.02 280);
-  --muted-foreground: oklch(0.72 0.015 280);
-  --accent: oklch(0.85 0.18 90);
-  --accent-foreground: oklch(0.11 0.02 280);
+  /* Celo Native — dark variant (pure black + yellow hero) */
+  --background: oklch(0 0 0);               /* #000000 pure black */
+  --foreground: oklch(1 0 0);               /* #ffffff pure white */
+  --card: oklch(0.14 0 0);                  /* near-black surface */
+  --card-foreground: oklch(1 0 0);
+  --popover: oklch(0.14 0 0);
+  --popover-foreground: oklch(1 0 0);
+  --primary: oklch(0.97 0.20 110);          /* Celo yellow as primary */
+  --primary-foreground: oklch(0 0 0);
+  --secondary: oklch(0.18 0 0);
+  --secondary-foreground: oklch(1 0 0);
+  --muted: oklch(0.18 0 0);
+  --muted-foreground: oklch(0.74 0.005 110);
+  --accent: oklch(0.97 0.20 110);
+  --accent-foreground: oklch(0 0 0);
   --destructive: oklch(0.62 0.22 27);
-  --destructive-foreground: oklch(0.97 0.005 280);
+  --destructive-foreground: oklch(1 0 0);
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 12%);
-  --ring: oklch(0.85 0.18 90);
+  --ring: oklch(0.97 0.20 110);
 
-  /* Midnight + Yellow brand tokens (dark) */
-  --celo-yellow: oklch(0.85 0.18 90);
-  --celo-forest: oklch(0.45 0.025 280);     /* slate — readable on midnight */
-  --celo-deep:   oklch(0.18 0.02 280);
-  --celo-ink:    oklch(0.09 0.015 280);
-  --celo-cream:  oklch(0.97 0.005 280);
+  /* Celo Native brand tokens (dark) */
+  --celo-yellow: oklch(0.97 0.20 110);      /* #FCFF52 */
+  --celo-forest: oklch(0.62 0.13 130);      /* lifted forest for legibility on black */
+  --celo-deep:   oklch(0.14 0 0);
+  --celo-ink:    oklch(0 0 0);
+  --celo-cream:  oklch(1 0 0);
 
-  --gradient-hero: radial-gradient(ellipse at top right, oklch(0.85 0.18 90 / 0.16), transparent 55%),
-                   radial-gradient(ellipse at bottom left, oklch(0.28 0.02 280 / 0.5), transparent 65%);
+  --gradient-hero: radial-gradient(ellipse at top right, oklch(0.97 0.20 110 / 0.18), transparent 55%),
+                   radial-gradient(ellipse at bottom left, oklch(0.49 0.10 130 / 0.30), transparent 65%);
   --shadow-soft: 0 1px 0 oklch(0 0 0 / 0.5), 0 18px 40px -16px oklch(0 0 0 / 0.7);
-  --shadow-pop: 6px 6px 0 0 oklch(0.85 0.18 90);
+  --shadow-pop: 6px 6px 0 0 oklch(0.97 0.20 110);
   --chart-1: oklch(0.488 0.243 264.376);
   --chart-2: oklch(0.696 0.17 162.48);
   --chart-3: oklch(0.769 0.188 70.08);
