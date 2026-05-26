@@ -175,7 +175,7 @@ function Index() {
                   <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[var(--celo-yellow)] opacity-70" />
                   <span className="relative inline-flex h-2 w-2 rounded-full bg-[var(--celo-yellow)]" />
                 </span>
-                <span className="uppercase tracking-[0.18em]">v0.1 · Live on Celo mainnet</span>
+                <span className="uppercase tracking-[0.18em]">Live on Celo mainnet</span>
               </div>
               <h1
                 className="text-balance text-5xl font-bold tracking-tight sm:text-6xl lg:text-7xl"
@@ -510,7 +510,7 @@ function Index() {
         <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-24">
           <div className="mb-10 flex flex-col items-start sm:items-center sm:text-center">
             <span className="rounded-full border border-border bg-card px-3 py-1 text-xs font-bold uppercase tracking-[0.22em] text-foreground">
-              § Tools v0.1
+              § Tools
             </span>
             <h2 className="mt-4 text-3xl font-bold tracking-tight sm:text-5xl lg:text-6xl" style={{ fontFamily: "var(--font-display)" }}>
               {TOOLS.length} tools. One agent. Whole chain.

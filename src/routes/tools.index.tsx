@@ -60,7 +60,7 @@ function ToolsIndex() {
         </div>
 
         <span className="rounded-full border border-border bg-card px-3 py-1 text-xs font-bold uppercase tracking-[0.22em] text-foreground">
-          § Tools v0.1
+          § Tools
         </span>
         <h1
           className="mt-4 text-balance text-4xl font-bold tracking-tight sm:text-6xl"
