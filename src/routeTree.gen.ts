@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as StatsRouteImport } from './routes/stats'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ToolsIndexRouteImport } from './routes/tools.index'
+import { Route as StatsIndexRouteImport } from './routes/stats.index'
 import { Route as ToolsToolSlugRouteImport } from './routes/tools.$toolSlug'
 
 const StatsRoute = StatsRouteImport.update({
@@ -29,6 +30,11 @@ const ToolsIndexRoute = ToolsIndexRouteImport.update({
   path: '/tools/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const StatsIndexRoute = StatsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => StatsRoute,
+} as any)
 const ToolsToolSlugRoute = ToolsToolSlugRouteImport.update({
   id: '/tools/$toolSlug',
   path: '/tools/$toolSlug',
@@ -37,34 +43,36 @@ const ToolsToolSlugRoute = ToolsToolSlugRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/stats': typeof StatsRoute
+  '/stats': typeof StatsRouteWithChildren
   '/tools/$toolSlug': typeof ToolsToolSlugRoute
+  '/stats/': typeof StatsIndexRoute
   '/tools/': typeof ToolsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/stats': typeof StatsRoute
   '/tools/$toolSlug': typeof ToolsToolSlugRoute
+  '/stats': typeof StatsIndexRoute
   '/tools': typeof ToolsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/stats': typeof StatsRoute
+  '/stats': typeof StatsRouteWithChildren
   '/tools/$toolSlug': typeof ToolsToolSlugRoute
+  '/stats/': typeof StatsIndexRoute
   '/tools/': typeof ToolsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/stats' | '/tools/$toolSlug' | '/tools/'
+  fullPaths: '/' | '/stats' | '/tools/$toolSlug' | '/stats/' | '/tools/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/stats' | '/tools/$toolSlug' | '/tools'
-  id: '__root__' | '/' | '/stats' | '/tools/$toolSlug' | '/tools/'
+  to: '/' | '/tools/$toolSlug' | '/stats' | '/tools'
+  id: '__root__' | '/' | '/stats' | '/tools/$toolSlug' | '/stats/' | '/tools/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  StatsRoute: typeof StatsRoute
+  StatsRoute: typeof StatsRouteWithChildren
   ToolsToolSlugRoute: typeof ToolsToolSlugRoute
   ToolsIndexRoute: typeof ToolsIndexRoute
 }
@@ -92,6 +100,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ToolsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/stats/': {
+      id: '/stats/'
+      path: '/'
+      fullPath: '/stats/'
+      preLoaderRoute: typeof StatsIndexRouteImport
+      parentRoute: typeof StatsRoute
+    }
     '/tools/$toolSlug': {
       id: '/tools/$toolSlug'
       path: '/tools/$toolSlug'
@@ -102,12 +117,32 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface StatsRouteChildren {
+  StatsIndexRoute: typeof StatsIndexRoute
+}
+
+const StatsRouteChildren: StatsRouteChildren = {
+  StatsIndexRoute: StatsIndexRoute,
+}
+
+const StatsRouteWithChildren = StatsRoute._addFileChildren(StatsRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  StatsRoute: StatsRoute,
+  StatsRoute: StatsRouteWithChildren,
   ToolsToolSlugRoute: ToolsToolSlugRoute,
   ToolsIndexRoute: ToolsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
