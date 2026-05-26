@@ -2,13 +2,13 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faBolt, faCircleNodes, faTerminal, faCopy, faCheck } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
-import { TOOL_BY_SLUG, type ToolDoc } from "@/data/tools";
+import { findTool, categorySlug, type ToolDoc } from "@/data/tools";
 import celinaLogo from "@/assets/celina-logo-clady.png";
 import { ThemeToggle } from "@/components/theme-toggle";
 
-export const Route = createFileRoute("/tools/$toolSlug")({
+export const Route = createFileRoute("/tools/$category/$toolSlug")({
   loader: ({ params }) => {
-    const tool = TOOL_BY_SLUG[params.toolSlug];
+    const tool = findTool(params.category, params.toolSlug);
     if (!tool) throw notFound();
     return { tool };
   },
@@ -62,10 +62,10 @@ function CopyInline({ text }: { text: string }) {
 function ToolPage() {
   const { tool } = Route.useLoaderData() as { tool: ToolDoc };
   const isWrite = tool.kind === "write";
+  const catSlug = categorySlug(tool.category);
 
   return (
     <main className="min-h-screen bg-background text-foreground">
-      {/* Nav */}
       <header className="sticky top-0 z-50 border-b border-foreground/10 bg-background/80 backdrop-blur-md">
         <div className="mx-auto flex max-w-4xl items-center justify-between px-6 py-4">
           <Link to="/" className="flex items-center gap-2">
@@ -87,16 +87,18 @@ function ToolPage() {
       </header>
 
       <article className="mx-auto max-w-4xl px-6 pb-24 pt-12 sm:pt-16">
-        {/* Breadcrumb */}
         <div className="mb-6 flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-muted-foreground">
           <Link to="/" className="hover:text-foreground">Celina</Link>
           <span>/</span>
           <Link to="/tools" className="hover:text-foreground">Tools</Link>
           <span>/</span>
-          <span className="text-foreground/80">{tool.category}</span>
+          <Link to="/tools/$category" params={{ category: catSlug }} className="hover:text-foreground">
+            {tool.category}
+          </Link>
+          <span>/</span>
+          <span className="text-foreground/80">{tool.slug}</span>
         </div>
 
-        {/* Header */}
         <div className="flex flex-wrap items-center gap-2">
           <span
             className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.18em] ${
@@ -108,9 +110,13 @@ function ToolPage() {
             <FontAwesomeIcon icon={isWrite ? faBolt : faCircleNodes} className="h-2.5 w-2.5" />
             {tool.kind}
           </span>
-          <span className="rounded-full border border-foreground/15 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.18em] text-muted-foreground">
+          <Link
+            to="/tools/$category"
+            params={{ category: catSlug }}
+            className="rounded-full border border-foreground/15 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.18em] text-muted-foreground transition hover:text-foreground"
+          >
             {tool.category}
-          </span>
+          </Link>
         </div>
 
         <h1
@@ -131,7 +137,6 @@ function ToolPage() {
           {tool.description}
         </p>
 
-        {/* Inputs */}
         <section className="mt-12">
           <h2 className="text-xs font-bold uppercase tracking-[0.22em] text-foreground">§ Inputs</h2>
           {tool.inputs.length === 0 ? (
@@ -171,7 +176,6 @@ function ToolPage() {
           )}
         </section>
 
-        {/* Returns */}
         <section className="mt-10">
           <h2 className="text-xs font-bold uppercase tracking-[0.22em] text-foreground">§ Returns</h2>
           <div className="mt-3 rounded-xl border border-foreground/10 bg-card p-5 text-sm">
@@ -179,7 +183,6 @@ function ToolPage() {
           </div>
         </section>
 
-        {/* Examples */}
         {tool.examples && tool.examples.length > 0 && (
           <section className="mt-10">
             <h2 className="text-xs font-bold uppercase tracking-[0.22em] text-foreground">§ Try saying</h2>
@@ -197,7 +200,6 @@ function ToolPage() {
           </section>
         )}
 
-        {/* Use this tool */}
         <section className="mt-12 rounded-2xl border border-foreground/10 bg-card p-6">
           <h2 className="flex items-center gap-2 text-sm font-semibold">
             <FontAwesomeIcon icon={faTerminal} className="h-3.5 w-3.5 text-[var(--celo-forest)]" /> Use this tool
@@ -215,10 +217,11 @@ function ToolPage() {
               Install Celina
             </Link>
             <Link
-              to="/tools"
+              to="/tools/$category"
+              params={{ category: catSlug }}
               className="inline-flex items-center gap-2 rounded-lg border border-foreground/15 px-4 py-2 text-sm font-medium text-foreground/80 transition hover:bg-accent"
             >
-              Browse all tools
+              More {tool.category} tools
             </Link>
           </div>
         </section>
