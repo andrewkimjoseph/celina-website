@@ -388,23 +388,26 @@ function StatsPage() {
               Updated {timeAgo(fetchedAt)}
             </span>
             <button
-              onClick={() => refresh()}
-              disabled={loading || cooldown}
+              onClick={() => {
+                refresh();
+                refreshNpm();
+              }}
+              disabled={busy || cooldown}
               className="inline-flex items-center gap-2 rounded-lg border border-foreground/15 bg-card px-3.5 py-2 text-sm font-medium text-foreground transition hover:border-[var(--celo-yellow)] hover:bg-muted disabled:opacity-60"
             >
               <FontAwesomeIcon
                 icon={faRotate}
-                className={`h-3.5 w-3.5 ${loading ? "animate-spin" : ""}`}
+                className={`h-3.5 w-3.5 ${busy ? "animate-spin" : ""}`}
               />
-              {loading ? "Refreshing" : cooldown ? cooldownLabel : "Refresh"}
+              {busy ? "Refreshing" : cooldown ? cooldownLabel : "Refresh"}
             </button>
           </div>
         </div>
 
-        {error && (
+        {combinedError && (
           <div className="mt-6 flex items-start gap-3 rounded-xl border border-destructive/30 bg-destructive/10 p-4 text-sm text-foreground">
             <FontAwesomeIcon icon={faTriangleExclamation} className="mt-0.5 h-4 w-4 text-destructive" />
-            <span>{error}</span>
+            <span>{combinedError}</span>
           </div>
         )}
       </section>
