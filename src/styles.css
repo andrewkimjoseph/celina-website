@@ -93,6 +93,8 @@
   --celo-ink:    oklch(0 0 0);              /* #000000 pure black */
   --celo-cream:  oklch(1 0 0);              /* #ffffff pure white */
 
+  --chart-line: oklch(0 0 0);               /* black line charts in light mode */
+
   --gradient-hero: radial-gradient(ellipse at top right, oklch(0.97 0.20 110 / 0.35), transparent 55%),
                    radial-gradient(ellipse at bottom left, oklch(0.49 0.10 130 / 0.14), transparent 65%);
   --shadow-soft: 0 1px 0 oklch(0 0 0 / 0.05), 0 12px 32px -12px oklch(0 0 0 / 0.18);
@@ -141,6 +143,8 @@
   --celo-deep:   oklch(0.14 0 0);
   --celo-ink:    oklch(0 0 0);
   --celo-cream:  oklch(1 0 0);
+
+  --chart-line: oklch(0.97 0.20 110);       /* yellow line charts in dark mode */
 
   --gradient-hero: radial-gradient(ellipse at top right, oklch(0.97 0.20 110 / 0.18), transparent 55%),
                    radial-gradient(ellipse at bottom left, oklch(0.49 0.10 130 / 0.30), transparent 65%);
