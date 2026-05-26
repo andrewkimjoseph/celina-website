@@ -13,7 +13,7 @@ import {
   faCircleNodes,
 } from "@fortawesome/free-solid-svg-icons";
 import { faNpm, faGithub } from "@fortawesome/free-brands-svg-icons";
-import celinaLogo from "@/assets/celina-logo-yellow.png";
+import celinaLogo from "@/assets/celina-logo-celo.png";
 import celoWordmarkGreen from "@/assets/celo-wordmark-green.svg";
 import celoWordmarkYellow from "@/assets/celo-wordmark-yellow.svg";
 import { TOOLS as TOOL_DOCS } from "@/data/tools";
@@ -540,7 +540,7 @@ function Index() {
                       className={`shrink-0 rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.14em] ${
                         isWrite
                           ? "bg-[var(--celo-yellow)] text-[var(--celo-ink)]"
-                          : "border border-[var(--celo-yellow)]/40 text-[var(--celo-yellow)]"
+                          : "bg-[var(--celo-forest)] text-[var(--celo-yellow)] dark:bg-[var(--celo-yellow)]/15 dark:text-[var(--celo-yellow)] dark:border dark:border-[var(--celo-yellow)]/40"
                       }`}
                     >
                       {t.type}
