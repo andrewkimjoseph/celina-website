@@ -10,7 +10,7 @@ type StatsState = {
   refresh: (opts?: { force?: boolean }) => Promise<void>;
 };
 
-const STALE_MS = 5 * 60 * 1000;
+export const STALE_MS = 5 * 60 * 1000;
 
 export const useStatsStore = create<StatsState>()(
   persist(
