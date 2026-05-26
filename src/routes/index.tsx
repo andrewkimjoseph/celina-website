@@ -266,14 +266,15 @@ function Index() {
           <div className="absolute -bottom-4 -right-4 hidden h-24 w-24 rounded-br-3xl border-b-4 border-r-4 border-[var(--celo-forest)] sm:block" />
 
           <BrowserFrame url="claude.ai — Celina MCP">
-            <video
-              src="/claude-demo.mp4"
-              autoPlay
-              muted
-              loop
-              playsInline
-              className="block aspect-video w-full bg-[var(--celo-ink)] object-cover"
-            />
+            <div className="aspect-video w-full bg-[var(--celo-ink)]">
+              <iframe
+                src="https://www.youtube.com/embed/jfm27eQ-9Xo"
+                title="Celina demo"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                className="block h-full w-full border-0"
+              />
+            </div>
           </BrowserFrame>
 
           <figcaption className="mt-6 flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
