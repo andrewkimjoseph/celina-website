@@ -15,7 +15,7 @@ import {
 import { faNpm, faGithub } from "@fortawesome/free-brands-svg-icons";
 import celinaLogoCelo from "@/assets/celina-logo-celo.png";
 import celinaLogoBlack from "@/assets/celina-logo-black.png";
-import celoWordmarkGreen from "@/assets/celo-wordmark-green.svg";
+import celoWordmarkOnyx from "@/assets/celo-wordmark-onyx.svg";
 import celoWordmarkYellow from "@/assets/celo-wordmark-yellow.svg";
 import { TOOLS as TOOL_DOCS } from "@/data/tools";
 import { ThemeToggle } from "@/components/theme-toggle";
@@ -233,7 +233,7 @@ function Index() {
 
               <div className="mt-8 flex items-center gap-3 text-xs uppercase tracking-[0.22em] text-muted-foreground">
                 <span>Built on</span>
-                <img src={celoWordmarkGreen} alt="Celo" className="h-4 w-auto opacity-80 dark:hidden" />
+                <img src={celoWordmarkOnyx} alt="Celo" className="h-4 w-auto opacity-80 dark:hidden" />
                 <img src={celoWordmarkYellow} alt="Celo" className="hidden h-4 w-auto opacity-90 dark:inline-block" />
               </div>
             </div>
