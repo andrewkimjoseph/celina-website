@@ -70,12 +70,14 @@ function ToolsIndex() {
           {categories.map((category) => (
             <section key={category} id={slugify(category)} className="scroll-mt-24">
               <div className="mb-4 flex items-baseline justify-between border-b border-foreground/10 pb-3">
-                <h2
-                  className="text-2xl font-bold tracking-tight"
+                <Link
+                  to="/tools/$category"
+                  params={{ category: categorySlug(category as ToolDoc["category"]) }}
+                  className="text-2xl font-bold tracking-tight hover:text-[var(--celo-forest)] dark:hover:text-[var(--celo-yellow)] transition"
                   style={{ fontFamily: "var(--font-display)" }}
                 >
                   {category}
-                </h2>
+                </Link>
                 <span className="text-xs uppercase tracking-[0.18em] text-muted-foreground">
                   {byCategory[category].length} tool{byCategory[category].length === 1 ? "" : "s"}
                 </span>
