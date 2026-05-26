@@ -292,7 +292,7 @@ function Index() {
           {[
             { icon: faBolt, title: "1-minute setup", body: "Drop a JSON snippet into Cursor or Claude Desktop. Done." },
             { icon: faCoins, title: "Mainnet ready", body: "CELO, all 15 Mento stablecoins, USDC, USDT, GoodDollar — all built in." },
-            { icon: faLock, title: "Keys never stored", body: "Write tools accept RSA-encrypted keys, decrypted ephemerally." },
+            { icon: faLock, title: "Keys stay local", body: "Set CELO_PRIVATE_KEY in your MCP client env — keys never leave your machine." },
           ].map((f) => (
             <div key={f.title} className="bg-background p-8">
               <div className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-[var(--celo-yellow)] text-[var(--celo-ink)]">

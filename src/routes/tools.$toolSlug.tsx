@@ -1,6 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft, faLock, faBolt, faCircleNodes, faTerminal, faCopy, faCheck } from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft, faBolt, faCircleNodes, faTerminal, faCopy, faCheck } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 import { TOOL_BY_SLUG, type ToolDoc } from "@/data/tools";
 import celinaLogo from "@/assets/celina-logo-clady.png";
@@ -194,31 +194,6 @@ function ToolPage() {
                 </li>
               ))}
             </ul>
-          </section>
-        )}
-
-        {/* Security note for write tools */}
-        {(isWrite || tool.requiresEncryptedKey) && (
-          <section className="mt-10 flex items-start gap-4 rounded-xl border border-[var(--celo-yellow)]/50 bg-[var(--celo-yellow)]/10 p-5">
-            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[var(--celo-yellow)] text-[var(--celo-ink)]">
-              <FontAwesomeIcon icon={faLock} className="h-4 w-4" />
-            </div>
-            <div className="text-sm">
-              <p className="font-semibold">Signing required</p>
-              <p className="mt-1 text-muted-foreground">
-                {isWrite
-                  ? "This tool broadcasts a transaction. "
-                  : "This tool simulates a signed call. "}
-                Fetch the server&apos;s public key with{" "}
-                <Link to="/tools/$toolSlug" params={{ toolSlug: "get-wallet-encryption-public-key" }} className="font-mono text-xs underline">
-                  get_wallet_encryption_public_key
-                </Link>
-                , encrypt your private key locally (RSA-OAEP), and pass it as{" "}
-                <code className="rounded bg-secondary px-1 py-0.5 text-xs">encryptedPrivateKey</code>. Running locally via{" "}
-                <code className="rounded bg-secondary px-1 py-0.5 text-xs">npx</code>? Set{" "}
-                <code className="rounded bg-secondary px-1 py-0.5 text-xs">CELO_PRIVATE_KEY</code> instead.
-              </p>
-            </div>
           </section>
         )}
 

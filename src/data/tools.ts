@@ -25,17 +25,7 @@ export interface ToolDoc {
   returns: string;
   /** Optional example natural-language prompts */
   examples?: string[];
-  /** True if write tools need an encrypted key */
-  requiresEncryptedKey?: boolean;
 }
-
-const ENC_KEY: ToolField = {
-  name: "encryptedPrivateKey",
-  type: "string",
-  required: false,
-  description:
-    "RSA-OAEP encrypted private key (base64). Encrypt locally with get_wallet_encryption_public_key. Omit if running locally with CELO_PRIVATE_KEY set.",
-};
 
 export const TOOLS: ToolDoc[] = [
   {
@@ -163,12 +153,10 @@ export const TOOLS: ToolDoc[] = [
       "Estimates gas for sending CELO or an ERC-20 token on mainnet without broadcasting. Useful for preview-and-confirm UX before send_token is called.",
     kind: "read",
     category: "Transaction",
-    requiresEncryptedKey: true,
     inputs: [
       { name: "to", type: "0x… address", required: true, description: "Recipient." },
       { name: "token", type: "symbol or 0x…", required: false, description: "Token to send. Defaults to CELO." },
       { name: "amount", type: "string", required: true, description: "Human-readable amount, e.g. '1.5'." },
-      ENC_KEY,
     ],
     returns: "{ gas, maxFeePerGas, maxPriorityFeePerGas, estimatedCostWei }",
     examples: ["Estimate the gas to send 1 USDm to 0x…"],
@@ -179,31 +167,16 @@ export const TOOLS: ToolDoc[] = [
     title: "Send Token",
     summary: "Broadcast a CELO or ERC-20 transfer",
     description:
-      "Send CELO or an ERC-20 token on Celo mainnet. The caller must encrypt their private key with the server's RSA public key (from get_wallet_encryption_public_key) before invoking — or set CELO_PRIVATE_KEY locally.",
+      "Send CELO or an ERC-20 token on Celo mainnet. Requires CELO_PRIVATE_KEY in your MCP client env.",
     kind: "write",
     category: "Transaction",
-    requiresEncryptedKey: true,
     inputs: [
       { name: "to", type: "0x… address", required: true, description: "Recipient." },
       { name: "token", type: "symbol or 0x…", required: false, description: "Token to send. Defaults to CELO." },
       { name: "amount", type: "string", required: true, description: "Human-readable amount, e.g. '0.01'." },
-      ENC_KEY,
     ],
     returns: "{ hash, status, blockNumber }",
     examples: ["Send 0.5 USDm to 0x…"],
-  },
-  {
-    name: "get_wallet_encryption_public_key",
-    slug: "get-wallet-encryption-public-key",
-    title: "Get Wallet Encryption Public Key",
-    summary: "Server's RSA public key for write ops",
-    description:
-      "Returns the server's RSA public key so the client can encrypt a private key before passing it to any write tool. In local stdio mode this is unused — set CELO_PRIVATE_KEY instead.",
-    kind: "read",
-    category: "Wallet",
-    inputs: [],
-    returns: "{ algorithm, publicKey (PEM) }",
-    examples: ["Give me the public key so I can encrypt my wallet."],
   },
   {
     name: "get_gooddollar_whitelisting_info",
@@ -246,7 +219,6 @@ export const TOOLS: ToolDoc[] = [
       "Estimate gas for a Mento FX conversion on mainnet, including the ERC-20 approval step if one is required. Does not broadcast.",
     kind: "read",
     category: "Mento FX",
-    requiresEncryptedKey: true,
     inputs: [
       { name: "tokenIn", type: "symbol or 0x…", required: true, description: "Input token." },
       { name: "tokenOut", type: "symbol or 0x…", required: true, description: "Output token." },
@@ -254,7 +226,6 @@ export const TOOLS: ToolDoc[] = [
       { name: "recipient", type: "0x… address", required: false, description: "Address that receives output tokens. Defaults to the signer." },
       { name: "slippageTolerance", type: "number (0-20)", required: false, description: "Max slippage in percent. Defaults to 0.5." },
       { name: "deadlineMinutes", type: "integer", required: false, description: "Transaction deadline in minutes. Defaults to 5." },
-      ENC_KEY,
     ],
     returns: "{ approvalGas?, swapGas, totalGas, estimatedCostWei }",
   },
@@ -264,10 +235,9 @@ export const TOOLS: ToolDoc[] = [
     title: "Execute Mento FX",
     summary: "Send approval + Mento FX swap on mainnet",
     description:
-      "Execute a Mento FX conversion on mainnet (e.g. USDm → EURm via Mento oracle pools). Sends the ERC-20 approval first if needed, then the FX trade. The caller must encrypt their private key with get_wallet_encryption_public_key before calling — or set CELO_PRIVATE_KEY locally.",
+      "Execute a Mento FX conversion on mainnet (e.g. USDm → EURm via Mento oracle pools). Sends the ERC-20 approval first if needed, then the FX trade. Requires CELO_PRIVATE_KEY in your MCP client env.",
     kind: "write",
     category: "Mento FX",
-    requiresEncryptedKey: true,
     inputs: [
       { name: "tokenIn", type: "symbol or 0x…", required: true, description: "Input token." },
       { name: "tokenOut", type: "symbol or 0x…", required: true, description: "Output token." },
@@ -275,7 +245,6 @@ export const TOOLS: ToolDoc[] = [
       { name: "recipient", type: "0x… address", required: false, description: "Address that receives output tokens. Defaults to the signer." },
       { name: "slippageTolerance", type: "number (0-20)", required: false, description: "Max slippage in percent. Defaults to 0.5." },
       { name: "deadlineMinutes", type: "integer", required: false, description: "Transaction deadline in minutes. Defaults to 5." },
-      ENC_KEY,
     ],
     returns: "{ approvalHash?, swapHash, status, blockNumber }",
     examples: ["Convert 100 USDm to EURm."],
@@ -286,14 +255,12 @@ export const TOOLS: ToolDoc[] = [
     title: "Supply Aave",
     summary: "Lend tokens to Aave V3 on Celo",
     description:
-      "Supply (lend) supported tokens to Aave V3 on Celo mainnet and receive aTokens. Supports USDT, WETH, USDm, USDC, CELO, and EURm. Sends an ERC-20 approval first if needed. The caller must encrypt their private key with get_wallet_encryption_public_key before calling — or set CELO_PRIVATE_KEY locally.",
+      "Supply (lend) supported tokens to Aave V3 on Celo mainnet and receive aTokens. Supports USDT, WETH, USDm, USDC, CELO, and EURm. Sends an ERC-20 approval first if needed. Requires CELO_PRIVATE_KEY in your MCP client env.",
     kind: "write",
     category: "Aave",
-    requiresEncryptedKey: true,
     inputs: [
       { name: "token", type: "USDT | WETH | USDm | USDC | CELO | EURm", required: true, description: "Token symbol to supply to Aave." },
       { name: "amount", type: "string", required: true, description: "Human-readable amount, e.g. '100'." },
-      ENC_KEY,
     ],
     returns: "{ approvalHash?, supplyHash, status, blockNumber }",
     examples: ["Lend 100 USDC to Aave on Celo.", "Supply 1 CELO to Aave."],
@@ -304,15 +271,13 @@ export const TOOLS: ToolDoc[] = [
     title: "Withdraw Aave",
     summary: "Redeem aTokens back to underlying",
     description:
-      "Withdraw supported tokens from Aave V3 on Celo mainnet by redeeming aTokens. Supports USDT, WETH, USDm, USDC, CELO, and EURm. Pass an explicit amount or set withdrawMax to pull the full supplied balance. The caller must encrypt their private key with get_wallet_encryption_public_key before calling — or set CELO_PRIVATE_KEY locally.",
+      "Withdraw supported tokens from Aave V3 on Celo mainnet by redeeming aTokens. Supports USDT, WETH, USDm, USDC, CELO, and EURm. Pass an explicit amount or set withdrawMax to pull the full supplied balance. Requires CELO_PRIVATE_KEY in your MCP client env.",
     kind: "write",
     category: "Aave",
-    requiresEncryptedKey: true,
     inputs: [
       { name: "token", type: "USDT | WETH | USDm | USDC | CELO | EURm", required: true, description: "Token symbol to withdraw from Aave." },
       { name: "amount", type: "string", required: false, description: "Human-readable amount, e.g. '100'. Omit when withdrawMax is true." },
       { name: "withdrawMax", type: "boolean", required: false, description: "Withdraw the full supplied balance of this token from Aave." },
-      ENC_KEY,
     ],
     returns: "{ hash, status, blockNumber, amountWithdrawn }",
     examples: ["Withdraw all my USDC from Aave.", "Withdraw 0.5 CELO from Aave."],
@@ -410,12 +375,10 @@ export const TOOLS: ToolDoc[] = [
     title: "Get Self Agent Identity",
     summary: "On-chain identity for configured Self agent",
     description:
-      "Return the configured Self agent's on-chain identity, credentials summary, and proof expiry. Requires SELF_AGENT_PRIVATE_KEY or encryptedSelfAgentPrivateKey.",
+      "Return the configured Self agent's on-chain identity, credentials summary, and proof expiry. Requires SELF_AGENT_PRIVATE_KEY in your MCP client env.",
     kind: "read",
     category: "Self",
-    requiresEncryptedKey: true,
     inputs: [
-      { name: "encryptedSelfAgentPrivateKey", type: "string", required: false, description: "RSA-OAEP encrypted Self agent private key (base64). Omit if running locally with SELF_AGENT_PRIVATE_KEY set." },
     ],
     returns: "{ agentId, address, credentials, proofExpiry, … }",
   },
@@ -428,10 +391,8 @@ export const TOOLS: ToolDoc[] = [
       "Start a human proof refresh after on-chain proof expiry (isProofFresh is false). Returns an error while the proof is still fresh. Poll completion with check_self_registration.",
     kind: "write",
     category: "Self",
-    requiresEncryptedKey: true,
     inputs: [
       { name: "agent_id", type: "integer", required: false, description: "Optional explicit agent ID." },
-      { name: "encryptedSelfAgentPrivateKey", type: "string", required: false, description: "RSA-OAEP encrypted Self agent private key (base64)." },
     ],
     returns: "{ sessionId, qrUrl, … }",
   },
@@ -444,9 +405,7 @@ export const TOOLS: ToolDoc[] = [
       "Start irreversible Self agent deregistration. Human must confirm via Self app QR. Poll with check_self_registration.",
     kind: "write",
     category: "Self",
-    requiresEncryptedKey: true,
     inputs: [
-      { name: "encryptedSelfAgentPrivateKey", type: "string", required: false, description: "RSA-OAEP encrypted Self agent private key (base64)." },
     ],
     returns: "{ sessionId, qrUrl, … }",
   },
@@ -459,12 +418,10 @@ export const TOOLS: ToolDoc[] = [
       "Sign an HTTP request with the configured Self agent identity. Returns x-self-agent-* headers for gated APIs. For Self demo endpoints on Celo mainnet, use ?network=celo-mainnet.",
     kind: "read",
     category: "Self",
-    requiresEncryptedKey: true,
     inputs: [
       { name: "method", type: "GET | POST | PUT | DELETE", required: true, description: "HTTP method to sign." },
       { name: "url", type: "string (http/https)", required: true, description: "Full URL being signed." },
       { name: "body", type: "string", required: false, description: "Optional request body." },
-      { name: "encryptedSelfAgentPrivateKey", type: "string", required: false, description: "RSA-OAEP encrypted Self agent private key (base64)." },
     ],
     returns: "{ headers: { 'x-self-agent-signature', 'x-self-agent-timestamp', … } }",
   },
@@ -477,13 +434,11 @@ export const TOOLS: ToolDoc[] = [
       "Make an HTTP request with Self Agent ID authentication headers applied automatically. For Self demo endpoints on Celo mainnet, use ?network=celo-mainnet.",
     kind: "write",
     category: "Self",
-    requiresEncryptedKey: true,
     inputs: [
       { name: "method", type: "GET | POST | PUT | DELETE", required: true, description: "HTTP method." },
       { name: "url", type: "string (http/https)", required: true, description: "Target URL." },
       { name: "body", type: "string", required: false, description: "Optional request body." },
       { name: "content_type", type: "string", required: false, description: "Content-Type header. Defaults to application/json." },
-      { name: "encryptedSelfAgentPrivateKey", type: "string", required: false, description: "RSA-OAEP encrypted Self agent private key (base64)." },
     ],
     returns: "{ status, headers, body }",
   },
