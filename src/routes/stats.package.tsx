@@ -9,6 +9,8 @@ import {
   ChartCard,
   aggregateNpm,
   tooltipStyle,
+  tooltipItemStyle,
+  tooltipLabelStyle,
   yellow,
   forest,
   NPM_STAT_URL,
@@ -90,7 +92,7 @@ function PackagePage() {
                 <CartesianGrid stroke="var(--border)" strokeDasharray="3 3" vertical={false} />
                 <XAxis dataKey="label" stroke="var(--muted-foreground)" fontSize={10} tickLine={false} interval={Math.max(0, Math.floor(npmAgg.daily90.length / 8))} />
                 <YAxis stroke="var(--muted-foreground)" fontSize={11} tickLine={false} axisLine={false} width={40} />
-                <Tooltip contentStyle={tooltipStyle} cursor={{ fill: "var(--muted)" }} />
+                <Tooltip contentStyle={tooltipStyle} itemStyle={tooltipItemStyle} labelStyle={tooltipLabelStyle} cursor={{ fill: "var(--muted)" }} />
                 <Bar dataKey="downloads" name="Downloads" fill={yellow} radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
@@ -102,7 +104,7 @@ function PackagePage() {
                 <CartesianGrid stroke="var(--border)" strokeDasharray="3 3" vertical={false} />
                 <XAxis dataKey="label" stroke="var(--muted-foreground)" fontSize={10} tickLine={false} interval={Math.max(0, Math.floor(npmAgg.cumulative.length / 8))} />
                 <YAxis stroke="var(--muted-foreground)" fontSize={11} tickLine={false} axisLine={false} width={40} />
-                <Tooltip contentStyle={tooltipStyle} cursor={{ stroke: "var(--border)" }} />
+                <Tooltip contentStyle={tooltipStyle} itemStyle={tooltipItemStyle} labelStyle={tooltipLabelStyle} cursor={{ stroke: "var(--border)" }} />
                 <Line type="monotone" dataKey="total" name="Cumulative" stroke={forest} strokeWidth={2.5} dot={false} activeDot={{ r: 4, fill: forest }} />
               </LineChart>
             </ResponsiveContainer>
@@ -114,7 +116,7 @@ function PackagePage() {
                 <CartesianGrid stroke="var(--border)" strokeDasharray="3 3" vertical={false} />
                 <XAxis dataKey="week" stroke="var(--muted-foreground)" fontSize={10} tickLine={false} interval={Math.max(0, Math.floor(npmAgg.weekly.length / 8))} />
                 <YAxis stroke="var(--muted-foreground)" fontSize={11} tickLine={false} axisLine={false} width={40} />
-                <Tooltip contentStyle={tooltipStyle} cursor={{ fill: "var(--muted)" }} />
+                <Tooltip contentStyle={tooltipStyle} itemStyle={tooltipItemStyle} labelStyle={tooltipLabelStyle} cursor={{ fill: "var(--muted)" }} />
                 <Bar dataKey="downloads" name="Downloads" fill={forest} radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
@@ -126,7 +128,7 @@ function PackagePage() {
                 <CartesianGrid stroke="var(--border)" strokeDasharray="3 3" vertical={false} />
                 <XAxis dataKey="label" stroke="var(--muted-foreground)" fontSize={11} tickLine={false} />
                 <YAxis stroke="var(--muted-foreground)" fontSize={11} tickLine={false} axisLine={false} width={40} />
-                <Tooltip contentStyle={tooltipStyle} cursor={{ fill: "var(--muted)" }} />
+                <Tooltip contentStyle={tooltipStyle} itemStyle={tooltipItemStyle} labelStyle={tooltipLabelStyle} cursor={{ fill: "var(--muted)" }} />
                 <Bar dataKey="downloads" name="Downloads" fill={yellow} radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>

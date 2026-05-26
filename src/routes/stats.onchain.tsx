@@ -8,6 +8,8 @@ import {
   ChartCard,
   aggregate,
   tooltipStyle,
+  tooltipItemStyle,
+  tooltipLabelStyle,
   yellow,
   lineStroke,
   forest,
@@ -92,7 +94,7 @@ function OnchainPage() {
                 <CartesianGrid stroke="var(--border)" strokeDasharray="3 3" vertical={false} />
                 <XAxis dataKey="label" stroke="var(--muted-foreground)" fontSize={11} tickLine={false} />
                 <YAxis stroke="var(--muted-foreground)" fontSize={11} tickLine={false} axisLine={false} width={40} />
-                <Tooltip contentStyle={tooltipStyle} cursor={{ stroke: "var(--border)" }} />
+                <Tooltip contentStyle={tooltipStyle} itemStyle={tooltipItemStyle} labelStyle={tooltipLabelStyle} cursor={{ stroke: "var(--border)" }} />
                 <Line type="monotone" dataKey="cumulative" name="Cumulative" stroke={lineStroke} strokeWidth={2.5} dot={false} activeDot={{ r: 4, fill: lineStroke }} />
               </LineChart>
             </ResponsiveContainer>
@@ -104,7 +106,7 @@ function OnchainPage() {
                 <CartesianGrid stroke="var(--border)" strokeDasharray="3 3" vertical={false} />
                 <XAxis dataKey="label" stroke="var(--muted-foreground)" fontSize={11} tickLine={false} />
                 <YAxis stroke="var(--muted-foreground)" fontSize={11} tickLine={false} axisLine={false} width={40} />
-                <Tooltip contentStyle={tooltipStyle} cursor={{ fill: "var(--muted)" }} />
+                <Tooltip contentStyle={tooltipStyle} itemStyle={tooltipItemStyle} labelStyle={tooltipLabelStyle} cursor={{ fill: "var(--muted)" }} />
                 <Bar dataKey="count" name="Transactions" fill={yellow} radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
@@ -116,7 +118,7 @@ function OnchainPage() {
                 <CartesianGrid stroke="var(--border)" strokeDasharray="3 3" vertical={false} />
                 <XAxis dataKey="hour" stroke="var(--muted-foreground)" fontSize={10} tickLine={false} interval={2} />
                 <YAxis stroke="var(--muted-foreground)" fontSize={11} tickLine={false} axisLine={false} width={40} />
-                <Tooltip contentStyle={tooltipStyle} cursor={{ fill: "var(--muted)" }} />
+                <Tooltip contentStyle={tooltipStyle} itemStyle={tooltipItemStyle} labelStyle={tooltipLabelStyle} cursor={{ fill: "var(--muted)" }} />
                 <Bar dataKey="count" name="Txns" fill={forest} radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
@@ -128,7 +130,7 @@ function OnchainPage() {
                 <CartesianGrid stroke="var(--border)" strokeDasharray="3 3" horizontal={false} />
                 <XAxis type="number" stroke="var(--muted-foreground)" fontSize={11} tickLine={false} axisLine={false} />
                 <YAxis type="category" dataKey="short" stroke="var(--muted-foreground)" fontSize={11} tickLine={false} axisLine={false} width={92} />
-                <Tooltip contentStyle={tooltipStyle} cursor={{ fill: "var(--muted)" }} />
+                <Tooltip contentStyle={tooltipStyle} itemStyle={tooltipItemStyle} labelStyle={tooltipLabelStyle} cursor={{ fill: "var(--muted)" }} />
                 <Bar dataKey="count" name="Txns" fill={yellow} radius={[0, 4, 4, 0]}>
                   {agg.topReceivers.map((_, i) => (
                     <Cell key={i} fill={i === 0 ? yellow : forest} />
@@ -144,7 +146,7 @@ function OnchainPage() {
                 <CartesianGrid stroke="var(--border)" strokeDasharray="3 3" horizontal={false} />
                 <XAxis type="number" stroke="var(--muted-foreground)" fontSize={11} tickLine={false} axisLine={false} />
                 <YAxis type="category" dataKey="short" stroke="var(--muted-foreground)" fontSize={11} tickLine={false} axisLine={false} width={92} />
-                <Tooltip contentStyle={tooltipStyle} cursor={{ fill: "var(--muted)" }} />
+                <Tooltip contentStyle={tooltipStyle} itemStyle={tooltipItemStyle} labelStyle={tooltipLabelStyle} cursor={{ fill: "var(--muted)" }} />
                 <Bar dataKey="count" name="Txns" fill={forest} radius={[0, 4, 4, 0]} />
               </BarChart>
             </ResponsiveContainer>
@@ -162,7 +164,7 @@ function OnchainPage() {
                 <CartesianGrid stroke="var(--border)" strokeDasharray="3 3" vertical={false} />
                 <XAxis dataKey="short" stroke="var(--muted-foreground)" fontSize={10} tickLine={false} angle={-25} textAnchor="end" height={50} />
                 <YAxis stroke="var(--muted-foreground)" fontSize={11} tickLine={false} axisLine={false} width={40} unit="%" />
-                <Tooltip contentStyle={tooltipStyle} cursor={{ fill: "var(--muted)" }} formatter={(v) => `${v}%`} />
+                <Tooltip contentStyle={tooltipStyle} itemStyle={tooltipItemStyle} labelStyle={tooltipLabelStyle} cursor={{ fill: "var(--muted)" }} formatter={(v) => `${v}%`} />
                 <Bar dataKey="share" name="Share" fill={yellow} radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>

@@ -10,6 +10,8 @@ import {
   aggregate,
   aggregateNpm,
   tooltipStyle,
+  tooltipItemStyle,
+  tooltipLabelStyle,
   yellow,
   lineStroke,
   forest,
@@ -106,7 +108,7 @@ function OverviewPage() {
                 <CartesianGrid stroke="var(--border)" strokeDasharray="3 3" vertical={false} />
                 <XAxis dataKey="label" stroke="var(--muted-foreground)" fontSize={10} tickLine={false} hide />
                 <YAxis stroke="var(--muted-foreground)" fontSize={10} tickLine={false} axisLine={false} width={32} />
-                <Tooltip contentStyle={tooltipStyle} cursor={{ stroke: "var(--border)" }} />
+                <Tooltip contentStyle={tooltipStyle} itemStyle={tooltipItemStyle} labelStyle={tooltipLabelStyle} cursor={{ stroke: "var(--border)" }} />
                 <Line type="monotone" dataKey="cumulative" stroke={lineStroke} strokeWidth={2.5} dot={false} />
               </LineChart>
             </ResponsiveContainer>
@@ -128,7 +130,7 @@ function OverviewPage() {
                 <CartesianGrid stroke="var(--border)" strokeDasharray="3 3" vertical={false} />
                 <XAxis dataKey="label" stroke="var(--muted-foreground)" fontSize={10} tickLine={false} hide />
                 <YAxis stroke="var(--muted-foreground)" fontSize={10} tickLine={false} axisLine={false} width={32} />
-                <Tooltip contentStyle={tooltipStyle} cursor={{ fill: "var(--muted)" }} />
+                <Tooltip contentStyle={tooltipStyle} itemStyle={tooltipItemStyle} labelStyle={tooltipLabelStyle} cursor={{ fill: "var(--muted)" }} />
                 <Bar dataKey="downloads" fill={forest} radius={[3, 3, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>

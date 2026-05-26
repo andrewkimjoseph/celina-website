@@ -31,6 +31,9 @@ export const tooltipStyle = {
   fontSize: 12,
 };
 
+export const tooltipItemStyle = { color: "var(--foreground)" };
+export const tooltipLabelStyle = { color: "var(--foreground)", fontWeight: 600 };
+
 export function truncate(addr: string, head = 6, tail = 4) {
   if (!addr) return "";
   if (addr.length <= head + tail + 1) return addr;
