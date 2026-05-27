@@ -19,7 +19,7 @@ export interface ToolDoc {
   /** longer description shown on the tool page */
   description: string;
   kind: ToolKind;
-  category: "Blockchain" | "Account" | "Token" | "Transaction" | "Mento FX" | "Wallet" | "GoodDollar" | "Aave" | "Self";
+  category: "Blockchain" | "Account" | "Token" | "Transaction" | "Mento FX" | "Wallet" | "GoodDollar" | "Aave" | "Self" | "Governance" | "Staking" | "NFT" | "Contract";
   inputs: ToolField[];
   /** What the LLM should expect back */
   returns: string;
