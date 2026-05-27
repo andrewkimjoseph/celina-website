@@ -336,6 +336,25 @@ function Index() {
             </p>
           </article>
 
+          {/* Hosted (read-only) */}
+          <article className="mt-6 min-w-0 overflow-hidden rounded-2xl border border-foreground/15 bg-card p-7 shadow-[var(--shadow-soft)]">
+            <div className="mb-1 flex flex-wrap items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-[var(--celo-forest)]">
+              <FontAwesomeIcon icon={faCloud} className="h-3.5 w-3.5" /> Hosted
+              <span className="rounded-full border border-[var(--celo-forest)]/40 bg-[var(--celo-forest)]/10 px-2 py-0.5 text-[10px] tracking-[0.18em] text-[var(--celo-forest)] dark:border-[var(--celo-yellow)]/40 dark:bg-[var(--celo-yellow)]/10 dark:text-[var(--celo-yellow)]">Read-only</span>
+            </div>
+            <h3 className="text-2xl font-semibold tracking-tight" style={{ fontFamily: "var(--font-display)" }}>Skip the install — point at the hosted endpoint</h3>
+            <p className="mt-2 text-sm text-muted-foreground">
+              No Node, no <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">npx</span>, no keys. Use it when you only need chain reads (balances, blocks, FX quotes, GoodDollar status, governance, staking, NFTs).
+              Write tools (<span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">send_token</span>, Mento FX, Aave) are disabled — stick with local stdio for those.
+            </p>
+            <div className="mt-5">
+              <CodeBlock code={HOSTED_CONFIG} />
+            </div>
+            <p className="mt-3 text-xs text-muted-foreground">
+              Endpoint: <code className="rounded bg-secondary px-1 py-0.5">https://mcp.usecelina.xyz/api/mcp</code>. Never send private keys to the hosted endpoint.
+            </p>
+          </article>
+
         </div>
 
 
