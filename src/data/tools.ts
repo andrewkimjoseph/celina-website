@@ -460,6 +460,7 @@ export const TOOLS: ToolDoc[] = [
   },
 ];
 
+
 export const TOOL_BY_SLUG: Record<string, ToolDoc> = Object.fromEntries(
   TOOLS.map((t) => [t.slug, t]),
 );
