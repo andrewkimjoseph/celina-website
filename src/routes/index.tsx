@@ -10,6 +10,7 @@ import {
   faCoins,
   faWandMagicSparkles,
   faArrowRight,
+  faCloud,
 } from "@fortawesome/free-solid-svg-icons";
 import { faNpm, faGithub } from "@fortawesome/free-brands-svg-icons";
 import celoWordmarkOnyx from "@/assets/celo-wordmark-onyx.svg";
@@ -33,6 +34,14 @@ const LOCAL_BRIDGE_CONFIG = `{
         "CELO_PRIVATE_KEY": "0x...",
         "SELF_AGENT_PRIVATE_KEY": "0x..."
       }
+    }
+  }
+}`;
+
+const HOSTED_CONFIG = `{
+  "mcpServers": {
+    "celina-mcp": {
+      "url": "https://mcp.usecelina.xyz/api/mcp"
     }
   }
 }`;
