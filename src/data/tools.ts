@@ -19,7 +19,7 @@ export interface ToolDoc {
   /** longer description shown on the tool page */
   description: string;
   kind: ToolKind;
-  category: "Blockchain" | "Account" | "Token" | "Transaction" | "Mento FX" | "Wallet" | "GoodDollar" | "Aave" | "Self";
+  category: "Blockchain" | "Account" | "Token" | "Transaction" | "Mento FX" | "Wallet" | "GoodDollar" | "Aave" | "Self" | "Governance" | "Staking" | "NFT" | "Contract";
   inputs: ToolField[];
   /** What the LLM should expect back */
   returns: string;
@@ -458,7 +458,234 @@ export const TOOLS: ToolDoc[] = [
     ],
     returns: "{ status, headers, body }",
   },
+  {
+    name: "get_token_balance",
+    slug: "get-token-balance",
+    title: "Get Token Balance",
+    summary: "ERC-20 balance by contract address",
+    description:
+      "Fetch the ERC-20 balance of a wallet for a token specified by contract address. Returns raw and formatted balance with decimals.",
+    kind: "read",
+    category: "Token",
+    inputs: [
+      { name: "address", type: "0x… address", required: true, description: "Wallet to inspect." },
+      { name: "token", type: "0x… address", required: true, description: "ERC-20 contract address." },
+    ],
+    returns: "{ balance, formatted, decimals, symbol }",
+    examples: ["What's 0x…'s balance of token 0x…?"],
+  },
+  {
+    name: "get_gas_fee_data",
+    slug: "get-gas-fee-data",
+    title: "Get Gas Fee Data",
+    summary: "Current EIP-1559 gas fees on Celo",
+    description:
+      "Return current gas fees on Celo mainnet, including EIP-1559 maxFeePerGas and maxPriorityFeePerGas when supported, alongside the legacy gasPrice.",
+    kind: "read",
+    category: "Blockchain",
+    inputs: [],
+    returns: "{ gasPrice, maxFeePerGas?, maxPriorityFeePerGas? }",
+    examples: ["What are current gas fees on Celo?"],
+  },
+  {
+    name: "estimate_transaction",
+    slug: "estimate-transaction",
+    title: "Estimate Transaction",
+    summary: "Generic gas estimate for any tx",
+    description:
+      "Estimate gas for an arbitrary transaction on Celo mainnet from from/to/value/data fields. Useful for raw contract calls before sending.",
+    kind: "read",
+    category: "Transaction",
+    inputs: [
+      { name: "from", type: "0x… address", required: true, description: "Sender address." },
+      { name: "to", type: "0x… address", required: true, description: "Recipient or contract address." },
+      { name: "value", type: "string (wei)", required: false, description: "Native CELO value in wei. Defaults to 0." },
+      { name: "data", type: "0x… hex", required: false, description: "Calldata for the transaction." },
+    ],
+    returns: "{ gasLimit, gasPrice, estimatedFee }",
+    examples: ["Estimate gas to call this contract from 0x…"],
+  },
+  {
+    name: "get_governance_proposals",
+    slug: "get-governance-proposals",
+    title: "Get Governance Proposals",
+    summary: "Paginated Celo governance proposals",
+    description:
+      "List Celo governance proposals (queued, approved, referendum, execution, expiration) with pagination. Includes proposer, stage, and vote totals.",
+    kind: "read",
+    category: "Governance",
+    inputs: [
+      { name: "stage", type: "Queued | Approval | Referendum | Execution | Expiration | All", required: false, description: "Filter by governance stage. Defaults to all." },
+      { name: "limit", type: "integer (1-50)", required: false, description: "Page size. Defaults to 10." },
+      { name: "offset", type: "integer", required: false, description: "Pagination offset." },
+    ],
+    returns: "Array of proposal summaries with stage, deposit, and vote totals.",
+    examples: ["List the latest Celo governance proposals."],
+  },
+  {
+    name: "get_proposal_details",
+    slug: "get-proposal-details",
+    title: "Get Proposal Details",
+    summary: "Single proposal + CGP content",
+    description:
+      "Fetch full details for a Celo governance proposal by ID, including on-chain stage, vote tallies, and the linked Celo Governance Proposal (CGP) markdown content when available.",
+    kind: "read",
+    category: "Governance",
+    inputs: [
+      { name: "proposal_id", type: "integer", required: true, description: "Numeric governance proposal ID." },
+    ],
+    returns: "{ id, stage, proposer, votes, transactions, cgp? }",
+    examples: ["Show me details of Celo proposal 198."],
+  },
+  {
+    name: "get_staking_balances",
+    slug: "get-staking-balances",
+    title: "Get Staking Balances",
+    summary: "Staking votes by validator group",
+    description:
+      "Return an address's staking votes on Celo mainnet, broken down by validator group, including active and pending amounts.",
+    kind: "read",
+    category: "Staking",
+    inputs: [
+      { name: "address", type: "0x… address", required: true, description: "Account to inspect." },
+    ],
+    returns: "{ groups: [{ group, active, pending }], totals }",
+    examples: ["What does 0x… have staked on Celo?"],
+  },
+  {
+    name: "get_activatable_stakes",
+    slug: "get-activatable-stakes",
+    title: "Get Activatable Stakes",
+    summary: "Pending stakes ready to activate",
+    description:
+      "Return any pending staking votes for an address that are now eligible to be activated on Celo mainnet.",
+    kind: "read",
+    category: "Staking",
+    inputs: [
+      { name: "address", type: "0x… address", required: true, description: "Account to inspect." },
+    ],
+    returns: "Array of { group, pendingAmount, activatableSince }.",
+    examples: ["Do I have any Celo stakes ready to activate?"],
+  },
+  {
+    name: "get_validator_groups",
+    slug: "get-validator-groups",
+    title: "Get Validator Groups",
+    summary: "Paginated validator groups",
+    description:
+      "List Celo validator groups with pagination — name, address, members, and total votes.",
+    kind: "read",
+    category: "Staking",
+    inputs: [
+      { name: "limit", type: "integer (1-100)", required: false, description: "Page size. Defaults to 20." },
+      { name: "offset", type: "integer", required: false, description: "Pagination offset." },
+    ],
+    returns: "Array of validator group summaries.",
+    examples: ["List the top Celo validator groups."],
+  },
+  {
+    name: "get_validator_group_details",
+    slug: "get-validator-group-details",
+    title: "Get Validator Group Details",
+    summary: "Single validator group details",
+    description:
+      "Fetch full details for a single Celo validator group by address — members, votes, commission, and slashing history.",
+    kind: "read",
+    category: "Staking",
+    inputs: [
+      { name: "group", type: "0x… address", required: true, description: "Validator group address." },
+    ],
+    returns: "{ name, address, members, votes, commission, … }",
+    examples: ["Show me details for validator group 0x…"],
+  },
+  {
+    name: "get_total_staking_info",
+    slug: "get-total-staking-info",
+    title: "Get Total Staking Info",
+    summary: "Network-wide staking totals",
+    description:
+      "Return network-wide staking totals on Celo: total locked, total votes, number of elected validators, and current epoch info.",
+    kind: "read",
+    category: "Staking",
+    inputs: [],
+    returns: "{ totalLocked, totalVotes, electedValidators, epoch }",
+    examples: ["How much CELO is staked network-wide?"],
+  },
+  {
+    name: "get_nft_info",
+    slug: "get-nft-info",
+    title: "Get NFT Info",
+    summary: "NFT token info + metadata",
+    description:
+      "Fetch info and metadata for an NFT on Celo — supports ERC-721 and ERC-1155. Resolves tokenURI and parses metadata when available.",
+    kind: "read",
+    category: "NFT",
+    inputs: [
+      { name: "contract", type: "0x… address", required: true, description: "NFT contract address." },
+      { name: "token_id", type: "string", required: true, description: "Token ID." },
+      { name: "standard", type: "erc721 | erc1155", required: false, description: "Token standard. Auto-detected when omitted." },
+    ],
+    returns: "{ contract, tokenId, owner?, tokenURI, metadata }",
+    examples: ["Show me NFT #42 from contract 0x…"],
+  },
+  {
+    name: "get_nft_balance",
+    slug: "get-nft-balance",
+    title: "Get NFT Balance",
+    summary: "ERC-721 / ERC-1155 balance",
+    description:
+      "Return the NFT balance of a wallet for a given contract — count for ERC-721 or per-token balance for ERC-1155.",
+    kind: "read",
+    category: "NFT",
+    inputs: [
+      { name: "address", type: "0x… address", required: true, description: "Wallet to inspect." },
+      { name: "contract", type: "0x… address", required: true, description: "NFT contract address." },
+      { name: "token_id", type: "string", required: false, description: "Required for ERC-1155." },
+      { name: "standard", type: "erc721 | erc1155", required: false, description: "Token standard. Auto-detected when omitted." },
+    ],
+    returns: "{ balance, standard }",
+    examples: ["How many NFTs of contract 0x… does 0x… own?"],
+  },
+  {
+    name: "call_contract_function",
+    slug: "call-contract-function",
+    title: "Call Contract Function",
+    summary: "Read-only contract call with caller ABI",
+    description:
+      "Make a read-only call to any Celo mainnet contract using a caller-supplied ABI fragment. No wallet required; does not broadcast.",
+    kind: "read",
+    category: "Contract",
+    inputs: [
+      { name: "contract", type: "0x… address", required: true, description: "Contract address." },
+      { name: "abi", type: "JSON ABI fragment", required: true, description: "Function ABI as JSON." },
+      { name: "function", type: "string", required: true, description: "Function name to call." },
+      { name: "args", type: "any[]", required: false, description: "Function arguments in order." },
+    ],
+    returns: "Decoded function return value(s).",
+    examples: ["Call totalSupply() on contract 0x…"],
+  },
+  {
+    name: "estimate_contract_gas",
+    slug: "estimate-contract-gas",
+    title: "Estimate Contract Gas",
+    summary: "Gas estimate for a contract call",
+    description:
+      "Estimate gas for invoking a contract function on Celo mainnet with a caller-supplied ABI fragment. Does not broadcast.",
+    kind: "read",
+    category: "Contract",
+    inputs: [
+      { name: "from", type: "0x… address", required: true, description: "Sender address." },
+      { name: "contract", type: "0x… address", required: true, description: "Contract address." },
+      { name: "abi", type: "JSON ABI fragment", required: true, description: "Function ABI as JSON." },
+      { name: "function", type: "string", required: true, description: "Function name." },
+      { name: "args", type: "any[]", required: false, description: "Function arguments in order." },
+      { name: "value", type: "string (wei)", required: false, description: "Native CELO value to attach. Defaults to 0." },
+    ],
+    returns: "{ gasLimit, gasPrice, estimatedFee }",
+    examples: ["Estimate gas to mint() on contract 0x… from 0x…"],
+  },
 ];
+
 
 export const TOOL_BY_SLUG: Record<string, ToolDoc> = Object.fromEntries(
   TOOLS.map((t) => [t.slug, t]),

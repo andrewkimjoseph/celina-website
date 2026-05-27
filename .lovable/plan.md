@@ -1,44 +1,47 @@
 ## Goal
-Restructure `/stats` into a hub with two dedicated sub-routes — `/stats/onchain` and `/stats/package` — and rename the main title to "Celina stats" with subtopic headings.
 
-## New route structure
+Reflect the new tools shipped in `@andrewkimjoseph/celina-mcp` v0.7 on the marketing site. The current catalog has 27 tools; the new spec has 41. Add the 14 missing ones with full docs, and introduce 4 new categories so they show up in `/tools` and `/tools/:category`.
 
-```text
-/stats           → overview hub (summary KPIs from both + links to sub-pages)
-/stats/onchain   → Dune on-chain charts + transactions table
-/stats/package   → npm download charts
-```
+## New tools to add (14)
 
-## File changes
+Extend `src/data/tools.ts` with:
 
-### 1. `src/routes/stats.tsx` (refactor into layout)
-- Convert into a layout route: header (nav + theme toggle), hero ("Celina stats" h1 + tagline), shared Refresh button (refreshes both stores), shared error banner, sub-nav tabs (Overview / On-chain / Package), and `<Outlet />` for child routes. Footer stays here.
-- Keep the 5-min cooldown and dual-store refresh logic in the layout so it works on every sub-page.
+**Existing categories**
+- `get_token_balance` — Token, read — ERC-20 balance by contract address
+- `get_gas_fee_data` — Blockchain, read — current EIP-1559 gas fees
+- `estimate_transaction` — Transaction, read — generic from/to/value/data gas estimate
 
-### 2. `src/routes/stats.index.tsx` (new — overview)
-- Renders at `/stats`. Shows a condensed summary: top KPI row mixing on-chain (Total txns, Today) and npm (Total 365d, Last 7d) plus two hero links/cards routing to the sub-pages with a one-line preview chart each (cumulative tx + daily downloads).
+**New category: Governance**
+- `get_governance_proposals` — paginated list of Celo governance proposals
+- `get_proposal_details` — single proposal + CGP content
 
-### 3. `src/routes/stats.onchain.tsx` (new)
-- Section subtitle "On-chain activity · Dune Analytics".
-- Moves the existing on-chain KPI grid, all 6 Recharts charts, and the Transactions table here.
+**New category: Staking**
+- `get_staking_balances` — staking votes by validator group for an address
+- `get_activatable_stakes` — pending stakes ready to activate
+- `get_validator_groups` — paginated validator groups
+- `get_validator_group_details` — single group details
+- `get_total_staking_info` — network-wide staking totals
 
-### 4. `src/routes/stats.package.tsx` (new)
-- Section subtitle "Package adoption · npm downloads".
-- Moves the npm KPI grid and 4 npm charts here. Keeps the "npm-stat.com" external link.
+**New category: NFT**
+- `get_nft_info` — NFT token info + metadata
+- `get_nft_balance` — ERC-721 / ERC-1155 balance
 
-### 5. Extract shared helpers → `src/lib/stats-shared.tsx` (new)
-- Move `ChartCard`, `KpiCard`, `tooltipStyle`, `truncate`, `formatDateTime`, `formatDateOnly`, `timeAgo`, `aggregate`, `aggregateNpm`, `isoWeek`, and `NPM_URL` here so all three route files can import them.
+**New category: Contract**
+- `call_contract_function` — read-only contract call with caller-supplied ABI
+- `estimate_contract_gas` — gas estimate for a contract function call
 
-### 6. Navigation updates
-- `src/routes/index.tsx`: header + footer "Stats" links continue to point to `/stats`.
-- Sub-nav inside the stats layout uses `<Link to="/stats">`, `<Link to="/stats/onchain">`, `<Link to="/stats/package">` with active-state styling.
+## Implementation
 
-### 7. SEO
-- Each route file gets its own `head()` with unique title + description + og tags:
-  - `/stats` → "Celina stats"
-  - `/stats/onchain` → "Celina stats — On-chain activity"
-  - `/stats/package` → "Celina stats — Package downloads"
+1. **`src/data/tools.ts`**
+   - Widen the `category` union to add `"Governance" | "Staking" | "NFT" | "Contract"`.
+   - Append the 14 `ToolDoc` entries above with `name`, `slug`, `title`, `summary`, `description`, `kind`, `category`, `inputs`, `returns`, and 1–2 `examples` each — matching the existing style (concise summary, short input descriptions).
 
-## Notes
-- Both Zustand stores (`useStatsStore`, `useNpmStore`) already cache + persist, so navigating between sub-routes is instant — no extra fetches.
-- `routeTree.gen.ts` regenerates automatically; do not edit it by hand.
+2. **No new routes needed.** `tools.$category.index.tsx` and `tools.$category.$toolSlug.tsx` already render any category dynamically via `categorySlug()` / `CATEGORY_BY_SLUG`, so the new categories auto-appear on `/tools` and get their own pages.
+
+3. **Light copy touch-ups**
+   - `tools.index.tsx` heading/meta description currently uses `TOOLS.length` and lists "Mento FX, Aave and GoodDollar" — extend the meta `desc` to also mention Governance/Staking/NFT so it reflects the new surface (counts update automatically).
+
+## Out of scope
+
+- No changes to stats, npm fetching, or landing page (already updated to `celina-mcp` in the previous turn).
+- No changes to `README.md` in this repo unless you want me to also refresh it to the v0.7 tool table — say the word and I'll include it.
