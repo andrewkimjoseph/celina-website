@@ -17,28 +17,28 @@ export function SiteHeader() {
           <span className="font-display text-lg font-semibold tracking-tight" style={{ fontFamily: "var(--font-display)" }}>
             Celina
           </span>
-          <span className="hidden text-xs uppercase tracking-[0.18em] text-muted-foreground sm:inline">· Celo MCP</span>
+          <span className="hidden text-xs uppercase tracking-[0.18em] text-muted-foreground md:inline">· Celo MCP</span>
         </Link>
-        <nav className="flex items-center gap-1 text-sm">
+        <nav className="flex items-center gap-0.5 text-sm sm:gap-1">
           <Link
             to="/"
             activeOptions={{ exact: true }}
             activeProps={{ className: "text-foreground" }}
-            className="hidden rounded-md px-3 py-1.5 text-foreground/70 transition hover:text-foreground sm:inline"
+            className="rounded-md px-2 py-1.5 text-foreground/70 transition hover:text-foreground sm:px-3"
           >
             Home
           </Link>
           <Link
             to="/tools"
             activeProps={{ className: "text-foreground" }}
-            className="hidden rounded-md px-3 py-1.5 text-foreground/70 transition hover:text-foreground sm:inline"
+            className="rounded-md px-2 py-1.5 text-foreground/70 transition hover:text-foreground sm:px-3"
           >
             Tools
           </Link>
           <Link
             to="/stats"
             activeProps={{ className: "text-foreground" }}
-            className="hidden rounded-md px-3 py-1.5 text-foreground/70 transition hover:text-foreground sm:inline"
+            className="rounded-md px-2 py-1.5 text-foreground/70 transition hover:text-foreground sm:px-3"
           >
             Stats
           </Link>
@@ -46,7 +46,7 @@ export function SiteHeader() {
             href={NPM_URL}
             target="_blank"
             rel="noreferrer"
-            className="ml-1 inline-flex items-center gap-1.5 rounded-md bg-[var(--celo-forest)] px-3 py-1.5 text-sm font-medium text-[var(--celo-cream)] transition hover:bg-[var(--celo-deep)] hover:text-[var(--celo-cream)] dark:bg-white dark:text-[var(--celo-ink)] dark:hover:bg-[var(--celo-yellow)] dark:hover:text-[var(--celo-ink)]"
+            className="ml-1 hidden items-center gap-1.5 rounded-md bg-[var(--celo-forest)] px-3 py-1.5 text-sm font-medium text-[var(--celo-cream)] transition hover:bg-[var(--celo-deep)] hover:text-[var(--celo-cream)] sm:inline-flex dark:bg-white dark:text-[var(--celo-ink)] dark:hover:bg-[var(--celo-yellow)] dark:hover:text-[var(--celo-ink)]"
           >
             <FontAwesomeIcon icon={faNpm} className="h-3.5 w-3.5" /> npm
           </a>
