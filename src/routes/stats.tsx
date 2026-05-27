@@ -115,7 +115,7 @@ function StatsLayout() {
               refreshNpm();
             }}
             disabled={busy || cooldown}
-            className="inline-flex items-center gap-2 rounded-lg border border-foreground/15 bg-card px-3.5 py-2 text-sm font-medium text-foreground transition hover:border-[var(--celo-yellow)] hover:bg-muted disabled:opacity-60"
+            className="inline-flex items-center gap-2 rounded-lg border border-foreground/15 bg-card px-3.5 py-2 text-sm font-medium text-foreground transition hover:border-[var(--celo-forest)] hover:bg-muted disabled:opacity-60"
           >
             <FontAwesomeIcon
               icon={faRotate}
