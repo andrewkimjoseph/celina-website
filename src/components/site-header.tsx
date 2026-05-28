@@ -36,6 +36,13 @@ export function SiteHeader() {
             Tools
           </Link>
           <Link
+            to="/sdk"
+            activeProps={{ className: "text-foreground" }}
+            className="rounded-md px-2 py-1.5 text-foreground/70 transition hover:text-foreground sm:px-3"
+          >
+            SDK
+          </Link>
+          <Link
             to="/stats"
             activeProps={{ className: "text-foreground" }}
             className="rounded-md px-2 py-1.5 text-foreground/70 transition hover:text-foreground sm:px-3"

@@ -32,13 +32,13 @@ export const Route = createFileRoute("/stats/package")({
       {
         name: "description",
         content:
-          "npm download stats for @andrewkimjoseph/celina — daily, weekly, and monthly adoption.",
+          "npm download stats for Celina MCP + SDK — daily, weekly, and monthly adoption across @andrewkimjoseph/celina-mcp, celina-sdk, and the legacy celina wrapper.",
       },
       { property: "og:title", content: "Celina stats — Package downloads" },
       {
         property: "og:description",
         content:
-          "npm download stats for @andrewkimjoseph/celina — daily, weekly, and monthly adoption.",
+          "npm download stats for Celina MCP + SDK — daily, weekly, and monthly adoption across @andrewkimjoseph/celina-mcp, celina-sdk, and the legacy celina wrapper.",
       },
     ],
   }),
@@ -62,10 +62,10 @@ function PackagePage() {
               className="mt-3 text-2xl font-bold tracking-tight"
               style={{ fontFamily: "var(--font-display)" }}
             >
-              @andrewkimjoseph/celina-mcp downloads
+              @andrewkimjoseph/celina-* downloads
             </h2>
             <p className="mt-1 text-xs text-muted-foreground">
-              Combined totals for <span className="font-medium text-foreground">celina-mcp</span> (current) and <span className="font-medium text-foreground">celina</span> (legacy wrapper).
+              Combined totals for <span className="font-medium text-foreground">celina-mcp</span> (MCP server), <span className="font-medium text-foreground">celina-sdk</span> (frontend SDK), and <span className="font-medium text-foreground">celina</span> (legacy wrapper).
             </p>
           </div>
           <a
