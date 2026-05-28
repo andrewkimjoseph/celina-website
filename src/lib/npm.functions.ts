@@ -10,6 +10,7 @@ export type NpmDownloadsResult = {
 
 const PACKAGES = [
   "@andrewkimjoseph/celina-mcp",
+  "@andrewkimjoseph/celina-sdk",
   "@andrewkimjoseph/celina",
 ] as const;
 
