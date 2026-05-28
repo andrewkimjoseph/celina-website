@@ -1,47 +1,52 @@
 ## Goal
 
-Reflect the new tools shipped in `@andrewkimjoseph/celina-mcp` v0.7 on the marketing site. The current catalog has 27 tools; the new spec has 41. Add the 14 missing ones with full docs, and introduce 4 new categories so they show up in `/tools` and `/tools/:category`.
+Surface the new `@andrewkimjoseph/celina-sdk` package on the marketing site:
+1. Roll its npm downloads into the existing Stats → Package metrics.
+2. Add a dedicated `/sdk` route summarizing what the SDK does, install, quick start, API surface, and related packages — sourced from the GitBook page.
 
-## New tools to add (14)
+## 1. Include the SDK in npm metrics
 
-Extend `src/data/tools.ts` with:
+**`src/lib/npm.functions.ts`**
+- Add `"@andrewkimjoseph/celina-sdk"` to the `PACKAGES` array. The existing merge logic already sums downloads across packages by day, so totals/daily/weekly/monthly KPIs and charts pick it up automatically. 404s for any package are already handled (treated as zero), so it's safe even on a new package with sparse history.
 
-**Existing categories**
-- `get_token_balance` — Token, read — ERC-20 balance by contract address
-- `get_gas_fee_data` — Blockchain, read — current EIP-1559 gas fees
-- `estimate_transaction` — Transaction, read — generic from/to/value/data gas estimate
+**`src/routes/stats.package.tsx`**
+- Update the subhead copy under "Package adoption · npm downloads" to mention all three packages: `celina-mcp` (current MCP), `celina-sdk` (new SDK), and `celina` (legacy wrapper).
+- Update `head()` meta `title` + `description` to reflect "MCP + SDK downloads" instead of single package.
 
-**New category: Governance**
-- `get_governance_proposals` — paginated list of Celo governance proposals
-- `get_proposal_details` — single proposal + CGP content
+**`src/lib/stats-shared.tsx`** (only if `NPM_STAT_URL` is single-package)
+- If `NPM_STAT_URL` points to one package's npm-stat page, leave it (deep links to multi-package comparison are messy) — no change needed.
 
-**New category: Staking**
-- `get_staking_balances` — staking votes by validator group for an address
-- `get_activatable_stakes` — pending stakes ready to activate
-- `get_validator_groups` — paginated validator groups
-- `get_validator_group_details` — single group details
-- `get_total_staking_info` — network-wide staking totals
+No changes to `npm-store.ts` — it just consumes the merged result.
 
-**New category: NFT**
-- `get_nft_info` — NFT token info + metadata
-- `get_nft_balance` — ERC-721 / ERC-1155 balance
+## 2. New `/sdk` route
 
-**New category: Contract**
-- `call_contract_function` — read-only contract call with caller-supplied ABI
-- `estimate_contract_gas` — gas estimate for a contract function call
+**`src/routes/sdk.tsx`** (new)
+- `createFileRoute("/sdk")` with `head()` meta:
+  - title: `Celina SDK — frontend library for Celo`
+  - description: `Celina-linked mainnet SDK for frontend apps — reads, gas estimates, and unsigned tx preparation. Pair with wagmi/viem; users sign in their wallet.`
+  - matching `og:title` / `og:description`.
+- Use `SiteHeader` + same layout shell as `/tools` / `/stats` for visual consistency (background, max-w-6xl container, footer pattern from `stats.tsx`).
+- Sections:
+  1. **Hero** — eyebrow chip ("SDK · Frontend library"), H1 "Celina SDK", subtitle describing reads + unsigned tx prep, two CTAs: "Read the docs" → `https://andrewkimjoseph.gitbook.io/celina-sdk` (external, target=_blank) and "View on npm" → `https://www.npmjs.com/package/@andrewkimjoseph/celina-sdk`.
+  2. **What you can do** — 3 cards: Reads (token balances, Mento FX quotes, governance proposals, ENS), Estimates (gas for sends, FX swaps, generic contract calls), Prepare (unsigned tx flows: sends, Mento FX, Aave supply/withdraw). Callout: "The SDK never holds or uses private keys."
+  3. **Install** — code block: `npm i @andrewkimjoseph/celina-sdk@latest`.
+  4. **Quick start** — code block showing `createCelinaClient`, sample `token.getStablecoinBalances`, `mentoFx.getFxQuote`, and `transaction.prepareSend` returning steps for wagmi (from GitBook).
+  5. **API overview** — table with columns Service / Reads / Prepare for: `blockchain`, `account`, `token`, `ens`, `gooddollar`, `transaction`, `mentoFx`, `aave`, `governance`, `staking`, `nft`, `contract`. Same content as GitBook table.
+  6. **Related packages** — small list linking to `@andrewkimjoseph/celina-mcp` (with internal cross-link to `/` or `/tools` for the MCP server) and `@selfxyz/agent-sdk`.
+  7. **Footer** — same as other routes.
+- Styling uses existing tokens (`--celo-forest`, `--celo-yellow`, `--celo-cream`, `--celo-ink`, `var(--font-display)`, `bg-card`, `text-muted-foreground`, etc.) — no new tokens, no hardcoded colors.
 
-## Implementation
+**`src/components/site-header.tsx`**
+- Add an `SDK` nav link between `Tools` and `Stats` so the new route is discoverable on every page. Mirror existing `Link` styling (`activeProps`, `px-2 py-1.5 sm:px-3`).
 
-1. **`src/data/tools.ts`**
-   - Widen the `category` union to add `"Governance" | "Staking" | "NFT" | "Contract"`.
-   - Append the 14 `ToolDoc` entries above with `name`, `slug`, `title`, `summary`, `description`, `kind`, `category`, `inputs`, `returns`, and 1–2 `examples` each — matching the existing style (concise summary, short input descriptions).
+**`src/routes/index.tsx`** (light touch)
+- In the existing hero / install section, add a brief "Building a frontend? Use the SDK" callout linking to `/sdk` so users on the landing page find it. (No restructure — one card / inline note.)
 
-2. **No new routes needed.** `tools.$category.index.tsx` and `tools.$category.$toolSlug.tsx` already render any category dynamically via `categorySlug()` / `CATEGORY_BY_SLUG`, so the new categories auto-appear on `/tools` and get their own pages.
-
-3. **Light copy touch-ups**
-   - `tools.index.tsx` heading/meta description currently uses `TOOLS.length` and lists "Mento FX, Aave and GoodDollar" — extend the meta `desc` to also mention Governance/Staking/NFT so it reflects the new surface (counts update automatically).
+**`src/routeTree.gen.ts`**
+- Auto-regenerated by the TanStack Router Vite plugin. No manual edit needed beyond creating `src/routes/sdk.tsx`.
 
 ## Out of scope
 
-- No changes to stats, npm fetching, or landing page (already updated to `celina-mcp` in the previous turn).
-- No changes to `README.md` in this repo unless you want me to also refresh it to the v0.7 tool table — say the word and I'll include it.
+- No changes to `tools.ts` or tool catalog — the SDK's surface mirrors the MCP tools already documented, and the GitBook is the source of truth for SDK method signatures.
+- No on-chain stats changes — SDK reads happen client-side and aren't attributable on-chain.
+- No README update (can follow in a separate turn if you want it refreshed).
