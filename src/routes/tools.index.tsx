@@ -7,7 +7,7 @@ import { SiteHeader } from "@/components/site-header";
 export const Route = createFileRoute("/tools/")({
   head: () => {
     const title = "All Celina tools — Celo MCP";
-    const desc = `Browse every Celina MCP tool: ${TOOLS.length} read & write operations across Celo mainnet, Mento FX, Aave, GoodDollar, governance, staking, NFTs and raw contract calls.`;
+    const desc = `Browse every Celina MCP tool: ${TOOLS.length} read & write operations across Celo mainnet, Mento FX, Uniswap v4, Aave, GoodDollar, governance, staking, NFTs and raw contract calls.`;
     return {
       meta: [
         { title },
@@ -50,7 +50,7 @@ function ToolsIndex() {
           {TOOLS.length} tools. One agent. Whole chain.
         </h1>
         <p className="mt-4 max-w-2xl text-lg text-muted-foreground">
-          Every operation Celina exposes to your LLM — {readCount} read, {writeCount} write — across Celo mainnet, Mento FX, Aave and GoodDollar. Click any tool for its full spec.
+          Every operation Celina exposes to your LLM — {readCount} read, {writeCount} write — across Celo mainnet, Mento FX, Uniswap v4, Aave and GoodDollar. Click any tool for its full spec.
         </p>
 
         <nav className="mt-8 flex flex-wrap gap-2 text-sm">
