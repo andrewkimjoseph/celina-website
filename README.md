@@ -3,7 +3,7 @@
 **Celina** is an open-source [Model Context Protocol](https://modelcontextprotocol.io) server that gives LLMs read + write access to **Celo mainnet** — balances, stablecoins, sends, swaps, and chain reads.
 
 - Website: [celina.andrewkimjoseph.com](https://celina.andrewkimjoseph.com)
-- npm: [@andrewkimjoseph/celina](https://www.npmjs.com/package/@andrewkimjoseph/celina)
+- npm: [@andrewkimjoseph/celina-mcp](https://www.npmjs.com/package/@andrewkimjoseph/celina-mcp)
 - Hosted endpoint: `https://mcp.celina.andrewkimjoseph.com/mcp`
 
 This repo is the **marketing site** for Celina. The MCP server itself is published as the npm package above.
@@ -97,7 +97,7 @@ To run the server fully locally instead, install the npm package directly:
   "mcpServers": {
     "celina": {
       "command": "npx",
-      "args": ["-y", "@andrewkimjoseph/celina"],
+      "args": ["-y", "@andrewkimjoseph/celina-mcp"],
       "env": {
         "CELO_PRIVATE_KEY": "0x...",
         "SELF_AGENT_PRIVATE_KEY": "0x..."

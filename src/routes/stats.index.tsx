@@ -123,7 +123,7 @@ function OverviewPage() {
               </span>
             }
             title="Package adoption"
-            description="Daily, weekly, and monthly downloads for @andrewkimjoseph/celina from the npm registry."
+            description="Daily, weekly, and monthly downloads for @andrewkimjoseph/celina-mcp from the npm registry."
           >
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={npmAgg.daily90} margin={{ top: 8, right: 8, left: 0, bottom: 0 }}>
