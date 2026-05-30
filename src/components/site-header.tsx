@@ -5,7 +5,7 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import celinaLogoCelo from "@/assets/celina-logo-celo.png";
 import celinaLogoBlack from "@/assets/celina-logo-black.png";
 
-const NPM_URL = "https://www.npmjs.com/package/@andrewkimjoseph/celina";
+const NPM_URL = "https://www.npmjs.com/package/@andrewkimjoseph/celina-mcp";
 
 export function SiteHeader() {
   return (
