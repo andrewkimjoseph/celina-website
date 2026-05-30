@@ -97,7 +97,7 @@ To run the server fully locally instead, install the npm package directly:
   "mcpServers": {
     "celina": {
       "command": "npx",
-      "args": ["-y", "@andrewkimjoseph/celina"],
+      "args": ["-y", "@andrewkimjoseph/celina-mcp"],
       "env": {
         "CELO_PRIVATE_KEY": "0x...",
         "SELF_AGENT_PRIVATE_KEY": "0x..."
