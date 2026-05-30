@@ -102,7 +102,7 @@ function CodeBlock({ code }: { code: string }) {
       <div className="absolute right-3 top-3 z-10">
         <CopyButton text={code} />
       </div>
-      <pre className="overflow-x-auto rounded-xl border border-[var(--celo-deep)]/40 bg-[var(--celo-ink)] p-4 pr-20 text-[12px] leading-relaxed text-[var(--celo-cream)] shadow-[var(--shadow-soft)] sm:p-5 sm:text-sm">
+      <pre className="overflow-x-auto rounded-xl border border-[var(--celo-forest)]/40 bg-[color-mix(in_oklab,var(--celo-forest)_18%,var(--celo-ink))] p-4 pr-20 text-[12px] leading-relaxed text-[var(--celo-cream)] shadow-[var(--shadow-soft)] sm:p-5 sm:text-sm">
         <code>{code}</code>
       </pre>
     </div>
