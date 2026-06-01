@@ -1,46 +1,40 @@
-## Goal
+Sync `src/data/tools.ts` (and downstream UI counts) with the latest README. Frontend-only changes; no schema/backend work.
 
-Add the 25 new Carbon DeFi tools to the site catalog and update the hero/category copy so the marketing site matches the new MCP server description (Mento FX, Uniswap v4, Aave, **Carbon DeFi**, chain reads).
+## 1. New tools to add (GoodDollar)
 
-## Scope
+Append to `TOOLS` in `src/data/tools.ts`:
 
-Frontend / data only. No backend, no schema, no stats logic changes.
+- `get_gooddollar_ubi_entitlement` — **read**, category **GoodDollar**
+  - Summary: "Daily UBI claim eligibility (amount, root, reasons)"
+  - Description: returns whether the address can claim today's G$ UBI, the claimable amount, whitelist root address, and any blocking reasons.
+  - Inputs: `address` (0x… address, required)
+  - Returns: `{ canClaim, claimableAmount, whitelistedRoot, reasons }`
 
-## 1. `src/data/tools.ts`
+- `claim_daily_gooddollar_ubi` — **write**, category **GoodDollar**
+  - Summary: "Claim today's GoodDollar UBI (G$)"
+  - Description: claims today's UBI to the MCP server wallet on Celo mainnet (G$ to signer, gas in CELO). Requires `CELO_PRIVATE_KEY`.
+  - Inputs: none
+  - Returns: `{ hash, status, amountClaimed, blockNumber }`
 
-- Extend the `ToolDoc.category` union with `"Carbon DeFi"`.
-- Add a new `ToolKind` value `"prepare"` (used by 13 of the 25 Carbon tools). Keep `read` and `write` for the rest.
-  - Update any place that branches on `kind === "write"` (tool list card, category page, tool detail page) to treat `prepare` distinctly — render a third badge ("prepare") styled like write but in a softer tone so users can see it's unsigned.
-- Append 25 new tool entries under category `Carbon DeFi`, each with: `name`, `slug` (kebab-case), `title`, `summary`, `description`, `kind`, `inputs` (minimal — most take a wallet + pair + amount/price params), `returns`, and 1–2 example prompts where natural.
-  - 12 reads: `get_carbon_strategies`, `get_carbon_strategy`, `get_carbon_trade_quote`, `explore_carbon_pair`, `resolve_carbon_token`, `get_carbon_activity`, `find_carbon_opportunities`, `get_carbon_protocol_stats`, `get_carbon_price_history`, `simulate_carbon_strategy`, `carbon_help`, `carbon_learn`
-  - 13 prepares: `prepare_carbon_limit_order`, `prepare_carbon_range_order`, `prepare_carbon_recurring_strategy`, `prepare_carbon_concentrated_strategy`, `prepare_carbon_full_range_strategy`, `prepare_carbon_reprice_strategy`, `prepare_carbon_edit_strategy`, `prepare_carbon_deposit_budget`, `prepare_carbon_withdraw_budget`, `prepare_carbon_pause_strategy`, `prepare_carbon_resume_strategy`, `prepare_carbon_delete_strategy`, `prepare_carbon_trade`
-- Make sure `CATEGORY_BY_SLUG` (categorySlug helper) handles `"Carbon DeFi"` → `carbon-defi`.
+## 2. Existing tool descriptions to update
 
-## 2. Tool detail / category badges
+- `get_block` — add optional `includeTransactions` (boolean) input; mention it in description.
+- `get_latest_blocks` — README now allows up to **100** blocks and adds an `offset` param. Update:
+  - input `count` range → `1-100`
+  - add input `offset` (integer, optional)
+  - update description to reflect the new cap and pagination.
 
-- `src/routes/tools.$category.$toolSlug.tsx`, `src/routes/tools.$category.index.tsx`, `src/routes/tools.index.tsx`: extend the read/write badge logic to a small helper that returns label + colors for `read | write | prepare`. Use yellow for write, forest for read (current), and a neutral border style for prepare.
-- Tool detail page: when `kind === "prepare"`, add a one-line note: "Returns an unsigned prepared flow — user signs in their wallet. Local stdio only."
+## 3. Downstream UI
 
-## 3. Landing copy (`src/routes/index.tsx`)
+No structural changes needed. Tool list / category pages derive counts from `TOOLS.length`, so:
+- Total tool count goes from 56 → 58.
+- GoodDollar category gains 2 tools (1 read + 1 write).
 
-- Hero subtitle: extend the sentence already mentioning Mento FX, Uniswap v4, Aave to include "Carbon DeFi maker/taker tools".
-- Hosted section caveat: append "`prepare_carbon_*` tools are local-stdio only" next to the existing write-disabled line.
-- Tool counts use `TOOLS.length` already — auto-updates from 31 → 56.
-
-## 4. README (already updated by user) — no change
-
-## 5. Header / nav
-
-- `src/components/site-header.tsx`: if there's a category dropdown, add Carbon DeFi. Otherwise no change (categories are derived from TOOLS).
+Verify visually on `/tools` and `/tools/gooddollar` after the edit.
 
 ## Out of scope
 
-- `/stats` and `/sdk` routes — no Carbon-specific metrics.
-- Color tokens — reuse existing `--celo-*` tokens; no new tokens needed.
-
-## Verification
-
-- Build passes (route tree regenerates cleanly).
-- `/tools` shows new Carbon DeFi category with 25 tools.
-- `/tools/carbon-defi` lists all 25; each detail page renders.
-- Hero count reads "56 tools" (or current total).
+- README copy on `/` (already mentions Carbon DeFi, Mento FX, Uniswap v4, Aave).
+- Hosted URL is already `https://mcp.usecelina.xyz/api/mcp` in `src/routes/index.tsx`.
+- No re-classification of Carbon `prepare_*` tools (already `write` per your earlier correction).
+- README.md file itself (per your selection: site copy & tool descriptions only).
