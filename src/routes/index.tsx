@@ -158,7 +158,7 @@ function Index() {
                   Model Context Protocol
                 </a>{" "}
                 server that gives LLMs read &amp; write access to Celo mainnet — balances,
-                stablecoins, sends, and chain reads.
+                stablecoins, sends, Mento FX, Uniswap v4, Aave, Carbon DeFi maker/taker tools, and chain reads.
               </p>
               <div className="mt-8 flex flex-wrap items-center gap-3">
                 <a
@@ -345,7 +345,7 @@ function Index() {
             <h3 className="text-2xl font-semibold tracking-tight" style={{ fontFamily: "var(--font-display)" }}>Skip the install — point at the hosted endpoint</h3>
             <p className="mt-2 text-sm text-muted-foreground">
               No Node, no <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">npx</span>, no keys. Use it when you only need chain reads (balances, blocks, FX quotes, GoodDollar status, governance, staking, NFTs).
-              Write tools (<span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">send_token</span>, Mento FX, Aave) are disabled — stick with local stdio for those.
+              Write tools (<span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">send_token</span>, Mento FX, Uniswap v4, Aave) and <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">prepare_carbon_*</span> tools are disabled — stick with local stdio for those.
             </p>
             <div className="mt-5">
               <CodeBlock code={HOSTED_CONFIG} />
