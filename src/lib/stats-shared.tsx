@@ -12,6 +12,10 @@ import {
 } from "recharts";
 import type { CelinaTxRow } from "@/lib/dune.functions";
 import type { NpmDownloadDay } from "@/lib/npm.functions";
+import type {
+  AmplitudeEventDay,
+  AmplitudeEventTotal,
+} from "@/lib/amplitude.functions";
 
 export const NPM_URL = "https://www.npmjs.com/package/@andrewkimjoseph/celina-mcp";
 export const NPM_STAT_URL =
