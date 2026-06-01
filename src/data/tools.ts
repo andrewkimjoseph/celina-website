@@ -1,4 +1,4 @@
-export type ToolKind = "read" | "write";
+export type ToolKind = "read" | "write" | "prepare";
 
 export interface ToolField {
   name: string;
@@ -19,7 +19,7 @@ export interface ToolDoc {
   /** longer description shown on the tool page */
   description: string;
   kind: ToolKind;
-  category: "Blockchain" | "Account" | "Token" | "Transaction" | "Mento FX" | "Uniswap" | "Wallet" | "GoodDollar" | "Aave" | "Self" | "Governance" | "Staking" | "NFT" | "Contract";
+  category: "Blockchain" | "Account" | "Token" | "Transaction" | "Mento FX" | "Uniswap" | "Wallet" | "GoodDollar" | "Aave" | "Carbon DeFi" | "Self" | "Governance" | "Staking" | "NFT" | "Contract";
   inputs: ToolField[];
   /** What the LLM should expect back */
   returns: string;
