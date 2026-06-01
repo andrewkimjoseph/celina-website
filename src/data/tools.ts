@@ -212,6 +212,34 @@ export const TOOLS: ToolDoc[] = [
     examples: ["Is 0x… GoodDollar whitelisted?"],
   },
   {
+    name: "get_gooddollar_ubi_entitlement",
+    slug: "get-gooddollar-ubi-entitlement",
+    title: "Get GoodDollar UBI Entitlement",
+    summary: "Daily UBI claim eligibility (amount, root, reasons)",
+    description:
+      "Check whether an address can claim today's GoodDollar UBI on Celo mainnet — returns the claimable G$ amount, the resolved whitelist root, and any reasons the claim is blocked.",
+    kind: "read",
+    category: "GoodDollar",
+    inputs: [
+      { name: "address", type: "0x… address", required: true, description: "Wallet to check entitlement for." },
+    ],
+    returns: "{ canClaim, claimableAmount, whitelistedRoot, reasons }",
+    examples: ["Can 0x… claim GoodDollar UBI today?"],
+  },
+  {
+    name: "claim_daily_gooddollar_ubi",
+    slug: "claim-daily-gooddollar-ubi",
+    title: "Claim Daily GoodDollar UBI",
+    summary: "Claim today's GoodDollar UBI (G$)",
+    description:
+      "Claim today's GoodDollar UBI for the MCP server wallet on Celo mainnet. G$ is sent to the signer; gas is paid in CELO. One claim per verified identity per day. Requires CELO_PRIVATE_KEY in your MCP client env.",
+    kind: "write",
+    category: "GoodDollar",
+    inputs: [],
+    returns: "{ hash, status, amountClaimed, blockNumber }",
+    examples: ["Claim today's GoodDollar UBI."],
+  },
+  {
     name: "get_mento_fx_quote",
     slug: "get-mento-fx-quote",
     title: "Get Mento FX Quote",
