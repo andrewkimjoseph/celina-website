@@ -12,6 +12,10 @@ import {
 } from "recharts";
 import type { CelinaTxRow } from "@/lib/dune.functions";
 import type { NpmDownloadDay } from "@/lib/npm.functions";
+import type {
+  AmplitudeEventDay,
+  AmplitudeEventTotal,
+} from "@/lib/amplitude.functions";
 
 export const NPM_URL = "https://www.npmjs.com/package/@andrewkimjoseph/celina-mcp";
 export const NPM_STAT_URL =
@@ -255,4 +259,38 @@ export function KpiCard({ label, value }: { label: string; value: string | numbe
       </div>
     </div>
   );
+}
+
+export type AmplitudeAgg = {
+  total: number;
+  today: number;
+  last7: number;
+  last30: number;
+  daily: Array<{ day: string; label: string; count: number; cumulative: number }>;
+  topTools: Array<{ event: string; count: number }>;
+};
+
+export function aggregateAmplitude(
+  daily: AmplitudeEventDay[],
+  perTool: AmplitudeEventTotal[],
+): AmplitudeAgg {
+  const sorted = [...daily].sort((a, b) => a.day.localeCompare(b.day));
+  let running = 0;
+  const dailyOut = sorted.map((r) => {
+    running += r.count;
+    return {
+      day: r.day,
+      label: formatDateOnly(r.day),
+      count: r.count,
+      cumulative: running,
+    };
+  });
+  const total = running;
+  const today = sorted[sorted.length - 1]?.count ?? 0;
+  const last7 = sorted.slice(-7).reduce((s, r) => s + r.count, 0);
+  const last30 = sorted.slice(-30).reduce((s, r) => s + r.count, 0);
+  const topTools = [...perTool]
+    .sort((a, b) => b.count - a.count)
+    .slice(0, 10);
+  return { total, today, last7, last30, daily: dailyOut, topTools };
 }

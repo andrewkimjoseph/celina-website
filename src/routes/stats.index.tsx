@@ -5,10 +5,12 @@ import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { faNpm } from "@fortawesome/free-brands-svg-icons";
 import { useStatsStore } from "@/lib/stats-store";
 import { useNpmStore } from "@/lib/npm-store";
+import { useAmplitudeStore } from "@/lib/amplitude-store";
 import {
   KpiCard,
   aggregate,
   aggregateNpm,
+  aggregateAmplitude,
   tooltipStyle,
   tooltipItemStyle,
   tooltipLabelStyle,
@@ -77,22 +79,29 @@ function SectionCard({
 function OverviewPage() {
   const { rows } = useStatsStore();
   const { rows: npmRows } = useNpmStore();
+  const { daily: ampDaily, perTool: ampPerTool } = useAmplitudeStore();
   const agg = useMemo(() => aggregate(rows), [rows]);
   const npmAgg = useMemo(() => aggregateNpm(npmRows), [npmRows]);
+  const ampAgg = useMemo(
+    () => aggregateAmplitude(ampDaily, ampPerTool),
+    [ampDaily, ampPerTool],
+  );
 
   return (
     <>
       <section className="mx-auto max-w-6xl px-4 pb-6 sm:px-6">
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
           <KpiCard label="On-chain total" value={agg.totalTx.toLocaleString()} />
           <KpiCard label="On-chain today" value={agg.todayCount.toLocaleString()} />
+          <KpiCard label="Off-chain total" value={ampAgg.total.toLocaleString()} />
+          <KpiCard label="Off-chain 7d" value={ampAgg.last7.toLocaleString()} />
           <KpiCard label="npm 365d" value={npmAgg.total365.toLocaleString()} />
           <KpiCard label="npm last 7d" value={npmAgg.last7.toLocaleString()} />
         </div>
       </section>
 
       <section className="mx-auto max-w-6xl px-4 pb-16 sm:px-6">
-        <div className="grid gap-4 lg:grid-cols-2">
+        <div className="grid gap-4 lg:grid-cols-3">
           <SectionCard
             to="/stats/onchain"
             badge={
@@ -111,6 +120,27 @@ function OverviewPage() {
                 <Tooltip contentStyle={tooltipStyle} itemStyle={tooltipItemStyle} labelStyle={tooltipLabelStyle} cursor={{ stroke: "var(--border)" }} />
                 <Line type="monotone" dataKey="cumulative" stroke={lineStroke} strokeWidth={2.5} dot={false} />
               </LineChart>
+            </ResponsiveContainer>
+          </SectionCard>
+
+          <SectionCard
+            to="/stats/offchain"
+            badge={
+              <span className="inline-flex items-center gap-2 rounded-full border border-[var(--celo-forest)]/40 bg-card/80 px-3 py-1 text-[10px] font-medium uppercase tracking-[0.18em] text-foreground">
+                Off-chain · Amplitude
+              </span>
+            }
+            title="MCP tool calls"
+            description="Reads, registry lookups, and other non-chain tool invocations from LLMs — logged to Amplitude."
+          >
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={ampAgg.daily.slice(-90)} margin={{ top: 8, right: 8, left: 0, bottom: 0 }}>
+                <CartesianGrid stroke="var(--border)" strokeDasharray="3 3" vertical={false} />
+                <XAxis dataKey="label" stroke="var(--muted-foreground)" fontSize={10} tickLine={false} hide />
+                <YAxis stroke="var(--muted-foreground)" fontSize={10} tickLine={false} axisLine={false} width={32} />
+                <Tooltip contentStyle={tooltipStyle} itemStyle={tooltipItemStyle} labelStyle={tooltipLabelStyle} cursor={{ fill: "var(--muted)" }} />
+                <Bar dataKey="count" fill={yellow} radius={[3, 3, 0, 0]} />
+              </BarChart>
             </ResponsiveContainer>
           </SectionCard>
 
