@@ -117,9 +117,9 @@ export const TOOLS: ToolDoc[] = [
     name: "get_celo_balances",
     slug: "get-celo-balances",
     title: "Get Celo Balances",
-    summary: "Native CELO + ERC-20 balances",
+    summary: "Named registry token balances (default: CELO + USDm)",
     description:
-      "Returns native CELO and ERC-20 balances for an address on mainnet. Defaults to CELO + USDm if no tokens are specified.",
+      "Named registry token balances (default: CELO + USDm).",
     kind: "read",
     category: "Token",
     inputs: [
@@ -133,9 +133,9 @@ export const TOOLS: ToolDoc[] = [
     name: "get_stablecoin_balances",
     slug: "get-stablecoin-balances",
     title: "Get Stablecoin Balances",
-    summary: "Mento, USDC, USDT and other stables",
+    summary: "Scan all registry stablecoins; omits zero balances by default",
     description:
-      "Returns balances for Celo mainnet local stablecoins (all 15 Mento stables, USDC, USDT, etc.). Checks every supported stablecoin by default and omits zero balances unless you opt in.",
+      "Scan all registry stablecoins; omits zero balances by default.",
     kind: "read",
     category: "Token",
     inputs: [
@@ -150,8 +150,8 @@ export const TOOLS: ToolDoc[] = [
     name: "get_token_info",
     slug: "get-token-info",
     title: "Get Token Info",
-    summary: "Metadata for any ERC-20 on mainnet",
-    description: "Returns metadata for a known or custom ERC-20 token on Celo mainnet — symbol, name, decimals, address.",
+    summary: "Registry token metadata (no balance read)",
+    description: "Registry token metadata (no balance read).",
     kind: "read",
     category: "Token",
     inputs: [
@@ -518,9 +518,9 @@ export const TOOLS: ToolDoc[] = [
     name: "get_token_balance",
     slug: "get-token-balance",
     title: "Get Token Balance",
-    summary: "ERC-20 balance by contract address",
+    summary: "Single registry token balance (symbol or known registry address)",
     description:
-      "Fetch the ERC-20 balance of a wallet for a token specified by contract address. Returns raw and formatted balance with decimals.",
+      "Single registry token balance (symbol or known registry address).",
     kind: "read",
     category: "Token",
     inputs: [
