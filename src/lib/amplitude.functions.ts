@@ -1,4 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
+import { TOOLS } from "@/data/tools";
 
 export type AmplitudeEventDay = {
   day: string; // YYYY-MM-DD
@@ -82,34 +83,10 @@ async function segmentation(
   return (await res.json()) as SegmentationResponse;
 }
 
-type EventsListResponse = {
-  data?: Array<{ name?: string; value?: string; non_active?: boolean; hidden?: boolean }>;
-};
-
-async function listEvents(): Promise<string[]> {
-  const res = await fetch(`${baseUrl()}/api/2/events/list`, {
-    headers: { Authorization: authHeader() },
-  });
-  if (!res.ok) {
-    const body = await res.text().catch(() => "");
-    throw new Error(
-      `Amplitude events/list ${res.status}: ${res.statusText} ${body.slice(0, 200)}`,
-    );
-  }
-  const json = (await res.json()) as EventsListResponse;
-  const out: string[] = [];
-  for (const e of json.data ?? []) {
-    if (e.hidden) continue;
-    // Prefer `name` (event name), fall back to `value` (often the same).
-    // Skip purely numeric entries — those are group-by indices, not events.
-    const name = e.name ?? e.value;
-    if (!name) continue;
-    if (name.startsWith("[Amplitude]")) continue;
-    if (/^\d+$/.test(name)) continue;
-    out.push(name);
-  }
-  console.log(`[amplitude] listEvents -> ${out.length} events:`, out.slice(0, 20));
-  return out;
+// Off-chain tools = `kind: "read"` from src/data/tools.ts.
+// Hardcoding avoids Amplitude's events/list taxonomy lag (~24h for new events).
+function offchainEventNames(): string[] {
+  return TOOLS.filter((t) => t.kind === "read").map((t) => t.name);
 }
 
 export const getAmplitudeStats = createServerFn({ method: "GET" }).handler(
@@ -131,7 +108,7 @@ export const getAmplitudeStats = createServerFn({ method: "GET" }).handler(
     const endStr = ymd(end);
 
     try {
-      const events = await listEvents();
+      const events = offchainEventNames();
       if (events.length === 0) {
         return {
           daily: [],
