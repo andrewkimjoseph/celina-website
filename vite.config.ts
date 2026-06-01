@@ -17,15 +17,4 @@ export default defineConfig({
       disableCsrfMiddlewareWarning: true,
     },
   },
-  // Lovable auto-enables Nitro (cloudflare-module) in its sandbox; Vercel needs Build Output API.
-  nitro: isVercelBuild
-    ? {
-        preset: "vercel",
-        output: {
-          dir: ".vercel/output",
-          serverDir: ".vercel/output/functions/__server.func",
-          publicDir: ".vercel/output/static",
-        },
-      }
-    : undefined,
 });
