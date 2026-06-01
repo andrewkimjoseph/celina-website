@@ -215,7 +215,12 @@ function OffchainPage() {
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Tooltip contentStyle={tooltipStyle} itemStyle={tooltipItemStyle} labelStyle={tooltipLabelStyle} />
-                <Legend wrapperStyle={{ fontSize: 11, color: "var(--muted-foreground)" }} />
+                <Legend
+                  wrapperStyle={{ fontSize: 11 }}
+                  formatter={(value) => (
+                    <span style={{ color: "var(--foreground)" }}>{value}</span>
+                  )}
+                />
                 <Pie
                   data={agg.share}
                   dataKey="value"
