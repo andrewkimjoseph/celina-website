@@ -8,6 +8,8 @@ import {
   PieChart,
   Pie,
   Legend,
+  AreaChart,
+  Area,
 } from "recharts";
 import {
   KpiCard,
