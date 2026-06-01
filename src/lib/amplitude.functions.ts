@@ -32,13 +32,6 @@ function ymdh(d: Date): string {
   return `${y}${m}${day}T${h}`;
 }
 
-function isoDayFromEventTime(eventTime: string): string | null {
-  // Amplitude event_time is "YYYY-MM-DD HH:MM:SS.sss" in project timezone,
-  // but for our purposes we just take the date portion.
-  if (!eventTime || eventTime.length < 10) return null;
-  return eventTime.slice(0, 10);
-}
-
 function baseUrl(): string {
   const region = (process.env.AMPLITUDE_REGION ?? "us").toLowerCase();
   return region === "eu"
@@ -117,47 +110,31 @@ async function setSyncState(iso: string): Promise<void> {
   }
 }
 
-async function upsertDailyCounts(
-  rows: Array<{ day: string; event_type: string; count: number }>,
-): Promise<void> {
-  if (rows.length === 0) return;
-  // PostgREST upsert via Prefer: resolution=merge-duplicates on the composite PK.
-  const res = await sbFetch(
-    "/rest/v1/amplitude_daily_event_counts?on_conflict=day,event_type",
-    {
-      method: "POST",
-      headers: { Prefer: "resolution=merge-duplicates,return=minimal" },
-      body: JSON.stringify(rows),
-    },
-  );
-  if (!res.ok) {
-    throw new Error(
-      `Supabase upsert daily_counts ${res.status}: ${(await res.text()).slice(0, 200)}`,
-    );
-  }
-}
-
-async function readDailyCounts(sinceIsoDay: string): Promise<
-  Array<{ day: string; event_type: string; count: number }>
-> {
-  const res = await sbFetch(
-    `/rest/v1/amplitude_daily_event_counts?select=day,event_type,count&day=gte.${sinceIsoDay}&order=day.asc`,
-  );
-  if (!res.ok) {
-    throw new Error(
-      `Supabase read daily_counts ${res.status}: ${(await res.text()).slice(0, 200)}`,
-    );
-  }
-  return (await res.json()) as Array<{ day: string; event_type: string; count: number }>;
-}
-
 // ---------------------------------------------------------------------------
 // Amplitude Export pull
 // ---------------------------------------------------------------------------
 
 type RawEvent = { event_type?: string; event_time?: string };
+type RawEventFull = RawEvent & {
+  $insert_id?: string;
+  insert_id?: string;
+  user_id?: string | null;
+  device_id?: string | null;
+  session_id?: number | null;
+  amplitude_id?: number | null;
+  app?: string | null;
+  platform?: string | null;
+  country?: string | null;
+  region?: string | null;
+  city?: string | null;
+  os_name?: string | null;
+  device_family?: string | null;
+  library?: string | null;
+  event_properties?: Record<string, unknown> | null;
+  user_properties?: Record<string, unknown> | null;
+};
 
-async function pullExport(startHour: string, endHour: string): Promise<RawEvent[]> {
+async function pullExport(startHour: string, endHour: string): Promise<RawEventFull[]> {
   const url = new URL(`${baseUrl()}/api/2/export`);
   url.searchParams.set("start", startHour);
   url.searchParams.set("end", endHour);
@@ -177,7 +154,7 @@ async function pullExport(startHour: string, endHour: string): Promise<RawEvent[
   }
   const buf = new Uint8Array(await res.arrayBuffer());
   const entries = unzipSync(buf);
-  const events: RawEvent[] = [];
+  const events: RawEventFull[] = [];
   let totalBytes = 0;
   for (const [name, gzipped] of Object.entries(entries)) {
     if (!name.endsWith(".gz") && !name.endsWith(".json.gz")) continue;
@@ -193,7 +170,7 @@ async function pullExport(startHour: string, endHour: string): Promise<RawEvent[
       const trimmed = line.trim();
       if (!trimmed) continue;
       try {
-        events.push(JSON.parse(trimmed) as RawEvent);
+        events.push(JSON.parse(trimmed) as RawEventFull);
       } catch {
         // skip malformed line
       }
@@ -202,21 +179,68 @@ async function pullExport(startHour: string, endHour: string): Promise<RawEvent[
   return events;
 }
 
-function bucketEvents(events: RawEvent[]): Map<string, Map<string, number>> {
-  // day -> event_type -> count
-  const byDay = new Map<string, Map<string, number>>();
+function eventTimeToIso(eventTime: string): string | null {
+  if (!eventTime) return null;
+  // Amplitude format: "YYYY-MM-DD HH:MM:SS.sss" (project tz, treat as UTC)
+  const normalized = eventTime.replace(" ", "T") + (eventTime.endsWith("Z") ? "" : "Z");
+  const d = new Date(normalized);
+  return Number.isNaN(d.getTime()) ? null : d.toISOString();
+}
+
+function toEventRows(events: RawEventFull[]) {
+  const rows: Array<Record<string, unknown>> = [];
+  const seen = new Set<string>();
   for (const ev of events) {
-    const day = isoDayFromEventTime(ev.event_time ?? "");
-    const type = ev.event_type;
-    if (!day || !type) continue;
-    let inner = byDay.get(day);
-    if (!inner) {
-      inner = new Map();
-      byDay.set(day, inner);
-    }
-    inner.set(type, (inner.get(type) ?? 0) + 1);
+    const insert_id = ev.$insert_id ?? ev.insert_id;
+    const iso = eventTimeToIso(ev.event_time ?? "");
+    if (!insert_id || !iso || !ev.event_type) continue;
+    if (seen.has(insert_id)) continue;
+    seen.add(insert_id);
+    rows.push({
+      insert_id,
+      event_time: iso,
+      event_type: ev.event_type,
+      user_id: ev.user_id ?? null,
+      device_id: ev.device_id ?? null,
+      session_id: ev.session_id ?? null,
+      amplitude_id: ev.amplitude_id ?? null,
+      app: ev.app ?? null,
+      platform: ev.platform ?? null,
+      country: ev.country ?? null,
+      region: ev.region ?? null,
+      city: ev.city ?? null,
+      os_name: ev.os_name ?? null,
+      device_family: ev.device_family ?? null,
+      library: ev.library ?? null,
+      event_properties: ev.event_properties ?? null,
+      user_properties: ev.user_properties ?? null,
+      raw: ev,
+    });
   }
-  return byDay;
+  return rows;
+}
+
+async function upsertEvents(rows: Array<Record<string, unknown>>): Promise<void> {
+  if (rows.length === 0) return;
+  const CHUNK = 500;
+  for (let i = 0; i < rows.length; i += CHUNK) {
+    const chunk = rows.slice(i, i + CHUNK);
+    const res = await sbFetch(
+      "/rest/v1/amplitude_events?on_conflict=insert_id",
+      {
+        method: "POST",
+        headers: {
+          Prefer: "resolution=merge-duplicates,return=minimal",
+        },
+        body: JSON.stringify(chunk),
+      },
+    );
+    if (!res.ok) {
+      throw new Error(
+        `Supabase upsert amplitude_events ${res.status}: ${(await res.text()).slice(0, 200)}`,
+      );
+    }
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -248,33 +272,8 @@ async function syncAmplitudeExport(): Promise<void> {
   }
 
   const events = await pullExport(startHour, endHour);
-  const byDay = bucketEvents(events);
-
-  // For each day touched in this pull, we must clear+rewrite the day's rows
-  // to keep counts accurate (we may have re-pulled hours we already counted).
-  // Strategy: delete touched days, then insert fresh totals. To stay atomic-ish,
-  // we read existing rows for days BEFORE today only if we expand the range
-  // beyond today — but the rule above keeps us at >= today most of the time.
-  const days = Array.from(byDay.keys());
-  if (days.length > 0) {
-    const inList = days.map((d) => `"${d}"`).join(",");
-    const del = await sbFetch(
-      `/rest/v1/amplitude_daily_event_counts?day=in.(${inList})`,
-      { method: "DELETE", headers: { Prefer: "return=minimal" } },
-    );
-    if (!del.ok) {
-      throw new Error(
-        `Supabase delete daily_counts ${del.status}: ${(await del.text()).slice(0, 200)}`,
-      );
-    }
-    const rows: Array<{ day: string; event_type: string; count: number }> = [];
-    for (const [day, inner] of byDay.entries()) {
-      for (const [event_type, count] of inner.entries()) {
-        rows.push({ day, event_type, count });
-      }
-    }
-    await upsertDailyCounts(rows);
-  }
+  const rows = toEventRows(events);
+  await upsertEvents(rows);
 
   await setSyncState(now.toISOString());
 }
@@ -312,20 +311,30 @@ export const getAmplitudeStats = createServerFn({ method: "GET" }).handler(
       const since = new Date();
       since.setUTCDate(since.getUTCDate() - LOOKBACK_DAYS);
       const sinceDay = since.toISOString().slice(0, 10);
-      const rows = await readDailyCounts(sinceDay);
 
-      const dayTotals = new Map<string, number>();
-      const toolTotals = new Map<string, number>();
-      for (const r of rows) {
-        dayTotals.set(r.day, (dayTotals.get(r.day) ?? 0) + r.count);
-        toolTotals.set(r.event_type, (toolTotals.get(r.event_type) ?? 0) + r.count);
+      const [dailyRes, toolRes] = await Promise.all([
+        sbFetch(
+          `/rest/v1/amplitude_daily_totals?select=day,count&day=gte.${sinceDay}&order=day.asc`,
+        ),
+        sbFetch(
+          `/rest/v1/amplitude_tool_totals?select=event,count&order=count.desc`,
+        ),
+      ]);
+      if (!dailyRes.ok) {
+        throw new Error(
+          `Supabase read daily_totals ${dailyRes.status}: ${(await dailyRes.text()).slice(0, 200)}`,
+        );
       }
-      const daily: AmplitudeEventDay[] = Array.from(dayTotals.entries())
-        .sort(([a], [b]) => a.localeCompare(b))
-        .map(([day, count]) => ({ day, count }));
-      const perTool: AmplitudeEventTotal[] = Array.from(toolTotals.entries())
-        .map(([event, count]) => ({ event, count }))
-        .sort((a, b) => b.count - a.count);
+      if (!toolRes.ok) {
+        throw new Error(
+          `Supabase read tool_totals ${toolRes.status}: ${(await toolRes.text()).slice(0, 200)}`,
+        );
+      }
+      const dailyRows = (await dailyRes.json()) as Array<{ day: string; count: number }>;
+      const toolRows = (await toolRes.json()) as Array<{ event: string; count: number }>;
+
+      const daily: AmplitudeEventDay[] = dailyRows.map((r) => ({ day: r.day, count: r.count }));
+      const perTool: AmplitudeEventTotal[] = toolRows.map((r) => ({ event: r.event, count: r.count }));
       const total = daily.reduce((s, d) => s + d.count, 0);
 
       return { daily, perTool, total, fetchedAt: Date.now(), error: syncError };

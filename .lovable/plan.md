@@ -1,89 +1,95 @@
-# Off-chain stats → Amplitude Export API + custom Supabase
-
 ## Goal
 
-Replace the segmentation-based pipeline with Amplitude's **Export API** so we capture **every** event (no taxonomy lag, no `Invalid chart definition` 400s on new tools). Persist rolled-up daily counts in your Supabase so the page stays fast and we don't re-pull the same hours twice.
+Stop storing only daily roll-ups. Persist every Amplitude event as its own row, then derive the daily / per-tool / future drill-down views from that table.
 
-Window: last 90 days (data effectively starts Mon 1 Jun 2026 since that's when Amplitude logging was wired up).
+## New table (you run the SQL on the custom Supabase project)
 
-## What you'll do (one-time)
+```sql
+create table if not exists public.amplitude_events (
+  insert_id      text primary key,           -- Amplitude's $insert_id; dedupes re-pulls
+  event_time     timestamptz not null,
+  event_day      date generated always as ((event_time at time zone 'UTC')::date) stored,
+  event_type     text not null,
+  user_id        text,
+  device_id      text,
+  session_id     bigint,
+  amplitude_id   bigint,
+  app            text,
+  platform       text,
+  country        text,
+  region         text,
+  city           text,
+  os_name        text,
+  device_family  text,
+  library        text,
+  event_properties jsonb,
+  user_properties  jsonb,
+  raw            jsonb not null,
+  ingested_at    timestamptz not null default now()
+);
 
-1. Connect your Supabase project to this Lovable project (Lovable Cloud → "Connect existing Supabase"). I'll list the secret names I need after you connect.
-2. Confirm Amplitude region (`us` / `eu`) — I'll default to whatever `AMPLITUDE_REGION` is currently set to.
+create index if not exists amplitude_events_day_idx        on public.amplitude_events (event_day);
+create index if not exists amplitude_events_type_idx       on public.amplitude_events (event_type);
+create index if not exists amplitude_events_day_type_idx   on public.amplitude_events (event_day, event_type);
+create index if not exists amplitude_events_time_idx       on public.amplitude_events (event_time desc);
 
-## What I'll build
-
-### 1. Supabase schema (migration)
-
-Two small tables in `public`:
-
-```text
-amplitude_daily_event_counts
-  day          date         not null
-  event_type   text         not null
-  count        integer      not null default 0
-  PRIMARY KEY (day, event_type)
-
-amplitude_sync_state
-  id              int         primary key default 1   -- single row
-  last_synced_at  timestamptz not null                -- rounded down to the hour
-  updated_at      timestamptz not null default now()
+alter table public.amplitude_events enable row level security;
+-- service role bypasses RLS; no public policy needed (server fn uses service key)
 ```
 
-RLS: enabled on both. No `anon` / `authenticated` policies — only `service_role` reads/writes them (the server fn uses the admin client). Public read happens via a server fn that re-shapes the rows, so no PII risk (there's no PII anyway, just event counts).
+The existing `amplitude_daily_event_counts` and `amplitude_sync_state` tables stay — `sync_state` still tracks the last pull cursor; the daily-counts table is kept as a fast aggregate cache (optional).
 
-Seed `amplitude_sync_state` with `last_synced_at = '2026-06-01T00:00:00Z'` so the very first pull covers the integration day.
+## Sync changes (`src/lib/amplitude.functions.ts`)
 
-### 2. Server function: `syncAmplitudeExport` (`src/lib/amplitude.functions.ts`)
+1. Expand `RawEvent` to capture the fields above (especially `$insert_id`, `event_time`, `event_type`, user/device IDs, geo, props, and keep the original line as `raw`).
+2. In `syncAmplitudeExport`:
+   - After `pullExport(...)`, batch-insert all events into `amplitude_events` via PostgREST with `Prefer: resolution=merge-duplicates,return=minimal` and `on_conflict=insert_id`. This naturally dedupes when we re-pull today's hours.
+   - Chunk inserts (e.g. 500 rows per request) to stay within PostgREST payload limits.
+   - Still update `amplitude_sync_state.last_synced_at` at the end.
+3. Replace the delete-then-reinsert flow on `amplitude_daily_event_counts`. Either:
+   - drop that table entirely and compute aggregates from `amplitude_events`, OR
+   - keep it as a materialized cache rebuilt from the touched days (`insert ... select day, event_type, count(*) from amplitude_events where event_day in (...) group by ...` after `delete`).
+   Recommend option A for simplicity now that per-event data is the source of truth.
 
-- Reads `last_synced_at` from Supabase.
-- If `now - last_synced_at < 5 min` → no-op (cache gate).
-- Otherwise calls **`GET /api/2/export?start=YYYYMMDDTHH&end=YYYYMMDDTHH`** with Basic auth (`AMPLITUDE_API_KEY:AMPLITUDE_SECRET_KEY`).
-- Response is a **zip** of hourly `.json.gz` files, each containing NDJSON of raw events. We:
-  - unzip in-Worker (`fflate` — already Worker-safe, no native deps),
-  - gunzip each entry,
-  - stream-parse NDJSON line-by-line,
-  - bucket by `(event_time → UTC date, event_type)`,
-  - **upsert into `amplitude_daily_event_counts`** using `ON CONFLICT (day, event_type) DO UPDATE SET count = excluded.count`.
-- Because the upsert overwrites the whole `(day, event_type)` row, we always re-pull from the **start of the current day** (not from `last_synced_at`) — that way late-arriving events for today get reconciled. Older days are immutable, so we never re-fetch them.
-- Updates `last_synced_at = now` on success.
+## Read path
 
-Guardrails:
-- Export API limit ~1 req/min and ~365-day max range → we only ever request `[max(today_00:00, last_synced_at), now]`, which is at most 24 h of data.
-- If the unzipped payload exceeds ~50 MB we abort and log — won't happen at current volume but worth a fence.
-- Errors are caught and surfaced via `{ error }` to the client store (same pattern as today).
+Rewrite the read in `getAmplitudeStats` to query `amplitude_events` directly:
 
-### 3. Server function: `getAmplitudeStats` (rewritten)
+- `daily`: `select event_day as day, count(*) from amplitude_events where event_day >= :since group by event_day order by event_day`.
+- `perTool`: `select event_type as event, count(*) from amplitude_events where event_day >= :since group by event_type order by count desc`.
 
-- Calls `syncAmplitudeExport()` first (cheap if cached).
-- Then `SELECT day, event_type, count FROM amplitude_daily_event_counts WHERE day >= now() - interval '90 days' ORDER BY day`.
-- Aggregates server-side into the same `{ daily, perTool, total, fetchedAt, error }` shape the UI already consumes — **no UI changes needed**.
+PostgREST doesn't do `group by` natively, so add two SQL views (`amplitude_daily_totals`, `amplitude_tool_totals`) and `select` from them, OR expose a Postgres function callable via `/rest/v1/rpc/...`. Views are simpler:
 
-### 4. Client store (`src/lib/amplitude-store.ts`)
+```sql
+create or replace view public.amplitude_daily_totals as
+  select event_day as day, count(*)::int as count
+  from public.amplitude_events
+  group by event_day;
 
-- Bump persist key to `celina-amplitude-v3` so stale browser cache from the segmentation era is dropped.
-- No other changes — `refresh()` already gates on `STALE_MS` (5 min), matching the cache gate on the server.
+create or replace view public.amplitude_tool_totals as
+  select event_type as event, count(*)::int as count
+  from public.amplitude_events
+  group by event_type;
 
-### 5. Cleanup
+grant select on public.amplitude_daily_totals, public.amplitude_tool_totals to service_role;
+```
 
-- Drop `events/segmentation` and `events/list` code paths from `amplitude.functions.ts` (and the `knownEventNames` / `offchainEventNames` helpers).
-- Remove the no-longer-needed taxonomy intersection.
-- Keep `LOOKBACK_DAYS = 90` and the region helper.
+`getAmplitudeStats` then reads those views with a `day=gte.<sinceDay>` filter on the daily view.
 
-## Secrets I'll need
+## What stays the same
 
-After you connect your Supabase, I'll request these via the secrets tool (don't paste them in chat):
-- `SUPABASE_URL` (your custom project URL)
-- `SUPABASE_SERVICE_ROLE_KEY` (server-only; never shipped to the client)
-- Existing: `AMPLITUDE_API_KEY`, `AMPLITUDE_SECRET_KEY`, optional `AMPLITUDE_REGION`
+- All UI in `src/routes/stats.offchain.tsx` and the `aggregateAmplitude` helper — they keep consuming `{ daily, perTool }`, so no chart changes.
+- Auth model (service-role key in server fn only).
+- Cache gate (5 min) and the "always re-pull from start of UTC day" rule.
 
-## Why this is the right shape
+## What you unlock later (not in this PR)
 
-- **Complete data** — Export is the only Amplitude endpoint that includes every event without taxonomy registration.
-- **Fast page loads** — UI reads from Postgres, not Amplitude (segmentation calls were ~3–8 s).
-- **Cheap on Amplitude rate limit** — at most one Export pull per 5 min, only fetches the current day's slice after the initial backfill.
-- **No new infra** — refresh trigger stays "on page load, gated by cache" as you chose; no cron, no public webhook endpoint, no signature verification surface.
+- Drill-down route showing the last N raw events with timestamps, tool, user/device.
+- Per-user / per-device counts, geo breakdowns — all just new views over `amplitude_events`.
+- Independence: if Amplitude pulls fail, charts still render from whatever's in `amplitude_events`.
 
-## Open question
+## Order of operations
 
-The Amplitude Export response is gzipped NDJSON inside a zip. Cloudflare Workers (where server fns run) have a ~128 MB memory ceiling per request. At your current ~7 events/day this is trivially fine, but if usage ever exploded to ~1 M events/day a single hourly file could approach 10–50 MB unzipped. I'll add a hard cap + clear error if that ever happens; do you want me to also add a per-day row count metric so we can see headroom in the UI?
+1. You run the SQL above on the custom Supabase project (create table + indexes + views).
+2. I update `amplitude.functions.ts` to insert per-event rows and read from the new views.
+3. First sync after deploy backfills from `last_synced_at` forward; older daily roll-ups remain in `amplitude_daily_event_counts` but are no longer read. We can drop that table once you're happy.
