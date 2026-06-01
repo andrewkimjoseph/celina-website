@@ -266,8 +266,13 @@ export type AmplitudeAgg = {
   today: number;
   last7: number;
   last30: number;
-  daily: Array<{ day: string; label: string; count: number; cumulative: number }>;
+  daily: Array<{ day: string; label: string; count: number; cumulative: number; rolling7: number }>;
   topTools: Array<{ event: string; count: number }>;
+  dayOfWeek: Array<{ name: string; count: number }>;
+  share: Array<{ name: string; value: number }>;
+  activeDays: number;
+  avgPerActiveDay: number;
+  peakDay: { day: string; label: string; count: number } | null;
 };
 
 export function aggregateAmplitude(
@@ -276,13 +281,16 @@ export function aggregateAmplitude(
 ): AmplitudeAgg {
   const sorted = [...daily].sort((a, b) => a.day.localeCompare(b.day));
   let running = 0;
-  const dailyOut = sorted.map((r) => {
+  const dailyOut = sorted.map((r, i) => {
     running += r.count;
+    const window = sorted.slice(Math.max(0, i - 6), i + 1);
+    const rolling7 = window.reduce((s, x) => s + x.count, 0) / window.length;
     return {
       day: r.day,
       label: formatDateOnly(r.day),
       count: r.count,
       cumulative: running,
+      rolling7: Math.round(rolling7 * 10) / 10,
     };
   });
   const total = running;
@@ -292,5 +300,47 @@ export function aggregateAmplitude(
   const topTools = [...perTool]
     .sort((a, b) => b.count - a.count)
     .slice(0, 10);
-  return { total, today, last7, last30, daily: dailyOut, topTools };
+
+  const dowNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  const dowCounts = [0, 0, 0, 0, 0, 0, 0];
+  for (const r of sorted) {
+    const d = new Date(`${r.day}T00:00:00Z`);
+    if (Number.isNaN(d.getTime())) continue;
+    dowCounts[d.getUTCDay()] += r.count;
+  }
+  const dayOfWeek = dowNames.map((name, i) => ({ name, count: dowCounts[i] }));
+
+  const sortedTools = [...perTool].sort((a, b) => b.count - a.count);
+  const topShare = sortedTools.slice(0, 6);
+  const restTotal = sortedTools.slice(6).reduce((s, t) => s + t.count, 0);
+  const share = [
+    ...topShare.map((t) => ({ name: t.event, value: t.count })),
+    ...(restTotal > 0 ? [{ name: "Other", value: restTotal }] : []),
+  ];
+
+  const activeDays = sorted.filter((r) => r.count > 0).length;
+  const avgPerActiveDay = activeDays
+    ? Math.round((total / activeDays) * 10) / 10
+    : 0;
+  const peak = sorted.reduce<{ day: string; count: number } | null>(
+    (acc, r) => (!acc || r.count > acc.count ? { day: r.day, count: r.count } : acc),
+    null,
+  );
+  const peakDay = peak
+    ? { day: peak.day, label: formatDateOnly(peak.day), count: peak.count }
+    : null;
+
+  return {
+    total,
+    today,
+    last7,
+    last30,
+    daily: dailyOut,
+    topTools,
+    dayOfWeek,
+    share,
+    activeDays,
+    avgPerActiveDay,
+    peakDay,
+  };
 }

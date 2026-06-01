@@ -4,6 +4,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChartLine } from "@fortawesome/free-solid-svg-icons";
 import { useAmplitudeStore } from "@/lib/amplitude-store";
 import {
+  ComposedChart,
+  PieChart,
+  Pie,
+  Legend,
+} from "recharts";
+import {
   KpiCard,
   ChartCard,
   aggregateAmplitude,
@@ -73,6 +79,13 @@ function OffchainPage() {
           <KpiCard label="Today" value={agg.today.toLocaleString()} />
           <KpiCard label="Last 7 days" value={agg.last7.toLocaleString()} />
           <KpiCard label="Last 30 days" value={agg.last30.toLocaleString()} />
+        </div>
+
+        <div className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-4">
+          <KpiCard label="Active days" value={agg.activeDays.toLocaleString()} />
+          <KpiCard label="Avg / active day" value={agg.avgPerActiveDay.toLocaleString()} />
+          <KpiCard label="Peak day" value={agg.peakDay?.count.toLocaleString() ?? "—"} />
+          <KpiCard label="Unique tools" value={agg.topTools.length.toLocaleString()} />
         </div>
       </section>
 
@@ -151,6 +164,55 @@ function OffchainPage() {
                 </ol>
               )}
             </div>
+          </ChartCard>
+
+          <ChartCard title="Daily calls + 7-day rolling avg" subtitle="trend">
+            <ResponsiveContainer width="100%" height="100%">
+              <ComposedChart data={agg.daily} margin={{ top: 8, right: 12, left: 0, bottom: 0 }}>
+                <CartesianGrid stroke="var(--border)" strokeDasharray="3 3" vertical={false} />
+                <XAxis dataKey="label" stroke="var(--muted-foreground)" fontSize={10} tickLine={false} interval={Math.max(0, Math.floor(agg.daily.length / 8))} />
+                <YAxis stroke="var(--muted-foreground)" fontSize={11} tickLine={false} axisLine={false} width={40} />
+                <Tooltip contentStyle={tooltipStyle} itemStyle={tooltipItemStyle} labelStyle={tooltipLabelStyle} cursor={{ fill: "var(--muted)" }} />
+                <Bar dataKey="count" name="Calls" fill={yellow} radius={[4, 4, 0, 0]} />
+                <Line type="monotone" dataKey="rolling7" name="7d avg" stroke={lineStroke} strokeWidth={2} dot={false} />
+              </ComposedChart>
+            </ResponsiveContainer>
+          </ChartCard>
+
+          <ChartCard title="Calls by day of week" subtitle="UTC">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={agg.dayOfWeek} margin={{ top: 8, right: 12, left: 0, bottom: 0 }}>
+                <CartesianGrid stroke="var(--border)" strokeDasharray="3 3" vertical={false} />
+                <XAxis dataKey="name" stroke="var(--muted-foreground)" fontSize={11} tickLine={false} />
+                <YAxis stroke="var(--muted-foreground)" fontSize={11} tickLine={false} axisLine={false} width={40} />
+                <Tooltip contentStyle={tooltipStyle} itemStyle={tooltipItemStyle} labelStyle={tooltipLabelStyle} cursor={{ fill: "var(--muted)" }} />
+                <Bar dataKey="count" name="Calls" fill={forest} radius={[4, 4, 0, 0]} />
+              </BarChart>
+            </ResponsiveContainer>
+          </ChartCard>
+
+          <ChartCard title="Tool share" subtitle="top 6 + other">
+            <ResponsiveContainer width="100%" height="100%">
+              <PieChart>
+                <Tooltip contentStyle={tooltipStyle} itemStyle={tooltipItemStyle} labelStyle={tooltipLabelStyle} />
+                <Legend wrapperStyle={{ fontSize: 11, color: "var(--muted-foreground)" }} />
+                <Pie
+                  data={agg.share}
+                  dataKey="value"
+                  nameKey="name"
+                  cx="50%"
+                  cy="50%"
+                  outerRadius={80}
+                  innerRadius={48}
+                  paddingAngle={2}
+                >
+                  {agg.share.map((_, i) => {
+                    const palette = [yellow, forest, "var(--celo-forest)", lineStroke, "var(--muted-foreground)", "var(--celo-yellow)", "var(--border)"];
+                    return <Cell key={i} fill={palette[i % palette.length]} />;
+                  })}
+                </Pie>
+              </PieChart>
+            </ResponsiveContainer>
           </ChartCard>
         </div>
       </section>
