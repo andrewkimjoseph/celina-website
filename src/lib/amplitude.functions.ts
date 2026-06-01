@@ -151,9 +151,10 @@ export const getAmplitudeStats = createServerFn({ method: "GET" }).handler(
         );
         const series = resp.data?.series ?? [];
         const xValues = resp.data?.xValues ?? [];
-        const labels = resp.data?.seriesLabels ?? chunk;
         series.forEach((rowCounts, idx) => {
-          const name = String(labels[idx] ?? chunk[idx]);
+          // seriesLabels returns group-by indices (e.g. "0"), not event names.
+          // Use our requested event name instead.
+          const name = String(chunk[idx] ?? `event_${idx}`);
           let toolTotal = 0;
           rowCounts.forEach((c, j) => {
             const day = isoDay(xValues[j] ?? "");
