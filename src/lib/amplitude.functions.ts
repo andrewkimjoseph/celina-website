@@ -100,11 +100,15 @@ async function listEvents(): Promise<string[]> {
   const out: string[] = [];
   for (const e of json.data ?? []) {
     if (e.hidden) continue;
-    const name = e.value ?? e.name;
+    // Prefer `name` (event name), fall back to `value` (often the same).
+    // Skip purely numeric entries — those are group-by indices, not events.
+    const name = e.name ?? e.value;
     if (!name) continue;
     if (name.startsWith("[Amplitude]")) continue;
+    if (/^\d+$/.test(name)) continue;
     out.push(name);
   }
+  console.log(`[amplitude] listEvents -> ${out.length} events:`, out.slice(0, 20));
   return out;
 }
 
