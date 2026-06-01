@@ -84,9 +84,35 @@ async function segmentation(
 }
 
 // Off-chain tools = `kind: "read"` from src/data/tools.ts.
-// Hardcoding avoids Amplitude's events/list taxonomy lag (~24h for new events).
 function offchainEventNames(): string[] {
   return TOOLS.filter((t) => t.kind === "read").map((t) => t.name);
+}
+
+// Amplitude's segmentation API 400s if ANY requested event is unknown to its
+// taxonomy. We fetch the registered set and intersect with our hardcoded list
+// so a brand-new tool that hasn't fired yet doesn't break the whole query.
+type EventsListResponse = {
+  data?: Array<{ name?: string; value?: string; hidden?: boolean }>;
+};
+
+async function knownEventNames(): Promise<Set<string>> {
+  const res = await fetch(`${baseUrl()}/api/2/events/list`, {
+    headers: { Authorization: authHeader() },
+  });
+  if (!res.ok) {
+    const body = await res.text().catch(() => "");
+    throw new Error(
+      `Amplitude events/list ${res.status}: ${res.statusText} ${body.slice(0, 200)}`,
+    );
+  }
+  const json = (await res.json()) as EventsListResponse;
+  const out = new Set<string>();
+  for (const e of json.data ?? []) {
+    if (e.hidden) continue;
+    const name = e.name ?? e.value;
+    if (name) out.add(name);
+  }
+  return out;
 }
 
 export const getAmplitudeStats = createServerFn({ method: "GET" }).handler(
@@ -108,7 +134,9 @@ export const getAmplitudeStats = createServerFn({ method: "GET" }).handler(
     const endStr = ymd(end);
 
     try {
-      const events = offchainEventNames();
+      const wanted = offchainEventNames();
+      const known = await knownEventNames();
+      const events = wanted.filter((e) => known.has(e));
       if (events.length === 0) {
         return {
           daily: [],
