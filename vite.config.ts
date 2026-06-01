@@ -12,4 +12,13 @@ export default defineConfig({
   tanstackStart: {
     server: { entry: "server" },
   },
+  // Lovable skips Nitro outside its sandbox; Vercel needs the Build Output API bundle.
+  nitro: {
+    preset: "vercel",
+    output: {
+      dir: ".vercel/output",
+      serverDir: ".vercel/output/functions/__server.func",
+      publicDir: ".vercel/output/static",
+    },
+  },
 });
