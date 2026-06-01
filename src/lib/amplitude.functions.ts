@@ -110,40 +110,6 @@ async function setSyncState(iso: string): Promise<void> {
   }
 }
 
-async function upsertDailyCounts(
-  rows: Array<{ day: string; event_type: string; count: number }>,
-): Promise<void> {
-  if (rows.length === 0) return;
-  // PostgREST upsert via Prefer: resolution=merge-duplicates on the composite PK.
-  const res = await sbFetch(
-    "/rest/v1/amplitude_daily_event_counts?on_conflict=day,event_type",
-    {
-      method: "POST",
-      headers: { Prefer: "resolution=merge-duplicates,return=minimal" },
-      body: JSON.stringify(rows),
-    },
-  );
-  if (!res.ok) {
-    throw new Error(
-      `Supabase upsert daily_counts ${res.status}: ${(await res.text()).slice(0, 200)}`,
-    );
-  }
-}
-
-async function readDailyCounts(sinceIsoDay: string): Promise<
-  Array<{ day: string; event_type: string; count: number }>
-> {
-  const res = await sbFetch(
-    `/rest/v1/amplitude_daily_event_counts?select=day,event_type,count&day=gte.${sinceIsoDay}&order=day.asc`,
-  );
-  if (!res.ok) {
-    throw new Error(
-      `Supabase read daily_counts ${res.status}: ${(await res.text()).slice(0, 200)}`,
-    );
-  }
-  return (await res.json()) as Array<{ day: string; event_type: string; count: number }>;
-}
-
 // ---------------------------------------------------------------------------
 // Amplitude Export pull
 // ---------------------------------------------------------------------------
