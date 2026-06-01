@@ -16,6 +16,7 @@ import { Route as ToolsIndexRouteImport } from './routes/tools.index'
 import { Route as StatsIndexRouteImport } from './routes/stats.index'
 import { Route as StatsPackageRouteImport } from './routes/stats.package'
 import { Route as StatsOnchainRouteImport } from './routes/stats.onchain'
+import { Route as StatsOffchainRouteImport } from './routes/stats.offchain'
 import { Route as ToolsCategoryIndexRouteImport } from './routes/tools.$category.index'
 import { Route as ToolsCategoryToolSlugRouteImport } from './routes/tools.$category.$toolSlug'
 
@@ -54,6 +55,11 @@ const StatsOnchainRoute = StatsOnchainRouteImport.update({
   path: '/onchain',
   getParentRoute: () => StatsRoute,
 } as any)
+const StatsOffchainRoute = StatsOffchainRouteImport.update({
+  id: '/offchain',
+  path: '/offchain',
+  getParentRoute: () => StatsRoute,
+} as any)
 const ToolsCategoryIndexRoute = ToolsCategoryIndexRouteImport.update({
   id: '/tools/$category/',
   path: '/tools/$category/',
@@ -69,6 +75,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/sdk': typeof SdkRoute
   '/stats': typeof StatsRouteWithChildren
+  '/stats/offchain': typeof StatsOffchainRoute
   '/stats/onchain': typeof StatsOnchainRoute
   '/stats/package': typeof StatsPackageRoute
   '/stats/': typeof StatsIndexRoute
@@ -79,6 +86,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/sdk': typeof SdkRoute
+  '/stats/offchain': typeof StatsOffchainRoute
   '/stats/onchain': typeof StatsOnchainRoute
   '/stats/package': typeof StatsPackageRoute
   '/stats': typeof StatsIndexRoute
@@ -91,6 +99,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/sdk': typeof SdkRoute
   '/stats': typeof StatsRouteWithChildren
+  '/stats/offchain': typeof StatsOffchainRoute
   '/stats/onchain': typeof StatsOnchainRoute
   '/stats/package': typeof StatsPackageRoute
   '/stats/': typeof StatsIndexRoute
@@ -104,6 +113,7 @@ export interface FileRouteTypes {
     | '/'
     | '/sdk'
     | '/stats'
+    | '/stats/offchain'
     | '/stats/onchain'
     | '/stats/package'
     | '/stats/'
@@ -114,6 +124,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/sdk'
+    | '/stats/offchain'
     | '/stats/onchain'
     | '/stats/package'
     | '/stats'
@@ -125,6 +136,7 @@ export interface FileRouteTypes {
     | '/'
     | '/sdk'
     | '/stats'
+    | '/stats/offchain'
     | '/stats/onchain'
     | '/stats/package'
     | '/stats/'
@@ -193,6 +205,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StatsOnchainRouteImport
       parentRoute: typeof StatsRoute
     }
+    '/stats/offchain': {
+      id: '/stats/offchain'
+      path: '/offchain'
+      fullPath: '/stats/offchain'
+      preLoaderRoute: typeof StatsOffchainRouteImport
+      parentRoute: typeof StatsRoute
+    }
     '/tools/$category/': {
       id: '/tools/$category/'
       path: '/tools/$category'
@@ -211,12 +230,14 @@ declare module '@tanstack/react-router' {
 }
 
 interface StatsRouteChildren {
+  StatsOffchainRoute: typeof StatsOffchainRoute
   StatsOnchainRoute: typeof StatsOnchainRoute
   StatsPackageRoute: typeof StatsPackageRoute
   StatsIndexRoute: typeof StatsIndexRoute
 }
 
 const StatsRouteChildren: StatsRouteChildren = {
+  StatsOffchainRoute: StatsOffchainRoute,
   StatsOnchainRoute: StatsOnchainRoute,
   StatsPackageRoute: StatsPackageRoute,
   StatsIndexRoute: StatsIndexRoute,
@@ -235,3 +256,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
