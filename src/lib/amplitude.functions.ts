@@ -16,6 +16,7 @@ export type AmplitudeStatsResult = {
   perTool: AmplitudeEventTotal[];
   total: number;
   fetchedAt: number;
+  lastSyncedAt: string | null;
   error: string | null;
 };
 
@@ -255,12 +256,13 @@ export async function syncAmplitudeExport(): Promise<void> {
     return; // cache gate
   }
 
-  // Always re-pull from start of the current UTC day to capture late-arriving
-  // events. Floor `lastSynced` to that boundary when it's earlier.
-  const todayStart = new Date(
-    Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()),
+  // Always re-pull from the start of YESTERDAY (UTC) to capture late-arriving
+  // events and ensure the midnight cron picks up the full previous day. If
+  // `lastSynced` is older, start from there instead so we don't skip a gap.
+  const yesterdayStart = new Date(
+    Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() - 1),
   );
-  const start = lastSynced < todayStart ? lastSynced : todayStart;
+  const start = lastSynced < yesterdayStart ? lastSynced : yesterdayStart;
   // Amplitude Export is hour-bucketed and inclusive on both ends.
   const startHour = ymdh(start);
   // End at previous hour to avoid in-progress hour returning 404.
@@ -286,6 +288,7 @@ export const getAmplitudeStats = createServerFn({ method: "GET" }).handler(
         perTool: [],
         total: 0,
         fetchedAt: Date.now(),
+        lastSyncedAt: null,
         error: "Missing AMPLITUDE_API_KEY / AMPLITUDE_SECRET_KEY",
       };
     }
@@ -295,6 +298,7 @@ export const getAmplitudeStats = createServerFn({ method: "GET" }).handler(
         perTool: [],
         total: 0,
         fetchedAt: Date.now(),
+        lastSyncedAt: null,
         error: "Missing CUSTOM_SUPABASE_URL / CUSTOM_SUPABASE_SERVICE_ROLE_KEY",
       };
     }
@@ -312,12 +316,15 @@ export const getAmplitudeStats = createServerFn({ method: "GET" }).handler(
       since.setUTCDate(since.getUTCDate() - LOOKBACK_DAYS);
       const sinceDay = since.toISOString().slice(0, 10);
 
-      const [dailyRes, toolRes] = await Promise.all([
+      const [dailyRes, toolRes, stateRes] = await Promise.all([
         sbFetch(
           `/rest/v1/amplitude_daily_totals?select=day,count&day=gte.${sinceDay}&order=day.asc`,
         ),
         sbFetch(
           `/rest/v1/amplitude_tool_totals?select=event,count&order=count.desc`,
+        ),
+        sbFetch(
+          `/rest/v1/amplitude_sync_state?select=last_synced_at&id=eq.1`,
         ),
       ]);
       if (!dailyRes.ok) {
@@ -332,18 +339,24 @@ export const getAmplitudeStats = createServerFn({ method: "GET" }).handler(
       }
       const dailyRows = (await dailyRes.json()) as Array<{ day: string; count: number }>;
       const toolRows = (await toolRes.json()) as Array<{ event: string; count: number }>;
+      let lastSyncedAt: string | null = null;
+      if (stateRes.ok) {
+        const stateRows = (await stateRes.json()) as Array<{ last_synced_at: string }>;
+        lastSyncedAt = stateRows[0]?.last_synced_at ?? null;
+      }
 
       const daily: AmplitudeEventDay[] = dailyRows.map((r) => ({ day: r.day, count: r.count }));
       const perTool: AmplitudeEventTotal[] = toolRows.map((r) => ({ event: r.event, count: r.count }));
       const total = daily.reduce((s, d) => s + d.count, 0);
 
-      return { daily, perTool, total, fetchedAt: Date.now(), error: syncError };
+      return { daily, perTool, total, fetchedAt: Date.now(), lastSyncedAt, error: syncError };
     } catch (e) {
       return {
         daily: [],
         perTool: [],
         total: 0,
         fetchedAt: Date.now(),
+        lastSyncedAt: null,
         error: e instanceof Error ? e.message : "Failed to read cached stats",
       };
     }
