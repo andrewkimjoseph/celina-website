@@ -57,7 +57,7 @@ export const useAmplitudeStore = create<AmplitudeState>()(
       },
     }),
     {
-      name: "celina-amplitude",
+      name: "celina-amplitude-v2",
       partialize: (s) => ({
         daily: s.daily,
         perTool: s.perTool,
