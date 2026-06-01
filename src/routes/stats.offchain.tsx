@@ -54,8 +54,17 @@ export const Route = createFileRoute("/stats/offchain")({
 });
 
 function OffchainPage() {
-  const { daily, perTool, loading } = useAmplitudeStore();
+  const { daily, perTool, loading, lastSyncedAt } = useAmplitudeStore();
   const agg = useMemo(() => aggregateAmplitude(daily, perTool), [daily, perTool]);
+  const lastUpdatedLabel = useMemo(() => {
+    if (!lastSyncedAt) return null;
+    const d = new Date(lastSyncedAt);
+    if (Number.isNaN(d.getTime())) return null;
+    return d.toLocaleString(undefined, {
+      dateStyle: "medium",
+      timeStyle: "short",
+    });
+  }, [lastSyncedAt]);
 
   return (
     <>
@@ -74,6 +83,11 @@ function OffchainPage() {
           <p className="mt-1 text-xs text-muted-foreground">
             Every time an LLM invokes a Celina tool that does not touch the chain, it&apos;s logged to Amplitude. This is the rollup.
           </p>
+          {lastUpdatedLabel && (
+            <p className="mt-1 text-[11px] text-muted-foreground/80">
+              Last updated {lastUpdatedLabel} · syncs daily at 00:00 UTC
+            </p>
+          )}
         </div>
 
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
