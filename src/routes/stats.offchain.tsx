@@ -214,6 +214,18 @@ function OffchainPage() {
               </PieChart>
             </ResponsiveContainer>
           </ChartCard>
+
+          <ChartCard title="Last 14 days" subtitle="recent activity">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={agg.daily.slice(-14)} margin={{ top: 8, right: 12, left: 0, bottom: 0 }}>
+                <CartesianGrid stroke="var(--border)" strokeDasharray="3 3" vertical={false} />
+                <XAxis dataKey="label" stroke="var(--muted-foreground)" fontSize={10} tickLine={false} />
+                <YAxis stroke="var(--muted-foreground)" fontSize={11} tickLine={false} axisLine={false} width={40} />
+                <Tooltip contentStyle={tooltipStyle} itemStyle={tooltipItemStyle} labelStyle={tooltipLabelStyle} cursor={{ fill: "var(--muted)" }} />
+                <Bar dataKey="count" name="Calls" fill={yellow} radius={[4, 4, 0, 0]} />
+              </BarChart>
+            </ResponsiveContainer>
+          </ChartCard>
         </div>
       </section>
     </>
