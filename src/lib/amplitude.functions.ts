@@ -247,7 +247,7 @@ async function upsertEvents(rows: Array<Record<string, unknown>>): Promise<void>
 // Sync orchestration
 // ---------------------------------------------------------------------------
 
-async function syncAmplitudeExport(): Promise<void> {
+export async function syncAmplitudeExport(): Promise<void> {
   const { last_synced_at } = await getSyncState();
   const lastSynced = new Date(last_synced_at);
   const now = new Date();
