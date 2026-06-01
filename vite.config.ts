@@ -13,6 +13,9 @@ const isVercelBuild = process.env.VERCEL === "1";
 export default defineConfig({
   tanstackStart: {
     server: { entry: "server" },
+    serverFns: {
+      disableCsrfMiddlewareWarning: true,
+    },
   },
   // Lovable auto-enables Nitro (cloudflare-module) in its sandbox; Vercel needs Build Output API.
   nitro: isVercelBuild
