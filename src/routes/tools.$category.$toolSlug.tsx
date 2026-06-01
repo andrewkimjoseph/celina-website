@@ -1,6 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft, faBolt, faCircleNodes, faTerminal, faCopy, faCheck, faFileSignature } from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft, faBolt, faCircleNodes, faTerminal, faCopy, faCheck } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 import { findTool, categorySlug, type ToolDoc } from "@/data/tools";
 import { SiteHeader } from "@/components/site-header";
@@ -61,7 +61,6 @@ function CopyInline({ text }: { text: string }) {
 function ToolPage() {
   const { tool } = Route.useLoaderData() as { tool: ToolDoc };
   const isWrite = tool.kind === "write";
-  const isPrepare = tool.kind === "prepare";
   const catSlug = categorySlug(tool.category);
 
   return (
@@ -86,12 +85,10 @@ function ToolPage() {
             className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.18em] ${
               isWrite
                 ? "border border-[var(--celo-ink)]/40 bg-[var(--celo-yellow)] text-[var(--celo-ink)]"
-                : isPrepare
-                ? "border border-foreground/30 bg-muted/40 text-foreground/80"
                 : "border border-[var(--celo-forest)]/40 text-[var(--celo-forest)]"
             }`}
           >
-            <FontAwesomeIcon icon={isWrite ? faBolt : isPrepare ? faFileSignature : faCircleNodes} className="h-2.5 w-2.5" />
+            <FontAwesomeIcon icon={isWrite ? faBolt : faCircleNodes} className="h-2.5 w-2.5" />
             {tool.kind}
           </span>
           <Link
@@ -120,12 +117,6 @@ function ToolPage() {
         <p className="mt-6 max-w-2xl text-lg leading-relaxed text-muted-foreground">
           {tool.description}
         </p>
-
-        {isPrepare && (
-          <p className="mt-4 max-w-2xl rounded-lg border border-dashed border-foreground/20 bg-muted/40 px-4 py-3 text-sm text-foreground/80">
-            Returns an unsigned prepared flow — user signs in their wallet. Local stdio only.
-          </p>
-        )}
 
         <section className="mt-12">
           <h2 className="text-xs font-bold uppercase tracking-[0.22em] text-foreground">§ Inputs</h2>
