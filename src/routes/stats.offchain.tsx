@@ -117,6 +117,24 @@ function OffchainPage() {
             </ResponsiveContainer>
           </ChartCard>
 
+          <ChartCard title="Tools evoked per day" subtitle="line">
+            <ResponsiveContainer width="100%" height="100%">
+              <AreaChart data={agg.daily} margin={{ top: 8, right: 12, left: 0, bottom: 0 }}>
+                <defs>
+                  <linearGradient id="amplitudeArea" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor={lineStroke} stopOpacity={0.3} />
+                    <stop offset="95%" stopColor={lineStroke} stopOpacity={0} />
+                  </linearGradient>
+                </defs>
+                <CartesianGrid stroke="var(--border)" strokeDasharray="3 3" vertical={false} />
+                <XAxis dataKey="label" stroke="var(--muted-foreground)" fontSize={10} tickLine={false} interval={Math.max(0, Math.floor(agg.daily.length / 8))} />
+                <YAxis stroke="var(--muted-foreground)" fontSize={11} tickLine={false} axisLine={false} width={40} />
+                <Tooltip contentStyle={tooltipStyle} itemStyle={tooltipItemStyle} labelStyle={tooltipLabelStyle} cursor={{ stroke: "var(--border)" }} />
+                <Area type="monotone" dataKey="count" name="Calls" stroke={lineStroke} strokeWidth={2} fill="url(#amplitudeArea)" dot={false} activeDot={{ r: 4, fill: lineStroke }} />
+              </AreaChart>
+            </ResponsiveContainer>
+          </ChartCard>
+
           <ChartCard title="Top tools" subtitle="event · calls">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart
