@@ -9,6 +9,7 @@ import {
 import { faGithub, faNpm } from "@fortawesome/free-brands-svg-icons";
 import { useStatsStore, STALE_MS } from "@/lib/stats-store";
 import { useNpmStore } from "@/lib/npm-store";
+import { useAmplitudeStore } from "@/lib/amplitude-store";
 import { SiteHeader } from "@/components/site-header";
 import { NPM_URL, timeAgo } from "@/lib/stats-shared";
 
@@ -56,26 +57,34 @@ function StatsLayout() {
     error: npmError,
     refresh: refreshNpm,
   } = useNpmStore();
+  const {
+    fetchedAt: ampFetchedAt,
+    loading: ampLoading,
+    error: ampError,
+    refresh: refreshAmp,
+  } = useAmplitudeStore();
   const [now, setNow] = useState(() => Date.now());
 
   useEffect(() => {
     refresh();
     refreshNpm();
+    refreshAmp();
     const refetchId = setInterval(() => {
       refresh();
       refreshNpm();
+      refreshAmp();
     }, STALE_MS);
     const tickId = setInterval(() => setNow(Date.now()), 1000);
     return () => {
       clearInterval(refetchId);
       clearInterval(tickId);
     };
-  }, [refresh, refreshNpm]);
+  }, [refresh, refreshNpm, refreshAmp]);
 
-  const oldestFetchedAt =
-    fetchedAt && npmFetchedAt
-      ? Math.min(fetchedAt, npmFetchedAt)
-      : fetchedAt || npmFetchedAt;
+  const fetchedAts = [fetchedAt, npmFetchedAt, ampFetchedAt].filter(
+    (v): v is number => typeof v === "number",
+  );
+  const oldestFetchedAt = fetchedAts.length ? Math.min(...fetchedAts) : null;
   const msUntilReady = oldestFetchedAt
     ? Math.max(0, STALE_MS - (now - oldestFetchedAt))
     : 0;
@@ -85,8 +94,8 @@ function StatsLayout() {
     if (s >= 60) return `Refresh in ${Math.ceil(s / 60)}m`;
     return `Refresh in ${s}s`;
   })();
-  const busy = loading || npmLoading;
-  const combinedError = error || npmError;
+  const busy = loading || npmLoading || ampLoading;
+  const combinedError = error || npmError || ampError;
 
   return (
     <main className="min-h-screen bg-background text-foreground">
@@ -113,6 +122,7 @@ function StatsLayout() {
             onClick={() => {
               refresh();
               refreshNpm();
+              refreshAmp();
             }}
             disabled={busy || cooldown}
             className="inline-flex items-center gap-2 rounded-lg border border-foreground/15 bg-card px-3.5 py-2 text-sm font-medium text-foreground transition hover:border-[var(--celo-forest)] hover:bg-muted disabled:opacity-60"
@@ -135,6 +145,7 @@ function StatsLayout() {
         <div className="mt-8 flex flex-wrap items-center gap-2 border-b border-foreground/10 pb-4">
           <SubNavLink to="/stats" label="Overview" />
           <SubNavLink to="/stats/onchain" label="On-chain" />
+          <SubNavLink to="/stats/offchain" label="Off-chain" />
           <SubNavLink to="/stats/package" label="Package" />
         </div>
       </section>
