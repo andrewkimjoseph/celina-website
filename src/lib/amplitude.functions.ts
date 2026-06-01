@@ -32,13 +32,6 @@ function ymdh(d: Date): string {
   return `${y}${m}${day}T${h}`;
 }
 
-function isoDayFromEventTime(eventTime: string): string | null {
-  // Amplitude event_time is "YYYY-MM-DD HH:MM:SS.sss" in project timezone,
-  // but for our purposes we just take the date portion.
-  if (!eventTime || eventTime.length < 10) return null;
-  return eventTime.slice(0, 10);
-}
-
 function baseUrl(): string {
   const region = (process.env.AMPLITUDE_REGION ?? "us").toLowerCase();
   return region === "eu"
