@@ -1,52 +1,46 @@
 ## Goal
 
-Surface the new `@andrewkimjoseph/celina-sdk` package on the marketing site:
-1. Roll its npm downloads into the existing Stats → Package metrics.
-2. Add a dedicated `/sdk` route summarizing what the SDK does, install, quick start, API surface, and related packages — sourced from the GitBook page.
+Add the 25 new Carbon DeFi tools to the site catalog and update the hero/category copy so the marketing site matches the new MCP server description (Mento FX, Uniswap v4, Aave, **Carbon DeFi**, chain reads).
 
-## 1. Include the SDK in npm metrics
+## Scope
 
-**`src/lib/npm.functions.ts`**
-- Add `"@andrewkimjoseph/celina-sdk"` to the `PACKAGES` array. The existing merge logic already sums downloads across packages by day, so totals/daily/weekly/monthly KPIs and charts pick it up automatically. 404s for any package are already handled (treated as zero), so it's safe even on a new package with sparse history.
+Frontend / data only. No backend, no schema, no stats logic changes.
 
-**`src/routes/stats.package.tsx`**
-- Update the subhead copy under "Package adoption · npm downloads" to mention all three packages: `celina-mcp` (current MCP), `celina-sdk` (new SDK), and `celina` (legacy wrapper).
-- Update `head()` meta `title` + `description` to reflect "MCP + SDK downloads" instead of single package.
+## 1. `src/data/tools.ts`
 
-**`src/lib/stats-shared.tsx`** (only if `NPM_STAT_URL` is single-package)
-- If `NPM_STAT_URL` points to one package's npm-stat page, leave it (deep links to multi-package comparison are messy) — no change needed.
+- Extend the `ToolDoc.category` union with `"Carbon DeFi"`.
+- Add a new `ToolKind` value `"prepare"` (used by 13 of the 25 Carbon tools). Keep `read` and `write` for the rest.
+  - Update any place that branches on `kind === "write"` (tool list card, category page, tool detail page) to treat `prepare` distinctly — render a third badge ("prepare") styled like write but in a softer tone so users can see it's unsigned.
+- Append 25 new tool entries under category `Carbon DeFi`, each with: `name`, `slug` (kebab-case), `title`, `summary`, `description`, `kind`, `inputs` (minimal — most take a wallet + pair + amount/price params), `returns`, and 1–2 example prompts where natural.
+  - 12 reads: `get_carbon_strategies`, `get_carbon_strategy`, `get_carbon_trade_quote`, `explore_carbon_pair`, `resolve_carbon_token`, `get_carbon_activity`, `find_carbon_opportunities`, `get_carbon_protocol_stats`, `get_carbon_price_history`, `simulate_carbon_strategy`, `carbon_help`, `carbon_learn`
+  - 13 prepares: `prepare_carbon_limit_order`, `prepare_carbon_range_order`, `prepare_carbon_recurring_strategy`, `prepare_carbon_concentrated_strategy`, `prepare_carbon_full_range_strategy`, `prepare_carbon_reprice_strategy`, `prepare_carbon_edit_strategy`, `prepare_carbon_deposit_budget`, `prepare_carbon_withdraw_budget`, `prepare_carbon_pause_strategy`, `prepare_carbon_resume_strategy`, `prepare_carbon_delete_strategy`, `prepare_carbon_trade`
+- Make sure `CATEGORY_BY_SLUG` (categorySlug helper) handles `"Carbon DeFi"` → `carbon-defi`.
 
-No changes to `npm-store.ts` — it just consumes the merged result.
+## 2. Tool detail / category badges
 
-## 2. New `/sdk` route
+- `src/routes/tools.$category.$toolSlug.tsx`, `src/routes/tools.$category.index.tsx`, `src/routes/tools.index.tsx`: extend the read/write badge logic to a small helper that returns label + colors for `read | write | prepare`. Use yellow for write, forest for read (current), and a neutral border style for prepare.
+- Tool detail page: when `kind === "prepare"`, add a one-line note: "Returns an unsigned prepared flow — user signs in their wallet. Local stdio only."
 
-**`src/routes/sdk.tsx`** (new)
-- `createFileRoute("/sdk")` with `head()` meta:
-  - title: `Celina SDK — frontend library for Celo`
-  - description: `Celina-linked mainnet SDK for frontend apps — reads, gas estimates, and unsigned tx preparation. Pair with wagmi/viem; users sign in their wallet.`
-  - matching `og:title` / `og:description`.
-- Use `SiteHeader` + same layout shell as `/tools` / `/stats` for visual consistency (background, max-w-6xl container, footer pattern from `stats.tsx`).
-- Sections:
-  1. **Hero** — eyebrow chip ("SDK · Frontend library"), H1 "Celina SDK", subtitle describing reads + unsigned tx prep, two CTAs: "Read the docs" → `https://andrewkimjoseph.gitbook.io/celina-sdk` (external, target=_blank) and "View on npm" → `https://www.npmjs.com/package/@andrewkimjoseph/celina-sdk`.
-  2. **What you can do** — 3 cards: Reads (token balances, Mento FX quotes, governance proposals, ENS), Estimates (gas for sends, FX swaps, generic contract calls), Prepare (unsigned tx flows: sends, Mento FX, Aave supply/withdraw). Callout: "The SDK never holds or uses private keys."
-  3. **Install** — code block: `npm i @andrewkimjoseph/celina-sdk@latest`.
-  4. **Quick start** — code block showing `createCelinaClient`, sample `token.getStablecoinBalances`, `mentoFx.getFxQuote`, and `transaction.prepareSend` returning steps for wagmi (from GitBook).
-  5. **API overview** — table with columns Service / Reads / Prepare for: `blockchain`, `account`, `token`, `ens`, `gooddollar`, `transaction`, `mentoFx`, `aave`, `governance`, `staking`, `nft`, `contract`. Same content as GitBook table.
-  6. **Related packages** — small list linking to `@andrewkimjoseph/celina-mcp` (with internal cross-link to `/` or `/tools` for the MCP server) and `@selfxyz/agent-sdk`.
-  7. **Footer** — same as other routes.
-- Styling uses existing tokens (`--celo-forest`, `--celo-yellow`, `--celo-cream`, `--celo-ink`, `var(--font-display)`, `bg-card`, `text-muted-foreground`, etc.) — no new tokens, no hardcoded colors.
+## 3. Landing copy (`src/routes/index.tsx`)
 
-**`src/components/site-header.tsx`**
-- Add an `SDK` nav link between `Tools` and `Stats` so the new route is discoverable on every page. Mirror existing `Link` styling (`activeProps`, `px-2 py-1.5 sm:px-3`).
+- Hero subtitle: extend the sentence already mentioning Mento FX, Uniswap v4, Aave to include "Carbon DeFi maker/taker tools".
+- Hosted section caveat: append "`prepare_carbon_*` tools are local-stdio only" next to the existing write-disabled line.
+- Tool counts use `TOOLS.length` already — auto-updates from 31 → 56.
 
-**`src/routes/index.tsx`** (light touch)
-- In the existing hero / install section, add a brief "Building a frontend? Use the SDK" callout linking to `/sdk` so users on the landing page find it. (No restructure — one card / inline note.)
+## 4. README (already updated by user) — no change
 
-**`src/routeTree.gen.ts`**
-- Auto-regenerated by the TanStack Router Vite plugin. No manual edit needed beyond creating `src/routes/sdk.tsx`.
+## 5. Header / nav
+
+- `src/components/site-header.tsx`: if there's a category dropdown, add Carbon DeFi. Otherwise no change (categories are derived from TOOLS).
 
 ## Out of scope
 
-- No changes to `tools.ts` or tool catalog — the SDK's surface mirrors the MCP tools already documented, and the GitBook is the source of truth for SDK method signatures.
-- No on-chain stats changes — SDK reads happen client-side and aren't attributable on-chain.
-- No README update (can follow in a separate turn if you want it refreshed).
+- `/stats` and `/sdk` routes — no Carbon-specific metrics.
+- Color tokens — reuse existing `--celo-*` tokens; no new tokens needed.
+
+## Verification
+
+- Build passes (route tree regenerates cleanly).
+- `/tools` shows new Carbon DeFi category with 25 tools.
+- `/tools/carbon-defi` lists all 25; each detail page renders.
+- Hero count reads "56 tools" (or current total).
