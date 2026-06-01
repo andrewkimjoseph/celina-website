@@ -1,0 +1,69 @@
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
+import {
+  getAmplitudeStats,
+  type AmplitudeEventDay,
+  type AmplitudeEventTotal,
+} from "./amplitude.functions";
+import { STALE_MS } from "./stats-store";
+
+type AmplitudeState = {
+  daily: AmplitudeEventDay[];
+  perTool: AmplitudeEventTotal[];
+  total: number;
+  fetchedAt: number | null;
+  loading: boolean;
+  error: string | null;
+  refresh: (opts?: { force?: boolean }) => Promise<void>;
+};
+
+export const useAmplitudeStore = create<AmplitudeState>()(
+  persist(
+    (set, get) => ({
+      daily: [],
+      perTool: [],
+      total: 0,
+      fetchedAt: null,
+      loading: false,
+      error: null,
+      refresh: async (opts) => {
+        const { fetchedAt, loading } = get();
+        if (loading) return;
+        if (
+          !opts?.force &&
+          fetchedAt &&
+          Date.now() - fetchedAt < STALE_MS &&
+          get().daily.length > 0
+        )
+          return;
+        set({ loading: true, error: null });
+        try {
+          const result = await getAmplitudeStats();
+          set({
+            daily: result.daily,
+            perTool: result.perTool,
+            total: result.total,
+            fetchedAt: result.fetchedAt,
+            error: result.error,
+            loading: false,
+          });
+        } catch (e) {
+          set({
+            loading: false,
+            error:
+              e instanceof Error ? e.message : "Failed to load Amplitude stats",
+          });
+        }
+      },
+    }),
+    {
+      name: "celina-amplitude",
+      partialize: (s) => ({
+        daily: s.daily,
+        perTool: s.perTool,
+        total: s.total,
+        fetchedAt: s.fetchedAt,
+      }),
+    },
+  ),
+);
