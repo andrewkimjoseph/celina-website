@@ -11,6 +11,20 @@ import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 const isVercelBuild = process.env.VERCEL === "1";
 
 export default defineConfig({
+  // Lovable skips nitro outside its sandbox and defaults output to dist/ (Cloudflare).
+  // Vercel needs the Build Output API layout under .vercel/output.
+  ...(isVercelBuild
+    ? {
+        nitro: {
+          preset: "vercel",
+          output: {
+            dir: ".vercel/output",
+            serverDir: ".vercel/output/functions/__server.func",
+            publicDir: ".vercel/output/static",
+          },
+        },
+      }
+    : {}),
   tanstackStart: {
     server: { entry: "server" },
     serverFns: {
