@@ -61,7 +61,10 @@ async function segmentation(
   end: string,
 ): Promise<SegmentationResponse> {
   const url = new URL(`${baseUrl()}/api/2/events/segmentation`);
-  url.searchParams.set("e", JSON.stringify(events));
+  // Amplitude expects one `e=` param per event (repeated), NOT a JSON array.
+  for (const ev of events) {
+    url.searchParams.append("e", JSON.stringify(ev));
+  }
   url.searchParams.set("start", start);
   url.searchParams.set("end", end);
   url.searchParams.set("i", "1"); // daily buckets
