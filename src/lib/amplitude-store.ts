@@ -12,6 +12,7 @@ type AmplitudeState = {
   perTool: AmplitudeEventTotal[];
   total: number;
   fetchedAt: number | null;
+  lastSyncedAt: string | null;
   loading: boolean;
   error: string | null;
   refresh: (opts?: { force?: boolean }) => Promise<void>;
@@ -24,6 +25,7 @@ export const useAmplitudeStore = create<AmplitudeState>()(
       perTool: [],
       total: 0,
       fetchedAt: null,
+      lastSyncedAt: null,
       loading: false,
       error: null,
       refresh: async (opts) => {
@@ -44,6 +46,7 @@ export const useAmplitudeStore = create<AmplitudeState>()(
             perTool: result.perTool,
             total: result.total,
             fetchedAt: result.fetchedAt,
+            lastSyncedAt: result.lastSyncedAt,
             error: result.error,
             loading: false,
           });
@@ -63,6 +66,7 @@ export const useAmplitudeStore = create<AmplitudeState>()(
         perTool: s.perTool,
         total: s.total,
         fetchedAt: s.fetchedAt,
+        lastSyncedAt: s.lastSyncedAt,
       }),
     },
   ),
