@@ -245,7 +245,7 @@ export function ChartCard({
   );
 }
 
-export function KpiCard({ label, value }: { label: string; value: string | number }) {
+export function KpiCard({ label, value, sub }: { label: string; value: string | number; sub?: string }) {
   return (
     <div className="rounded-2xl border border-foreground/10 bg-card p-5 shadow-[var(--shadow-soft)]">
       <div className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
@@ -257,6 +257,11 @@ export function KpiCard({ label, value }: { label: string; value: string | numbe
       >
         {value}
       </div>
+      {sub && (
+        <div className="mt-1.5 text-[11px] leading-snug text-muted-foreground/80">
+          {sub}
+        </div>
+      )}
     </div>
   );
 }
