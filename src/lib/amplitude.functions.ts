@@ -15,6 +15,7 @@ export type AmplitudeStatsResult = {
   daily: AmplitudeEventDay[];
   perTool: AmplitudeEventTotal[];
   total: number;
+  uniqueDevices: number;
   fetchedAt: number;
   lastSyncedAt: string | null;
   error: string | null;
