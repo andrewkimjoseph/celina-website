@@ -65,7 +65,7 @@ function ToolPage() {
   const kindLabel = isPrepare ? "PREP" : tool.kind;
   const kindIcon = isPrepare ? faFileSignature : isWrite ? faBolt : faCircleNodes;
   const kindClass = isPrepare
-    ? "border border-[var(--celo-deep)]/40 bg-[var(--celo-deep)] text-[var(--celo-cream)] dark:border-[var(--celo-yellow)]/50 dark:bg-[var(--celo-yellow)] dark:text-[var(--celo-ink)]"
+    ? "border border-[var(--celo-deep)]/40 bg-[var(--celo-deep)] text-[var(--celo-cream)] dark:border-[var(--celo-cream)]/50 dark:bg-[var(--celo-cream)] dark:text-[var(--celo-ink)]"
     : isWrite
       ? "border border-[var(--celo-ink)]/40 bg-[var(--celo-yellow)] text-[var(--celo-ink)]"
       : "border border-[var(--celo-forest)]/40 text-[var(--celo-forest)]";
