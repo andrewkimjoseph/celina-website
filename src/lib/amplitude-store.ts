@@ -37,7 +37,8 @@ export const useAmplitudeStore = create<AmplitudeState>()(
           !opts?.force &&
           fetchedAt &&
           Date.now() - fetchedAt < STALE_MS &&
-          get().daily.length > 0
+          get().daily.length > 0 &&
+          get().uniqueDevices > 0
         )
           return;
         set({ loading: true, error: null });
@@ -63,7 +64,7 @@ export const useAmplitudeStore = create<AmplitudeState>()(
       },
     }),
     {
-      name: "celina-amplitude-v3",
+      name: "celina-amplitude-v4",
       partialize: (s) => ({
         daily: s.daily,
         perTool: s.perTool,

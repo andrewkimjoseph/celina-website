@@ -73,6 +73,40 @@ async function sbFetch(path: string, init: RequestInit = {}): Promise<Response> 
   return res;
 }
 
+/** Distinct non-empty device_id values (one per SDK consumer / project). */
+async function countUniqueProjectDeviceIds(sinceDay: string): Promise<number> {
+  const ids = new Set<string>();
+  const pageSize = 1000;
+  let offset = 0;
+
+  for (;;) {
+    const res = await sbFetch(
+      `/rest/v1/amplitude_events?select=device_id&event_day=gte.${sinceDay}&order=event_time.asc&limit=${pageSize}&offset=${offset}`,
+    );
+    if (!res.ok) {
+      throw new Error(
+        `Supabase read amplitude_events device_id ${res.status}: ${(await res.text()).slice(0, 200)}`,
+      );
+    }
+    const rows = (await res.json()) as Array<{ device_id: string | null }>;
+    if (rows.length === 0) {
+      break;
+    }
+    for (const row of rows) {
+      const id = row.device_id?.trim();
+      if (id) {
+        ids.add(id);
+      }
+    }
+    if (rows.length < pageSize) {
+      break;
+    }
+    offset += pageSize;
+  }
+
+  return ids.size;
+}
+
 async function getSyncState(): Promise<{ last_synced_at: string }> {
   const res = await sbFetch(
     "/rest/v1/amplitude_sync_state?select=last_synced_at&id=eq.1",
@@ -319,7 +353,7 @@ export const getAmplitudeStats = createServerFn({ method: "GET" }).handler(
       since.setUTCDate(since.getUTCDate() - LOOKBACK_DAYS);
       const sinceDay = since.toISOString().slice(0, 10);
 
-      const [dailyRes, toolRes, stateRes, deviceRes] = await Promise.all([
+      const [dailyRes, toolRes, stateRes] = await Promise.all([
         sbFetch(
           `/rest/v1/amplitude_daily_totals?select=day,count&day=gte.${sinceDay}&order=day.asc`,
         ),
@@ -328,9 +362,6 @@ export const getAmplitudeStats = createServerFn({ method: "GET" }).handler(
         ),
         sbFetch(
           `/rest/v1/amplitude_sync_state?select=last_synced_at&id=eq.1`,
-        ),
-        sbFetch(
-          `/rest/v1/amplitude_events?select=device_id&device_id=not.is.null&limit=100000`,
         ),
       ]);
       if (!dailyRes.ok) {
@@ -354,16 +385,7 @@ export const getAmplitudeStats = createServerFn({ method: "GET" }).handler(
       const daily: AmplitudeEventDay[] = dailyRows.map((r) => ({ day: r.day, count: r.count }));
       const perTool: AmplitudeEventTotal[] = toolRows.map((r) => ({ event: r.event, count: r.count }));
       const total = daily.reduce((s, d) => s + d.count, 0);
-
-      let uniqueDevices = 0;
-      if (deviceRes.ok) {
-        const deviceRows = (await deviceRes.json()) as Array<{ device_id: string | null }>;
-        const set = new Set<string>();
-        for (const r of deviceRows) {
-          if (r.device_id) set.add(r.device_id);
-        }
-        uniqueDevices = set.size;
-      }
+      const uniqueDevices = await countUniqueProjectDeviceIds(sinceDay);
 
       return { daily, perTool, total, uniqueDevices, fetchedAt: Date.now(), lastSyncedAt, error: syncError };
     } catch (e) {
