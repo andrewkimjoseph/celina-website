@@ -54,7 +54,7 @@ export const Route = createFileRoute("/stats/offchain")({
 });
 
 function OffchainPage() {
-  const { daily, perTool, loading, lastSyncedAt } = useAmplitudeStore();
+  const { daily, perTool, uniqueDevices, loading, lastSyncedAt } = useAmplitudeStore();
   const agg = useMemo(() => aggregateAmplitude(daily, perTool), [daily, perTool]);
   const lastUpdatedLabel = useMemo(() => {
     if (!lastSyncedAt) return null;
@@ -98,7 +98,11 @@ function OffchainPage() {
         </div>
 
         <div className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-4">
-          <KpiCard label="Active days" value={agg.activeDays.toLocaleString()} />
+          <KpiCard
+            label="Unique projects"
+            value={uniqueDevices.toLocaleString()}
+            sub="1 device_id = 1 project testing the tools"
+          />
           <KpiCard label="Avg / active day" value={agg.avgPerActiveDay.toLocaleString()} />
           <KpiCard label="Peak day" value={agg.peakDay?.count.toLocaleString() ?? "—"} />
           <KpiCard label="Unique tools" value={agg.topTools.length.toLocaleString()} />
