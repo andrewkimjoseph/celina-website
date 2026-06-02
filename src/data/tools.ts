@@ -1,4 +1,4 @@
-export type ToolKind = "read" | "write";
+export type ToolKind = "read" | "write" | "prepare";
 
 export interface ToolField {
   name: string;
@@ -977,7 +977,7 @@ export const TOOLS: ToolDoc[] = [
     summary: "One-time limit order",
     description:
       "Prepare a Carbon DeFi one-time limit order on Celo mainnet. User signs in their wallet. Local stdio only.",
-    kind: "write",
+    kind: "prepare",
     category: "Carbon DeFi",
     inputs: [
       { name: "base", type: "symbol or 0x…", required: true, description: "Base token." },
@@ -996,7 +996,7 @@ export const TOOLS: ToolDoc[] = [
     summary: "Range order — gradual fill",
     description:
       "Prepare a Carbon range order that executes gradually across a price band. Local stdio only.",
-    kind: "write",
+    kind: "prepare",
     category: "Carbon DeFi",
     inputs: [
       { name: "base", type: "symbol or 0x…", required: true, description: "Base token." },
@@ -1016,7 +1016,7 @@ export const TOOLS: ToolDoc[] = [
     summary: "Recurring buy/sell strategy",
     description:
       "Prepare a Carbon recurring strategy — automatic buy-low/sell-high. Makers pay no gas on fills. Local stdio only.",
-    kind: "write",
+    kind: "prepare",
     category: "Carbon DeFi",
     inputs: [
       { name: "base", type: "symbol or 0x…", required: true, description: "Base token." },
@@ -1036,7 +1036,7 @@ export const TOOLS: ToolDoc[] = [
     summary: "Concentrated two-sided liquidity",
     description:
       "Prepare a Carbon concentrated two-sided liquidity strategy in a tight price range. Local stdio only.",
-    kind: "write",
+    kind: "prepare",
     category: "Carbon DeFi",
     inputs: [
       { name: "base", type: "symbol or 0x…", required: true, description: "Base token." },
@@ -1056,7 +1056,7 @@ export const TOOLS: ToolDoc[] = [
     summary: "Full-range liquidity",
     description:
       "Prepare a Carbon full-range liquidity strategy — passive market making across the entire price curve. Local stdio only.",
-    kind: "write",
+    kind: "prepare",
     category: "Carbon DeFi",
     inputs: [
       { name: "base", type: "symbol or 0x…", required: true, description: "Base token." },
@@ -1074,7 +1074,7 @@ export const TOOLS: ToolDoc[] = [
     summary: "Update price ranges",
     description:
       "Prepare a update to the price ranges of an existing Carbon strategy. Local stdio only.",
-    kind: "write",
+    kind: "prepare",
     category: "Carbon DeFi",
     inputs: [
       { name: "strategy_id", type: "string", required: true, description: "Strategy NFT id." },
@@ -1091,7 +1091,7 @@ export const TOOLS: ToolDoc[] = [
     summary: "Edit prices, budgets, type",
     description:
       "Prepare a edit to an existing Carbon strategy — change prices, budgets, and optionally the strategy type. Local stdio only.",
-    kind: "write",
+    kind: "prepare",
     category: "Carbon DeFi",
     inputs: [
       { name: "strategy_id", type: "string", required: true, description: "Strategy NFT id." },
@@ -1107,7 +1107,7 @@ export const TOOLS: ToolDoc[] = [
     summary: "Add funds to strategy",
     description:
       "Prepare a deposit of additional funds into an existing Carbon strategy. Local stdio only.",
-    kind: "write",
+    kind: "prepare",
     category: "Carbon DeFi",
     inputs: [
       { name: "strategy_id", type: "string", required: true, description: "Strategy NFT id." },
@@ -1124,7 +1124,7 @@ export const TOOLS: ToolDoc[] = [
     summary: "Withdraw funds from strategy",
     description:
       "Prepare a withdrawal of funds from an existing Carbon strategy. Local stdio only.",
-    kind: "write",
+    kind: "prepare",
     category: "Carbon DeFi",
     inputs: [
       { name: "strategy_id", type: "string", required: true, description: "Strategy NFT id." },
@@ -1141,7 +1141,7 @@ export const TOOLS: ToolDoc[] = [
     summary: "Pause strategy; funds remain",
     description:
       "Prepare a pause for an active Carbon strategy. Funds remain on-chain. Local stdio only.",
-    kind: "write",
+    kind: "prepare",
     category: "Carbon DeFi",
     inputs: [
       { name: "strategy_id", type: "string", required: true, description: "Strategy NFT id." },
@@ -1156,7 +1156,7 @@ export const TOOLS: ToolDoc[] = [
     summary: "Resume paused strategy",
     description:
       "Prepare a resume for a paused Carbon strategy. Local stdio only.",
-    kind: "write",
+    kind: "prepare",
     category: "Carbon DeFi",
     inputs: [
       { name: "strategy_id", type: "string", required: true, description: "Strategy NFT id." },
@@ -1171,7 +1171,7 @@ export const TOOLS: ToolDoc[] = [
     summary: "Permanently close strategy",
     description:
       "Prepare a permanent close of a Carbon strategy, withdrawing all remaining funds. Local stdio only.",
-    kind: "write",
+    kind: "prepare",
     category: "Carbon DeFi",
     inputs: [
       { name: "strategy_id", type: "string", required: true, description: "Strategy NFT id." },
@@ -1186,7 +1186,7 @@ export const TOOLS: ToolDoc[] = [
     summary: "Taker swap against Carbon",
     description:
       "Prepare a taker swap against Carbon liquidity on Celo mainnet. Local stdio only.",
-    kind: "write",
+    kind: "prepare",
     category: "Carbon DeFi",
     inputs: [
       { name: "tokenIn", type: "symbol or 0x…", required: true, description: "Input token." },
