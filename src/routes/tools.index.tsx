@@ -90,7 +90,7 @@ function ToolsIndex() {
                   const kindLabel = isPrepare ? "PREP" : t.kind;
                   const kindIcon = isPrepare ? faFileSignature : isWrite ? faBolt : faCircleNodes;
                   const badgeClass = isPrepare
-                    ? "bg-[var(--celo-deep)] text-[var(--celo-cream)]"
+                    ? "bg-[var(--celo-deep)] text-[var(--celo-cream)] dark:bg-[var(--celo-cream)] dark:text-[var(--celo-ink)]"
                     : isWrite
                       ? "bg-[var(--celo-yellow)] text-[var(--celo-ink)]"
                       : "bg-[var(--celo-forest)] text-[var(--celo-yellow)] dark:bg-[var(--celo-yellow)]/15 dark:text-[var(--celo-yellow)] dark:border dark:border-[var(--celo-yellow)]/40";
