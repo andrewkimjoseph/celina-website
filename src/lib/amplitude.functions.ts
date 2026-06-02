@@ -288,6 +288,7 @@ export const getAmplitudeStats = createServerFn({ method: "GET" }).handler(
         daily: [],
         perTool: [],
         total: 0,
+        uniqueDevices: 0,
         fetchedAt: Date.now(),
         lastSyncedAt: null,
         error: "Missing AMPLITUDE_API_KEY / AMPLITUDE_SECRET_KEY",
@@ -298,6 +299,7 @@ export const getAmplitudeStats = createServerFn({ method: "GET" }).handler(
         daily: [],
         perTool: [],
         total: 0,
+        uniqueDevices: 0,
         fetchedAt: Date.now(),
         lastSyncedAt: null,
         error: "Missing CUSTOM_SUPABASE_URL / CUSTOM_SUPABASE_SERVICE_ROLE_KEY",
@@ -317,7 +319,7 @@ export const getAmplitudeStats = createServerFn({ method: "GET" }).handler(
       since.setUTCDate(since.getUTCDate() - LOOKBACK_DAYS);
       const sinceDay = since.toISOString().slice(0, 10);
 
-      const [dailyRes, toolRes, stateRes] = await Promise.all([
+      const [dailyRes, toolRes, stateRes, deviceRes] = await Promise.all([
         sbFetch(
           `/rest/v1/amplitude_daily_totals?select=day,count&day=gte.${sinceDay}&order=day.asc`,
         ),
@@ -326,6 +328,9 @@ export const getAmplitudeStats = createServerFn({ method: "GET" }).handler(
         ),
         sbFetch(
           `/rest/v1/amplitude_sync_state?select=last_synced_at&id=eq.1`,
+        ),
+        sbFetch(
+          `/rest/v1/amplitude_events?select=device_id&device_id=not.is.null&limit=100000`,
         ),
       ]);
       if (!dailyRes.ok) {
@@ -350,12 +355,23 @@ export const getAmplitudeStats = createServerFn({ method: "GET" }).handler(
       const perTool: AmplitudeEventTotal[] = toolRows.map((r) => ({ event: r.event, count: r.count }));
       const total = daily.reduce((s, d) => s + d.count, 0);
 
-      return { daily, perTool, total, fetchedAt: Date.now(), lastSyncedAt, error: syncError };
+      let uniqueDevices = 0;
+      if (deviceRes.ok) {
+        const deviceRows = (await deviceRes.json()) as Array<{ device_id: string | null }>;
+        const set = new Set<string>();
+        for (const r of deviceRows) {
+          if (r.device_id) set.add(r.device_id);
+        }
+        uniqueDevices = set.size;
+      }
+
+      return { daily, perTool, total, uniqueDevices, fetchedAt: Date.now(), lastSyncedAt, error: syncError };
     } catch (e) {
       return {
         daily: [],
         perTool: [],
         total: 0,
+        uniqueDevices: 0,
         fetchedAt: Date.now(),
         lastSyncedAt: null,
         error: e instanceof Error ? e.message : "Failed to read cached stats",
