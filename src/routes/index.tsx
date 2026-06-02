@@ -389,6 +389,8 @@ function Index() {
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {TOOLS.map((t) => {
               const isWrite = t.type === "write";
+              const isPrepare = t.type === "prepare";
+              const kindLabel = isPrepare ? "PREP" : t.type;
               return (
                 <Link
                   key={t.name}
@@ -404,12 +406,14 @@ function Index() {
                     <code className="truncate font-mono text-sm font-semibold text-foreground group-hover:underline">{t.name}</code>
                     <span
                       className={`shrink-0 rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.14em] ${
-                        isWrite
-                          ? "bg-[var(--celo-yellow)] text-[var(--celo-ink)]"
-                          : "bg-[var(--celo-forest)] text-[var(--celo-yellow)] dark:bg-[var(--celo-yellow)]/15 dark:text-[var(--celo-yellow)] dark:border dark:border-[var(--celo-yellow)]/40"
+                        isPrepare
+                          ? "bg-[var(--celo-deep)] text-[var(--celo-cream)] dark:bg-[var(--celo-cream)] dark:text-[var(--celo-ink)]"
+                          : isWrite
+                            ? "bg-[var(--celo-yellow)] text-[var(--celo-ink)]"
+                            : "bg-[var(--celo-forest)] text-[var(--celo-yellow)] dark:bg-[var(--celo-yellow)]/15 dark:text-[var(--celo-yellow)] dark:border dark:border-[var(--celo-yellow)]/40"
                       }`}
                     >
-                      {t.type}
+                      {kindLabel}
                     </span>
                   </div>
                   <p className="mt-1.5 text-sm text-muted-foreground">{t.desc}</p>
