@@ -1007,6 +1007,7 @@ export const TOOLS: ToolDoc[] = [
       { name: "amount", type: "string", required: true, description: "Total budget." },
     ],
     returns: "{ preparedFlow, warnings }",
+    examples: ["Prepare a Carbon range buy of 500 USDC between 0.995 and 0.999 USDT."],
   },
   {
     name: "prepare_carbon_recurring_strategy",
@@ -1046,6 +1047,7 @@ export const TOOLS: ToolDoc[] = [
       { name: "sellBudget", type: "string", required: true, description: "Base budget." },
     ],
     returns: "{ preparedFlow, warnings }",
+    examples: ["Prepare a concentrated USDC/USDT strategy centered at 1.000 with 0.2% width."],
   },
   {
     name: "prepare_carbon_full_range_strategy",
@@ -1063,6 +1065,7 @@ export const TOOLS: ToolDoc[] = [
       { name: "sellBudget", type: "string", required: true, description: "Base budget." },
     ],
     returns: "{ preparedFlow, warnings }",
+    examples: ["Prepare a full-range CELO/USDC Carbon strategy."],
   },
   {
     name: "prepare_carbon_reprice_strategy",
@@ -1079,6 +1082,7 @@ export const TOOLS: ToolDoc[] = [
       { name: "sellRange", type: "{ low, high }", required: false, description: "New sell range." },
     ],
     returns: "{ preparedFlow, warnings }",
+    examples: ["Reprice Carbon strategy 1234 to a new buy range."],
   },
   {
     name: "prepare_carbon_edit_strategy",
@@ -1094,6 +1098,7 @@ export const TOOLS: ToolDoc[] = [
       { name: "updates", type: "object", required: true, description: "Fields to update." },
     ],
     returns: "{ preparedFlow, warnings }",
+    examples: ["Edit Carbon strategy 1234's budgets and prices."],
   },
   {
     name: "prepare_carbon_deposit_budget",
@@ -1110,6 +1115,7 @@ export const TOOLS: ToolDoc[] = [
       { name: "sellBudget", type: "string", required: false, description: "Additional base budget." },
     ],
     returns: "{ preparedFlow, warnings }",
+    examples: ["Deposit 100 USDC into Carbon strategy 1234."],
   },
   {
     name: "prepare_carbon_withdraw_budget",
@@ -1126,6 +1132,7 @@ export const TOOLS: ToolDoc[] = [
       { name: "sellBudget", type: "string", required: false, description: "Base amount to withdraw." },
     ],
     returns: "{ preparedFlow, warnings }",
+    examples: ["Withdraw 50 USDC from Carbon strategy 1234."],
   },
   {
     name: "prepare_carbon_pause_strategy",
@@ -1140,6 +1147,7 @@ export const TOOLS: ToolDoc[] = [
       { name: "strategy_id", type: "string", required: true, description: "Strategy NFT id." },
     ],
     returns: "{ preparedFlow, warnings }",
+    examples: ["Pause Carbon strategy 1234."],
   },
   {
     name: "prepare_carbon_resume_strategy",
@@ -1154,6 +1162,7 @@ export const TOOLS: ToolDoc[] = [
       { name: "strategy_id", type: "string", required: true, description: "Strategy NFT id." },
     ],
     returns: "{ preparedFlow, warnings }",
+    examples: ["Resume Carbon strategy 1234."],
   },
   {
     name: "prepare_carbon_delete_strategy",
@@ -1168,6 +1177,7 @@ export const TOOLS: ToolDoc[] = [
       { name: "strategy_id", type: "string", required: true, description: "Strategy NFT id." },
     ],
     returns: "{ preparedFlow, warnings }",
+    examples: ["Close Carbon strategy 1234 and withdraw funds."],
   },
   {
     name: "prepare_carbon_trade",
@@ -1185,6 +1195,7 @@ export const TOOLS: ToolDoc[] = [
       { name: "slippageTolerance", type: "number (0-20)", required: false, description: "Max slippage in percent. Defaults to 0.5." },
     ],
     returns: "{ preparedFlow, warnings }",
+    examples: ["Swap 100 USDC to USDT against Carbon liquidity."],
   },
 ];
 
