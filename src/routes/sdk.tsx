@@ -49,10 +49,12 @@ const API_ROWS: Row[] = [
   { service: "account", reads: "CELO balance, nonce", prepare: "—" },
   { service: "token", reads: "balances, token info, stablecoins", prepare: "—" },
   { service: "ens", reads: "resolve ENS names", prepare: "—" },
-  { service: "gooddollar", reads: "whitelist status", prepare: "—" },
+  { service: "gooddollar", reads: "whitelist status, UBI entitlement", prepare: "prepareClaimUbi" },
   { service: "transaction", reads: "gas fees, estimates", prepare: "prepareSend" },
   { service: "mentoFx", reads: "getFxQuote, estimateFx", prepare: "prepareFx" },
+  { service: "uniswap", reads: "getSwapQuote, estimateSwap", prepare: "prepareSwap" },
   { service: "aave", reads: "—", prepare: "prepareSupply, prepareWithdraw" },
+  { service: "carbon", reads: "strategies, pair explore, quotes, simulation", prepare: "13 prepare* (via finalizeCarbonPrepare)" },
   { service: "governance", reads: "proposals list, details", prepare: "—" },
   { service: "staking", reads: "balances, validator groups", prepare: "—" },
   { service: "nft", reads: "NFT info, balance", prepare: "—" },
@@ -201,7 +203,7 @@ function SdkPage() {
           <CapabilityCard
             icon={faPenRuler}
             title="Prepare"
-            body="Unsigned tx flows for sends, Mento FX, and Aave supply/withdraw."
+            body="Unsigned tx flows for sends, Mento FX, Uniswap v4, Aave, GoodDollar UBI, and Carbon strategies/trades. Carbon uses finalizeCarbonPrepare to merge approve + controller steps; all tagged calldata includes CELINA attribution."
           />
         </div>
         <div className="mt-5 flex items-start gap-3 rounded-xl border border-[var(--celo-forest)]/30 bg-[var(--celo-forest)]/5 p-4 text-sm text-foreground">
@@ -292,7 +294,15 @@ function SdkPage() {
         </div>
         <p className="mt-3 text-sm text-muted-foreground">
           Full method signatures are in the{" "}
-          <a className="text-foreground underline decoration-[var(--celo-yellow)] decoration-2 underline-offset-4" href={`${SDK_DOCS_URL}/api-reference/api-reference`} target="_blank" rel="noreferrer">
+          <a className="text-foreground underline decoration-[var(--celo-yellow)] decoration-2 underline-offset-4" href={`${SDK_DOCS_URL}/concepts/prepared-flows`} target="_blank" rel="noreferrer">
+            Prepared flows
+          </a>{" "}
+          and{" "}
+          <a className="text-foreground underline decoration-[var(--celo-yellow)] decoration-2 underline-offset-4" href={`${SDK_DOCS_URL}/guides/carbon`} target="_blank" rel="noreferrer">
+            Carbon guide
+          </a>{" "}
+          on GitBook, plus the{" "}
+          <a className="text-foreground underline decoration-[var(--celo-yellow)] decoration-2 underline-offset-4" href={`${SDK_DOCS_URL}/api-reference`} target="_blank" rel="noreferrer">
             API reference
           </a>
           .

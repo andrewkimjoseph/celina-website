@@ -2,7 +2,7 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faBolt, faCircleNodes, faFileSignature, faTerminal, faCopy, faCheck } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
-import { findTool, categorySlug, type ToolDoc } from "@/data/tools";
+import { findTool, categorySlug, getToolAvailability, availabilityLabel, type ToolDoc } from "@/data/tools";
 import { SiteHeader } from "@/components/site-header";
 
 export const Route = createFileRoute("/tools/$category/$toolSlug")({
@@ -69,6 +69,7 @@ function ToolPage() {
     : isWrite
       ? "border border-[var(--celo-ink)]/40 bg-[var(--celo-yellow)] text-[var(--celo-ink)]"
       : "border border-[var(--celo-forest)]/40 text-[var(--celo-forest)]";
+  const availability = getToolAvailability(tool);
   const catSlug = categorySlug(tool.category);
 
   return (
@@ -102,6 +103,9 @@ function ToolPage() {
           >
             {tool.category}
           </Link>
+          <span className="rounded-full border border-foreground/15 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.18em] text-muted-foreground">
+            {availabilityLabel(availability)}
+          </span>
         </div>
 
         <h1

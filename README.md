@@ -1,10 +1,11 @@
 # Celina — Celo MCP Server
 
-**Celina** is an open-source [Model Context Protocol](https://modelcontextprotocol.io) server that gives LLMs read + write access to **Celo mainnet** — balances, stablecoins, sends, swaps, and chain reads.
+**Celina** is an open-source [Model Context Protocol](https://modelcontextprotocol.io) server that gives LLMs read, prepare, and write access to **Celo mainnet** — balances, stablecoins, sends, swaps, Carbon DeFi, and chain reads.
 
-- Website: [celina.andrewkimjoseph.com](https://celina.andrewkimjoseph.com)
+- Website: [usecelina.xyz](https://usecelina.xyz)
 - npm: [@andrewkimjoseph/celina-mcp](https://www.npmjs.com/package/@andrewkimjoseph/celina-mcp)
-- Hosted endpoint: `https://mcp.celina.andrewkimjoseph.com/mcp`
+- Hosted endpoint: `https://mcp.usecelina.xyz/api/mcp` (71 tools: reads + Carbon prepare)
+- Full stdio catalog: 84 tools (adds server-key writes and `execute_carbon_*`)
 
 This repo is the **marketing site** for Celina. The MCP server itself is published as the npm package above.
 
@@ -12,7 +13,7 @@ This repo is the **marketing site** for Celina. The MCP server itself is publish
 
 - **Landing page** (`/`) — overview, install instructions, and tool highlights
 - **Tools catalog** (`/tools`) — browse all MCP tools by category
-  - Category pages: `/tools/blockchain`, `/tools/account`, `/tools/token`, `/tools/transaction`, `/tools/mento-fx`, `/tools/aave`, `/tools/gooddollar`, `/tools/self`
+  - Category pages: `/tools/blockchain`, `/tools/carbon-defi`, `/tools/mento-fx`, `/tools/uniswap`, `/tools/aave`, `/tools/gooddollar`, `/tools/self`, and more
   - Individual tool docs: `/tools/:category/:toolSlug`
 - **Stats dashboard** (`/stats`) — live on-chain activity and npm download metrics
 
@@ -38,7 +39,7 @@ src/
     stats.onchain.tsx
     stats.package.tsx
   components/       # Reusable UI (SiteHeader, etc.)
-  data/tools.ts     # Tool definitions (≈20 tools, 9 categories)
+  data/tools.ts     # Tool definitions (84 stdio tools, 71 hosted)
   lib/              # Stores, helpers, server functions
   styles.css        # Tailwind v4 + custom tokens
 ```
@@ -61,7 +62,7 @@ Route files live in `src/routes/`. TanStack Router auto-generates `src/routeTree
   "mcpServers": {
     "celina": {
       "type": "streamable-http",
-      "url": "https://mcp.celina.andrewkimjoseph.com/mcp"
+      "url": "https://mcp.usecelina.xyz/api/mcp"
     }
   }
 }
@@ -79,7 +80,7 @@ For stdio-only clients like Claude Desktop (free plan), bridge to the hosted end
       "args": [
         "-y",
         "mcp-remote",
-        "https://mcp.celina.andrewkimjoseph.com/mcp",
+        "https://mcp.usecelina.xyz/api/mcp",
         "--transport",
         "http-only"
       ]
@@ -107,7 +108,7 @@ To run the server fully locally instead, install the npm package directly:
 }
 ```
 
-- `CELO_PRIVATE_KEY` — required for **write** tools (send tokens, swaps, Aave supply/withdraw)
+- `CELO_PRIVATE_KEY` — required for **write** tools (send tokens, swaps, Aave supply/withdraw, `execute_carbon_*`)
 - `SELF_AGENT_PRIVATE_KEY` — required for **Self Agent** registration and verification tools
 
 Never commit private keys.

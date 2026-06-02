@@ -1,4 +1,5 @@
 export type ToolKind = "read" | "write" | "prepare";
+export type ToolAvailability = "hosted" | "stdio" | "both";
 
 export interface ToolField {
   name: string;
@@ -19,6 +20,8 @@ export interface ToolDoc {
   /** longer description shown on the tool page */
   description: string;
   kind: ToolKind;
+  /** Where the tool is registered: hosted endpoint, local stdio, or both */
+  availability?: ToolAvailability;
   category: "Blockchain" | "Account" | "Token" | "Transaction" | "Mento FX" | "Uniswap" | "Wallet" | "GoodDollar" | "Aave" | "Carbon DeFi" | "Self" | "Governance" | "Staking" | "NFT" | "Contract";
   inputs: ToolField[];
   /** What the LLM should expect back */
@@ -976,8 +979,9 @@ export const TOOLS: ToolDoc[] = [
     title: "Prepare Carbon Limit Order",
     summary: "One-time limit order",
     description:
-      "Prepare a Carbon DeFi one-time limit order on Celo mainnet. User signs in their wallet. Local stdio only.",
+      "Create a one-time Carbon limit order on Celo. Returns unsigned steps (ERC-20 approve + Carbon controller tx), warnings, and optional deep_link. Available on hosted MCP and local stdio. User signs externally; prices are quote per base; buy budget in quote, sell budget in base.",
     kind: "prepare",
+    availability: "both",
     category: "Carbon DeFi",
     inputs: [
       { name: "base", type: "symbol or 0x…", required: true, description: "Base token." },
@@ -986,7 +990,7 @@ export const TOOLS: ToolDoc[] = [
       { name: "price", type: "string", required: true, description: "Limit price (quote per 1 base)." },
       { name: "amount", type: "string", required: true, description: "Order budget (quote for buy, base for sell)." },
     ],
-    returns: "{ preparedFlow, warnings }",
+    returns: "{ preparedFlow, warnings, deep_link? }",
     examples: ["Prepare a limit buy 1000 USDC at 0.999 USDC/USDT."],
   },
   {
@@ -995,7 +999,7 @@ export const TOOLS: ToolDoc[] = [
     title: "Prepare Carbon Range Order",
     summary: "Range order — gradual fill",
     description:
-      "Prepare a Carbon range order that executes gradually across a price band. Local stdio only.",
+      "Prepare a Carbon range order that executes gradually across a price band. Returns unsigned steps (ERC-20 approve + Carbon controller tx), warnings, and optional deep_link. Available on hosted MCP and local stdio. User signs externally; prices are quote per base; buy budget in quote, sell budget in base.",
     kind: "prepare",
     category: "Carbon DeFi",
     inputs: [
@@ -1006,7 +1010,7 @@ export const TOOLS: ToolDoc[] = [
       { name: "highPrice", type: "string", required: true, description: "High end of price range." },
       { name: "amount", type: "string", required: true, description: "Total budget." },
     ],
-    returns: "{ preparedFlow, warnings }",
+    returns: "{ preparedFlow, warnings, deep_link? }",
     examples: ["Prepare a Carbon range buy of 500 USDC between 0.995 and 0.999 USDT."],
   },
   {
@@ -1015,7 +1019,7 @@ export const TOOLS: ToolDoc[] = [
     title: "Prepare Carbon Recurring Strategy",
     summary: "Recurring buy/sell strategy",
     description:
-      "Prepare a Carbon recurring strategy — automatic buy-low/sell-high. Makers pay no gas on fills. Local stdio only.",
+      "Prepare a Carbon recurring strategy — automatic buy-low/sell-high. Makers pay no gas on fills. Returns unsigned steps (ERC-20 approve + Carbon controller tx), warnings, and optional deep_link. Available on hosted MCP and local stdio. User signs externally; prices are quote per base; buy budget in quote, sell budget in base.",
     kind: "prepare",
     category: "Carbon DeFi",
     inputs: [
@@ -1026,7 +1030,7 @@ export const TOOLS: ToolDoc[] = [
       { name: "buyBudget", type: "string", required: true, description: "Buy budget in quote token." },
       { name: "sellBudget", type: "string", required: true, description: "Sell budget in base token." },
     ],
-    returns: "{ preparedFlow, warnings }",
+    returns: "{ preparedFlow, warnings, deep_link? }",
     examples: ["Run a recurring USDC/USDT strategy between 0.998 and 1.002."],
   },
   {
@@ -1035,7 +1039,7 @@ export const TOOLS: ToolDoc[] = [
     title: "Prepare Carbon Concentrated Strategy",
     summary: "Concentrated two-sided liquidity",
     description:
-      "Prepare a Carbon concentrated two-sided liquidity strategy in a tight price range. Local stdio only.",
+      "Prepare a Carbon concentrated two-sided liquidity strategy in a tight price range. Returns unsigned steps (ERC-20 approve + Carbon controller tx), warnings, and optional deep_link. Available on hosted MCP and local stdio. User signs externally; prices are quote per base; buy budget in quote, sell budget in base.",
     kind: "prepare",
     category: "Carbon DeFi",
     inputs: [
@@ -1046,7 +1050,7 @@ export const TOOLS: ToolDoc[] = [
       { name: "buyBudget", type: "string", required: true, description: "Quote budget." },
       { name: "sellBudget", type: "string", required: true, description: "Base budget." },
     ],
-    returns: "{ preparedFlow, warnings }",
+    returns: "{ preparedFlow, warnings, deep_link? }",
     examples: ["Prepare a concentrated USDC/USDT strategy centered at 1.000 with 0.2% width."],
   },
   {
@@ -1055,7 +1059,7 @@ export const TOOLS: ToolDoc[] = [
     title: "Prepare Carbon Full-Range Strategy",
     summary: "Full-range liquidity",
     description:
-      "Prepare a Carbon full-range liquidity strategy — passive market making across the entire price curve. Local stdio only.",
+      "Prepare a Carbon full-range liquidity strategy — passive market making across the entire price curve. Returns unsigned steps (ERC-20 approve + Carbon controller tx), warnings, and optional deep_link. Available on hosted MCP and local stdio. User signs externally; prices are quote per base; buy budget in quote, sell budget in base.",
     kind: "prepare",
     category: "Carbon DeFi",
     inputs: [
@@ -1064,7 +1068,7 @@ export const TOOLS: ToolDoc[] = [
       { name: "buyBudget", type: "string", required: true, description: "Quote budget." },
       { name: "sellBudget", type: "string", required: true, description: "Base budget." },
     ],
-    returns: "{ preparedFlow, warnings }",
+    returns: "{ preparedFlow, warnings, deep_link? }",
     examples: ["Prepare a full-range CELO/USDC Carbon strategy."],
   },
   {
@@ -1073,7 +1077,7 @@ export const TOOLS: ToolDoc[] = [
     title: "Prepare Carbon Reprice Strategy",
     summary: "Update price ranges",
     description:
-      "Prepare a update to the price ranges of an existing Carbon strategy. Local stdio only.",
+      "Prepare a update to the price ranges of an existing Carbon strategy. Returns unsigned steps (ERC-20 approve + Carbon controller tx), warnings, and optional deep_link. Available on hosted MCP and local stdio. User signs externally; prices are quote per base; buy budget in quote, sell budget in base.",
     kind: "prepare",
     category: "Carbon DeFi",
     inputs: [
@@ -1081,7 +1085,7 @@ export const TOOLS: ToolDoc[] = [
       { name: "buyRange", type: "{ low, high }", required: false, description: "New buy range." },
       { name: "sellRange", type: "{ low, high }", required: false, description: "New sell range." },
     ],
-    returns: "{ preparedFlow, warnings }",
+    returns: "{ preparedFlow, warnings, deep_link? }",
     examples: ["Reprice Carbon strategy 1234 to a new buy range."],
   },
   {
@@ -1090,14 +1094,14 @@ export const TOOLS: ToolDoc[] = [
     title: "Prepare Carbon Edit Strategy",
     summary: "Edit prices, budgets, type",
     description:
-      "Prepare a edit to an existing Carbon strategy — change prices, budgets, and optionally the strategy type. Local stdio only.",
+      "Prepare a edit to an existing Carbon strategy — change prices, budgets, and optionally the strategy type. Returns unsigned steps (ERC-20 approve + Carbon controller tx), warnings, and optional deep_link. Available on hosted MCP and local stdio. User signs externally; prices are quote per base; buy budget in quote, sell budget in base.",
     kind: "prepare",
     category: "Carbon DeFi",
     inputs: [
       { name: "strategy_id", type: "string", required: true, description: "Strategy NFT id." },
       { name: "updates", type: "object", required: true, description: "Fields to update." },
     ],
-    returns: "{ preparedFlow, warnings }",
+    returns: "{ preparedFlow, warnings, deep_link? }",
     examples: ["Edit Carbon strategy 1234's budgets and prices."],
   },
   {
@@ -1106,7 +1110,7 @@ export const TOOLS: ToolDoc[] = [
     title: "Prepare Carbon Deposit Budget",
     summary: "Add funds to strategy",
     description:
-      "Prepare a deposit of additional funds into an existing Carbon strategy. Local stdio only.",
+      "Prepare a deposit of additional funds into an existing Carbon strategy. Returns unsigned steps (ERC-20 approve + Carbon controller tx), warnings, and optional deep_link. Available on hosted MCP and local stdio. User signs externally; prices are quote per base; buy budget in quote, sell budget in base.",
     kind: "prepare",
     category: "Carbon DeFi",
     inputs: [
@@ -1114,7 +1118,7 @@ export const TOOLS: ToolDoc[] = [
       { name: "buyBudget", type: "string", required: false, description: "Additional quote budget." },
       { name: "sellBudget", type: "string", required: false, description: "Additional base budget." },
     ],
-    returns: "{ preparedFlow, warnings }",
+    returns: "{ preparedFlow, warnings, deep_link? }",
     examples: ["Deposit 100 USDC into Carbon strategy 1234."],
   },
   {
@@ -1123,7 +1127,7 @@ export const TOOLS: ToolDoc[] = [
     title: "Prepare Carbon Withdraw Budget",
     summary: "Withdraw funds from strategy",
     description:
-      "Prepare a withdrawal of funds from an existing Carbon strategy. Local stdio only.",
+      "Prepare a withdrawal of funds from an existing Carbon strategy. Returns unsigned steps (ERC-20 approve + Carbon controller tx), warnings, and optional deep_link. Available on hosted MCP and local stdio. User signs externally; prices are quote per base; buy budget in quote, sell budget in base.",
     kind: "prepare",
     category: "Carbon DeFi",
     inputs: [
@@ -1131,7 +1135,7 @@ export const TOOLS: ToolDoc[] = [
       { name: "buyBudget", type: "string", required: false, description: "Quote amount to withdraw." },
       { name: "sellBudget", type: "string", required: false, description: "Base amount to withdraw." },
     ],
-    returns: "{ preparedFlow, warnings }",
+    returns: "{ preparedFlow, warnings, deep_link? }",
     examples: ["Withdraw 50 USDC from Carbon strategy 1234."],
   },
   {
@@ -1140,13 +1144,13 @@ export const TOOLS: ToolDoc[] = [
     title: "Prepare Carbon Pause Strategy",
     summary: "Pause strategy; funds remain",
     description:
-      "Prepare a pause for an active Carbon strategy. Funds remain on-chain. Local stdio only.",
+      "Prepare a pause for an active Carbon strategy. Funds remain on-chain. Returns unsigned steps (ERC-20 approve + Carbon controller tx), warnings, and optional deep_link. Available on hosted MCP and local stdio. User signs externally; prices are quote per base; buy budget in quote, sell budget in base.",
     kind: "prepare",
     category: "Carbon DeFi",
     inputs: [
       { name: "strategy_id", type: "string", required: true, description: "Strategy NFT id." },
     ],
-    returns: "{ preparedFlow, warnings }",
+    returns: "{ preparedFlow, warnings, deep_link? }",
     examples: ["Pause Carbon strategy 1234."],
   },
   {
@@ -1155,13 +1159,13 @@ export const TOOLS: ToolDoc[] = [
     title: "Prepare Carbon Resume Strategy",
     summary: "Resume paused strategy",
     description:
-      "Prepare a resume for a paused Carbon strategy. Local stdio only.",
+      "Prepare a resume for a paused Carbon strategy. Returns unsigned steps (ERC-20 approve + Carbon controller tx), warnings, and optional deep_link. Available on hosted MCP and local stdio. User signs externally; prices are quote per base; buy budget in quote, sell budget in base.",
     kind: "prepare",
     category: "Carbon DeFi",
     inputs: [
       { name: "strategy_id", type: "string", required: true, description: "Strategy NFT id." },
     ],
-    returns: "{ preparedFlow, warnings }",
+    returns: "{ preparedFlow, warnings, deep_link? }",
     examples: ["Resume Carbon strategy 1234."],
   },
   {
@@ -1170,13 +1174,13 @@ export const TOOLS: ToolDoc[] = [
     title: "Prepare Carbon Delete Strategy",
     summary: "Permanently close strategy",
     description:
-      "Prepare a permanent close of a Carbon strategy, withdrawing all remaining funds. Local stdio only.",
+      "Prepare a permanent close of a Carbon strategy, withdrawing all remaining funds. Returns unsigned steps (ERC-20 approve + Carbon controller tx), warnings, and optional deep_link. Available on hosted MCP and local stdio. User signs externally; prices are quote per base; buy budget in quote, sell budget in base.",
     kind: "prepare",
     category: "Carbon DeFi",
     inputs: [
       { name: "strategy_id", type: "string", required: true, description: "Strategy NFT id." },
     ],
-    returns: "{ preparedFlow, warnings }",
+    returns: "{ preparedFlow, warnings, deep_link? }",
     examples: ["Close Carbon strategy 1234 and withdraw funds."],
   },
   {
@@ -1185,7 +1189,7 @@ export const TOOLS: ToolDoc[] = [
     title: "Prepare Carbon Trade",
     summary: "Taker swap against Carbon",
     description:
-      "Prepare a taker swap against Carbon liquidity on Celo mainnet. Local stdio only.",
+      "Prepare a taker swap against Carbon liquidity on Celo mainnet. Returns unsigned steps (ERC-20 approve + Carbon controller tx), warnings, and optional deep_link. Available on hosted MCP and local stdio. User signs externally; prices are quote per base; buy budget in quote, sell budget in base.",
     kind: "prepare",
     category: "Carbon DeFi",
     inputs: [
@@ -1194,7 +1198,264 @@ export const TOOLS: ToolDoc[] = [
       { name: "amount", type: "string", required: true, description: "Human-readable amount of tokenIn." },
       { name: "slippageTolerance", type: "number (0-20)", required: false, description: "Max slippage in percent. Defaults to 0.5." },
     ],
-    returns: "{ preparedFlow, warnings }",
+    returns: "{ preparedFlow, warnings, deep_link? }",
+    examples: ["Swap 100 USDC to USDT against Carbon liquidity."],
+  },
+  {
+    name: "execute_carbon_limit_order",
+    slug: "execute-carbon-limit-order",
+    title: "Execute Carbon Limit Order",
+    summary: "Broadcast one-time limit order",
+    description:
+      "Create and broadcast a one-time Carbon limit order on Celo. Requires CELO_PRIVATE_KEY in MCP server env. Signs and broadcasts locally (ERC-20 approve + Carbon tx when needed). Local stdio only.",
+    kind: "write",
+    availability: "stdio",
+    category: "Carbon DeFi",
+    inputs: [
+      { name: "wallet_address", type: "0x… address", required: true, description: "Must match the configured MCP wallet." },
+      { name: "base_token", type: "symbol or 0x…", required: true, description: "Base token." },
+      { name: "quote_token", type: "symbol or 0x…", required: true, description: "Quote token." },
+      { name: "direction", type: "buy | sell", required: true, description: "Order side." },
+      { name: "price", type: "number", required: true, description: "Limit price (quote per 1 base)." },
+      { name: "budget", type: "number", required: true, description: "Order budget (quote for buy, base for sell)." },
+    ],
+    returns: "{ txHash, activityDeepLink, warnings }",
+    examples: ["Execute a limit buy 1000 USDC at 0.999 USDC/USDT."],
+  },
+  {
+    name: "execute_carbon_range_order",
+    slug: "execute-carbon-range-order",
+    title: "Execute Carbon Range Order",
+    summary: "Broadcast range order",
+    description:
+      "Create and broadcast a Carbon range order on Celo. Requires CELO_PRIVATE_KEY in MCP server env. Signs and broadcasts locally (ERC-20 approve + Carbon tx when needed). Local stdio only.",
+    kind: "write",
+    availability: "stdio",
+    category: "Carbon DeFi",
+    inputs: [
+      { name: "wallet_address", type: "0x… address", required: true, description: "Must match the configured MCP wallet." },
+      { name: "base_token", type: "symbol or 0x…", required: true, description: "Base token." },
+      { name: "quote_token", type: "symbol or 0x…", required: true, description: "Quote token." },
+      { name: "direction", type: "buy | sell", required: true, description: "Order side." },
+      { name: "price_low", type: "number", required: true, description: "Low end of price range." },
+      { name: "price_high", type: "number", required: true, description: "High end of price range." },
+      { name: "budget", type: "number", required: true, description: "Total budget." },
+    ],
+    returns: "{ txHash, activityDeepLink, warnings }",
+    examples: ["Execute a Carbon range buy of 500 USDC between 0.995 and 0.999 USDT."],
+  },
+  {
+    name: "execute_carbon_recurring_strategy",
+    slug: "execute-carbon-recurring-strategy",
+    title: "Execute Carbon Recurring Strategy",
+    summary: "Broadcast recurring strategy",
+    description:
+      "Create and broadcast a recurring buy/sell Carbon strategy on Celo. Requires CELO_PRIVATE_KEY in MCP server env. Signs and broadcasts locally (ERC-20 approve + Carbon tx when needed). Local stdio only.",
+    kind: "write",
+    availability: "stdio",
+    category: "Carbon DeFi",
+    inputs: [
+      { name: "wallet_address", type: "0x… address", required: true, description: "Must match the configured MCP wallet." },
+      { name: "base_token", type: "symbol or 0x…", required: true, description: "Base token." },
+      { name: "quote_token", type: "symbol or 0x…", required: true, description: "Quote token." },
+      { name: "buy_price_low", type: "number", required: true, description: "Buy range low (quote per 1 base)." },
+      { name: "buy_price_high", type: "number", required: true, description: "Buy range high." },
+      { name: "sell_price_low", type: "number", required: true, description: "Sell range low." },
+      { name: "sell_price_high", type: "number", required: true, description: "Sell range high." },
+      { name: "buy_budget", type: "number", required: true, description: "Buy budget in quote token." },
+      { name: "sell_budget", type: "number", required: true, description: "Sell budget in base token." },
+    ],
+    returns: "{ txHash, activityDeepLink, warnings }",
+    examples: ["Run a recurring USDC/USDT strategy between 0.998 and 1.002."],
+  },
+  {
+    name: "execute_carbon_concentrated_strategy",
+    slug: "execute-carbon-concentrated-strategy",
+    title: "Execute Carbon Concentrated Strategy",
+    summary: "Broadcast concentrated strategy",
+    description:
+      "Create and broadcast concentrated two-sided Carbon liquidity on Celo. Requires CELO_PRIVATE_KEY in MCP server env. Signs and broadcasts locally (ERC-20 approve + Carbon tx when needed). Local stdio only.",
+    kind: "write",
+    availability: "stdio",
+    category: "Carbon DeFi",
+    inputs: [
+      { name: "wallet_address", type: "0x… address", required: true, description: "Must match the configured MCP wallet." },
+      { name: "base_token", type: "symbol or 0x…", required: true, description: "Base token." },
+      { name: "quote_token", type: "symbol or 0x…", required: true, description: "Quote token." },
+      { name: "spread_percentage", type: "number", required: true, description: "Range width around market price." },
+      { name: "buy_budget", type: "number", required: true, description: "Quote budget." },
+      { name: "sell_budget", type: "number", required: true, description: "Base budget." },
+    ],
+    returns: "{ txHash, activityDeepLink, warnings }",
+    examples: ["Execute a concentrated USDC/USDT strategy centered at 1.000 with 0.2% width."],
+  },
+  {
+    name: "execute_carbon_full_range_strategy",
+    slug: "execute-carbon-full-range-strategy",
+    title: "Execute Carbon Full-Range Strategy",
+    summary: "Broadcast full-range strategy",
+    description:
+      "Create and broadcast full-range Carbon liquidity on Celo. Requires CELO_PRIVATE_KEY in MCP server env. Signs and broadcasts locally (ERC-20 approve + Carbon tx when needed). Local stdio only.",
+    kind: "write",
+    availability: "stdio",
+    category: "Carbon DeFi",
+    inputs: [
+      { name: "wallet_address", type: "0x… address", required: true, description: "Must match the configured MCP wallet." },
+      { name: "base_token", type: "symbol or 0x…", required: true, description: "Base token." },
+      { name: "quote_token", type: "symbol or 0x…", required: true, description: "Quote token." },
+      { name: "spread_percentage", type: "number", required: true, description: "Full-range spread." },
+      { name: "buy_budget", type: "number", required: true, description: "Quote budget." },
+      { name: "sell_budget", type: "number", required: true, description: "Base budget." },
+    ],
+    returns: "{ txHash, activityDeepLink, warnings }",
+    examples: ["Execute a full-range CELO/USDC Carbon strategy."],
+  },
+  {
+    name: "execute_carbon_reprice_strategy",
+    slug: "execute-carbon-reprice-strategy",
+    title: "Execute Carbon Reprice Strategy",
+    summary: "Broadcast reprice update",
+    description:
+      "Update price ranges of an existing Carbon strategy on Celo. Requires CELO_PRIVATE_KEY in MCP server env. Signs and broadcasts locally. Local stdio only.",
+    kind: "write",
+    availability: "stdio",
+    category: "Carbon DeFi",
+    inputs: [
+      { name: "wallet_address", type: "0x… address", required: true, description: "Must match the configured MCP wallet." },
+      { name: "strategy_id", type: "string", required: true, description: "Strategy NFT id." },
+      { name: "buy_price_low", type: "number", required: false, description: "New buy range low." },
+      { name: "buy_price_high", type: "number", required: false, description: "New buy range high." },
+      { name: "sell_price_low", type: "number", required: false, description: "New sell range low." },
+      { name: "sell_price_high", type: "number", required: false, description: "New sell range high." },
+    ],
+    returns: "{ txHash, activityDeepLink, warnings }",
+    examples: ["Reprice Carbon strategy 1234 to a new buy range."],
+  },
+  {
+    name: "execute_carbon_edit_strategy",
+    slug: "execute-carbon-edit-strategy",
+    title: "Execute Carbon Edit Strategy",
+    summary: "Broadcast strategy edit",
+    description:
+      "Edit prices and budgets of a Carbon strategy on Celo. Requires CELO_PRIVATE_KEY in MCP server env. Signs and broadcasts locally. Local stdio only.",
+    kind: "write",
+    availability: "stdio",
+    category: "Carbon DeFi",
+    inputs: [
+      { name: "wallet_address", type: "0x… address", required: true, description: "Must match the configured MCP wallet." },
+      { name: "strategy_id", type: "string", required: true, description: "Strategy NFT id." },
+      { name: "updates", type: "object", required: true, description: "Fields to update." },
+    ],
+    returns: "{ txHash, activityDeepLink, warnings }",
+    examples: ["Edit Carbon strategy 1234's budgets and prices."],
+  },
+  {
+    name: "execute_carbon_deposit_budget",
+    slug: "execute-carbon-deposit-budget",
+    title: "Execute Carbon Deposit Budget",
+    summary: "Broadcast deposit to strategy",
+    description:
+      "Add funds to a Carbon strategy on Celo. Requires CELO_PRIVATE_KEY in MCP server env. Signs and broadcasts locally (ERC-20 approve + Carbon tx when needed). Local stdio only.",
+    kind: "write",
+    availability: "stdio",
+    category: "Carbon DeFi",
+    inputs: [
+      { name: "wallet_address", type: "0x… address", required: true, description: "Must match the configured MCP wallet." },
+      { name: "strategy_id", type: "string", required: true, description: "Strategy NFT id." },
+      { name: "buy_budget", type: "number", required: false, description: "Additional quote budget." },
+      { name: "sell_budget", type: "number", required: false, description: "Additional base budget." },
+    ],
+    returns: "{ txHash, activityDeepLink, warnings }",
+    examples: ["Deposit 100 USDC into Carbon strategy 1234."],
+  },
+  {
+    name: "execute_carbon_withdraw_budget",
+    slug: "execute-carbon-withdraw-budget",
+    title: "Execute Carbon Withdraw Budget",
+    summary: "Broadcast withdrawal from strategy",
+    description:
+      "Withdraw funds from a Carbon strategy on Celo. Requires CELO_PRIVATE_KEY in MCP server env. Signs and broadcasts locally. Local stdio only.",
+    kind: "write",
+    availability: "stdio",
+    category: "Carbon DeFi",
+    inputs: [
+      { name: "wallet_address", type: "0x… address", required: true, description: "Must match the configured MCP wallet." },
+      { name: "strategy_id", type: "string", required: true, description: "Strategy NFT id." },
+      { name: "buy_budget", type: "number", required: false, description: "Quote amount to withdraw." },
+      { name: "sell_budget", type: "number", required: false, description: "Base amount to withdraw." },
+    ],
+    returns: "{ txHash, activityDeepLink, warnings }",
+    examples: ["Withdraw 50 USDC from Carbon strategy 1234."],
+  },
+  {
+    name: "execute_carbon_pause_strategy",
+    slug: "execute-carbon-pause-strategy",
+    title: "Execute Carbon Pause Strategy",
+    summary: "Broadcast strategy pause",
+    description:
+      "Pause a Carbon strategy on Celo. Requires CELO_PRIVATE_KEY in MCP server env. Signs and broadcasts locally. Local stdio only.",
+    kind: "write",
+    availability: "stdio",
+    category: "Carbon DeFi",
+    inputs: [
+      { name: "wallet_address", type: "0x… address", required: true, description: "Must match the configured MCP wallet." },
+      { name: "strategy_id", type: "string", required: true, description: "Strategy NFT id." },
+    ],
+    returns: "{ txHash, activityDeepLink, warnings }",
+    examples: ["Pause Carbon strategy 1234."],
+  },
+  {
+    name: "execute_carbon_resume_strategy",
+    slug: "execute-carbon-resume-strategy",
+    title: "Execute Carbon Resume Strategy",
+    summary: "Broadcast strategy resume",
+    description:
+      "Resume a paused Carbon strategy on Celo. Requires CELO_PRIVATE_KEY in MCP server env. Signs and broadcasts locally. Local stdio only.",
+    kind: "write",
+    availability: "stdio",
+    category: "Carbon DeFi",
+    inputs: [
+      { name: "wallet_address", type: "0x… address", required: true, description: "Must match the configured MCP wallet." },
+      { name: "strategy_id", type: "string", required: true, description: "Strategy NFT id." },
+    ],
+    returns: "{ txHash, activityDeepLink, warnings }",
+    examples: ["Resume Carbon strategy 1234."],
+  },
+  {
+    name: "execute_carbon_delete_strategy",
+    slug: "execute-carbon-delete-strategy",
+    title: "Execute Carbon Delete Strategy",
+    summary: "Broadcast strategy close",
+    description:
+      "Permanently close a Carbon strategy on Celo. Requires CELO_PRIVATE_KEY in MCP server env. Signs and broadcasts locally. Local stdio only.",
+    kind: "write",
+    availability: "stdio",
+    category: "Carbon DeFi",
+    inputs: [
+      { name: "wallet_address", type: "0x… address", required: true, description: "Must match the configured MCP wallet." },
+      { name: "strategy_id", type: "string", required: true, description: "Strategy NFT id." },
+    ],
+    returns: "{ txHash, activityDeepLink, warnings }",
+    examples: ["Close Carbon strategy 1234 and withdraw funds."],
+  },
+  {
+    name: "execute_carbon_trade",
+    slug: "execute-carbon-trade",
+    title: "Execute Carbon Trade",
+    summary: "Broadcast taker swap",
+    description:
+      "Build and broadcast a taker swap against Carbon liquidity on Celo. Requires CELO_PRIVATE_KEY in MCP server env. Signs and broadcasts locally (ERC-20 approve + Carbon tx when needed). Local stdio only.",
+    kind: "write",
+    availability: "stdio",
+    category: "Carbon DeFi",
+    inputs: [
+      { name: "wallet_address", type: "0x… address", required: true, description: "Must match the configured MCP wallet." },
+      { name: "token_in", type: "symbol or 0x…", required: true, description: "Input token." },
+      { name: "token_out", type: "symbol or 0x…", required: true, description: "Output token." },
+      { name: "amount", type: "string", required: true, description: "Human-readable amount of tokenIn." },
+      { name: "slippage_tolerance", type: "number (0-20)", required: false, description: "Max slippage in percent. Defaults to 0.5." },
+    ],
+    returns: "{ txHash, activityDeepLink, warnings }",
     examples: ["Swap 100 USDC to USDT against Carbon liquidity."],
   },
 ];
@@ -1219,4 +1480,25 @@ export function findTool(catSlug: string, toolSlug: string): ToolDoc | undefined
   return TOOLS.find(
     (t) => categorySlug(t.category) === catSlug && t.slug === toolSlug,
   );
+}
+
+/** Hosted endpoint exposes 71 tools; full stdio catalog includes server-key writes. */
+export const HOSTED_TOOL_COUNT = 71;
+
+export function getToolAvailability(tool: ToolDoc): ToolAvailability {
+  if (tool.availability) return tool.availability;
+  if (tool.kind === "write") return "stdio";
+  if (tool.kind === "prepare") return "both";
+  return "both";
+}
+
+export function availabilityLabel(availability: ToolAvailability): string {
+  switch (availability) {
+    case "both":
+      return "Hosted · Stdio";
+    case "hosted":
+      return "Hosted only";
+    case "stdio":
+      return "Stdio only";
+  }
 }

@@ -1,13 +1,13 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBolt, faCircleNodes, faFileSignature } from "@fortawesome/free-solid-svg-icons";
-import { TOOLS, type ToolDoc, categorySlug } from "@/data/tools";
+import { TOOLS, type ToolDoc, categorySlug, HOSTED_TOOL_COUNT } from "@/data/tools";
 import { SiteHeader } from "@/components/site-header";
 
 export const Route = createFileRoute("/tools/")({
   head: () => {
     const title = "All Celina tools — Celo MCP";
-    const desc = `Browse every Celina MCP tool: ${TOOLS.length} read & write operations across Celo mainnet, Mento FX, Uniswap v4, Aave, GoodDollar, governance, staking, NFTs and raw contract calls.`;
+    const desc = `Browse every Celina MCP tool: ${TOOLS.length} operations on Celo mainnet (${HOSTED_TOOL_COUNT} on hosted, full stdio with server-key writes). Reads, Carbon prepare, Mento FX, Uniswap v4, Aave, GoodDollar, governance, staking, NFTs, and contract calls.`;
     return {
       meta: [
         { title },

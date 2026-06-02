@@ -15,7 +15,7 @@ import {
 import { faNpm, faGithub } from "@fortawesome/free-brands-svg-icons";
 import celoWordmarkOnyx from "@/assets/celo-wordmark-onyx.svg";
 import celoWordmarkYellow from "@/assets/celo-wordmark-yellow.svg";
-import { TOOLS as TOOL_DOCS, categorySlug } from "@/data/tools";
+import { TOOLS as TOOL_DOCS, categorySlug, HOSTED_TOOL_COUNT } from "@/data/tools";
 import { SiteHeader } from "@/components/site-header";
 
 export const Route = createFileRoute("/")({
@@ -336,16 +336,19 @@ function Index() {
             </p>
           </article>
 
-          {/* Hosted (read-only) */}
+          {/* Hosted (reads + Carbon prepare) */}
           <article className="mt-6 min-w-0 overflow-hidden rounded-2xl border border-foreground/15 bg-card p-7 shadow-[var(--shadow-soft)]">
             <div className="mb-1 flex flex-wrap items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-[var(--celo-forest)]">
               <FontAwesomeIcon icon={faCloud} className="h-3.5 w-3.5" /> Hosted
-              <span className="rounded-full border border-[var(--celo-forest)]/40 bg-[var(--celo-forest)]/10 px-2 py-0.5 text-[10px] tracking-[0.18em] text-[var(--celo-forest)] dark:border-[var(--celo-yellow)]/40 dark:bg-[var(--celo-yellow)]/10 dark:text-[var(--celo-yellow)]">Read-only</span>
+              <span className="rounded-full border border-[var(--celo-forest)]/40 bg-[var(--celo-forest)]/10 px-2 py-0.5 text-[10px] tracking-[0.18em] text-[var(--celo-forest)] dark:border-[var(--celo-yellow)]/40 dark:bg-[var(--celo-yellow)]/10 dark:text-[var(--celo-yellow)]">Reads + prepare</span>
             </div>
             <h3 className="text-2xl font-semibold tracking-tight" style={{ fontFamily: "var(--font-display)" }}>Skip the install — point at the hosted endpoint</h3>
             <p className="mt-2 text-sm text-muted-foreground">
-              No Node, no <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">npx</span>, no keys. Use it when you only need chain reads (balances, blocks, FX quotes, GoodDollar status, governance, staking, NFTs).
-              Write tools (<span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">send_token</span>, Mento FX, Uniswap v4, Aave) and <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">prepare_carbon_*</span> tools are disabled — stick with local stdio for those.
+              No Node, no <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">npx</span>, no keys. The hosted endpoint exposes <span className="font-semibold text-foreground">{HOSTED_TOOL_COUNT} tools</span>: chain reads, gas estimates, and all{" "}
+              <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">prepare_carbon_*</span> tools (unsigned approve + Carbon controller flows).
+              Server-key writes (<span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">send_token</span>, Mento FX, Uniswap v4, Aave, GoodDollar claim,{" "}
+              <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">execute_carbon_*</span>) require local stdio with{" "}
+              <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">CELO_PRIVATE_KEY</span>.
             </p>
             <div className="mt-5">
               <CodeBlock code={HOSTED_CONFIG} />
@@ -373,7 +376,8 @@ function Index() {
               {TOOLS.length} tools. One agent. Whole chain.
             </h2>
             <p className="mt-3 max-w-xl text-base text-muted-foreground sm:text-lg">
-              Everything your LLM needs to read state and move value on Celo mainnet. Click any tool for the full spec.
+              Everything your LLM needs to read state and move value on Celo mainnet.{" "}
+              <span className="font-medium text-foreground">{HOSTED_TOOL_COUNT} hosted · {TOOL_DOCS.length} stdio</span>. Click any tool for the full spec.
             </p>
           </div>
 
