@@ -1,6 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft, faBolt, faCircleNodes, faTerminal, faCopy, faCheck } from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft, faBolt, faCircleNodes, faFileSignature, faTerminal, faCopy, faCheck } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 import { findTool, categorySlug, type ToolDoc } from "@/data/tools";
 import { SiteHeader } from "@/components/site-header";
@@ -61,6 +61,14 @@ function CopyInline({ text }: { text: string }) {
 function ToolPage() {
   const { tool } = Route.useLoaderData() as { tool: ToolDoc };
   const isWrite = tool.kind === "write";
+  const isPrepare = tool.kind === "prepare";
+  const kindLabel = isPrepare ? "PREP" : tool.kind;
+  const kindIcon = isPrepare ? faFileSignature : isWrite ? faBolt : faCircleNodes;
+  const kindClass = isPrepare
+    ? "border border-[var(--celo-deep)]/40 bg-[var(--celo-deep)] text-[var(--celo-cream)]"
+    : isWrite
+      ? "border border-[var(--celo-ink)]/40 bg-[var(--celo-yellow)] text-[var(--celo-ink)]"
+      : "border border-[var(--celo-forest)]/40 text-[var(--celo-forest)]";
   const catSlug = categorySlug(tool.category);
 
   return (
@@ -82,14 +90,10 @@ function ToolPage() {
 
         <div className="flex flex-wrap items-center gap-2">
           <span
-            className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.18em] ${
-              isWrite
-                ? "border border-[var(--celo-ink)]/40 bg-[var(--celo-yellow)] text-[var(--celo-ink)]"
-                : "border border-[var(--celo-forest)]/40 text-[var(--celo-forest)]"
-            }`}
+            className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.18em] ${kindClass}`}
           >
-            <FontAwesomeIcon icon={isWrite ? faBolt : faCircleNodes} className="h-2.5 w-2.5" />
-            {tool.kind}
+            <FontAwesomeIcon icon={kindIcon} className="h-2.5 w-2.5" />
+            {kindLabel}
           </span>
           <Link
             to="/tools/$category"
