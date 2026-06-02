@@ -209,9 +209,12 @@ function SdkPage() {
         <div className="mt-5 flex items-start gap-3 rounded-xl border border-[var(--celo-forest)]/30 bg-[var(--celo-forest)]/5 p-4 text-sm text-foreground">
           <FontAwesomeIcon icon={faLock} className="mt-0.5 h-4 w-4 text-[var(--celo-forest)] dark:text-[var(--celo-yellow)]" />
           <span>
-            The SDK never holds or uses private keys. Call <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">prepare*</span> methods with the user&apos;s wallet address, then pass the returned <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">steps</span> to wagmi for signing.
+            The SDK never holds or uses private keys. Call <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">prepare*</span> methods with the user&apos;s wallet address, then pass the returned <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">steps</span> to wagmi for signing. Optional-address defaults and <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">get_wallet_address</span> are celina-mcp only (local stdio + server key), not this package.
           </span>
         </div>
+        <p className="mt-4 text-sm text-muted-foreground">
+          Example app: Celeste AI in this monorepo uses only this SDK + wagmi — not celina-mcp. Browser apps pass the connected address on every call (see celeste-ai <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">resolveTargetAddress</span>).
+        </p>
       </section>
 
       {/* Install */}
@@ -329,7 +332,7 @@ function SdkPage() {
             </div>
             <h3 className="mt-2 font-mono text-sm font-semibold text-foreground">@andrewkimjoseph/celina-mcp</h3>
             <p className="mt-1 text-sm text-muted-foreground">
-              MCP server for IDE / CLI agents — server-key writes and Self Agent ID.
+              MCP server for IDE / CLI agents — 72 tools hosted, 85 stdio; session wallet + <span className="font-mono text-xs">get_wallet_address</span> with <span className="font-mono text-xs">CELO_PRIVATE_KEY</span>.
             </p>
           </a>
           <a

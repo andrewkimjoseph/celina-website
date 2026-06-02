@@ -334,6 +334,11 @@ function Index() {
               Keep <code className="rounded bg-secondary px-1 py-0.5">CELO_PRIVATE_KEY</code> and{" "}
               <code className="rounded bg-secondary px-1 py-0.5">SELF_AGENT_PRIVATE_KEY</code> out of source control — they stay on your machine.
             </p>
+            <p className="mt-2 text-xs text-muted-foreground">
+              With <code className="rounded bg-secondary px-1 py-0.5">CELO_PRIVATE_KEY</code>, omit <code className="rounded bg-secondary px-1 py-0.5">address</code> /{" "}
+              <code className="rounded bg-secondary px-1 py-0.5">wallet_address</code> on wallet-scoped tools for “my” reads and Carbon prepare, or call{" "}
+              <code className="rounded bg-secondary px-1 py-0.5">get_wallet_address</code> when you need the signer as data.
+            </p>
           </article>
 
           {/* Hosted (reads + Carbon prepare) */}
