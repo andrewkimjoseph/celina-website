@@ -274,6 +274,7 @@ export const TOOLS: ToolDoc[] = [
       { name: "deadlineMinutes", type: "integer", required: false, description: "Transaction deadline in minutes. Defaults to 5." },
     ],
     returns: "{ approvalGas?, swapGas, totalGas, estimatedCostWei }",
+    examples: ["Estimate gas to convert 100 USDm to EURm via Mento."],
   },
   {
     name: "execute_mento_fx",
@@ -330,6 +331,7 @@ export const TOOLS: ToolDoc[] = [
       { name: "deadlineMinutes", type: "integer", required: false, description: "Transaction deadline in minutes. Defaults to 5." },
     ],
     returns: "{ approvalGas?, permit2Gas?, swapGas, totalGas, estimatedCostWei }",
+    examples: ["Estimate gas to swap 1000 G$ to USDT on Uniswap v4."],
   },
   {
     name: "execute_uniswap_swap",
@@ -436,6 +438,7 @@ export const TOOLS: ToolDoc[] = [
       { name: "agent_key", type: "0x… hex", required: false, description: "Optional explicit agent public key." },
     ],
     returns: "{ valid, signer, registration }",
+    examples: ["Verify this signed Self agent request from these headers."],
   },
   {
     name: "register_self_agent",
@@ -470,6 +473,7 @@ export const TOOLS: ToolDoc[] = [
       { name: "session_id", type: "string", required: true, description: "Session ID returned by register_self_agent or refresh_self_proof." },
     ],
     returns: "{ status, agentId?, private_key_hex?, … }",
+    examples: ["Check the status of my Self registration session."],
   },
   {
     name: "get_self_identity",
@@ -483,6 +487,7 @@ export const TOOLS: ToolDoc[] = [
     inputs: [
     ],
     returns: "{ agentId, address, credentials, proofExpiry, … }",
+    examples: ["What's my Self agent identity and proof status?"],
   },
   {
     name: "refresh_self_proof",
@@ -497,6 +502,7 @@ export const TOOLS: ToolDoc[] = [
       { name: "agent_id", type: "integer", required: false, description: "Optional explicit agent ID." },
     ],
     returns: "{ sessionId, qrUrl, … }",
+    examples: ["Refresh my Self human proof."],
   },
   {
     name: "deregister_self_agent",
@@ -510,6 +516,7 @@ export const TOOLS: ToolDoc[] = [
     inputs: [
     ],
     returns: "{ sessionId, qrUrl, … }",
+    examples: ["Deregister my Self agent."],
   },
   {
     name: "sign_self_request",
@@ -526,6 +533,7 @@ export const TOOLS: ToolDoc[] = [
       { name: "body", type: "string", required: false, description: "Optional request body." },
     ],
     returns: "{ headers: { 'x-self-agent-signature', 'x-self-agent-timestamp', … } }",
+    examples: ["Sign a GET request to https://api.self.xyz/me as my Self agent."],
   },
   {
     name: "authenticated_self_fetch",
@@ -543,6 +551,7 @@ export const TOOLS: ToolDoc[] = [
       { name: "content_type", type: "string", required: false, description: "Content-Type header. Defaults to application/json." },
     ],
     returns: "{ status, headers, body }",
+    examples: ["Fetch https://api.self.xyz/me with my Self agent credentials."],
   },
   {
     name: "get_token_balance",

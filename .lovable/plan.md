@@ -1,95 +1,54 @@
 ## Goal
 
-Stop storing only daily roll-ups. Persist every Amplitude event as its own row, then derive the daily / per-tool / future drill-down views from that table.
+Make the "§ Try saying" section render on every tool detail page by adding an `examples` array to the 29 tools in `src/data/tools.ts` that currently don't define one. No JSX or type changes — the conditional render in `src/routes/tools.$category.$toolSlug.tsx` already handles this once data is present.
 
-## New table (you run the SQL on the custom Supabase project)
+## Approach
 
-```sql
-create table if not exists public.amplitude_events (
-  insert_id      text primary key,           -- Amplitude's $insert_id; dedupes re-pulls
-  event_time     timestamptz not null,
-  event_day      date generated always as ((event_time at time zone 'UTC')::date) stored,
-  event_type     text not null,
-  user_id        text,
-  device_id      text,
-  session_id     bigint,
-  amplitude_id   bigint,
-  app            text,
-  platform       text,
-  country        text,
-  region         text,
-  city           text,
-  os_name        text,
-  device_family  text,
-  library        text,
-  event_properties jsonb,
-  user_properties  jsonb,
-  raw            jsonb not null,
-  ingested_at    timestamptz not null default now()
-);
+For each tool, add 1–2 natural-language prompts that an end user would actually say to Celina, matched to the tool's `kind`, `inputs`, and `description`. Keep them concrete (real-sounding token symbols, IDs, addresses redacted as `0x…`) and consistent in voice with the existing 42 examples (imperative, conversational, short).
 
-create index if not exists amplitude_events_day_idx        on public.amplitude_events (event_day);
-create index if not exists amplitude_events_type_idx       on public.amplitude_events (event_type);
-create index if not exists amplitude_events_day_type_idx   on public.amplitude_events (event_day, event_type);
-create index if not exists amplitude_events_time_idx       on public.amplitude_events (event_time desc);
+## Examples to add
 
-alter table public.amplitude_events enable row level security;
--- service role bypasses RLS; no public policy needed (server fn uses service key)
-```
+**Mento FX / Uniswap**
+- `estimate_mento_fx`: "Estimate gas to convert 100 USDm to EURm via Mento."
+- `estimate_uniswap_swap`: "Estimate gas to swap 1000 G$ to USDT on Uniswap v4."
 
-The existing `amplitude_daily_event_counts` and `amplitude_sync_state` tables stay — `sync_state` still tracks the last pull cursor; the daily-counts table is kept as a fast aggregate cache (optional).
+**Self (agent identity)**
+- `verify_self_request`: "Verify this signed Self agent request from these headers."
+- `check_self_registration`: "Check the status of my Self registration session."
+- `get_self_identity`: "What's my Self agent identity and proof status?"
+- `refresh_self_proof`: "Refresh my Self human proof."
+- `deregister_self_agent`: "Deregister my Self agent."
+- `sign_self_request`: "Sign a GET request to https://api.self.xyz/me as my Self agent."
+- `authenticated_self_fetch`: "Fetch https://api.self.xyz/me with my Self agent credentials."
 
-## Sync changes (`src/lib/amplitude.functions.ts`)
+**Carbon DeFi (read)**
+- `get_carbon_strategy`: "Show me Carbon strategy 1234."
+- `explore_carbon_pair`: "Explore Carbon liquidity for USDC/USDT."
+- `resolve_carbon_token`: "Resolve the USDC token on Carbon."
+- `get_carbon_activity`: "Show recent Carbon trades for 0x…"
+- `find_carbon_opportunities`: "Find discount buys on Carbon for USDC/USDT."
+- `get_carbon_protocol_stats`: "What's Carbon's TVL and 7-day volume on Celo?"
+- `get_carbon_price_history`: "Show 30-day price history for USDC/USDT on Carbon."
+- `carbon_help`: "How does prepare_carbon_recurring_strategy work?"
+- `carbon_learn`: "Explain how Carbon recurring strategies work."
 
-1. Expand `RawEvent` to capture the fields above (especially `$insert_id`, `event_time`, `event_type`, user/device IDs, geo, props, and keep the original line as `raw`).
-2. In `syncAmplitudeExport`:
-   - After `pullExport(...)`, batch-insert all events into `amplitude_events` via PostgREST with `Prefer: resolution=merge-duplicates,return=minimal` and `on_conflict=insert_id`. This naturally dedupes when we re-pull today's hours.
-   - Chunk inserts (e.g. 500 rows per request) to stay within PostgREST payload limits.
-   - Still update `amplitude_sync_state.last_synced_at` at the end.
-3. Replace the delete-then-reinsert flow on `amplitude_daily_event_counts`. Either:
-   - drop that table entirely and compute aggregates from `amplitude_events`, OR
-   - keep it as a materialized cache rebuilt from the touched days (`insert ... select day, event_type, count(*) from amplitude_events where event_day in (...) group by ...` after `delete`).
-   Recommend option A for simplicity now that per-event data is the source of truth.
+**Carbon DeFi (write — prepare flows)**
+- `prepare_carbon_range_order`: "Prepare a Carbon range buy of 500 USDC between 0.995 and 0.999 USDT."
+- `prepare_carbon_concentrated_strategy`: "Prepare a concentrated USDC/USDT strategy centered at 1.000 with 0.2% width."
+- `prepare_carbon_full_range_strategy`: "Prepare a full-range CELO/USDC Carbon strategy."
+- `prepare_carbon_reprice_strategy`: "Reprice Carbon strategy 1234 to a new buy range."
+- `prepare_carbon_edit_strategy`: "Edit Carbon strategy 1234's budgets and prices."
+- `prepare_carbon_deposit_budget`: "Deposit 100 USDC into Carbon strategy 1234."
+- `prepare_carbon_withdraw_budget`: "Withdraw 50 USDC from Carbon strategy 1234."
+- `prepare_carbon_pause_strategy`: "Pause Carbon strategy 1234."
+- `prepare_carbon_resume_strategy`: "Resume Carbon strategy 1234."
+- `prepare_carbon_delete_strategy`: "Close Carbon strategy 1234 and withdraw funds."
+- `prepare_carbon_trade`: "Swap 100 USDC to USDT against Carbon liquidity."
 
-## Read path
+## Files
 
-Rewrite the read in `getAmplitudeStats` to query `amplitude_events` directly:
+- `src/data/tools.ts` — add an `examples: [...]` line to each of the 29 tools above, placed after `returns` to match the existing convention.
 
-- `daily`: `select event_day as day, count(*) from amplitude_events where event_day >= :since group by event_day order by event_day`.
-- `perTool`: `select event_type as event, count(*) from amplitude_events where event_day >= :since group by event_type order by count desc`.
+## Verification
 
-PostgREST doesn't do `group by` natively, so add two SQL views (`amplitude_daily_totals`, `amplitude_tool_totals`) and `select` from them, OR expose a Postgres function callable via `/rest/v1/rpc/...`. Views are simpler:
-
-```sql
-create or replace view public.amplitude_daily_totals as
-  select event_day as day, count(*)::int as count
-  from public.amplitude_events
-  group by event_day;
-
-create or replace view public.amplitude_tool_totals as
-  select event_type as event, count(*)::int as count
-  from public.amplitude_events
-  group by event_type;
-
-grant select on public.amplitude_daily_totals, public.amplitude_tool_totals to service_role;
-```
-
-`getAmplitudeStats` then reads those views with a `day=gte.<sinceDay>` filter on the daily view.
-
-## What stays the same
-
-- All UI in `src/routes/stats.offchain.tsx` and the `aggregateAmplitude` helper — they keep consuming `{ daily, perTool }`, so no chart changes.
-- Auth model (service-role key in server fn only).
-- Cache gate (5 min) and the "always re-pull from start of UTC day" rule.
-
-## What you unlock later (not in this PR)
-
-- Drill-down route showing the last N raw events with timestamps, tool, user/device.
-- Per-user / per-device counts, geo breakdowns — all just new views over `amplitude_events`.
-- Independence: if Amplitude pulls fail, charts still render from whatever's in `amplitude_events`.
-
-## Order of operations
-
-1. You run the SQL above on the custom Supabase project (create table + indexes + views).
-2. I update `amplitude.functions.ts` to insert per-event rows and read from the new views.
-3. First sync after deploy backfills from `last_synced_at` forward; older daily roll-ups remain in `amplitude_daily_event_counts` but are no longer read. We can drop that table once you're happy.
+- Spot-check the build output and a couple of tool pages (e.g. `/tools/self/refresh-self-proof`, `/tools/carbon-defi/carbon-help`) in the preview to confirm "§ Try saying" now renders.
