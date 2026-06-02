@@ -808,6 +808,7 @@ export const TOOLS: ToolDoc[] = [
       { name: "strategy_id", type: "string | integer", required: true, description: "Carbon strategy NFT id." },
     ],
     returns: "{ id, pair, type, status, prices, budgets, fills }",
+    examples: ["Show me Carbon strategy 1234."],
   },
   {
     name: "get_carbon_trade_quote",
@@ -840,6 +841,7 @@ export const TOOLS: ToolDoc[] = [
       { name: "quote", type: "symbol or 0x…", required: true, description: "Quote token." },
     ],
     returns: "{ pair, buyDepth, sellDepth, topStrategies }",
+    examples: ["Explore Carbon liquidity for USDC/USDT."],
   },
   {
     name: "resolve_carbon_token",
@@ -854,6 +856,7 @@ export const TOOLS: ToolDoc[] = [
       { name: "query", type: "string", required: true, description: "Symbol or name (e.g. 'USDC', 'cUSD')." },
     ],
     returns: "{ symbol, name, address, decimals, source }",
+    examples: ["Resolve the USDC token on Carbon."],
   },
   {
     name: "get_carbon_activity",
@@ -869,6 +872,7 @@ export const TOOLS: ToolDoc[] = [
       { name: "strategy_id", type: "string", required: false, description: "Strategy NFT id." },
     ],
     returns: "Array of activity events (trades, deposits, withdrawals, edits).",
+    examples: ["Show recent Carbon trades for 0x…"],
   },
   {
     name: "find_carbon_opportunities",
@@ -884,6 +888,7 @@ export const TOOLS: ToolDoc[] = [
       { name: "quote", type: "symbol or 0x…", required: true, description: "Quote token." },
     ],
     returns: "{ discounts: [...], premiums: [...] }",
+    examples: ["Find discount buys on Carbon for USDC/USDT."],
   },
   {
     name: "get_carbon_protocol_stats",
@@ -898,6 +903,7 @@ export const TOOLS: ToolDoc[] = [
       { name: "period_days", type: "integer (1-30)", required: false, description: "Rolling window in days. Defaults to 1." },
     ],
     returns: "{ tvl, volume, fees, period_days }",
+    examples: ["What's Carbon's TVL and 7-day volume on Celo?"],
   },
   {
     name: "get_carbon_price_history",
@@ -914,6 +920,7 @@ export const TOOLS: ToolDoc[] = [
       { name: "period_days", type: "integer", required: false, description: "Lookback in days." },
     ],
     returns: "Array of OHLC candles.",
+    examples: ["Show 30-day price history for USDC/USDT on Carbon."],
   },
   {
     name: "simulate_carbon_strategy",
@@ -946,6 +953,7 @@ export const TOOLS: ToolDoc[] = [
       { name: "topic", type: "string", required: false, description: "Specific tool name." },
     ],
     returns: "Markdown help text.",
+    examples: ["How does prepare_carbon_recurring_strategy work?"],
   },
   {
     name: "carbon_learn",
@@ -960,6 +968,7 @@ export const TOOLS: ToolDoc[] = [
       { name: "topic", type: "string", required: false, description: "Topic name." },
     ],
     returns: "Markdown explainer.",
+    examples: ["Explain how Carbon recurring strategies work."],
   },
   {
     name: "prepare_carbon_limit_order",
