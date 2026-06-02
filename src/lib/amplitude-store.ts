@@ -11,6 +11,7 @@ type AmplitudeState = {
   daily: AmplitudeEventDay[];
   perTool: AmplitudeEventTotal[];
   total: number;
+  uniqueDevices: number;
   fetchedAt: number | null;
   lastSyncedAt: string | null;
   loading: boolean;
@@ -24,6 +25,7 @@ export const useAmplitudeStore = create<AmplitudeState>()(
       daily: [],
       perTool: [],
       total: 0,
+      uniqueDevices: 0,
       fetchedAt: null,
       lastSyncedAt: null,
       loading: false,
@@ -45,6 +47,7 @@ export const useAmplitudeStore = create<AmplitudeState>()(
             daily: result.daily,
             perTool: result.perTool,
             total: result.total,
+            uniqueDevices: result.uniqueDevices,
             fetchedAt: result.fetchedAt,
             lastSyncedAt: result.lastSyncedAt,
             error: result.error,
@@ -65,6 +68,7 @@ export const useAmplitudeStore = create<AmplitudeState>()(
         daily: s.daily,
         perTool: s.perTool,
         total: s.total,
+        uniqueDevices: s.uniqueDevices,
         fetchedAt: s.fetchedAt,
         lastSyncedAt: s.lastSyncedAt,
       }),
