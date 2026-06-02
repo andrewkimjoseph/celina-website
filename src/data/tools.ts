@@ -668,7 +668,7 @@ export const TOOLS: ToolDoc[] = [
       { name: "proposal_id", type: "integer", required: true, description: "Numeric governance proposal ID." },
     ],
     returns: "{ id, stage, proposer, votes, transactions, cgp? }",
-    examples: ["Show me details of Celo proposal 198."],
+    examples: ["Show me details of Celo proposal 245."],
   },
   {
     name: "get_staking_balances",
