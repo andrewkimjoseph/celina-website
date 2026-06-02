@@ -4,8 +4,8 @@
 
 - Website: [usecelina.xyz](https://usecelina.xyz)
 - npm: [@andrewkimjoseph/celina-mcp](https://www.npmjs.com/package/@andrewkimjoseph/celina-mcp)
-- Hosted endpoint: `https://mcp.usecelina.xyz/api/mcp` (71 tools: reads + Carbon prepare)
-- Full stdio catalog: 84 tools (adds server-key writes and `execute_carbon_*`)
+- Hosted endpoint: `https://mcp.usecelina.xyz/api/mcp` (72 tools: reads + Carbon prepare)
+- Full stdio catalog: 85 tools (adds `get_wallet_address`, server-key writes, and `execute_carbon_*`)
 
 This repo is the **marketing site** for Celina. The MCP server itself is published as the npm package above.
 
@@ -39,7 +39,7 @@ src/
     stats.onchain.tsx
     stats.package.tsx
   components/       # Reusable UI (SiteHeader, etc.)
-  data/tools.ts     # Tool definitions (84 stdio tools, 71 hosted)
+  data/tools.ts     # Tool definitions (85 stdio tools, 72 hosted)
   lib/              # Stores, helpers, server functions
   styles.css        # Tailwind v4 + custom tokens
 ```
@@ -108,10 +108,12 @@ To run the server fully locally instead, install the npm package directly:
 }
 ```
 
-- `CELO_PRIVATE_KEY` — required for **write** tools (send tokens, swaps, Aave supply/withdraw, `execute_carbon_*`)
+- `CELO_PRIVATE_KEY` — required for **write** tools (send tokens, swaps, Aave supply/withdraw, `execute_carbon_*`). On local stdio, many reads accept an omitted `address` / `wallet_address` and default to this signer; use **`get_wallet_address`** when the agent needs the address as data.
 - `SELF_AGENT_PRIVATE_KEY` — required for **Self Agent** registration and verification tools
 
 Never commit private keys.
+
+**Celeste AI** ([`celeste-ai`](../celeste-ai/)) is a separate DeFAI chat app: it uses **only** `@andrewkimjoseph/celina-sdk` and the user’s browser wallet, not this MCP server.
 
 ## License
 
