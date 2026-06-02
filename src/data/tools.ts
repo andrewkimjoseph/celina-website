@@ -89,18 +89,38 @@ export const TOOLS: ToolDoc[] = [
     examples: ["Did transaction 0xabc… succeed?"],
   },
   {
+    name: "get_wallet_address",
+    slug: "get-wallet-address",
+    title: "Get Wallet Address",
+    summary: "Signer address from CELO_PRIVATE_KEY",
+    description:
+      "Returns the wallet address derived from CELO_PRIVATE_KEY in the server env. Use when you need the signer explicitly; omit address on other tools to default to this wallet when the key is configured.",
+    kind: "read",
+    category: "Account",
+    inputs: [],
+    returns: "{ wallet_address, has_wallet, source }",
+    examples: ["What is my wallet address?"],
+    availability: "stdio",
+  },
+  {
     name: "get_account",
     slug: "get-account",
     title: "Get Account",
     summary: "Native CELO balance, nonce, contract flag",
-    description: "Returns the native CELO balance, current nonce, and whether the address is a contract on Celo mainnet.",
+    description:
+      "Returns the native CELO balance, current nonce, and whether the address is a contract on Celo mainnet. Omit address on local stdio when CELO_PRIVATE_KEY is set to use the configured signer.",
     kind: "read",
     category: "Account",
     inputs: [
-      { name: "address", type: "0x… address", required: true, description: "Celo mainnet account to inspect." },
+      {
+        name: "address",
+        type: "0x… address",
+        required: false,
+        description: "Celo mainnet account to inspect. Defaults to the configured signer when CELO_PRIVATE_KEY is set.",
+      },
     ],
     returns: "{ balance (wei + formatted), nonce, isContract }",
-    examples: ["How much CELO does 0x… hold?"],
+    examples: ["How much CELO does 0x… hold?", "What is my CELO balance?"],
   },
   {
     name: "resolve_ens",
@@ -128,11 +148,16 @@ export const TOOLS: ToolDoc[] = [
     kind: "read",
     category: "Token",
     inputs: [
-      { name: "address", type: "0x… address", required: true, description: "Address to query." },
+      {
+        name: "address",
+        type: "0x… address",
+        required: false,
+        description: "Address to query. Defaults to the configured signer on local stdio with CELO_PRIVATE_KEY.",
+      },
       { name: "tokens", type: "string[]", required: false, description: "Token symbols or addresses to include (e.g. ['CELO','USDm','cUSD'])." },
     ],
     returns: "Array of { symbol, address, balance, decimals, formatted }.",
-    examples: ["What does 0x… hold in CELO and USDm?"],
+    examples: ["What does 0x… hold in CELO and USDm?", "What are my CELO and USDm balances?"],
   },
   {
     name: "get_stablecoin_balances",
@@ -144,7 +169,12 @@ export const TOOLS: ToolDoc[] = [
     kind: "read",
     category: "Token",
     inputs: [
-      { name: "address", type: "0x… address", required: true, description: "Address to query." },
+      {
+        name: "address",
+        type: "0x… address",
+        required: false,
+        description: "Address to query. Defaults to the configured signer on local stdio with CELO_PRIVATE_KEY.",
+      },
       { name: "stablecoins", type: "string[]", required: false, description: "Specific stablecoin symbols to check (e.g. ['USDm','EURm'])." },
       { name: "includeZero", type: "boolean", required: false, description: "Include stablecoins with zero balance. Defaults to false." },
     ],
@@ -566,11 +596,16 @@ export const TOOLS: ToolDoc[] = [
     kind: "read",
     category: "Token",
     inputs: [
-      { name: "address", type: "0x… address", required: true, description: "Wallet to inspect." },
-      { name: "token", type: "0x… address", required: true, description: "ERC-20 contract address." },
+      {
+        name: "address",
+        type: "0x… address",
+        required: false,
+        description: "Wallet to inspect. Defaults to the configured signer on local stdio with CELO_PRIVATE_KEY.",
+      },
+      { name: "token", type: "symbol or 0x…", required: true, description: "Registry token symbol or address." },
     ],
     returns: "{ balance, formatted, decimals, symbol }",
-    examples: ["What's 0x…'s balance of token 0x…?"],
+    examples: ["What's 0x…'s balance of token 0x…?", "What's my USDT balance?"],
   },
   {
     name: "get_gas_fee_data",
@@ -789,11 +824,16 @@ export const TOOLS: ToolDoc[] = [
     title: "Get Carbon Strategies",
     summary: "Active maker strategies for a wallet",
     description:
-      "List active Carbon DeFi maker strategies owned by a wallet on Celo mainnet. Call before creating or managing strategies to avoid duplicates.",
+      "List active Carbon DeFi maker strategies owned by a wallet on Celo mainnet. Call before creating or managing strategies to avoid duplicates. Omit wallet_address on local stdio when CELO_PRIVATE_KEY is set.",
     kind: "read",
     category: "Carbon DeFi",
     inputs: [
-      { name: "wallet", type: "0x… address", required: true, description: "Wallet to inspect." },
+      {
+        name: "wallet_address",
+        type: "0x… address",
+        required: false,
+        description: "Wallet to inspect. Defaults to the configured signer on local stdio with CELO_PRIVATE_KEY.",
+      },
     ],
     returns: "Array of strategy summaries (id, pair, type, status, budgets).",
     examples: ["What Carbon strategies does 0x… have running?"],
@@ -871,11 +911,17 @@ export const TOOLS: ToolDoc[] = [
     kind: "read",
     category: "Carbon DeFi",
     inputs: [
-      { name: "wallet", type: "0x… address", required: false, description: "Wallet to inspect (mutually exclusive with strategy_id)." },
+      {
+        name: "wallet_address",
+        type: "0x… address",
+        required: false,
+        description:
+          "Wallet to inspect (mutually exclusive with strategy_id). Defaults to the configured signer on local stdio with CELO_PRIVATE_KEY.",
+      },
       { name: "strategy_id", type: "string", required: false, description: "Strategy NFT id." },
     ],
     returns: "Array of activity events (trades, deposits, withdrawals, edits).",
-    examples: ["Show recent Carbon trades for 0x…"],
+    examples: ["Show recent Carbon trades for 0x…", "Show my recent Carbon activity."],
   },
   {
     name: "find_carbon_opportunities",
@@ -1482,8 +1528,8 @@ export function findTool(catSlug: string, toolSlug: string): ToolDoc | undefined
   );
 }
 
-/** Hosted endpoint exposes 71 tools; full stdio catalog includes server-key writes. */
-export const HOSTED_TOOL_COUNT = 71;
+/** Hosted endpoint exposes 72 tools; full stdio catalog includes server-key writes. */
+export const HOSTED_TOOL_COUNT = 72;
 
 export function getToolAvailability(tool: ToolDoc): ToolAvailability {
   if (tool.availability) return tool.availability;
