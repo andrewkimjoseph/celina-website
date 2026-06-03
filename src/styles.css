@@ -144,7 +144,7 @@
   --celo-ink:    oklch(0 0 0);
   --celo-cream:  oklch(1 0 0);
 
-  --chart-line: oklch(1 0 0);               /* white line charts in dark mode for contrast against yellow bars */
+  --chart-line: oklch(0.62 0.13 130);      /* forest green line charts in dark mode */
 
   --gradient-hero: radial-gradient(ellipse at top right, oklch(0.97 0.20 110 / 0.18), transparent 55%),
                    radial-gradient(ellipse at bottom left, oklch(0.49 0.10 130 / 0.30), transparent 65%);
