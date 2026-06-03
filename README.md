@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="./assets/celina-banner.png" alt="Celina — Give your LLM a wallet on Celo">
+</p>
+
 # Celina — Celo MCP Server
 
 **Celina** is an open-source [Model Context Protocol](https://modelcontextprotocol.io) server that gives LLMs read, prepare, and write access to **Celo mainnet** — balances, stablecoins, sends, swaps, Carbon DeFi, and chain reads.
