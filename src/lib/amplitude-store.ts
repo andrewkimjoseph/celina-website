@@ -37,8 +37,7 @@ export const useAmplitudeStore = create<AmplitudeState>()(
           !opts?.force &&
           fetchedAt &&
           Date.now() - fetchedAt < STALE_MS &&
-          get().daily.length > 0 &&
-          get().uniqueDevices > 0
+          get().daily.length > 0
         )
           return;
         set({ loading: true, error: null });

@@ -23,8 +23,14 @@ export type AmplitudeStatsResult = {
 
 const LOOKBACK_DAYS = 90;
 const CACHE_GATE_MS = 5 * 60 * 1000;
+const SYNC_ATTEMPT_GATE_MS = 5 * 60 * 1000;
+const EXPORT_CHUNK_HOURS = 6;
+const EXPORT_MAX_RETRIES = 2;
 const SYNC_FLOOR_ISO = "2026-06-01T00:00:00Z";
 const MAX_UNZIPPED_BYTES = 50 * 1024 * 1024;
+
+/** Throttle export attempts so repeated 524s do not run on every page refresh. */
+let lastSyncAttemptMs = 0;
 
 function ymdh(d: Date): string {
   const y = d.getUTCFullYear();
@@ -32,6 +38,35 @@ function ymdh(d: Date): string {
   const day = String(d.getUTCDate()).padStart(2, "0");
   const h = String(d.getUTCHours()).padStart(2, "0");
   return `${y}${m}${day}T${h}`;
+}
+
+function parseYmdh(hour: string): Date {
+  return new Date(
+    `${hour.slice(0, 4)}-${hour.slice(4, 6)}-${hour.slice(6, 8)}T${hour.slice(8, 10)}:00:00.000Z`,
+  );
+}
+
+function* exportHourChunks(
+  startHour: string,
+  endHour: string,
+  chunkHours = EXPORT_CHUNK_HOURS,
+): Generator<[string, string]> {
+  let cur = parseYmdh(startHour);
+  const end = parseYmdh(endHour);
+  while (cur <= end) {
+    const chunkEnd = new Date(cur.getTime() + (chunkHours - 1) * 60 * 60 * 1000);
+    const actualEnd = chunkEnd > end ? end : chunkEnd;
+    yield [ymdh(cur), ymdh(actualEnd)];
+    cur = new Date(actualEnd.getTime() + 60 * 60 * 1000);
+  }
+}
+
+function isRetryableExportStatus(status: number): boolean {
+  return status === 524 || status === 502 || status === 503 || status === 429;
+}
+
+function sleep(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 function baseUrl(): string {
@@ -170,7 +205,7 @@ type RawEventFull = RawEvent & {
   user_properties?: Record<string, unknown> | null;
 };
 
-async function pullExport(startHour: string, endHour: string): Promise<RawEventFull[]> {
+async function pullExportOnce(startHour: string, endHour: string): Promise<RawEventFull[]> {
   const url = new URL(`${baseUrl()}/api/2/export`);
   url.searchParams.set("start", startHour);
   url.searchParams.set("end", endHour);
@@ -184,9 +219,11 @@ async function pullExport(startHour: string, endHour: string): Promise<RawEventF
   }
   if (!res.ok) {
     const body = await res.text().catch(() => "");
-    throw new Error(
+    const err = new Error(
       `Amplitude export ${res.status}: ${res.statusText} ${body.slice(0, 200)}`,
     );
+    (err as Error & { status?: number }).status = res.status;
+    throw err;
   }
   const buf = new Uint8Array(await res.arrayBuffer());
   const entries = unzipSync(buf);
@@ -211,6 +248,35 @@ async function pullExport(startHour: string, endHour: string): Promise<RawEventF
         // skip malformed line
       }
     }
+  }
+  return events;
+}
+
+async function pullExport(startHour: string, endHour: string): Promise<RawEventFull[]> {
+  let lastError: Error | undefined;
+  for (let attempt = 0; attempt <= EXPORT_MAX_RETRIES; attempt++) {
+    try {
+      return await pullExportOnce(startHour, endHour);
+    } catch (e) {
+      lastError = e instanceof Error ? e : new Error("Amplitude export failed");
+      const status = (lastError as Error & { status?: number }).status;
+      if (
+        attempt === EXPORT_MAX_RETRIES ||
+        status === undefined ||
+        !isRetryableExportStatus(status)
+      ) {
+        throw lastError;
+      }
+      await sleep(1000 * (attempt + 1));
+    }
+  }
+  throw lastError ?? new Error("Amplitude export failed");
+}
+
+async function pullExportRange(startHour: string, endHour: string): Promise<RawEventFull[]> {
+  const events: RawEventFull[] = [];
+  for (const [chunkStart, chunkEnd] of exportHourChunks(startHour, endHour)) {
+    events.push(...(await pullExport(chunkStart, chunkEnd)));
   }
   return events;
 }
@@ -284,12 +350,19 @@ async function upsertEvents(rows: Array<Record<string, unknown>>): Promise<void>
 // ---------------------------------------------------------------------------
 
 export async function syncAmplitudeExport(): Promise<void> {
+  const nowMs = Date.now();
+  if (nowMs - lastSyncAttemptMs < SYNC_ATTEMPT_GATE_MS) {
+    return;
+  }
+
   const { last_synced_at } = await getSyncState();
   const lastSynced = new Date(last_synced_at);
-  const now = new Date();
+  const now = new Date(nowMs);
   if (now.getTime() - lastSynced.getTime() < CACHE_GATE_MS) {
     return; // cache gate
   }
+
+  lastSyncAttemptMs = nowMs;
 
   // Always re-pull from the start of YESTERDAY (UTC) to capture late-arriving
   // events and ensure the midnight cron picks up the full previous day. If
@@ -308,7 +381,7 @@ export async function syncAmplitudeExport(): Promise<void> {
     return;
   }
 
-  const events = await pullExport(startHour, endHour);
+  const events = await pullExportRange(startHour, endHour);
   const rows = toEventRows(events);
   await upsertEvents(rows);
 
@@ -387,7 +460,16 @@ export const getAmplitudeStats = createServerFn({ method: "GET" }).handler(
       const total = daily.reduce((s, d) => s + d.count, 0);
       const uniqueDevices = await countUniqueProjectDeviceIds(sinceDay);
 
-      return { daily, perTool, total, uniqueDevices, fetchedAt: Date.now(), lastSyncedAt, error: syncError };
+      return {
+        daily,
+        perTool,
+        total,
+        uniqueDevices,
+        fetchedAt: Date.now(),
+        lastSyncedAt,
+        // Keep serving cached Supabase rows when export sync fails (e.g. Amplitude 524).
+        error: syncError && total === 0 && daily.length === 0 ? syncError : null,
+      };
     } catch (e) {
       return {
         daily: [],

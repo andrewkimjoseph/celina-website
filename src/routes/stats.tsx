@@ -1,4 +1,4 @@
-import { createFileRoute, Link, Outlet } from "@tanstack/react-router";
+import { createFileRoute, Link, Outlet, useRouterState } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -64,6 +64,7 @@ function StatsLayout() {
     refresh: refreshAmp,
   } = useAmplitudeStore();
   const [now, setNow] = useState(() => Date.now());
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
 
   useEffect(() => {
     refresh();
@@ -95,7 +96,12 @@ function StatsLayout() {
     return `Refresh in ${s}s`;
   })();
   const busy = loading || npmLoading || ampLoading;
-  const combinedError = error || npmError || ampError;
+  const combinedError = (() => {
+    if (pathname.startsWith("/stats/onchain")) return error;
+    if (pathname.startsWith("/stats/package")) return npmError;
+    if (pathname.startsWith("/stats/offchain")) return ampError;
+    return error || npmError || ampError;
+  })();
 
   return (
     <main className="min-h-screen bg-background text-foreground">
