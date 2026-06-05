@@ -62,7 +62,7 @@ const flow = await celina.transaction.prepareSend(
   "USDm",
   "10",
 );
-// flow.steps → pass to wagmi sendTransaction`;
+// flow.steps → pass to wagmi sendTransactionAsync`;
 
 type Row = { service: string; reads: string; prepare: string };
 
