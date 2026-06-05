@@ -22,6 +22,28 @@ const SELF_AGENT_URL = "https://www.npmjs.com/package/@selfxyz/agent-sdk";
 
 const INSTALL_CMD = "npm i @andrewkimjoseph/celina-sdk@latest";
 
+const TOOL_CATALOG_START = `import { createCelinaClient } from "@andrewkimjoseph/celina-sdk";
+import {
+  ALL_TOOL_DEFINITIONS,
+  filterToolDefinitions,
+} from "@andrewkimjoseph/celina-sdk/tools";
+
+const celina = createCelinaClient({ rpcUrl: "https://forno.celo.org" });
+
+// Browser wallet app — user signs prepared txs
+const browserTools = filterToolDefinitions(ALL_TOOL_DEFINITIONS, {
+  surface: "browser",
+  carbonPrepareEnabled: true,
+  carbonExecuteEnabled: false,
+});
+
+// MCP server — full catalog with executors when CELO_PRIVATE_KEY is set
+const mcpTools = filterToolDefinitions(ALL_TOOL_DEFINITIONS, {
+  surface: "mcp",
+  carbonPrepareEnabled: true,
+  carbonExecuteEnabled: true,
+});`;
+
 const QUICK_START = `import { createCelinaClient } from "@andrewkimjoseph/celina-sdk";
 
 const celina = createCelinaClient({
@@ -64,17 +86,17 @@ const API_ROWS: Row[] = [
 export const Route = createFileRoute("/sdk")({
   head: () => ({
     meta: [
-      { title: "Celina SDK — frontend library for Celo" },
+      { title: "Celina SDK — shared tool catalog for Celo agents" },
       {
         name: "description",
         content:
-          "Celina-linked mainnet SDK for frontend apps — reads, gas estimates, and unsigned transaction preparation. Pair with wagmi/viem; users sign in their wallet.",
+          "Celina SDK for Celo mainnet — programmatic reads and unsigned prepares, plus a shared LLM tool catalog that powers celina-mcp and browser wallet apps from one source of truth.",
       },
-      { property: "og:title", content: "Celina SDK — frontend library for Celo" },
+      { property: "og:title", content: "Celina SDK — shared tool catalog for Celo agents" },
       {
         property: "og:description",
         content:
-          "Celina-linked mainnet SDK for frontend apps — reads, gas estimates, and unsigned transaction preparation. Pair with wagmi/viem; users sign in their wallet.",
+          "Celina SDK for Celo mainnet — programmatic reads and unsigned prepares, plus a shared LLM tool catalog that powers celina-mcp and browser wallet apps from one source of truth.",
       },
     ],
   }),
@@ -145,7 +167,7 @@ function SdkPage() {
       <section className="mx-auto max-w-6xl px-4 pt-12 pb-10 sm:px-6 sm:pt-16">
         <div className="inline-flex items-center gap-2 rounded-full border border-[var(--celo-forest)]/40 bg-card/80 px-3 py-1 text-xs font-medium text-foreground">
           <FontAwesomeIcon icon={faBookOpen} className="h-3 w-3 text-[var(--celo-forest)] dark:text-foreground" />
-          <span className="uppercase tracking-[0.18em]">SDK · Frontend library</span>
+          <span className="uppercase tracking-[0.18em]">SDK · Shared tool catalog</span>
         </div>
         <h1
           className="mt-5 text-4xl font-bold tracking-tight sm:text-6xl"
@@ -154,10 +176,13 @@ function SdkPage() {
           Celina SDK
         </h1>
         <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-          Celina-linked mainnet library for frontend apps — <span className="font-medium text-foreground">reads</span> and{" "}
-          <span className="font-medium text-foreground">unsigned transaction preparation</span> (no private keys).
+          One mainnet library for Celo agents — <span className="font-medium text-foreground">reads</span>,{" "}
+          <span className="font-medium text-foreground">unsigned prepares</span>, and a shared{" "}
+          <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">/tools</span> export that powers{" "}
+          <span className="font-medium text-foreground">celina-mcp</span> and{" "}
+          <span className="font-medium text-foreground">browser wallet apps</span> from the same definitions.
           Pair with <a className="underline decoration-[var(--celo-yellow)] decoration-2 underline-offset-4 hover:text-foreground" href="https://wagmi.sh/" target="_blank" rel="noreferrer">wagmi</a>{" "}
-          / viem in the browser — users sign prepared transactions in their wallet.
+          / viem when users sign in their wallet.
         </p>
         <div className="mt-7 flex flex-wrap items-center gap-3">
           <a
@@ -189,7 +214,7 @@ function SdkPage() {
         >
           What you can do
         </h2>
-        <div className="grid gap-4 sm:grid-cols-3">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <CapabilityCard
             icon={faMagnifyingGlass}
             title="Reads"
@@ -203,7 +228,12 @@ function SdkPage() {
           <CapabilityCard
             icon={faPenRuler}
             title="Prepare"
-            body="Unsigned tx flows for sends, Mento FX, Uniswap v4, Aave, GoodDollar UBI, and Carbon strategies/trades. Carbon uses finalizeCarbonPrepare to merge approve + controller steps; all tagged calldata includes CELINA attribution."
+            body="Unsigned tx flows for sends, Mento FX, Uniswap v4, Aave, GoodDollar UBI, and Carbon strategies/trades. Carbon uses finalizeCarbonPrepare to merge approve + controller steps."
+          />
+          <CapabilityCard
+            icon={faBolt}
+            title="Tool catalog"
+            body="Import @andrewkimjoseph/celina-sdk/tools — filter by surface (mcp or browser), family (read/prepare/execute), and Carbon flags. Same schemas celina-mcp registers."
           />
         </div>
         <div className="mt-5 flex items-start gap-3 rounded-xl border border-[var(--celo-forest)]/30 bg-[var(--celo-forest)]/5 p-4 text-sm text-foreground">
@@ -213,7 +243,31 @@ function SdkPage() {
           </span>
         </div>
         <p className="mt-4 text-sm text-muted-foreground">
-          Example app: Celeste AI in this monorepo uses only this SDK + wagmi — not celina-mcp. Browser apps pass the connected address on every call (see celeste-ai <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">resolveTargetAddress</span>).
+          Browser surface apps use <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">surface: &quot;browser&quot;</span> and pass the connected wallet on every call — no server keys. MCP hosts use <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">surface: &quot;mcp&quot;</span> with optional executors when <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">CELO_PRIVATE_KEY</span> is configured.
+        </p>
+      </section>
+
+      {/* Tool catalog */}
+      <section className="mx-auto max-w-6xl px-4 pb-10 sm:px-6">
+        <div className="mb-4 flex items-center gap-2">
+          <FontAwesomeIcon icon={faBolt} className="h-4 w-4 text-[var(--celo-forest)] dark:text-[var(--celo-yellow)]" />
+          <h2
+            className="text-2xl font-bold tracking-tight sm:text-3xl"
+            style={{ fontFamily: "var(--font-display)" }}
+          >
+            Tool catalog for agent hosts
+          </h2>
+        </div>
+        <p className="mb-4 max-w-2xl text-sm text-muted-foreground">
+          From v0.5.0, the <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">/tools</span> export ships Zod schemas, descriptions, and handlers for every LLM tool. celina-mcp registers them via <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">registerSdkTools</span>; browser chat apps filter with <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">surface: &quot;browser&quot;</span>. Use <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">dynamicTool</span> when registering many tools in AI SDK hosts to avoid TypeScript OOM.
+        </p>
+        <CodeBlock code={TOOL_CATALOG_START} />
+        <p className="mt-3 text-sm text-muted-foreground">
+          Full guide:{" "}
+          <a className="text-foreground underline decoration-[var(--celo-yellow)] decoration-2 underline-offset-4" href={`${SDK_DOCS_URL}/guides/tool-catalog`} target="_blank" rel="noreferrer">
+            LLM tool catalog
+          </a>
+          .
         </p>
       </section>
 
@@ -332,7 +386,7 @@ function SdkPage() {
             </div>
             <h3 className="mt-2 font-mono text-sm font-semibold text-foreground">@andrewkimjoseph/celina-mcp</h3>
             <p className="mt-1 text-sm text-muted-foreground">
-              MCP server for IDE / CLI agents — 72 tools hosted, 85 stdio; session wallet + <span className="font-mono text-xs">get_wallet_address</span> with <span className="font-mono text-xs">CELO_PRIVATE_KEY</span>.
+              MCP server for IDE / CLI agents — registers the shared SDK tool catalog. 72 tools on hosted (reads + Carbon prepare), full stdio with <span className="font-mono text-xs">CELO_PRIVATE_KEY</span> for execute/write.
             </p>
           </a>
           <a

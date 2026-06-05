@@ -94,13 +94,12 @@ export const TOOLS: ToolDoc[] = [
     title: "Get Wallet Address",
     summary: "Signer address from CELO_PRIVATE_KEY",
     description:
-      "Returns the wallet address derived from CELO_PRIVATE_KEY in the server env. Use when you need the signer explicitly; omit address on other tools to default to this wallet when the key is configured.",
+      "Returns the wallet address derived from CELO_PRIVATE_KEY in the server env. Use when you need the signer explicitly; omit address on other tools to default to this wallet when the key is configured. On hosted MCP, returns an error without a configured key.",
     kind: "read",
     category: "Account",
     inputs: [],
     returns: "{ wallet_address, has_wallet, source }",
     examples: ["What is my wallet address?"],
-    availability: "stdio",
   },
   {
     name: "get_account",
@@ -201,7 +200,7 @@ export const TOOLS: ToolDoc[] = [
     title: "Estimate Send",
     summary: "Gas estimate for a CELO/ERC-20 send",
     description:
-      "Estimates gas for sending CELO or an ERC-20 token on mainnet without broadcasting. Useful for preview-and-confirm UX before send_token is called.",
+      "Estimates gas for sending CELO or an ERC-20 token on mainnet without broadcasting. Requires CELO_PRIVATE_KEY — fails on hosted MCP without a local signer.",
     kind: "read",
     category: "Transaction",
     inputs: [
@@ -295,7 +294,7 @@ export const TOOLS: ToolDoc[] = [
     title: "Estimate Mento FX",
     summary: "Gas estimate for a Mento FX swap",
     description:
-      "Estimate gas for a Mento FX conversion on mainnet, including the ERC-20 approval step if one is required. Does not broadcast.",
+      "Estimate gas for a Mento FX conversion on mainnet, including the ERC-20 approval step if one is required. Requires CELO_PRIVATE_KEY — fails on hosted MCP without a local signer.",
     kind: "read",
     category: "Mento FX",
     inputs: [
@@ -352,7 +351,7 @@ export const TOOLS: ToolDoc[] = [
     title: "Estimate Uniswap Swap",
     summary: "Gas estimate for a Uniswap v4 swap",
     description:
-      "Estimate gas for a Uniswap v4 swap on Celo mainnet, including any required ERC-20 approve and Permit2 approve steps. Does not broadcast. Requires CELO_PRIVATE_KEY in your MCP client env.",
+      "Estimate gas for a Uniswap v4 swap on Celo mainnet, including any required ERC-20 approve and Permit2 approve steps. Requires CELO_PRIVATE_KEY — fails on hosted MCP without a local signer.",
     kind: "read",
     category: "Uniswap",
     inputs: [
@@ -479,7 +478,7 @@ export const TOOLS: ToolDoc[] = [
     title: "Register Self Agent",
     summary: "Start Self Agent ID registration (QR flow)",
     description:
-      "Start Self Agent ID registration. Returns a QR/deep link for the human to scan with the Self app. Poll with check_self_registration.",
+      "Start Self Agent ID registration. Returns a QR/deep link for the human to scan with the Self app. Poll with check_self_registration. Prefer local stdio — session state is unreliable on hosted serverless.",
     kind: "write",
     category: "Self",
     inputs: [
@@ -499,7 +498,7 @@ export const TOOLS: ToolDoc[] = [
     title: "Check Self Registration",
     summary: "Poll a Self registration / refresh session",
     description:
-      "Poll a pending Self registration, proof refresh, or deregistration session. Returns private_key_hex when registration completes.",
+      "Poll a pending Self registration, proof refresh, or deregistration session. Returns private_key_hex when registration completes. Prefer local stdio — session state is unreliable on hosted serverless.",
     kind: "read",
     category: "Self",
     inputs: [
@@ -514,7 +513,7 @@ export const TOOLS: ToolDoc[] = [
     title: "Get Self Agent Identity",
     summary: "On-chain identity for configured Self agent",
     description:
-      "Return the configured Self agent's on-chain identity, credentials summary, and proof expiry. Requires SELF_AGENT_PRIVATE_KEY in your MCP client env.",
+      "Return the configured Self agent's on-chain identity, credentials summary, and proof expiry. Requires SELF_AGENT_PRIVATE_KEY — fails on hosted MCP without a configured agent key.",
     kind: "read",
     category: "Self",
     inputs: [
@@ -528,7 +527,7 @@ export const TOOLS: ToolDoc[] = [
     title: "Refresh Self Proof",
     summary: "Re-run human proof after expiry",
     description:
-      "Start a human proof refresh after on-chain proof expiry (isProofFresh is false). Returns an error while the proof is still fresh. Poll completion with check_self_registration.",
+      "Start a human proof refresh after on-chain proof expiry (isProofFresh is false). Returns an error while the proof is still fresh. Poll completion with check_self_registration. Prefer local stdio — session state is unreliable on hosted serverless.",
     kind: "write",
     category: "Self",
     inputs: [
@@ -543,7 +542,7 @@ export const TOOLS: ToolDoc[] = [
     title: "Deregister Self Agent",
     summary: "Irreversibly deregister a Self agent",
     description:
-      "Start irreversible Self agent deregistration. Human must confirm via Self app QR. Poll with check_self_registration.",
+      "Start irreversible Self agent deregistration. Human must confirm via Self app QR. Poll with check_self_registration. Prefer local stdio — session state is unreliable on hosted serverless.",
     kind: "write",
     category: "Self",
     inputs: [
@@ -557,7 +556,7 @@ export const TOOLS: ToolDoc[] = [
     title: "Sign Self Agent Request",
     summary: "Produce x-self-agent-* headers for an HTTP call",
     description:
-      "Sign an HTTP request with the configured Self agent identity. Returns x-self-agent-* headers for gated APIs. For Self demo endpoints on Celo mainnet, use ?network=celo-mainnet.",
+      "Sign an HTTP request with the configured Self agent identity. Returns x-self-agent-* headers for gated APIs. Requires SELF_AGENT_PRIVATE_KEY — fails on hosted MCP without a configured agent key. For Self demo endpoints on Celo mainnet, use ?network=celo-mainnet.",
     kind: "read",
     category: "Self",
     inputs: [
@@ -574,7 +573,7 @@ export const TOOLS: ToolDoc[] = [
     title: "Authenticated Self Fetch",
     summary: "HTTP fetch with Self agent auth applied",
     description:
-      "Make an HTTP request with Self Agent ID authentication headers applied automatically. For Self demo endpoints on Celo mainnet, use ?network=celo-mainnet.",
+      "Make an HTTP request with Self Agent ID authentication headers applied automatically. Requires SELF_AGENT_PRIVATE_KEY — fails on hosted MCP without a configured agent key. For Self demo endpoints on Celo mainnet, use ?network=celo-mainnet.",
     kind: "write",
     category: "Self",
     inputs: [
@@ -1123,7 +1122,7 @@ export const TOOLS: ToolDoc[] = [
     title: "Prepare Carbon Reprice Strategy",
     summary: "Update price ranges",
     description:
-      "Prepare a update to the price ranges of an existing Carbon strategy. Returns unsigned steps (ERC-20 approve + Carbon controller tx), warnings, and optional deep_link. Available on hosted MCP and local stdio. User signs externally; prices are quote per base; buy budget in quote, sell budget in base.",
+      "Prepare an update to the price ranges of an existing Carbon strategy. Returns unsigned steps (ERC-20 approve + Carbon controller tx), warnings, and optional deep_link. Available on hosted MCP and local stdio. User signs externally; prices are quote per base; buy budget in quote, sell budget in base.",
     kind: "prepare",
     category: "Carbon DeFi",
     inputs: [
@@ -1140,7 +1139,7 @@ export const TOOLS: ToolDoc[] = [
     title: "Prepare Carbon Edit Strategy",
     summary: "Edit prices, budgets, type",
     description:
-      "Prepare a edit to an existing Carbon strategy — change prices, budgets, and optionally the strategy type. Returns unsigned steps (ERC-20 approve + Carbon controller tx), warnings, and optional deep_link. Available on hosted MCP and local stdio. User signs externally; prices are quote per base; buy budget in quote, sell budget in base.",
+      "Prepare an edit to an existing Carbon strategy — change prices, budgets, and optionally the strategy type. Returns unsigned steps (ERC-20 approve + Carbon controller tx), warnings, and optional deep_link. Available on hosted MCP and local stdio. User signs externally; prices are quote per base; buy budget in quote, sell budget in base.",
     kind: "prepare",
     category: "Carbon DeFi",
     inputs: [
@@ -1533,8 +1532,8 @@ export const HOSTED_TOOL_COUNT = 72;
 
 export function getToolAvailability(tool: ToolDoc): ToolAvailability {
   if (tool.availability) return tool.availability;
-  if (tool.kind === "write") return "stdio";
-  if (tool.kind === "prepare") return "both";
+  // Hosted MCP omits execute_carbon_* only (carbonExecuteEnabled: false).
+  if (tool.name.startsWith("execute_carbon_")) return "stdio";
   return "both";
 }
 

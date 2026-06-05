@@ -2,20 +2,22 @@
   <img src="./assets/celina-banner.png" alt="Celina — Give your LLM a wallet on Celo">
 </p>
 
-# Celina — Celo MCP Server
+# Celina — marketing site
 
-**Celina** is an open-source [Model Context Protocol](https://modelcontextprotocol.io) server that gives LLMs read, prepare, and write access to **Celo mainnet** — balances, stablecoins, sends, swaps, Carbon DeFi, and chain reads.
+**Celina** is an open-source agent stack for **Celo mainnet** — one shared tool catalog from [`@andrewkimjoseph/celina-sdk/tools`](https://www.npmjs.com/package/@andrewkimjoseph/celina-sdk) that powers MCP clients, the hosted endpoint, and browser wallet apps.
 
 - Website: [usecelina.xyz](https://usecelina.xyz)
-- npm: [@andrewkimjoseph/celina-mcp](https://www.npmjs.com/package/@andrewkimjoseph/celina-mcp)
-- Hosted endpoint: `https://mcp.usecelina.xyz/api/mcp` (72 tools: reads + Carbon prepare)
-- Full stdio catalog: 85 tools (adds `get_wallet_address`, server-key writes, and `execute_carbon_*`)
+- SDK: [@andrewkimjoseph/celina-sdk](https://www.npmjs.com/package/@andrewkimjoseph/celina-sdk) — reads, prepares, and the shared LLM tool catalog
+- MCP: [@andrewkimjoseph/celina-mcp](https://www.npmjs.com/package/@andrewkimjoseph/celina-mcp) — registers the catalog for IDE / CLI agents
+- Hosted endpoint: `https://mcp.usecelina.xyz/api/mcp` — **72 tools** (reads + Carbon prepare; no server-key writes)
+- Full stdio catalog: **85 tools** (adds `execute_carbon_*` and other server-key execute/write paths)
 
-This repo is the **marketing site** for Celina. The MCP server itself is published as the npm package above.
+This repo is the **marketing site** for Celina. The SDK and MCP packages live in sibling directories in the monorepo.
 
 ## Site
 
 - **Landing page** (`/`) — overview, install instructions, and tool highlights
+- **SDK page** (`/sdk`) — shared tool catalog, programmatic client, and integration paths
 - **Tools catalog** (`/tools`) — browse all MCP tools by category
   - Category pages: `/tools/blockchain`, `/tools/carbon-defi`, `/tools/mento-fx`, `/tools/uniswap`, `/tools/aave`, `/tools/gooddollar`, `/tools/self`, and more
   - Individual tool docs: `/tools/:category/:toolSlug`
@@ -35,6 +37,7 @@ This repo is the **marketing site** for Celina. The MCP server itself is publish
 src/
   routes/           # TanStack file-based routes
     index.tsx       # Landing page
+    sdk.tsx         # SDK + tool catalog page
     tools.index.tsx # Tools catalog
     tools.$category.index.tsx    # Category pages
     tools.$category.$toolSlug.tsx # Tool detail pages
@@ -59,22 +62,45 @@ Route files live in `src/routes/`. TanStack Router auto-generates `src/routeTree
 
 ## Connect Celina to your agent
 
-### Remote (recommended)
+### Local stdio (recommended)
+
+Full catalog with execute/write when you set `CELO_PRIVATE_KEY`. Keys stay on your machine.
 
 ```json
 {
   "mcpServers": {
-    "celina": {
-      "type": "streamable-http",
+    "celina-mcp": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@andrewkimjoseph/celina-mcp"],
+      "env": {
+        "CELO_PRIVATE_KEY": "0x...",
+        "SELF_AGENT_PRIVATE_KEY": "0x..."
+      }
+    }
+  }
+}
+```
+
+### Hosted (reads + prepare)
+
+No install, no keys — chain reads and unsigned `prepare_carbon_*` flows:
+
+```json
+{
+  "mcpServers": {
+    "celina-mcp": {
       "url": "https://mcp.usecelina.xyz/api/mcp"
     }
   }
 }
 ```
 
+Never send private keys to the hosted endpoint. Self registration sessions are unreliable on serverless — use local stdio for Self Agent ID lifecycle flows.
+
 ### Local stdio via bridge
 
-For stdio-only clients like Claude Desktop (free plan), bridge to the hosted endpoint with `mcp-remote`:
+For stdio-only clients that cannot use Streamable HTTP directly, bridge to the hosted endpoint with `mcp-remote`:
 
 ```json
 {
@@ -93,31 +119,14 @@ For stdio-only clients like Claude Desktop (free plan), bridge to the hosted end
 }
 ```
 
-### Fully local
-
-To run the server fully locally instead, install the npm package directly:
-
-```json
-{
-  "mcpServers": {
-    "celina": {
-      "command": "npx",
-      "args": ["-y", "@andrewkimjoseph/celina-mcp"],
-      "env": {
-        "CELO_PRIVATE_KEY": "0x...",
-        "SELF_AGENT_PRIVATE_KEY": "0x..."
-      }
-    }
-  }
-}
-```
-
 - `CELO_PRIVATE_KEY` — required for **write** tools (send tokens, swaps, Aave supply/withdraw, `execute_carbon_*`). On local stdio, many reads accept an omitted `address` / `wallet_address` and default to this signer; use **`get_wallet_address`** when the agent needs the address as data.
 - `SELF_AGENT_PRIVATE_KEY` — required for **Self Agent** registration and verification tools
 
 Never commit private keys.
 
-**Celeste AI** ([`celeste-ai`](../celeste-ai/)) is a separate DeFAI chat app: it uses **only** `@andrewkimjoseph/celina-sdk` and the user’s browser wallet, not this MCP server.
+### Browser wallet apps
+
+Apps that use **`surface: "browser"`** from `@andrewkimjoseph/celina-sdk/tools` pass the connected wallet on every call — no MCP server, no server keys. See the SDK page (`/sdk`) and [tool catalog guide](https://andrewkimjoseph.gitbook.io/celina-sdk/guides/tool-catalog).
 
 ## License
 

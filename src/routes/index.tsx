@@ -7,7 +7,6 @@ import {
   faTerminal,
   faBolt,
   faLock,
-  faCoins,
   faWandMagicSparkles,
   faArrowRight,
   faCloud,
@@ -148,17 +147,23 @@ function Index() {
               {/* Editorial horizon line */}
               <div className="mt-6 h-px w-24 bg-[var(--celo-yellow)]" />
               <p className="mt-6 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-                <span className="font-semibold text-foreground">Celina</span> is an open-source{" "}
+                <span className="font-semibold text-foreground">Celina</span> is an open-source agent stack for Celo mainnet — one shared tool catalog from{" "}
+                <Link
+                  className="underline decoration-[var(--celo-yellow)] decoration-2 underline-offset-4 hover:text-foreground"
+                  to="/sdk"
+                >
+                  celina-sdk
+                </Link>{" "}
+                that powers{" "}
                 <a
                   className="underline decoration-[var(--celo-yellow)] decoration-2 underline-offset-4 hover:text-foreground"
                   href="https://modelcontextprotocol.io"
                   target="_blank"
                   rel="noreferrer"
                 >
-                  Model Context Protocol
+                  MCP
                 </a>{" "}
-                server that gives LLMs read &amp; write access to Celo mainnet — balances,
-                stablecoins, sends, Mento FX, Uniswap v4, Aave, Carbon DeFi maker/taker tools, and chain reads.
+                clients and browser wallet apps. Point at the hosted endpoint for reads and unsigned prepares, or run local stdio for full execution with your keys.
               </p>
               <div className="mt-8 flex flex-wrap items-center gap-3">
                 <a
@@ -280,9 +285,9 @@ function Index() {
         {/* Features under the demo */}
         <div className="mt-20 grid gap-px overflow-hidden rounded-2xl border border-foreground/10 bg-foreground/10 sm:grid-cols-3">
           {[
-            { icon: faBolt, title: "1-minute setup", body: "Drop a JSON snippet into Cursor or Claude Desktop. Done." },
-            { icon: faCoins, title: "Mainnet ready", body: "CELO, all 15 Mento stablecoins, USDC, USDT, GoodDollar — all built in." },
-            { icon: faLock, title: "Keys stay local", body: "Set CELO_PRIVATE_KEY and SELF_AGENT_PRIVATE_KEY in your MCP client env — keys never leave your machine." },
+            { icon: faBolt, title: "One catalog, two surfaces", body: "The same SDK tool definitions power celina-mcp, the hosted endpoint, and browser agent hosts — no duplicate schemas or drift." },
+            { icon: faCloud, title: "Hosted or local stdio", body: "Streamable HTTP for instant reads + Carbon prepare. Local stdio with CELO_PRIVATE_KEY for execute/write tools." },
+            { icon: faLock, title: "Keys stay local", body: "Hosted never sees private keys. Set CELO_PRIVATE_KEY and SELF_AGENT_PRIVATE_KEY in your MCP client env for local execution only." },
           ].map((f) => (
             <div key={f.title} className="bg-background p-8">
               <div className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-[var(--celo-yellow)] text-[var(--celo-ink)]">
@@ -306,7 +311,7 @@ function Index() {
             Hook Celina into your agent
           </h2>
           <p className="mt-3 max-w-xl text-base text-muted-foreground sm:text-lg">
-            Pick your client, copy the config, restart. Celina shows up as MCP tools your LLM can call.
+            Pick your deployment mode, copy the config, restart. The same tool catalog registers as MCP tools your LLM can call — hosted for reads/prepare, stdio when you need execution.
           </p>
         </div>
 
@@ -359,7 +364,7 @@ function Index() {
               <CodeBlock code={HOSTED_CONFIG} />
             </div>
             <p className="mt-3 text-xs text-muted-foreground">
-              Endpoint: <code className="rounded bg-secondary px-1 py-0.5">https://mcp.usecelina.xyz/api/mcp</code>. Never send private keys to the hosted endpoint.
+              Endpoint: <code className="rounded bg-secondary px-1 py-0.5">https://mcp.usecelina.xyz/api/mcp</code>. Never send private keys to the hosted endpoint. Self registration sessions are unreliable on stateless serverless — use local stdio for Self Agent ID lifecycle flows.
             </p>
           </article>
 
@@ -381,7 +386,7 @@ function Index() {
               {TOOLS.length} tools. One agent. Whole chain.
             </h2>
             <p className="mt-3 max-w-xl text-base text-muted-foreground sm:text-lg">
-              Everything your LLM needs to read state and move value on Celo mainnet.{" "}
+              One shared catalog for reads, prepares, and writes on Celo mainnet — registered from celina-sdk so MCP and browser hosts stay in sync.{" "}
               <span className="font-medium text-foreground">{HOSTED_TOOL_COUNT} hosted · {TOOL_DOCS.length} stdio</span>. Click any tool for the full spec.
             </p>
           </div>
@@ -437,7 +442,7 @@ function Index() {
               Give your agent a wallet. <span className="text-[var(--celo-yellow)]">Say hi to Celina.</span>
             </h2>
             <p className="mt-4 max-w-xl text-base text-[var(--celo-cream)]/75 sm:text-lg">
-              Open source. MIT licensed. Built for the next wave of on-chain agents.
+              Open source. MIT licensed. One SDK catalog — ship with MCP, hosted HTTP, or your own browser agent.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <a
