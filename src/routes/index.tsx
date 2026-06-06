@@ -354,9 +354,9 @@ function Index() {
             </div>
             <h3 className="text-2xl font-semibold tracking-tight" style={{ fontFamily: "var(--font-display)" }}>Skip the install — point at the hosted endpoint</h3>
             <p className="mt-2 text-sm text-muted-foreground">
-              No Node, no <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">npx</span>, no keys. The hosted endpoint exposes <span className="font-semibold text-foreground">{HOSTED_TOOL_COUNT} tools</span>: chain reads, gas estimates, and all{" "}
+              No Node, no <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">npx</span>, no keys. The hosted endpoint exposes <span className="font-semibold text-foreground">{HOSTED_TOOL_COUNT} tools</span>: chain reads (including GoodDollar G$ ↔ USDm reserve quotes), gas estimates, and all{" "}
               <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">prepare_carbon_*</span> tools (unsigned approve + Carbon controller flows).
-              Server-key writes (<span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">send_token</span>, Mento FX, Uniswap v4, Aave, GoodDollar claim,{" "}
+              Server-key writes (<span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">send_token</span>, Mento FX, Uniswap v4, Aave, GoodDollar UBI claim,{" "}
               <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">execute_carbon_*</span>) require local stdio with{" "}
               <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">CELO_PRIVATE_KEY</span>.
             </p>

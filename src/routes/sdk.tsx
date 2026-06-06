@@ -14,6 +14,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { faNpm, faGithub } from "@fortawesome/free-brands-svg-icons";
 import { SiteHeader } from "@/components/site-header";
+import { HOSTED_TOOL_COUNT } from "@/data/tools";
 
 const SDK_NPM_URL = "https://www.npmjs.com/package/@andrewkimjoseph/celina-sdk";
 const SDK_DOCS_URL = "https://andrewkimjoseph.gitbook.io/celina-sdk";
@@ -71,7 +72,7 @@ const API_ROWS: Row[] = [
   { service: "account", reads: "CELO balance, nonce", prepare: "—" },
   { service: "token", reads: "balances, token info, stablecoins", prepare: "—" },
   { service: "ens", reads: "resolve ENS names", prepare: "—" },
-  { service: "gooddollar", reads: "whitelist status, UBI entitlement", prepare: "prepareClaimUbi" },
+  { service: "gooddollar", reads: "whitelist status, UBI entitlement, reserve quote (G$ ↔ USDm)", prepare: "prepareClaimUbi, prepareReserveSwap" },
   { service: "transaction", reads: "gas fees, estimates", prepare: "prepareSend" },
   { service: "mentoFx", reads: "getFxQuote, estimateFx", prepare: "prepareFx" },
   { service: "uniswap", reads: "getSwapQuote, estimateSwap", prepare: "prepareSwap" },
@@ -218,7 +219,7 @@ function SdkPage() {
           <CapabilityCard
             icon={faMagnifyingGlass}
             title="Reads"
-            body="Token balances, Mento FX quotes, governance proposals, ENS resolution."
+            body="Token balances, Mento FX quotes, GoodDollar reserve quotes (G$ ↔ USDm), governance proposals, ENS resolution."
           />
           <CapabilityCard
             icon={faGaugeHigh}
@@ -228,7 +229,7 @@ function SdkPage() {
           <CapabilityCard
             icon={faPenRuler}
             title="Prepare"
-            body="Unsigned tx flows for sends, Mento FX, Uniswap v4, Aave, GoodDollar UBI, and Carbon strategies/trades. Carbon uses finalizeCarbonPrepare to merge approve + controller steps."
+            body="Unsigned tx flows for sends, Mento FX, GoodDollar reserve (G$ ↔ USDm), Uniswap v4, Aave, GoodDollar UBI, and Carbon strategies/trades. Carbon uses finalizeCarbonPrepare to merge approve + controller steps."
           />
           <CapabilityCard
             icon={faBolt}
@@ -386,7 +387,7 @@ function SdkPage() {
             </div>
             <h3 className="mt-2 font-mono text-sm font-semibold text-foreground">@andrewkimjoseph/celina-mcp</h3>
             <p className="mt-1 text-sm text-muted-foreground">
-              MCP server for IDE / CLI agents — registers the shared SDK tool catalog. 72 tools on hosted (reads + Carbon prepare), full stdio with <span className="font-mono text-xs">CELO_PRIVATE_KEY</span> for execute/write.
+              MCP server for IDE / CLI agents — registers the shared SDK tool catalog. {HOSTED_TOOL_COUNT} tools on hosted (reads + Carbon prepare + GoodDollar reserve quote), full stdio with <span className="font-mono text-xs">CELO_PRIVATE_KEY</span> for execute/write.
             </p>
           </a>
           <a

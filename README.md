@@ -9,8 +9,8 @@
 - Website: [usecelina.xyz](https://usecelina.xyz)
 - SDK: [@andrewkimjoseph/celina-sdk](https://www.npmjs.com/package/@andrewkimjoseph/celina-sdk) — reads, prepares, and the shared LLM tool catalog
 - MCP: [@andrewkimjoseph/celina-mcp](https://www.npmjs.com/package/@andrewkimjoseph/celina-mcp) — registers the catalog for IDE / CLI agents
-- Hosted endpoint: `https://mcp.usecelina.xyz/api/mcp` — **72 tools** (reads + Carbon prepare; no server-key writes)
-- Full stdio catalog: **85 tools** (adds `execute_carbon_*` and other server-key execute/write paths)
+- Hosted endpoint: `https://mcp.usecelina.xyz/api/mcp` — **73 tools** (reads + GoodDollar reserve quote + Carbon prepare; no server-key writes)
+- Full stdio catalog: **86 tools** (adds `execute_carbon_*` and other server-key execute/write paths)
 
 This repo is the **marketing site** for Celina. The SDK and MCP packages live in sibling directories in the monorepo.
 
@@ -19,7 +19,7 @@ This repo is the **marketing site** for Celina. The SDK and MCP packages live in
 - **Landing page** (`/`) — overview, install instructions, and tool highlights
 - **SDK page** (`/sdk`) — shared tool catalog, programmatic client, and integration paths
 - **Tools catalog** (`/tools`) — browse all MCP tools by category
-  - Category pages: `/tools/blockchain`, `/tools/carbon-defi`, `/tools/mento-fx`, `/tools/uniswap`, `/tools/aave`, `/tools/gooddollar`, `/tools/self`, and more
+  - Category pages: `/tools/blockchain`, `/tools/carbon-defi`, `/tools/mento-fx`, `/tools/uniswap`, `/tools/aave`, `/tools/gooddollar` (UBI + reserve quote), `/tools/self`, and more
   - Individual tool docs: `/tools/:category/:toolSlug`
 - **Stats dashboard** (`/stats`) — live on-chain activity and npm download metrics
 
@@ -46,7 +46,7 @@ src/
     stats.onchain.tsx
     stats.package.tsx
   components/       # Reusable UI (SiteHeader, etc.)
-  data/tools.ts     # Tool definitions (85 stdio tools, 72 hosted)
+  data/tools.ts     # Tool definitions (86 stdio tools, 73 hosted)
   lib/              # Stores, helpers, server functions
   styles.css        # Tailwind v4 + custom tokens
 ```
