@@ -259,6 +259,24 @@ export const TOOLS: ToolDoc[] = [
     examples: ["Can 0x… claim GoodDollar UBI today?"],
   },
   {
+    name: "get_gooddollar_reserve_quote",
+    slug: "get-gooddollar-reserve-quote",
+    title: "Get GoodDollar Reserve Quote",
+    summary: "G$ ↔ USDm quote via GoodDollar MentoBroker reserve",
+    description:
+      "GoodDollar reserve quote for G$ ↔ USDm on Celo mainnet via the on-chain MentoBroker bonding curve — not Uniswap. Pair-limited to GoodDollar/G$ ↔ USDm/cUSD. Read-only and wallet-free. For user wallet signing, use SDK prepareReserveSwap or prepare_swap in browser apps.",
+    kind: "read",
+    category: "GoodDollar",
+    inputs: [
+      { name: "token_in", type: "symbol or 0x…", required: true, description: "GoodDollar or G$." },
+      { name: "token_out", type: "symbol or 0x…", required: true, description: "USDm or cUSD." },
+      { name: "amount", type: "string", required: true, description: "Human-readable amount of token_in." },
+      { name: "from", type: "0x… address", required: false, description: "Optional wallet for context." },
+    ],
+    returns: '{ protocol: "gooddollar_reserve", amountIn, expectedOut, broker, exchangeId, exchangeProvider, routeHops, tokenIn, tokenOut }',
+    examples: ["Quote 1000 G$ to USDm via GoodDollar reserve.", "Quote 10 USDm to G$."],
+  },
+  {
     name: "claim_daily_gooddollar_ubi",
     slug: "claim-daily-gooddollar-ubi",
     title: "Claim Daily GoodDollar UBI",
@@ -277,7 +295,7 @@ export const TOOLS: ToolDoc[] = [
     title: "Get Mento FX Quote",
     summary: "Oracle-priced FX quote between Mento stables",
     description:
-      "Get an expected Mento FX conversion output for a token pair on mainnet (e.g. USDm → EURm), priced via the Mento oracle. Read-only and wallet-free.",
+      "Get an expected Mento FX conversion output for a token pair on mainnet (e.g. USDm → EURm), priced via the Mento oracle. Read-only and wallet-free. G$ ↔ USDm is not Mento FX — use get_gooddollar_reserve_quote for that pair.",
     kind: "read",
     category: "Mento FX",
     inputs: [
@@ -334,7 +352,7 @@ export const TOOLS: ToolDoc[] = [
     title: "Get Uniswap Quote",
     summary: "Uniswap v4 expected output for a token pair",
     description:
-      "Get an expected Uniswap v4 swap output on Celo mainnet for a token pair (e.g. G$ → USDT, USDC → USDT). Read-only and wallet-free. CELO swaps route through WCELO pools.",
+      "Get an expected Uniswap v4 swap output on Celo mainnet for a token pair (e.g. G$ → USDT, USDC → USDT). Read-only and wallet-free. CELO swaps route through WCELO pools. For G$ ↔ USDm, use get_gooddollar_reserve_quote — Uniswap pools for that pair are typically illiquid.",
     kind: "read",
     category: "Uniswap",
     inputs: [
@@ -1527,8 +1545,8 @@ export function findTool(catSlug: string, toolSlug: string): ToolDoc | undefined
   );
 }
 
-/** Hosted endpoint exposes 72 tools; full stdio catalog includes server-key writes. */
-export const HOSTED_TOOL_COUNT = 72;
+/** Hosted endpoint exposes 73 tools; full stdio catalog includes server-key writes. */
+export const HOSTED_TOOL_COUNT = 73;
 
 export function getToolAvailability(tool: ToolDoc): ToolAvailability {
   if (tool.availability) return tool.availability;
