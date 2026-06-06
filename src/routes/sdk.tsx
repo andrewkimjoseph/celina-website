@@ -72,7 +72,7 @@ const API_ROWS: Row[] = [
   { service: "account", reads: "CELO balance, nonce", prepare: "—" },
   { service: "token", reads: "balances, token info, stablecoins", prepare: "—" },
   { service: "ens", reads: "resolve ENS names", prepare: "—" },
-  { service: "gooddollar", reads: "whitelist status, UBI entitlement, reserve quote (G$ ↔ USDm)", prepare: "prepareClaimUbi, prepareReserveSwap" },
+  { service: "gooddollar", reads: "whitelist status, UBI entitlement, reserve quote/estimate", prepare: "prepareClaimUbi, prepareReserveSwap; MCP execute: executeReserveSwap" },
   { service: "transaction", reads: "gas fees, estimates", prepare: "prepareSend" },
   { service: "mentoFx", reads: "getFxQuote, estimateFx", prepare: "prepareFx" },
   { service: "uniswap", reads: "getSwapQuote, estimateSwap", prepare: "prepareSwap" },

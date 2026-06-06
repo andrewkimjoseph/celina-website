@@ -277,6 +277,46 @@ export const TOOLS: ToolDoc[] = [
     examples: ["Quote 1000 G$ to USDm via GoodDollar reserve.", "Quote 10 USDm to G$."],
   },
   {
+    name: "estimate_gooddollar_reserve_swap",
+    slug: "estimate-gooddollar-reserve-swap",
+    title: "Estimate GoodDollar Reserve Swap",
+    summary: "Gas estimate for a G$ ↔ USDm reserve swap",
+    description:
+      "Estimate gas for a GoodDollar reserve swap on Celo mainnet (G$ ↔ USDm via MentoBroker), including ERC-20 approval when needed. Requires CELO_PRIVATE_KEY — fails on hosted MCP without a local signer.",
+    kind: "read",
+    category: "GoodDollar",
+    inputs: [
+      { name: "token_in", type: "symbol or 0x…", required: true, description: "GoodDollar or G$." },
+      { name: "token_out", type: "symbol or 0x…", required: true, description: "USDm or cUSD." },
+      { name: "amount", type: "string", required: true, description: "Human-readable amount of token_in." },
+      { name: "from", type: "0x… address", required: false, description: "Signer wallet (defaults to MCP session wallet)." },
+      { name: "recipient", type: "0x… address", required: false, description: "Output recipient (defaults to signer)." },
+      { name: "slippageTolerance", type: "number (0-20)", required: false, description: "Max slippage in percent. Defaults to 0.5." },
+    ],
+    returns: "{ approvalNeeded, approvalGas?, swapGas, totalGas, expectedOut, amountOutMin, … }",
+    examples: ["Estimate gas to swap 1000 G$ to USDm via GoodDollar reserve."],
+  },
+  {
+    name: "execute_gooddollar_reserve_swap",
+    slug: "execute-gooddollar-reserve-swap",
+    title: "Execute GoodDollar Reserve Swap",
+    summary: "Send approval + MentoBroker reserve swap on mainnet",
+    description:
+      "Execute a GoodDollar reserve swap for G$ ↔ USDm on Celo mainnet via MentoBroker. Sends ERC-20 approval first if needed, then broker swapIn. Requires CELO_PRIVATE_KEY in your MCP client env (stdio only).",
+    kind: "write",
+    category: "GoodDollar",
+    inputs: [
+      { name: "token_in", type: "symbol or 0x…", required: true, description: "GoodDollar or G$." },
+      { name: "token_out", type: "symbol or 0x…", required: true, description: "USDm or cUSD." },
+      { name: "amount", type: "string", required: true, description: "Human-readable amount of token_in." },
+      { name: "from", type: "0x… address", required: false, description: "Signer wallet (defaults to MCP session wallet)." },
+      { name: "recipient", type: "0x… address", required: false, description: "Output recipient (defaults to signer)." },
+      { name: "slippageTolerance", type: "number (0-20)", required: false, description: "Max slippage in percent. Defaults to 0.5." },
+    ],
+    returns: "{ approvalHash?, hash, status, expectedOut, … }",
+    examples: ["Swap 1 G$ to USDm via GoodDollar reserve."],
+  },
+  {
     name: "claim_daily_gooddollar_ubi",
     slug: "claim-daily-gooddollar-ubi",
     title: "Claim Daily GoodDollar UBI",
@@ -1545,8 +1585,8 @@ export function findTool(catSlug: string, toolSlug: string): ToolDoc | undefined
   );
 }
 
-/** Hosted endpoint exposes 73 tools; full stdio catalog includes server-key writes. */
-export const HOSTED_TOOL_COUNT = 73;
+/** Hosted endpoint exposes 75 tools; full stdio catalog includes server-key writes. */
+export const HOSTED_TOOL_COUNT = 75;
 
 export function getToolAvailability(tool: ToolDoc): ToolAvailability {
   if (tool.availability) return tool.availability;
