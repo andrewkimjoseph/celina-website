@@ -1,0 +1,40 @@
+{
+  "type": "https://eips.ethereum.org/EIPS/eip-8004#registration-v1",
+  "name": "Celina AI",
+  "description": "Celina AI is an open-source agent stack for Celo mainnet — MCP server, SDK, and hosted endpoint for balances, swaps, Carbon DeFi, Self Agent ID, and 75+ chain tools for LLM agents.",
+  "image": "https://raw.githubusercontent.com/andrewkimjoseph/celina-mcp/main/assets/logo-yellow.png",
+  "active": true,
+  "x402Support": false,
+  "services": [
+    {
+      "name": "web",
+      "endpoint": "https://usecelina.xyz"
+    },
+    {
+      "name": "MCP",
+      "endpoint": "https://mcp.usecelina.xyz/api/mcp",
+      "version": "0.8.14"
+    },
+    {
+      "name": "Self Agent ID",
+      "endpoint": "https://app.ai.self.xyz",
+      "version": "1.0.0"
+    },
+    {
+      "name": "wallet",
+      "endpoint": "0x7C6c7C0DE51f5F2ed56936b568A44c266A255f81",
+      "chainId": 42220
+    }
+  ],
+  "registrations": [
+    {
+      "agentId": 9186,
+      "agentRegistry": "eip155:42220:0x8004A169FB4a3325136EB29fA0ceB6D2e539a432"
+    },
+    {
+      "agentId": 139,
+      "agentRegistry": "eip155:42220:0xaC3DF9ABf80d0F5c020C06B04Cced27763355944"
+    }
+  ],
+  "supportedTrust": ["reputation"]
+}
