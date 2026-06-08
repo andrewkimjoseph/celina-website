@@ -189,8 +189,14 @@ function OffchainPage() {
                 <XAxis dataKey="label" stroke="var(--muted-foreground)" fontSize={10} tickLine={false} interval={Math.max(0, Math.floor(agg.daily.length / 8))} />
                 <YAxis stroke="var(--muted-foreground)" fontSize={11} tickLine={false} axisLine={false} width={40} />
                 <Tooltip contentStyle={tooltipStyle} itemStyle={tooltipItemStyle} labelStyle={tooltipLabelStyle} cursor={{ fill: "var(--muted)" }} />
+                <Legend
+                  wrapperStyle={{ fontSize: 11 }}
+                  formatter={(value) => (
+                    <span style={{ color: "var(--foreground)" }}>{value}</span>
+                  )}
+                />
                 <Bar dataKey="count" name="Calls" fill={yellow} radius={[4, 4, 0, 0]} />
-                <Line type="monotone" dataKey="rolling7" name="7d avg" stroke={lineStroke} strokeWidth={2} dot={false} />
+                <Line type="monotone" dataKey="rolling7" name="7-day rolling average" stroke={lineStroke} strokeWidth={2} dot={false} />
               </ComposedChart>
             </ResponsiveContainer>
           </ChartCard>
