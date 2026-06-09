@@ -12,6 +12,7 @@ type AmplitudeState = {
   perTool: AmplitudeEventTotal[];
   total: number;
   uniqueDevices: number;
+  uniqueWallets: number;
   fetchedAt: number | null;
   lastSyncedAt: string | null;
   loading: boolean;
@@ -26,6 +27,7 @@ export const useAmplitudeStore = create<AmplitudeState>()(
       perTool: [],
       total: 0,
       uniqueDevices: 0,
+      uniqueWallets: 0,
       fetchedAt: null,
       lastSyncedAt: null,
       loading: false,
@@ -48,6 +50,7 @@ export const useAmplitudeStore = create<AmplitudeState>()(
             perTool: result.perTool,
             total: result.total,
             uniqueDevices: result.uniqueDevices,
+            uniqueWallets: result.uniqueWallets,
             fetchedAt: result.fetchedAt,
             lastSyncedAt: result.lastSyncedAt,
             error: result.error,
@@ -63,12 +66,13 @@ export const useAmplitudeStore = create<AmplitudeState>()(
       },
     }),
     {
-      name: "celina-amplitude-v4",
+      name: "celina-amplitude-v5",
       partialize: (s) => ({
         daily: s.daily,
         perTool: s.perTool,
         total: s.total,
         uniqueDevices: s.uniqueDevices,
+        uniqueWallets: s.uniqueWallets,
         fetchedAt: s.fetchedAt,
         lastSyncedAt: s.lastSyncedAt,
       }),

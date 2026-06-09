@@ -21,7 +21,7 @@ This repo is the **marketing site** for Celina. The SDK and MCP packages live in
 - **Tools catalog** (`/tools`) — browse all MCP tools by category
   - Category pages: `/tools/blockchain`, `/tools/carbon-defi`, `/tools/mento-fx`, `/tools/uniswap`, `/tools/aave`, `/tools/gooddollar` (UBI + reserve quote), `/tools/self`, and more
   - Individual tool docs: `/tools/:category/:toolSlug`
-- **Stats dashboard** (`/stats`) — live on-chain activity and npm download metrics
+- **Stats dashboard** (`/stats`) — on-chain activity (Dune), off-chain MCP tool calls and unique wallets (Amplitude → Supabase), and npm downloads
 
 ## Stack
 
@@ -44,6 +44,7 @@ src/
     stats.tsx       # Stats layout + sub-nav
     stats.index.tsx # Stats overview
     stats.onchain.tsx
+    stats.offchain.tsx
     stats.package.tsx
   components/       # Reusable UI (SiteHeader, etc.)
   data/tools.ts     # Tool definitions (88 stdio tools, 75 hosted)

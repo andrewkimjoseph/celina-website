@@ -79,7 +79,7 @@ function SectionCard({
 function OverviewPage() {
   const { rows } = useStatsStore();
   const { rows: npmRows } = useNpmStore();
-  const { daily: ampDaily, perTool: ampPerTool } = useAmplitudeStore();
+  const { daily: ampDaily, perTool: ampPerTool, uniqueWallets } = useAmplitudeStore();
   const agg = useMemo(() => aggregate(rows), [rows]);
   const npmAgg = useMemo(() => aggregateNpm(npmRows), [npmRows]);
   const ampAgg = useMemo(
@@ -90,11 +90,12 @@ function OverviewPage() {
   return (
     <>
       <section className="mx-auto max-w-6xl px-4 pb-6 sm:px-6">
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
+        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-7">
           <KpiCard label="On-chain total" value={agg.totalTx.toLocaleString()} />
           <KpiCard label="On-chain today" value={agg.todayCount.toLocaleString()} />
           <KpiCard label="Off-chain total" value={ampAgg.total.toLocaleString()} />
           <KpiCard label="Off-chain 7d" value={ampAgg.last7.toLocaleString()} />
+          <KpiCard label="Unique wallets" value={uniqueWallets.toLocaleString()} />
           <KpiCard label="npm 365d" value={npmAgg.total365.toLocaleString()} />
           <KpiCard label="npm last 7d" value={npmAgg.last7.toLocaleString()} />
         </div>

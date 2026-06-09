@@ -20,13 +20,13 @@ export const Route = createFileRoute("/stats")({
       {
         name: "description",
         content:
-          "Live stats for Celina — on-chain activity on Celo and npm package downloads.",
+          "Live stats for Celina — on-chain activity, off-chain tool calls, unique wallets, and npm downloads.",
       },
       { property: "og:title", content: "Celina stats" },
       {
         property: "og:description",
         content:
-          "Live stats for Celina — on-chain activity on Celo and npm package downloads.",
+          "Live stats for Celina — on-chain activity, off-chain tool calls, unique wallets, and npm downloads.",
       },
     ],
   }),

@@ -16,10 +16,13 @@ export type AmplitudeStatsResult = {
   perTool: AmplitudeEventTotal[];
   total: number;
   uniqueDevices: number;
+  uniqueWallets: number;
   fetchedAt: number;
   lastSyncedAt: string | null;
   error: string | null;
 };
+
+const WALLET_USER_ID_RE = /^0x[a-fA-F0-9]{40}$/;
 
 const LOOKBACK_DAYS = 90;
 const CACHE_GATE_MS = 5 * 60 * 1000;
@@ -130,6 +133,40 @@ async function countUniqueProjectDeviceIds(sinceDay: string): Promise<number> {
     for (const row of rows) {
       const id = row.device_id?.trim();
       if (id) {
+        ids.add(id);
+      }
+    }
+    if (rows.length < pageSize) {
+      break;
+    }
+    offset += pageSize;
+  }
+
+  return ids.size;
+}
+
+/** Distinct wallet addresses from Amplitude `user_id` on wallet-scoped read events. */
+async function countUniqueWallets(sinceDay: string): Promise<number> {
+  const ids = new Set<string>();
+  const pageSize = 1000;
+  let offset = 0;
+
+  for (;;) {
+    const res = await sbFetch(
+      `/rest/v1/amplitude_events?select=user_id&user_id=not.is.null&event_day=gte.${sinceDay}&order=event_time.asc&limit=${pageSize}&offset=${offset}`,
+    );
+    if (!res.ok) {
+      throw new Error(
+        `Supabase read amplitude_events user_id ${res.status}: ${(await res.text()).slice(0, 200)}`,
+      );
+    }
+    const rows = (await res.json()) as Array<{ user_id: string | null }>;
+    if (rows.length === 0) {
+      break;
+    }
+    for (const row of rows) {
+      const id = row.user_id?.trim().toLowerCase();
+      if (id && WALLET_USER_ID_RE.test(id)) {
         ids.add(id);
       }
     }
@@ -396,6 +433,7 @@ export const getAmplitudeStats = createServerFn({ method: "GET" }).handler(
         perTool: [],
         total: 0,
         uniqueDevices: 0,
+        uniqueWallets: 0,
         fetchedAt: Date.now(),
         lastSyncedAt: null,
         error: "Missing AMPLITUDE_API_KEY / AMPLITUDE_SECRET_KEY",
@@ -407,6 +445,7 @@ export const getAmplitudeStats = createServerFn({ method: "GET" }).handler(
         perTool: [],
         total: 0,
         uniqueDevices: 0,
+        uniqueWallets: 0,
         fetchedAt: Date.now(),
         lastSyncedAt: null,
         error: "Missing CUSTOM_SUPABASE_URL / CUSTOM_SUPABASE_SERVICE_ROLE_KEY",
@@ -458,13 +497,17 @@ export const getAmplitudeStats = createServerFn({ method: "GET" }).handler(
       const daily: AmplitudeEventDay[] = dailyRows.map((r) => ({ day: r.day, count: r.count }));
       const perTool: AmplitudeEventTotal[] = toolRows.map((r) => ({ event: r.event, count: r.count }));
       const total = daily.reduce((s, d) => s + d.count, 0);
-      const uniqueDevices = await countUniqueProjectDeviceIds(sinceDay);
+      const [uniqueDevices, uniqueWallets] = await Promise.all([
+        countUniqueProjectDeviceIds(sinceDay),
+        countUniqueWallets(sinceDay),
+      ]);
 
       return {
         daily,
         perTool,
         total,
         uniqueDevices,
+        uniqueWallets,
         fetchedAt: Date.now(),
         lastSyncedAt,
         // Keep serving cached Supabase rows when export sync fails (e.g. Amplitude 524).
@@ -476,6 +519,7 @@ export const getAmplitudeStats = createServerFn({ method: "GET" }).handler(
         perTool: [],
         total: 0,
         uniqueDevices: 0,
+        uniqueWallets: 0,
         fetchedAt: Date.now(),
         lastSyncedAt: null,
         error: e instanceof Error ? e.message : "Failed to read cached stats",

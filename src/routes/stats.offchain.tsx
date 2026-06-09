@@ -40,13 +40,13 @@ export const Route = createFileRoute("/stats/offchain")({
       {
         name: "description",
         content:
-          "Live off-chain Celina MCP tool-call stats — read tools, lookups, and registry queries logged to Amplitude.",
+          "Live off-chain Celina MCP tool-call stats — read tools, unique wallets, and registry queries logged to Amplitude.",
       },
       { property: "og:title", content: "Celina stats — Off-chain tool calls" },
       {
         property: "og:description",
         content:
-          "Live off-chain Celina MCP tool-call stats — read tools, lookups, and registry queries logged to Amplitude.",
+          "Live off-chain Celina MCP tool-call stats — read tools, unique wallets, and registry queries logged to Amplitude.",
       },
     ],
   }),
@@ -54,7 +54,8 @@ export const Route = createFileRoute("/stats/offchain")({
 });
 
 function OffchainPage() {
-  const { daily, perTool, uniqueDevices, loading, lastSyncedAt } = useAmplitudeStore();
+  const { daily, perTool, uniqueDevices, uniqueWallets, loading, lastSyncedAt } =
+    useAmplitudeStore();
   const agg = useMemo(() => aggregateAmplitude(daily, perTool), [daily, perTool]);
   const lastUpdatedLabel = useMemo(() => {
     if (!lastSyncedAt) return null;
@@ -81,7 +82,7 @@ function OffchainPage() {
             MCP tool calls — reads, lookups & registry queries
           </h2>
           <p className="mt-1 text-xs text-muted-foreground">
-            Every time an LLM invokes a Celina tool that does not touch the chain, it&apos;s logged to Amplitude. This is the rollup.
+            Every time an LLM invokes a Celina read tool, it&apos;s logged to Amplitude. Unique wallets counts distinct addresses on wallet-scoped reads.
           </p>
           {lastUpdatedLabel && (
             <p className="mt-1 text-[11px] text-muted-foreground/80">
@@ -99,6 +100,7 @@ function OffchainPage() {
 
         <div className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-4">
           <KpiCard label="Unique projects" value={uniqueDevices.toLocaleString()} />
+          <KpiCard label="Unique wallets" value={uniqueWallets.toLocaleString()} />
           <KpiCard label="Avg / active day" value={agg.avgPerActiveDay.toLocaleString()} />
           <KpiCard label="Peak day" value={agg.peakDay?.count.toLocaleString() ?? "—"} />
           <KpiCard label="Unique tools" value={agg.topTools.length.toLocaleString()} />
