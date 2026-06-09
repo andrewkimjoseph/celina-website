@@ -478,6 +478,7 @@ function Index() {
             Built by <a className="font-medium text-foreground hover:underline" href="https://www.npmjs.com/~andrewkimjoseph" target="_blank" rel="noreferrer">@andrewkimjoseph</a> · MIT
           </p>
           <div className="flex items-center gap-4 text-sm text-muted-foreground">
+            <Link to="/about" className="hover:text-foreground">About</Link>
             <Link to="/stats" className="hover:text-foreground">Stats</Link>
             <a href={NPM_URL} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1.5 hover:text-foreground">
               <FontAwesomeIcon icon={faNpm} className="h-4 w-4" /> npm

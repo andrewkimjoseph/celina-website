@@ -418,6 +418,7 @@ function SdkPage() {
             · MIT
           </p>
           <div className="flex items-center gap-4 text-sm text-muted-foreground">
+            <Link to="/about" className="hover:text-foreground">About</Link>
             <Link to="/tools" className="hover:text-foreground">Tools</Link>
             <Link to="/stats" className="hover:text-foreground">Stats</Link>
             <a href={SDK_NPM_URL} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1.5 hover:text-foreground">

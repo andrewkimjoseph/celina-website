@@ -17,6 +17,7 @@ This repo is the **marketing site** for Celina. The SDK and MCP packages live in
 ## Site
 
 - **Landing page** (`/`) — overview, install instructions, and tool highlights
+- **About** (`/about`) — mission, architecture, ecosystem links (SDK, MCP, hosted endpoint, Celeste AI)
 - **SDK page** (`/sdk`) — shared tool catalog, programmatic client, and integration paths
 - **Tools catalog** (`/tools`) — browse all MCP tools by category
   - Category pages: `/tools/blockchain`, `/tools/carbon-defi`, `/tools/mento-fx`, `/tools/uniswap`, `/tools/aave`, `/tools/gooddollar` (UBI + reserve quote), `/tools/self`, and more
@@ -37,6 +38,7 @@ This repo is the **marketing site** for Celina. The SDK and MCP packages live in
 src/
   routes/           # TanStack file-based routes
     index.tsx       # Landing page
+    about.tsx       # About — mission, architecture, ecosystem
     sdk.tsx         # SDK + tool catalog page
     tools.index.tsx # Tools catalog
     tools.$category.index.tsx    # Category pages
