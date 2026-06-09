@@ -20,6 +20,8 @@ import type {
 export const NPM_URL = "https://www.npmjs.com/package/@andrewkimjoseph/celina-mcp";
 export const NPM_STAT_URL =
   "https://npm-stat.com/charts.html?package=@andrewkimjoseph/celina-mcp";
+export const DUNE_DASHBOARD_URL =
+  "https://dune.com/andrewkimjoseph7352/celina";
 
 export { Bar, BarChart, CartesianGrid, Cell, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis };
 

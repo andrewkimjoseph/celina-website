@@ -15,6 +15,7 @@ import {
   forest,
   truncate,
   formatDateTime,
+  DUNE_DASHBOARD_URL,
   ResponsiveContainer,
   BarChart,
   Bar,
@@ -64,17 +65,28 @@ function OnchainPage() {
   return (
     <>
       <section className="mx-auto max-w-6xl px-4 pb-6 sm:px-6">
-        <div className="mb-5">
-          <div className="inline-flex items-center gap-2 rounded-full border border-[var(--celo-forest)]/40 bg-card/80 px-3 py-1 text-xs font-medium text-foreground">
-            <FontAwesomeIcon icon={faChartLine} className="h-3 w-3 text-[var(--celo-forest)] dark:text-foreground" />
-            <span className="uppercase tracking-[0.18em]">On-chain activity · Dune Analytics</span>
+        <div className="mb-5 flex items-start justify-between gap-3">
+          <div>
+            <div className="inline-flex items-center gap-2 rounded-full border border-[var(--celo-forest)]/40 bg-card/80 px-3 py-1 text-xs font-medium text-foreground">
+              <FontAwesomeIcon icon={faChartLine} className="h-3 w-3 text-[var(--celo-forest)] dark:text-foreground" />
+              <span className="uppercase tracking-[0.18em]">On-chain activity · Dune Analytics</span>
+            </div>
+            <h2
+              className="mt-3 text-2xl font-bold tracking-tight"
+              style={{ fontFamily: "var(--font-display)" }}
+            >
+              Celo mainnet transactions tagged CELINA
+            </h2>
           </div>
-          <h2
-            className="mt-3 text-2xl font-bold tracking-tight"
-            style={{ fontFamily: "var(--font-display)" }}
+          <a
+            href={DUNE_DASHBOARD_URL}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex shrink-0 items-center gap-1.5 text-xs font-medium text-muted-foreground transition hover:text-foreground"
           >
-            Celo mainnet transactions tagged CELINA
-          </h2>
+            Dune dashboard
+            <FontAwesomeIcon icon={faArrowUpRightFromSquare} className="h-2.5 w-2.5" />
+          </a>
         </div>
 
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
