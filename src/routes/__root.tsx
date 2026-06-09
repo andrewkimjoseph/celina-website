@@ -90,8 +90,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:site", content: "@Lovable" },
       { name: "twitter:title", content: "Celina — The Celo MCP Server for LLMs" },
       { name: "twitter:description", content: "Give Claude, Cursor, and your favorite LLMs read + write access to Celo mainnet in under a minute." },
-      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/Q29nlNheFxeBZWdInbKmVPulbJu2/social-images/social-1779790321080-ChatGPT_Image_May_26,_2026,_01_11_50_PM.webp" },
-      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/Q29nlNheFxeBZWdInbKmVPulbJu2/social-images/social-1779790321080-ChatGPT_Image_May_26,_2026,_01_11_50_PM.webp" },
+      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/Q29nlNheFxeBZWdInbKmVPulbJu2/social-images/social-1781008301481-Celina.webp" },
+      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/Q29nlNheFxeBZWdInbKmVPulbJu2/social-images/social-1781008301481-Celina.webp" },
     ],
     links: [
       {
