@@ -13,6 +13,7 @@ export type AmplitudeEventTotal = {
 
 export type AmplitudeStatsResult = {
   daily: AmplitudeEventDay[];
+  dailyWallets: AmplitudeEventDay[];
   perTool: AmplitudeEventTotal[];
   total: number;
   uniqueDevices: number;
@@ -31,6 +32,10 @@ const EXPORT_CHUNK_HOURS = 6;
 const EXPORT_MAX_RETRIES = 2;
 const SYNC_FLOOR_ISO = "2026-06-01T00:00:00Z";
 const MAX_UNZIPPED_BYTES = 50 * 1024 * 1024;
+const EXCLUDED_INTEGRATION_DEVICE_IDS = new Set([
+  "celina-sdk",
+  "andrewkimjoseph_celina_sdk",
+]);
 
 /** Throttle export attempts so repeated 524s do not run on every page refresh. */
 let lastSyncAttemptMs = 0;
@@ -112,7 +117,7 @@ async function sbFetch(path: string, init: RequestInit = {}): Promise<Response> 
   return res;
 }
 
-/** Distinct non-empty device_id values (one per SDK consumer / project). */
+/** Distinct non-empty device_id values (one per SDK consumer / integration). */
 async function countUniqueProjectDeviceIds(sinceDay: string): Promise<number> {
   const ids = new Set<string>();
   const pageSize = 1000;
@@ -133,7 +138,7 @@ async function countUniqueProjectDeviceIds(sinceDay: string): Promise<number> {
     }
     for (const row of rows) {
       const id = row.device_id?.trim();
-      if (id) {
+      if (id && !EXCLUDED_INTEGRATION_DEVICE_IDS.has(id)) {
         ids.add(id);
       }
     }
@@ -146,30 +151,43 @@ async function countUniqueProjectDeviceIds(sinceDay: string): Promise<number> {
   return ids.size;
 }
 
-/** Distinct wallet addresses from Amplitude `user_id` on wallet-scoped read events. */
-async function countUniqueWallets(sinceDay: string): Promise<number> {
-  const ids = new Set<string>();
+/** Distinct wallet addresses and per-day counts from wallet-scoped read events. */
+async function aggregateWalletUserIds(sinceDay: string): Promise<{
+  uniqueWallets: number;
+  dailyWallets: AmplitudeEventDay[];
+}> {
+  const allWallets = new Set<string>();
+  const byDay = new Map<string, Set<string>>();
   const pageSize = 1000;
   let offset = 0;
 
   for (;;) {
     const res = await sbFetch(
-      `/rest/v1/amplitude_events?select=user_id&user_id=not.is.null&event_day=gte.${sinceDay}&order=event_time.asc&limit=${pageSize}&offset=${offset}`,
+      `/rest/v1/amplitude_events?select=event_day,user_id&user_id=not.is.null&event_day=gte.${sinceDay}&order=event_time.asc&limit=${pageSize}&offset=${offset}`,
     );
     if (!res.ok) {
       throw new Error(
         `Supabase read amplitude_events user_id ${res.status}: ${(await res.text()).slice(0, 200)}`,
       );
     }
-    const rows = (await res.json()) as Array<{ user_id: string | null }>;
+    const rows = (await res.json()) as Array<{
+      event_day: string;
+      user_id: string | null;
+    }>;
     if (rows.length === 0) {
       break;
     }
     for (const row of rows) {
       const id = row.user_id?.trim().toLowerCase();
-      if (id && WALLET_USER_ID_RE.test(id)) {
-        ids.add(id);
+      if (!id || !WALLET_USER_ID_RE.test(id)) continue;
+      allWallets.add(id);
+      const day = row.event_day;
+      let daySet = byDay.get(day);
+      if (!daySet) {
+        daySet = new Set<string>();
+        byDay.set(day, daySet);
       }
+      daySet.add(id);
     }
     if (rows.length < pageSize) {
       break;
@@ -177,7 +195,11 @@ async function countUniqueWallets(sinceDay: string): Promise<number> {
     offset += pageSize;
   }
 
-  return ids.size;
+  const dailyWallets = [...byDay.entries()]
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([day, wallets]) => ({ day, count: wallets.size }));
+
+  return { uniqueWallets: allWallets.size, dailyWallets };
 }
 
 async function getSyncState(): Promise<{ last_synced_at: string }> {
@@ -435,6 +457,7 @@ export const getAmplitudeStats = createServerFn({ method: "GET" }).handler(
     if (!process.env.AMPLITUDE_API_KEY || !process.env.AMPLITUDE_SECRET_KEY) {
       return {
         daily: [],
+        dailyWallets: [],
         perTool: [],
         total: 0,
         uniqueDevices: 0,
@@ -447,6 +470,7 @@ export const getAmplitudeStats = createServerFn({ method: "GET" }).handler(
     if (!process.env.CUSTOM_SUPABASE_URL || !process.env.CUSTOM_SUPABASE_SERVICE_ROLE_KEY) {
       return {
         daily: [],
+        dailyWallets: [],
         perTool: [],
         total: 0,
         uniqueDevices: 0,
@@ -502,17 +526,18 @@ export const getAmplitudeStats = createServerFn({ method: "GET" }).handler(
       const daily: AmplitudeEventDay[] = dailyRows.map((r) => ({ day: r.day, count: r.count }));
       const perTool: AmplitudeEventTotal[] = toolRows.map((r) => ({ event: r.event, count: r.count }));
       const total = daily.reduce((s, d) => s + d.count, 0);
-      const [uniqueDevices, uniqueWallets] = await Promise.all([
+      const [uniqueDevices, walletAgg] = await Promise.all([
         countUniqueProjectDeviceIds(sinceDay),
-        countUniqueWallets(sinceDay),
+        aggregateWalletUserIds(sinceDay),
       ]);
 
       return {
         daily,
+        dailyWallets: walletAgg.dailyWallets,
         perTool,
         total,
         uniqueDevices,
-        uniqueWallets,
+        uniqueWallets: walletAgg.uniqueWallets,
         fetchedAt: Date.now(),
         lastSyncedAt,
         // Keep serving cached Supabase rows when export sync fails (e.g. Amplitude 524).
@@ -521,6 +546,7 @@ export const getAmplitudeStats = createServerFn({ method: "GET" }).handler(
     } catch (e) {
       return {
         daily: [],
+        dailyWallets: [],
         perTool: [],
         total: 0,
         uniqueDevices: 0,

@@ -351,3 +351,32 @@ export function aggregateAmplitude(
     peakDay,
   };
 }
+
+export type AmplitudeDailyWalletRow = {
+  day: string;
+  label: string;
+  calls: number;
+  wallets: number;
+  callsPerWallet: number | null;
+};
+
+/** Merge daily call volume with distinct wallet counts per day. */
+export function mergeAmplitudeDailyWallets(
+  daily: AmplitudeEventDay[],
+  dailyWallets: AmplitudeEventDay[],
+): AmplitudeDailyWalletRow[] {
+  const walletByDay = new Map(dailyWallets.map((r) => [r.day, r.count]));
+  return [...daily]
+    .sort((a, b) => a.day.localeCompare(b.day))
+    .map((r) => {
+      const wallets = walletByDay.get(r.day) ?? 0;
+      return {
+        day: r.day,
+        label: formatDateOnly(r.day),
+        calls: r.count,
+        wallets,
+        callsPerWallet:
+          wallets > 0 ? Math.round((r.count / wallets) * 10) / 10 : null,
+      };
+    });
+}

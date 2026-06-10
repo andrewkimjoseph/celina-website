@@ -9,6 +9,7 @@ import { STALE_MS } from "./stats-store";
 
 type AmplitudeState = {
   daily: AmplitudeEventDay[];
+  dailyWallets: AmplitudeEventDay[];
   perTool: AmplitudeEventTotal[];
   total: number;
   uniqueDevices: number;
@@ -24,6 +25,7 @@ export const useAmplitudeStore = create<AmplitudeState>()(
   persist(
     (set, get) => ({
       daily: [],
+      dailyWallets: [],
       perTool: [],
       total: 0,
       uniqueDevices: 0,
@@ -47,6 +49,7 @@ export const useAmplitudeStore = create<AmplitudeState>()(
           const result = await getAmplitudeStats();
           set({
             daily: result.daily,
+            dailyWallets: result.dailyWallets,
             perTool: result.perTool,
             total: result.total,
             uniqueDevices: result.uniqueDevices,
@@ -66,9 +69,10 @@ export const useAmplitudeStore = create<AmplitudeState>()(
       },
     }),
     {
-      name: "celina-amplitude-v5",
+      name: "celina-amplitude-v6",
       partialize: (s) => ({
         daily: s.daily,
+        dailyWallets: s.dailyWallets,
         perTool: s.perTool,
         total: s.total,
         uniqueDevices: s.uniqueDevices,

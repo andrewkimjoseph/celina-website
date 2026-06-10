@@ -15,6 +15,8 @@ import {
   KpiCard,
   ChartCard,
   aggregateAmplitude,
+  mergeAmplitudeDailyWallets,
+  formatDateOnly,
   tooltipStyle,
   tooltipItemStyle,
   tooltipLabelStyle,
@@ -54,9 +56,23 @@ export const Route = createFileRoute("/stats/offchain")({
 });
 
 function OffchainPage() {
-  const { daily, perTool, uniqueDevices, uniqueWallets, loading, lastSyncedAt } =
+  const { daily, dailyWallets, perTool, uniqueWallets, loading, lastSyncedAt } =
     useAmplitudeStore();
   const agg = useMemo(() => aggregateAmplitude(daily, perTool), [daily, perTool]);
+  const walletDaily = useMemo(
+    () =>
+      [...dailyWallets]
+        .sort((a, b) => a.day.localeCompare(b.day))
+        .map((r) => ({
+          ...r,
+          label: formatDateOnly(r.day),
+        })),
+    [dailyWallets],
+  );
+  const dailyWalletMerged = useMemo(
+    () => mergeAmplitudeDailyWallets(daily, dailyWallets),
+    [daily, dailyWallets],
+  );
   const lastUpdatedLabel = useMemo(() => {
     if (!lastSyncedAt) return null;
     const d = new Date(lastSyncedAt);
@@ -99,7 +115,6 @@ function OffchainPage() {
         </div>
 
         <div className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-4">
-          <KpiCard label="Unique projects" value={uniqueDevices.toLocaleString()} />
           <KpiCard label="Unique wallets" value={uniqueWallets.toLocaleString()} />
           <KpiCard label="Avg / active day" value={agg.avgPerActiveDay.toLocaleString()} />
           <KpiCard label="Peak day" value={agg.peakDay?.count.toLocaleString() ?? "—"} />
@@ -130,6 +145,38 @@ function OffchainPage() {
                 <Tooltip contentStyle={tooltipStyle} itemStyle={tooltipItemStyle} labelStyle={tooltipLabelStyle} cursor={{ fill: "var(--muted)" }} />
                 <Bar dataKey="count" name="Calls" fill={yellow} radius={[4, 4, 0, 0]} />
               </BarChart>
+            </ResponsiveContainer>
+          </ChartCard>
+
+          <ChartCard title="Unique wallets per day" subtitle="distinct addresses">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={walletDaily} margin={{ top: 8, right: 12, left: 0, bottom: 0 }}>
+                <CartesianGrid stroke="var(--border)" strokeDasharray="3 3" vertical={false} />
+                <XAxis dataKey="label" stroke="var(--muted-foreground)" fontSize={10} tickLine={false} interval={Math.max(0, Math.floor(walletDaily.length / 8))} />
+                <YAxis stroke="var(--muted-foreground)" fontSize={11} tickLine={false} axisLine={false} width={40} allowDecimals={false} />
+                <Tooltip contentStyle={tooltipStyle} itemStyle={tooltipItemStyle} labelStyle={tooltipLabelStyle} cursor={{ fill: "var(--muted)" }} />
+                <Bar dataKey="count" name="Wallets" fill={forest} radius={[4, 4, 0, 0]} />
+              </BarChart>
+            </ResponsiveContainer>
+          </ChartCard>
+
+          <ChartCard title="Calls vs unique wallets" subtitle="volume and reach">
+            <ResponsiveContainer width="100%" height="100%">
+              <ComposedChart data={dailyWalletMerged} margin={{ top: 8, right: 12, left: 0, bottom: 0 }}>
+                <CartesianGrid stroke="var(--border)" strokeDasharray="3 3" vertical={false} />
+                <XAxis dataKey="label" stroke="var(--muted-foreground)" fontSize={10} tickLine={false} interval={Math.max(0, Math.floor(dailyWalletMerged.length / 8))} />
+                <YAxis yAxisId="calls" stroke="var(--muted-foreground)" fontSize={11} tickLine={false} axisLine={false} width={40} />
+                <YAxis yAxisId="wallets" orientation="right" stroke="var(--muted-foreground)" fontSize={11} tickLine={false} axisLine={false} width={40} allowDecimals={false} />
+                <Tooltip contentStyle={tooltipStyle} itemStyle={tooltipItemStyle} labelStyle={tooltipLabelStyle} cursor={{ fill: "var(--muted)" }} />
+                <Legend
+                  wrapperStyle={{ fontSize: 11 }}
+                  formatter={(value) => (
+                    <span style={{ color: "var(--foreground)" }}>{value}</span>
+                  )}
+                />
+                <Bar yAxisId="calls" dataKey="calls" name="Calls" fill={yellow} radius={[4, 4, 0, 0]} />
+                <Line yAxisId="wallets" type="monotone" dataKey="wallets" name="Wallets" stroke={lineStroke} strokeWidth={2} dot={false} />
+              </ComposedChart>
             </ResponsiveContainer>
           </ChartCard>
 
@@ -244,15 +291,18 @@ function OffchainPage() {
             </ResponsiveContainer>
           </ChartCard>
 
-          <ChartCard title="Last 14 days" subtitle="recent activity">
+          <ChartCard title="Calls per wallet per day" subtitle="wallet-scoped reads only">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={agg.daily.slice(-14)} margin={{ top: 8, right: 12, left: 0, bottom: 0 }}>
+              <LineChart
+                data={dailyWalletMerged.filter((r) => r.callsPerWallet != null)}
+                margin={{ top: 8, right: 12, left: 0, bottom: 0 }}
+              >
                 <CartesianGrid stroke="var(--border)" strokeDasharray="3 3" vertical={false} />
-                <XAxis dataKey="label" stroke="var(--muted-foreground)" fontSize={10} tickLine={false} />
+                <XAxis dataKey="label" stroke="var(--muted-foreground)" fontSize={10} tickLine={false} interval={Math.max(0, Math.floor(dailyWalletMerged.length / 8))} />
                 <YAxis stroke="var(--muted-foreground)" fontSize={11} tickLine={false} axisLine={false} width={40} />
-                <Tooltip contentStyle={tooltipStyle} itemStyle={tooltipItemStyle} labelStyle={tooltipLabelStyle} cursor={{ fill: "var(--muted)" }} />
-                <Bar dataKey="count" name="Calls" fill={yellow} radius={[4, 4, 0, 0]} />
-              </BarChart>
+                <Tooltip contentStyle={tooltipStyle} itemStyle={tooltipItemStyle} labelStyle={tooltipLabelStyle} cursor={{ stroke: "var(--border)" }} />
+                <Line type="monotone" dataKey="callsPerWallet" name="Calls / wallet" stroke={lineStroke} strokeWidth={2.5} dot={false} activeDot={{ r: 4, fill: lineStroke }} />
+              </LineChart>
             </ResponsiveContainer>
           </ChartCard>
         </div>
