@@ -44,8 +44,9 @@ function ymdh(d: Date): string {
 }
 
 function parseYmdh(hour: string): Date {
+  const [datePart, hourPart] = hour.split("T");
   return new Date(
-    `${hour.slice(0, 4)}-${hour.slice(4, 6)}-${hour.slice(6, 8)}T${hour.slice(8, 10)}:00:00.000Z`,
+    `${datePart.slice(0, 4)}-${datePart.slice(4, 6)}-${datePart.slice(6, 8)}T${hourPart}:00:00.000Z`,
   );
 }
 
@@ -311,8 +312,12 @@ async function pullExport(startHour: string, endHour: string): Promise<RawEventF
 }
 
 async function pullExportRange(startHour: string, endHour: string): Promise<RawEventFull[]> {
+  const chunks = [...exportHourChunks(startHour, endHour)];
+  if (chunks.length === 0 && startHour <= endHour) {
+    throw new Error(`Invalid Amplitude export window ${startHour}..${endHour} (no hour chunks)`);
+  }
   const events: RawEventFull[] = [];
-  for (const [chunkStart, chunkEnd] of exportHourChunks(startHour, endHour)) {
+  for (const [chunkStart, chunkEnd] of chunks) {
     events.push(...(await pullExport(chunkStart, chunkEnd)));
   }
   return events;
