@@ -522,7 +522,7 @@ export const TOOLS: ToolDoc[] = [
       { name: "agent_signature", type: "0x… hex", required: true, description: "x-self-agent-signature header value." },
       { name: "agent_timestamp", type: "string", required: true, description: "x-self-agent-timestamp header value." },
       { name: "method", type: "string", required: true, description: "HTTP method of the signed request." },
-      { name: "path", type: "string", required: true, description: "Request path that was signed." },
+      { name: "request_path", type: "string", required: true, description: "HTTP request path or URL path+query that was signed — not a filesystem path." },
       { name: "body", type: "string", required: false, description: "Request body that was signed, if any." },
       { name: "keytype", type: "string", required: false, description: "Optional key type hint." },
       { name: "agent_key", type: "0x… hex", required: false, description: "Optional explicit agent public key." },
