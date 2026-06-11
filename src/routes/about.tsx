@@ -268,7 +268,7 @@ function AboutPage() {
               <FontAwesomeIcon icon={faGithub} className="h-3 w-3" /> GitHub
             </a>
             <Link
-              to="/"
+              to="/mcp/local"
               className="inline-flex items-center gap-1 rounded-md border border-border bg-background px-3 py-1.5 text-xs font-medium text-foreground transition hover:border-[var(--celo-yellow)]"
             >
               Install guide

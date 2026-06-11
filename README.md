@@ -16,8 +16,11 @@ This repo is the **marketing site** for Celina. The SDK and MCP packages live in
 
 ## Site
 
-- **Landing page** (`/`) — overview, install instructions, and tool highlights
+- **Landing page** (`/`) — full stack overview, architecture, product cards, and tool teaser
 - **About** (`/about`) — mission, architecture, ecosystem links (SDK, MCP, hosted endpoint, Celeste AI)
+- **MCP hub** (`/mcp`) — MCP overview, local vs remote comparison
+  - **Local stdio** (`/mcp/local`) — npx install and client config
+  - **Remote hosted** (`/mcp/remote`) — Streamable HTTP endpoint and `mcp-remote` bridge
 - **SDK page** (`/sdk`) — shared tool catalog, programmatic client, and integration paths
 - **Tools catalog** (`/tools`) — browse all MCP tools by category
   - Category pages: `/tools/blockchain`, `/tools/carbon-defi`, `/tools/mento-fx`, `/tools/uniswap`, `/tools/aave`, `/tools/gooddollar` (UBI + reserve quote), `/tools/self`, and more
@@ -37,8 +40,12 @@ This repo is the **marketing site** for Celina. The SDK and MCP packages live in
 ```
 src/
   routes/           # TanStack file-based routes
-    index.tsx       # Landing page
+    index.tsx       # Landing page — full stack hub
     about.tsx       # About — mission, architecture, ecosystem
+    mcp.tsx         # MCP layout + sub-nav
+    mcp.index.tsx   # MCP overview
+    mcp.local.tsx   # Local stdio install
+    mcp.remote.tsx  # Remote hosted endpoint
     sdk.tsx         # SDK + tool catalog page
     tools.index.tsx # Tools catalog
     tools.$category.index.tsx    # Category pages
@@ -50,6 +57,7 @@ src/
     stats.package.tsx
   components/       # Reusable UI (SiteHeader, etc.)
   data/tools.ts     # Tool definitions (88 stdio tools, 75 hosted)
+  data/mcp.ts       # MCP config snippets and URLs
   lib/              # Stores, helpers, server functions
   styles.css        # Tailwind v4 + custom tokens
 ```
@@ -58,10 +66,30 @@ src/
 
 ```bash
 bun install
+cp .env.example .env.local   # optional — required for live /stats data locally
 bun run dev
 ```
 
 Route files live in `src/routes/`. TanStack Router auto-generates `src/routeTree.gen.ts` — do not edit it manually.
+
+### Environment variables
+
+Stats pages call server functions that need API keys. Without them, dashboards still render but show a “missing config” error instead of live data.
+
+| Variable | Used for |
+|----------|----------|
+| `DUNE_API_KEY` | On-chain activity (`/stats/onchain`) |
+| `AMPLITUDE_API_KEY` / `AMPLITUDE_SECRET_KEY` | Off-chain MCP tool calls (`/stats/offchain`) |
+| `AMPLITUDE_REGION` | Optional — `us` (default) or `eu` |
+| `CUSTOM_SUPABASE_URL` / `CUSTOM_SUPABASE_SERVICE_ROLE_KEY` | Amplitude export cache in Supabase |
+
+- **Local (Vite):** copy [`.env.example`](.env.example) to `.env.local` or `.env`
+- **Cloudflare Workers:** copy [`.dev.vars.example`](.dev.vars.example) to `.dev.vars`, or set secrets in the dashboard
+- **Vercel:** project → Settings → Environment Variables (same names)
+
+Manual Amplitude sync (e.g. cron debugging): `node scripts/run-amplitude-sync.mjs` reads `.env.local` then `.env`.
+
+Never commit real keys. `.env`, `.env.local`, and `.dev.vars` are gitignored; only the `*.example` templates are tracked.
 
 ## Connect Celina to your agent
 

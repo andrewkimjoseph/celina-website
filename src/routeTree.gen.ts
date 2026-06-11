@@ -11,13 +11,17 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as StatsRouteImport } from './routes/stats'
 import { Route as SdkRouteImport } from './routes/sdk'
+import { Route as McpRouteImport } from './routes/mcp'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ToolsIndexRouteImport } from './routes/tools.index'
 import { Route as StatsIndexRouteImport } from './routes/stats.index'
+import { Route as McpIndexRouteImport } from './routes/mcp.index'
 import { Route as StatsPackageRouteImport } from './routes/stats.package'
 import { Route as StatsOnchainRouteImport } from './routes/stats.onchain'
 import { Route as StatsOffchainRouteImport } from './routes/stats.offchain'
+import { Route as McpRemoteRouteImport } from './routes/mcp.remote'
+import { Route as McpLocalRouteImport } from './routes/mcp.local'
 import { Route as ToolsCategoryIndexRouteImport } from './routes/tools.$category.index'
 import { Route as ToolsCategoryToolSlugRouteImport } from './routes/tools.$category.$toolSlug'
 
@@ -29,6 +33,11 @@ const StatsRoute = StatsRouteImport.update({
 const SdkRoute = SdkRouteImport.update({
   id: '/sdk',
   path: '/sdk',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const McpRoute = McpRouteImport.update({
+  id: '/mcp',
+  path: '/mcp',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AboutRoute = AboutRouteImport.update({
@@ -51,6 +60,11 @@ const StatsIndexRoute = StatsIndexRouteImport.update({
   path: '/',
   getParentRoute: () => StatsRoute,
 } as any)
+const McpIndexRoute = McpIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => McpRoute,
+} as any)
 const StatsPackageRoute = StatsPackageRouteImport.update({
   id: '/package',
   path: '/package',
@@ -66,6 +80,16 @@ const StatsOffchainRoute = StatsOffchainRouteImport.update({
   path: '/offchain',
   getParentRoute: () => StatsRoute,
 } as any)
+const McpRemoteRoute = McpRemoteRouteImport.update({
+  id: '/remote',
+  path: '/remote',
+  getParentRoute: () => McpRoute,
+} as any)
+const McpLocalRoute = McpLocalRouteImport.update({
+  id: '/local',
+  path: '/local',
+  getParentRoute: () => McpRoute,
+} as any)
 const ToolsCategoryIndexRoute = ToolsCategoryIndexRouteImport.update({
   id: '/tools/$category/',
   path: '/tools/$category/',
@@ -80,11 +104,15 @@ const ToolsCategoryToolSlugRoute = ToolsCategoryToolSlugRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/mcp': typeof McpRouteWithChildren
   '/sdk': typeof SdkRoute
   '/stats': typeof StatsRouteWithChildren
+  '/mcp/local': typeof McpLocalRoute
+  '/mcp/remote': typeof McpRemoteRoute
   '/stats/offchain': typeof StatsOffchainRoute
   '/stats/onchain': typeof StatsOnchainRoute
   '/stats/package': typeof StatsPackageRoute
+  '/mcp/': typeof McpIndexRoute
   '/stats/': typeof StatsIndexRoute
   '/tools/': typeof ToolsIndexRoute
   '/tools/$category/$toolSlug': typeof ToolsCategoryToolSlugRoute
@@ -94,9 +122,12 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/sdk': typeof SdkRoute
+  '/mcp/local': typeof McpLocalRoute
+  '/mcp/remote': typeof McpRemoteRoute
   '/stats/offchain': typeof StatsOffchainRoute
   '/stats/onchain': typeof StatsOnchainRoute
   '/stats/package': typeof StatsPackageRoute
+  '/mcp': typeof McpIndexRoute
   '/stats': typeof StatsIndexRoute
   '/tools': typeof ToolsIndexRoute
   '/tools/$category/$toolSlug': typeof ToolsCategoryToolSlugRoute
@@ -106,11 +137,15 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/mcp': typeof McpRouteWithChildren
   '/sdk': typeof SdkRoute
   '/stats': typeof StatsRouteWithChildren
+  '/mcp/local': typeof McpLocalRoute
+  '/mcp/remote': typeof McpRemoteRoute
   '/stats/offchain': typeof StatsOffchainRoute
   '/stats/onchain': typeof StatsOnchainRoute
   '/stats/package': typeof StatsPackageRoute
+  '/mcp/': typeof McpIndexRoute
   '/stats/': typeof StatsIndexRoute
   '/tools/': typeof ToolsIndexRoute
   '/tools/$category/$toolSlug': typeof ToolsCategoryToolSlugRoute
@@ -121,11 +156,15 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/about'
+    | '/mcp'
     | '/sdk'
     | '/stats'
+    | '/mcp/local'
+    | '/mcp/remote'
     | '/stats/offchain'
     | '/stats/onchain'
     | '/stats/package'
+    | '/mcp/'
     | '/stats/'
     | '/tools/'
     | '/tools/$category/$toolSlug'
@@ -135,9 +174,12 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/sdk'
+    | '/mcp/local'
+    | '/mcp/remote'
     | '/stats/offchain'
     | '/stats/onchain'
     | '/stats/package'
+    | '/mcp'
     | '/stats'
     | '/tools'
     | '/tools/$category/$toolSlug'
@@ -146,11 +188,15 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/about'
+    | '/mcp'
     | '/sdk'
     | '/stats'
+    | '/mcp/local'
+    | '/mcp/remote'
     | '/stats/offchain'
     | '/stats/onchain'
     | '/stats/package'
+    | '/mcp/'
     | '/stats/'
     | '/tools/'
     | '/tools/$category/$toolSlug'
@@ -160,6 +206,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  McpRoute: typeof McpRouteWithChildren
   SdkRoute: typeof SdkRoute
   StatsRoute: typeof StatsRouteWithChildren
   ToolsIndexRoute: typeof ToolsIndexRoute
@@ -181,6 +228,13 @@ declare module '@tanstack/react-router' {
       path: '/sdk'
       fullPath: '/sdk'
       preLoaderRoute: typeof SdkRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/mcp': {
+      id: '/mcp'
+      path: '/mcp'
+      fullPath: '/mcp'
+      preLoaderRoute: typeof McpRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/about': {
@@ -211,6 +265,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StatsIndexRouteImport
       parentRoute: typeof StatsRoute
     }
+    '/mcp/': {
+      id: '/mcp/'
+      path: '/'
+      fullPath: '/mcp/'
+      preLoaderRoute: typeof McpIndexRouteImport
+      parentRoute: typeof McpRoute
+    }
     '/stats/package': {
       id: '/stats/package'
       path: '/package'
@@ -232,6 +293,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StatsOffchainRouteImport
       parentRoute: typeof StatsRoute
     }
+    '/mcp/remote': {
+      id: '/mcp/remote'
+      path: '/remote'
+      fullPath: '/mcp/remote'
+      preLoaderRoute: typeof McpRemoteRouteImport
+      parentRoute: typeof McpRoute
+    }
+    '/mcp/local': {
+      id: '/mcp/local'
+      path: '/local'
+      fullPath: '/mcp/local'
+      preLoaderRoute: typeof McpLocalRouteImport
+      parentRoute: typeof McpRoute
+    }
     '/tools/$category/': {
       id: '/tools/$category/'
       path: '/tools/$category'
@@ -248,6 +323,20 @@ declare module '@tanstack/react-router' {
     }
   }
 }
+
+interface McpRouteChildren {
+  McpLocalRoute: typeof McpLocalRoute
+  McpRemoteRoute: typeof McpRemoteRoute
+  McpIndexRoute: typeof McpIndexRoute
+}
+
+const McpRouteChildren: McpRouteChildren = {
+  McpLocalRoute: McpLocalRoute,
+  McpRemoteRoute: McpRemoteRoute,
+  McpIndexRoute: McpIndexRoute,
+}
+
+const McpRouteWithChildren = McpRoute._addFileChildren(McpRouteChildren)
 
 interface StatsRouteChildren {
   StatsOffchainRoute: typeof StatsOffchainRoute
@@ -268,6 +357,7 @@ const StatsRouteWithChildren = StatsRoute._addFileChildren(StatsRouteChildren)
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  McpRoute: McpRouteWithChildren,
   SdkRoute: SdkRoute,
   StatsRoute: StatsRouteWithChildren,
   ToolsIndexRoute: ToolsIndexRoute,

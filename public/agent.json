@@ -16,6 +16,10 @@
       "version": "0.8.14"
     },
     {
+      "name": "MCP docs",
+      "endpoint": "https://usecelina.xyz/mcp/remote"
+    },
+    {
       "name": "Self Agent ID",
       "endpoint": "https://app.ai.self.xyz",
       "version": "1.0.0"

@@ -17,7 +17,6 @@ export function SiteHeader() {
           <span className="font-display text-lg font-semibold tracking-tight" style={{ fontFamily: "var(--font-display)" }}>
             Celina
           </span>
-          <span className="hidden text-xs uppercase tracking-[0.18em] text-muted-foreground md:inline">· Celo MCP</span>
         </Link>
         <nav className="flex items-center gap-0.5 text-sm sm:gap-1">
           <Link
@@ -41,6 +40,13 @@ export function SiteHeader() {
             className="rounded-md px-2 py-1.5 text-foreground/70 transition hover:text-foreground sm:px-3"
           >
             Tools
+          </Link>
+          <Link
+            to="/mcp"
+            activeProps={{ className: "text-foreground" }}
+            className="rounded-md px-2 py-1.5 text-foreground/70 transition hover:text-foreground sm:px-3"
+          >
+            MCP
           </Link>
           <Link
             to="/sdk"

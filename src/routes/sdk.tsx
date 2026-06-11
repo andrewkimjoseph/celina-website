@@ -13,6 +13,7 @@ import {
   faArrowUpRightFromSquare,
 } from "@fortawesome/free-solid-svg-icons";
 import { faNpm, faGithub } from "@fortawesome/free-brands-svg-icons";
+import { PageHero, PageHeroSection } from "@/components/marketing/page-hero";
 import { SiteHeader } from "@/components/site-header";
 import { HOSTED_TOOL_COUNT } from "@/data/tools";
 
@@ -164,48 +165,54 @@ function SdkPage() {
     <main className="min-h-screen bg-background text-foreground">
       <SiteHeader />
 
-      {/* Hero */}
-      <section className="mx-auto max-w-6xl px-4 pt-12 pb-10 sm:px-6 sm:pt-16">
-        <div className="inline-flex items-center gap-2 rounded-full border border-[var(--celo-forest)]/40 bg-card/80 px-3 py-1 text-xs font-medium text-foreground">
-          <FontAwesomeIcon icon={faBookOpen} className="h-3 w-3 text-[var(--celo-forest)] dark:text-foreground" />
-          <span className="uppercase tracking-[0.18em]">SDK · Shared tool catalog</span>
-        </div>
-        <h1
-          className="mt-5 text-4xl font-bold tracking-tight sm:text-6xl"
-          style={{ fontFamily: "var(--font-display)" }}
+      <PageHeroSection>
+        <PageHero
+          icon={faBookOpen}
+          badge="SDK · Shared tool catalog"
+          title="Celina SDK"
+          wide
+          description={
+            <>
+              One mainnet library for Celo agents — <span className="font-medium text-foreground">reads</span>,{" "}
+              <span className="font-medium text-foreground">unsigned prepares</span>, and a shared{" "}
+              <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">/tools</span> export that powers{" "}
+              <span className="font-medium text-foreground">celina-mcp</span> and{" "}
+              <span className="font-medium text-foreground">browser wallet apps</span> from the same definitions.
+              Pair with{" "}
+              <a
+                className="underline decoration-[var(--celo-yellow)] decoration-2 underline-offset-4 hover:text-foreground"
+                href="https://wagmi.sh/"
+                target="_blank"
+                rel="noreferrer"
+              >
+                wagmi
+              </a>{" "}
+              / viem when users sign in their wallet.
+            </>
+          }
         >
-          Celina SDK
-        </h1>
-        <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-          One mainnet library for Celo agents — <span className="font-medium text-foreground">reads</span>,{" "}
-          <span className="font-medium text-foreground">unsigned prepares</span>, and a shared{" "}
-          <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">/tools</span> export that powers{" "}
-          <span className="font-medium text-foreground">celina-mcp</span> and{" "}
-          <span className="font-medium text-foreground">browser wallet apps</span> from the same definitions.
-          Pair with <a className="underline decoration-[var(--celo-yellow)] decoration-2 underline-offset-4 hover:text-foreground" href="https://wagmi.sh/" target="_blank" rel="noreferrer">wagmi</a>{" "}
-          / viem when users sign in their wallet.
-        </p>
-        <div className="mt-7 flex flex-wrap items-center gap-3">
-          <a
-            href={SDK_DOCS_URL}
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex items-center gap-2 rounded-lg bg-[var(--celo-yellow)] px-5 py-3 text-sm font-semibold text-[var(--celo-ink)] transition hover:-translate-y-0.5"
-          >
-            <FontAwesomeIcon icon={faBookOpen} className="h-4 w-4" />
-            Read the docs
-            <FontAwesomeIcon icon={faArrowUpRightFromSquare} className="h-3 w-3" />
-          </a>
-          <a
-            href={SDK_NPM_URL}
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex items-center gap-2 rounded-lg border border-border bg-card px-5 py-3 text-sm font-semibold text-foreground transition hover:border-[var(--celo-forest)] hover:bg-muted"
-          >
-            <FontAwesomeIcon icon={faNpm} className="h-4 w-4" /> View on npm
-          </a>
-        </div>
-      </section>
+          <div className="flex flex-wrap items-center gap-3">
+            <a
+              href={SDK_DOCS_URL}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-2 rounded-lg bg-[var(--celo-yellow)] px-5 py-3 text-sm font-semibold text-[var(--celo-ink)] transition hover:-translate-y-0.5"
+            >
+              <FontAwesomeIcon icon={faBookOpen} className="h-4 w-4" />
+              Read the docs
+              <FontAwesomeIcon icon={faArrowUpRightFromSquare} className="h-3 w-3" />
+            </a>
+            <a
+              href={SDK_NPM_URL}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-2 rounded-lg border border-border bg-card px-5 py-3 text-sm font-semibold text-foreground transition hover:border-[var(--celo-forest)] hover:bg-muted"
+            >
+              <FontAwesomeIcon icon={faNpm} className="h-4 w-4" /> View on npm
+            </a>
+          </div>
+        </PageHero>
+      </PageHeroSection>
 
       {/* What you can do */}
       <section className="mx-auto max-w-6xl px-4 pb-10 sm:px-6">
@@ -376,20 +383,31 @@ function SdkPage() {
           Related packages
         </h2>
         <div className="grid gap-4 sm:grid-cols-2">
-          <a
-            href={MCP_NPM_URL}
-            target="_blank"
-            rel="noreferrer"
-            className="group rounded-2xl border border-foreground/10 bg-card p-5 shadow-[var(--shadow-soft)] transition hover:border-[var(--celo-forest)]"
-          >
+          <div className="group rounded-2xl border border-foreground/10 bg-card p-5 shadow-[var(--shadow-soft)] transition hover:border-[var(--celo-forest)]">
             <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-[var(--celo-forest)] dark:text-[var(--celo-yellow)]">
               <FontAwesomeIcon icon={faNpm} className="h-3.5 w-3.5" /> MCP server
             </div>
             <h3 className="mt-2 font-mono text-sm font-semibold text-foreground">@andrewkimjoseph/celina-mcp</h3>
             <p className="mt-1 text-sm text-muted-foreground">
-              MCP server for IDE / CLI agents — registers the shared SDK tool catalog. {HOSTED_TOOL_COUNT} tools on hosted (reads + Carbon prepare + GoodDollar reserve quote), full stdio with <span className="font-mono text-xs">CELO_PRIVATE_KEY</span> for execute/write.
+              MCP server for IDE / CLI agents — registers the shared SDK tool catalog. {HOSTED_TOOL_COUNT} tools on remote hosted (reads + Carbon prepare + GoodDollar reserve quote), full stdio with <span className="font-mono text-xs">CELO_PRIVATE_KEY</span> for execute/write.
             </p>
-          </a>
+            <div className="mt-3 flex flex-wrap gap-2">
+              <Link
+                to="/mcp"
+                className="inline-flex items-center gap-1 rounded-md border border-border bg-background px-3 py-1.5 text-xs font-medium text-foreground transition hover:border-[var(--celo-yellow)]"
+              >
+                MCP hub
+              </Link>
+              <a
+                href={MCP_NPM_URL}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-1 rounded-md border border-border bg-background px-3 py-1.5 text-xs font-medium text-foreground transition hover:border-[var(--celo-yellow)]"
+              >
+                <FontAwesomeIcon icon={faNpm} className="h-3 w-3" /> npm
+              </a>
+            </div>
+          </div>
           <a
             href={SELF_AGENT_URL}
             target="_blank"
@@ -419,6 +437,7 @@ function SdkPage() {
           </p>
           <div className="flex items-center gap-4 text-sm text-muted-foreground">
             <Link to="/about" className="hover:text-foreground">About</Link>
+            <Link to="/mcp" className="hover:text-foreground">MCP</Link>
             <Link to="/tools" className="hover:text-foreground">Tools</Link>
             <Link to="/stats" className="hover:text-foreground">Stats</Link>
             <a href={SDK_NPM_URL} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1.5 hover:text-foreground">
