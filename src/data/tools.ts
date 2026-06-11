@@ -1585,8 +1585,8 @@ export function findTool(catSlug: string, toolSlug: string): ToolDoc | undefined
   );
 }
 
-/** Hosted endpoint exposes 60 tools; full stdio catalog includes server-key writes. */
-export const HOSTED_TOOL_COUNT = 60;
+/** Hosted endpoint exposes 54 tools; full stdio catalog includes server-key writes and estimates. */
+export const HOSTED_TOOL_COUNT = 54;
 
 const STDIO_ONLY_TOOLS = new Set([
   "send_token",
@@ -1609,6 +1609,7 @@ const STDIO_ONLY_TOOLS = new Set([
 export function getToolAvailability(tool: ToolDoc): ToolAvailability {
   if (tool.availability) return tool.availability;
   if (tool.name.startsWith("execute_carbon_")) return "stdio";
+  if (tool.name.startsWith("estimate_")) return "stdio";
   if (STDIO_ONLY_TOOLS.has(tool.name)) return "stdio";
   return "both";
 }

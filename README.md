@@ -9,7 +9,7 @@
 - Website: [usecelina.xyz](https://usecelina.xyz)
 - SDK: [@andrewkimjoseph/celina-sdk](https://www.npmjs.com/package/@andrewkimjoseph/celina-sdk) — reads, prepares, and the shared LLM tool catalog
 - MCP: [@andrewkimjoseph/celina-mcp](https://www.npmjs.com/package/@andrewkimjoseph/celina-mcp) — registers the catalog for IDE / CLI agents
-- Hosted endpoint: `https://mcp.usecelina.xyz/api/mcp` — **60 tools** (reads + estimates + GoodDollar reserve estimate + Carbon prepare; no server-key writes)
+- Hosted endpoint: `https://mcp.usecelina.xyz/api/mcp` — **54 tools** (reads + quotes + Carbon prepare; no `estimate_*` or server-key writes)
 - Full stdio catalog: **88 tools** (adds `execute_carbon_*`, `execute_gooddollar_reserve_swap`, and other server-key execute/write paths)
 
 This repo is the **marketing site** for Celina. The SDK and MCP packages live in sibling directories in the monorepo.
