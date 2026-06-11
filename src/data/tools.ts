@@ -1585,13 +1585,31 @@ export function findTool(catSlug: string, toolSlug: string): ToolDoc | undefined
   );
 }
 
-/** Hosted endpoint exposes 75 tools; full stdio catalog includes server-key writes. */
-export const HOSTED_TOOL_COUNT = 75;
+/** Hosted endpoint exposes 60 tools; full stdio catalog includes server-key writes. */
+export const HOSTED_TOOL_COUNT = 60;
+
+const STDIO_ONLY_TOOLS = new Set([
+  "send_token",
+  "execute_mento_fx",
+  "execute_uniswap_swap",
+  "supply_aave",
+  "withdraw_aave",
+  "claim_daily_gooddollar_ubi",
+  "execute_gooddollar_reserve_swap",
+  "get_wallet_address",
+  "get_self_identity",
+  "sign_self_request",
+  "authenticated_self_fetch",
+  "refresh_self_proof",
+  "deregister_self_agent",
+  "register_self_agent",
+  "check_self_registration",
+]);
 
 export function getToolAvailability(tool: ToolDoc): ToolAvailability {
   if (tool.availability) return tool.availability;
-  // Hosted MCP omits execute_carbon_* only (carbonExecuteEnabled: false).
   if (tool.name.startsWith("execute_carbon_")) return "stdio";
+  if (STDIO_ONLY_TOOLS.has(tool.name)) return "stdio";
   return "both";
 }
 
