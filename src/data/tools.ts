@@ -973,7 +973,7 @@ export const TOOLS: ToolDoc[] = [
         type: "0x… address",
         required: false,
         description:
-          "Wallet to inspect (mutually exclusive with strategy_id). Defaults to the configured signer on local stdio with CELO_PRIVATE_KEY.",
+          "Wallet to inspect. Required on hosted MCP unless strategy_id is provided. Defaults to CELO_PRIVATE_KEY signer on local stdio.",
       },
       { name: "strategy_id", type: "string", required: false, description: "Strategy NFT id." },
     ],
