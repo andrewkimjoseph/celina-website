@@ -7,7 +7,7 @@
 **Celina** is an open-source agent stack for **Celo mainnet** — one shared tool catalog from [`@andrewkimjoseph/celina-sdk/tools`](https://www.npmjs.com/package/@andrewkimjoseph/celina-sdk) that powers MCP clients, the hosted endpoint, and browser wallet apps.
 
 - Website: [usecelina.xyz](https://usecelina.xyz)
-- SDK: [@andrewkimjoseph/celina-sdk](https://www.npmjs.com/package/@andrewkimjoseph/celina-sdk) — reads, prepares, and the shared LLM tool catalog
+- SDK: [@andrewkimjoseph/celina-sdk](https://www.npmjs.com/package/@andrewkimjoseph/celina-sdk) — reads, wallet signing flows, and the shared LLM tool catalog
 - MCP: [@andrewkimjoseph/celina-mcp](https://www.npmjs.com/package/@andrewkimjoseph/celina-mcp) — registers the catalog for IDE / CLI agents
 - Hosted endpoint: `https://mcp.usecelina.xyz/api/mcp` — **29 tools** (reads + quotes; no `estimate_*` or server-key writes). Public read-only — no API key; see [celina-mcp-host SECURITY.md](../celina-mcp-host/SECURITY.md).
 - Full stdio catalog: **54 tools** (adds `execute_gooddollar_reserve_swap`, and other server-key execute/write paths)
@@ -113,7 +113,7 @@ Full catalog with execute/write when you set `CELO_PRIVATE_KEY`. Keys stay on yo
 }
 ```
 
-### Hosted (reads + prepare)
+### Hosted (reads only)
 
 No install, no keys — chain reads and chain reads:
 

@@ -314,7 +314,7 @@ function Index() {
             icon={faCodeBranch}
             title="Celina SDK"
             subtitle="Core library"
-            body="Programmatic reads, unsigned prepare flows, and the shared LLM tool catalog."
+            body="Programmatic reads, wallet signing flows, and the shared LLM tool catalog."
           >
             <Link
               to="/sdk"
@@ -378,7 +378,7 @@ function Index() {
             icon={faChartLine}
             title="Tools catalog"
             subtitle="Reference"
-            body="Browse all MCP tools by category — reads, prepares, and writes with full input/output specs."
+            body="Browse all MCP tools by category — reads and writes with full input/output specs."
           >
             <Link
               to="/tools"
@@ -460,7 +460,7 @@ function Index() {
             {
               icon: faCloud,
               title: "Local or remote MCP",
-              body: "Streamable HTTP for instant reads + prepare. Local stdio with CELO_PRIVATE_KEY for execute/write tools.",
+              body: "Streamable HTTP for instant reads. Local stdio with CELO_PRIVATE_KEY for execute/write tools.",
             },
             {
               icon: faLock,
@@ -549,7 +549,7 @@ function Index() {
                 {TOOLS.length} tools. One agent. Whole chain.
               </h2>
               <p className="mt-3 max-w-xl text-base text-muted-foreground">
-                One shared catalog for reads, prepares, and writes on Celo mainnet.{" "}
+                One shared catalog for reads and writes on Celo mainnet.{" "}
                 <span className="font-medium text-foreground">
                   {HOSTED_TOOL_COUNT} remote · {TOOL_DOCS.length} stdio
                 </span>
@@ -567,8 +567,6 @@ function Index() {
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {FEATURED_TOOLS.map((t) => {
               const isWrite = t.type === "write";
-              const isPrepare = t.type === "prepare";
-              const kindLabel = isPrepare ? "PREP" : t.type;
               return (
                 <Link
                   key={t.name}
@@ -586,14 +584,12 @@ function Index() {
                     </code>
                     <span
                       className={`shrink-0 rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.14em] ${
-                        isPrepare
-                          ? "bg-[var(--celo-deep)] text-[var(--celo-cream)] dark:bg-[var(--celo-cream)] dark:text-[var(--celo-ink)]"
-                          : isWrite
-                            ? "bg-[var(--celo-yellow)] text-[var(--celo-ink)]"
-                            : "bg-[var(--celo-forest)] text-[var(--celo-yellow)] dark:bg-[var(--celo-yellow)]/15 dark:text-[var(--celo-yellow)] dark:border dark:border-[var(--celo-yellow)]/40"
+                        isWrite
+                          ? "bg-[var(--celo-yellow)] text-[var(--celo-ink)]"
+                          : "bg-[var(--celo-forest)] text-[var(--celo-yellow)] dark:bg-[var(--celo-yellow)]/15 dark:text-[var(--celo-yellow)] dark:border dark:border-[var(--celo-yellow)]/40"
                       }`}
                     >
-                      {kindLabel}
+                      {t.type}
                     </span>
                   </div>
                   <p className="mt-1.5 text-sm text-muted-foreground">{t.desc}</p>

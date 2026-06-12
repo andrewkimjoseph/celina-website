@@ -73,7 +73,7 @@ function McpLocalPage() {
           With <code className="rounded bg-secondary px-1 py-0.5">CELO_PRIVATE_KEY</code>, omit{" "}
           <code className="rounded bg-secondary px-1 py-0.5">address</code> /{" "}
           <code className="rounded bg-secondary px-1 py-0.5">wallet_address</code> on wallet-scoped tools for “my”
-          reads and prepare, or call <code className="rounded bg-secondary px-1 py-0.5">get_wallet_address</code>{" "}
+          reads and writes, or call <code className="rounded bg-secondary px-1 py-0.5">get_wallet_address</code>{" "}
           when you need the signer as data.
         </p>
       </article>

@@ -11,13 +11,13 @@ export const Route = createFileRoute("/mcp/remote")({
       {
         name: "description",
         content:
-          "Connect to Celina remote MCP at mcp.usecelina.xyz — Streamable HTTP for reads and prepare without a local install.",
+          "Connect to Celina remote MCP at mcp.usecelina.xyz — Streamable HTTP for reads without a local install.",
       },
       { property: "og:title", content: "Celina MCP — remote hosted endpoint" },
       {
         property: "og:description",
         content:
-          "Connect to Celina remote MCP at mcp.usecelina.xyz — Streamable HTTP for reads and prepare without a local install.",
+          "Connect to Celina remote MCP at mcp.usecelina.xyz — Streamable HTTP for reads without a local install.",
       },
     ],
   }),
@@ -31,7 +31,7 @@ function McpRemotePage() {
         <div className="mb-1 flex flex-wrap items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-[var(--celo-forest)]">
           <FontAwesomeIcon icon={faCloud} className="h-3.5 w-3.5" /> Remote hosted
           <span className="rounded-full border border-[var(--celo-forest)]/40 bg-[var(--celo-forest)]/10 px-2 py-0.5 text-[10px] tracking-[0.18em] text-[var(--celo-forest)] dark:border-[var(--celo-yellow)]/40 dark:bg-[var(--celo-yellow)]/10 dark:text-[var(--celo-yellow)]">
-            Reads + prepare
+            Read-only
           </span>
         </div>
         <h2
@@ -43,8 +43,7 @@ function McpRemotePage() {
         <p className="mt-2 text-sm text-muted-foreground">
           No Node, no <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">npx</span>, no keys.
           The hosted endpoint exposes <span className="font-semibold text-foreground">{HOSTED_TOOL_COUNT} tools</span>:
-          chain reads (including GoodDollar G$ ↔ USDm reserve quotes), gas estimates, and all{" "}
-          unsigned prepare flows for Mento FX, Uniswap, Aave, and GoodDollar.
+          chain reads, oracle/AMM quotes (Mento FX, Uniswap v4, GoodDollar reserve), GoodDollar entitlement, and Self verify/lookup.
         </p>
 
         <div className="mt-5 rounded-xl border border-foreground/10 bg-muted/30 p-4 text-sm">

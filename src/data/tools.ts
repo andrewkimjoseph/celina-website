@@ -1,4 +1,4 @@
-export type ToolKind = "read" | "write" | "prepare";
+export type ToolKind = "read" | "write";
 export type ToolAvailability = "hosted" | "stdio" | "both";
 
 export interface ToolField {
@@ -264,7 +264,7 @@ export const TOOLS: ToolDoc[] = [
     title: "Get GoodDollar Reserve Quote",
     summary: "G$ ↔ USDm quote via GoodDollar MentoBroker reserve",
     description:
-      "GoodDollar reserve quote for G$ ↔ USDm on Celo mainnet via the on-chain MentoBroker bonding curve — not Uniswap. Pair-limited to GoodDollar/G$ ↔ USDm/cUSD. Read-only and wallet-free. For user wallet signing, use SDK prepareReserveSwap or prepare_swap in browser apps.",
+      "GoodDollar reserve quote for G$ ↔ USDm on Celo mainnet via the on-chain MentoBroker bonding curve — not Uniswap. Pair-limited to GoodDollar/G$ ↔ USDm/cUSD. Read-only and wallet-free.",
     kind: "read",
     category: "GoodDollar",
     inputs: [

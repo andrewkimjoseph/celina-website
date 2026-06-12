@@ -1,6 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft, faBolt, faCircleNodes, faFileSignature, faTerminal, faCopy, faCheck } from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft, faBolt, faCircleNodes, faTerminal, faCopy, faCheck } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 import { findTool, categorySlug, getToolAvailability, availabilityLabel, type ToolDoc } from "@/data/tools";
 import { SiteHeader } from "@/components/site-header";
@@ -61,14 +61,10 @@ function CopyInline({ text }: { text: string }) {
 function ToolPage() {
   const { tool } = Route.useLoaderData() as { tool: ToolDoc };
   const isWrite = tool.kind === "write";
-  const isPrepare = tool.kind === "prepare";
-  const kindLabel = isPrepare ? "PREP" : tool.kind;
-  const kindIcon = isPrepare ? faFileSignature : isWrite ? faBolt : faCircleNodes;
-  const kindClass = isPrepare
-    ? "border border-[var(--celo-deep)]/40 bg-[var(--celo-deep)] text-[var(--celo-cream)] dark:border-[var(--celo-cream)]/50 dark:bg-[var(--celo-cream)] dark:text-[var(--celo-ink)]"
-    : isWrite
-      ? "border border-[var(--celo-ink)]/40 bg-[var(--celo-yellow)] text-[var(--celo-ink)]"
-      : "border border-[var(--celo-forest)]/40 text-[var(--celo-forest)]";
+  const kindIcon = isWrite ? faBolt : faCircleNodes;
+  const kindClass = isWrite
+    ? "border border-[var(--celo-ink)]/40 bg-[var(--celo-yellow)] text-[var(--celo-ink)]"
+    : "border border-[var(--celo-forest)]/40 text-[var(--celo-forest)]";
   const availability = getToolAvailability(tool);
   const catSlug = categorySlug(tool.category);
 
@@ -94,7 +90,7 @@ function ToolPage() {
             className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.18em] ${kindClass}`}
           >
             <FontAwesomeIcon icon={kindIcon} className="h-2.5 w-2.5" />
-            {kindLabel}
+            {tool.kind}
           </span>
           <Link
             to="/tools/$category"

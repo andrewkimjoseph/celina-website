@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBolt, faCircleNodes, faFileSignature } from "@fortawesome/free-solid-svg-icons";
+import { faBolt, faCircleNodes } from "@fortawesome/free-solid-svg-icons";
 import { TOOLS, type ToolDoc, categorySlug, HOSTED_TOOL_COUNT } from "@/data/tools";
 import { SiteHeader } from "@/components/site-header";
 
@@ -28,7 +28,6 @@ function ToolsIndex() {
   const categories = Object.keys(byCategory);
   const readCount = TOOLS.filter((t) => t.kind === "read").length;
   const writeCount = TOOLS.filter((t) => t.kind === "write").length;
-  const prepareCount = TOOLS.filter((t) => t.kind === "prepare").length;
 
   return (
     <main className="min-h-screen bg-background text-foreground">
@@ -51,7 +50,7 @@ function ToolsIndex() {
           {TOOLS.length} tools. One agent. Whole chain.
         </h1>
         <p className="mt-4 max-w-2xl text-lg text-muted-foreground">
-          Every operation Celina exposes to your LLM — {readCount} read, {writeCount} write, {prepareCount} prep — across Celo mainnet, Mento FX, GoodDollar reserve (G$ ↔ USDm), Uniswap v4, Aave, and GoodDollar UBI. Click any tool for its full spec.
+          Every operation Celina exposes to your LLM — {readCount} read, {writeCount} write — across Celo mainnet, Mento FX, GoodDollar reserve (G$ ↔ USDm), Uniswap v4, Aave, and GoodDollar UBI. Click any tool for its full spec.
         </p>
 
         <nav className="mt-8 flex flex-wrap gap-2 text-sm">
@@ -86,14 +85,10 @@ function ToolsIndex() {
               <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
                 {byCategory[category].map((t) => {
                   const isWrite = t.kind === "write";
-                  const isPrepare = t.kind === "prepare";
-                  const kindLabel = isPrepare ? "PREP" : t.kind;
-                  const kindIcon = isPrepare ? faFileSignature : isWrite ? faBolt : faCircleNodes;
-                  const badgeClass = isPrepare
-                    ? "bg-[var(--celo-deep)] text-[var(--celo-cream)] dark:bg-[var(--celo-cream)] dark:text-[var(--celo-ink)]"
-                    : isWrite
-                      ? "bg-[var(--celo-yellow)] text-[var(--celo-ink)]"
-                      : "bg-[var(--celo-forest)] text-[var(--celo-yellow)] dark:bg-[var(--celo-yellow)]/15 dark:text-[var(--celo-yellow)] dark:border dark:border-[var(--celo-yellow)]/40";
+                  const kindIcon = isWrite ? faBolt : faCircleNodes;
+                  const badgeClass = isWrite
+                    ? "bg-[var(--celo-yellow)] text-[var(--celo-ink)]"
+                    : "bg-[var(--celo-forest)] text-[var(--celo-yellow)] dark:bg-[var(--celo-yellow)]/15 dark:text-[var(--celo-yellow)] dark:border dark:border-[var(--celo-yellow)]/40";
                   return (
                     <Link
                       key={t.name}
@@ -113,7 +108,7 @@ function ToolsIndex() {
                           className={`inline-flex shrink-0 items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.14em] ${badgeClass}`}
                         >
                           <FontAwesomeIcon icon={kindIcon} className="h-2.5 w-2.5" />
-                          {kindLabel}
+                          {t.kind}
                         </span>
                       </div>
                       <p className="mt-1.5 text-sm text-muted-foreground">{t.summary}</p>

@@ -20,7 +20,7 @@ export const Route = createFileRoute("/mcp/")({
       {
         name: "description",
         content:
-          "Overview of Celina MCP — local stdio for full Celo execution vs remote hosted reads and prepare.",
+          "Overview of Celina MCP — local stdio for full Celo execution vs remote hosted reads.",
       },
     ],
   }),
@@ -39,7 +39,7 @@ function McpOverviewPage() {
         <p>
           Pick a deployment mode: <strong className="text-foreground">local stdio</strong> for the full catalog
           with execute/write when you set <code className="rounded bg-secondary px-1 py-0.5 text-sm">CELO_PRIVATE_KEY</code>,
-          or <strong className="text-foreground">remote hosted</strong> for instant reads and unsigned prepare flows without installing Node.
+          or <strong className="text-foreground">remote hosted</strong> for instant reads without installing Node.
         </p>
       </div>
 
@@ -60,7 +60,7 @@ function McpOverviewPage() {
           </thead>
           <tbody className="divide-y divide-foreground/10">
             {[
-              ["Tools", `${STDIO_TOOL_COUNT} full catalog`, `${HOSTED_TOOL_COUNT} reads + prepare`],
+              ["Tools", `${STDIO_TOOL_COUNT} full catalog`, `${HOSTED_TOOL_COUNT} reads`],
               ["Install", "Node.js ≥ 20, npx", "None — URL only"],
               ["Private keys", "Your machine (optional)", "Never — no server keys"],
               ["Writes", "send_token, execute_*, Aave, UBI", "Not available"],
@@ -112,7 +112,7 @@ function McpOverviewPage() {
             Remote hosted
           </h2>
           <p className="mt-1.5 flex-1 text-sm text-muted-foreground">
-            Streamable HTTP at mcp.usecelina.xyz — reads and unsigned prepares.
+            Streamable HTTP at mcp.usecelina.xyz — read-only chain and quote tools.
           </p>
           <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-foreground group-hover:underline">
             Connect remotely <FontAwesomeIcon icon={faArrowRight} className="h-3 w-3" />

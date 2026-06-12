@@ -161,7 +161,7 @@ function AboutPage() {
             >
               MCP
             </a>{" "}
-            clients (Cursor, Claude Desktop), a hosted HTTP endpoint for quick reads and unsigned prepares, and
+            clients (Cursor, Claude Desktop), a hosted HTTP endpoint for quick reads, and
             browser wallet apps where users sign in their own wallet. When the SDK adds a tool, every host stays in
             sync.
           </p>
@@ -219,7 +219,7 @@ function AboutPage() {
             icon={faCodeBranch}
             title="Celina SDK"
             subtitle="Core library"
-            body="Programmatic reads, unsigned prepare flows, and the shared LLM tool catalog. Use directly or filter for your agent host."
+            body="Programmatic reads, wallet signing flows, and the shared LLM tool catalog. Use directly or filter for your agent host."
           >
             <Link
               to="/sdk"

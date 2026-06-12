@@ -32,7 +32,7 @@ import {
 
 const celina = createCelinaClient({ rpcUrl: "https://forno.celo.org" });
 
-// Browser wallet app — user signs prepared txs
+// Browser wallet app — user signs in wallet
 const browserTools = filterToolDefinitions(ALL_TOOL_DEFINITIONS, {
   surface: "browser",
 });
@@ -53,7 +53,7 @@ const celina = createCelinaClient({
 await celina.token.getStablecoinBalances("0xYourAddress");
 await celina.mentoFx.getFxQuote("USDm", "EURm", "100");
 
-// Prepare unsigned txs (user signs in wallet)
+// Unsigned txs (user signs in wallet)
 const flow = await celina.transaction.prepareSend(
   "0xFrom",
   "0xTo",
@@ -62,22 +62,22 @@ const flow = await celina.transaction.prepareSend(
 );
 // flow.steps → pass to wagmi sendTransactionAsync`;
 
-type Row = { service: string; reads: string; prepare: string };
+type Row = { service: string; reads: string; wallet: string };
 
 const API_ROWS: Row[] = [
-  { service: "blockchain", reads: "network status, blocks, transactions", prepare: "—" },
-  { service: "account", reads: "CELO balance, nonce", prepare: "—" },
-  { service: "token", reads: "balances, token info, stablecoins", prepare: "—" },
-  { service: "ens", reads: "resolve ENS names", prepare: "—" },
-  { service: "gooddollar", reads: "whitelist status, UBI entitlement, reserve quote/estimate", prepare: "prepareClaimUbi, prepareReserveSwap; MCP execute: executeReserveSwap" },
-  { service: "transaction", reads: "gas fees, estimates", prepare: "prepareSend" },
-  { service: "mentoFx", reads: "getFxQuote, estimateFx", prepare: "prepareFx" },
-  { service: "uniswap", reads: "getSwapQuote, estimateSwap", prepare: "prepareSwap" },
-  { service: "aave", reads: "—", prepare: "prepareSupply, prepareWithdraw" },
-  { service: "governance", reads: "proposals list, details", prepare: "—" },
-  { service: "staking", reads: "balances, validator groups", prepare: "—" },
-  { service: "nft", reads: "NFT info, balance", prepare: "—" },
-  { service: "contract", reads: "callFunction, estimateGas", prepare: "—" },
+  { service: "blockchain", reads: "network status, blocks, transactions", wallet: "—" },
+  { service: "account", reads: "CELO balance, nonce", wallet: "—" },
+  { service: "token", reads: "balances, token info, stablecoins", wallet: "—" },
+  { service: "ens", reads: "resolve ENS names", wallet: "—" },
+  { service: "gooddollar", reads: "whitelist status, UBI entitlement, reserve quote/estimate", wallet: "claim UBI, reserve swap; MCP execute: executeReserveSwap" },
+  { service: "transaction", reads: "gas fees, estimates", wallet: "send" },
+  { service: "mentoFx", reads: "getFxQuote, estimateFx", wallet: "FX swap" },
+  { service: "uniswap", reads: "getSwapQuote, estimateSwap", wallet: "swap" },
+  { service: "aave", reads: "—", wallet: "supply, withdraw" },
+  { service: "governance", reads: "proposals list, details", wallet: "—" },
+  { service: "staking", reads: "balances, validator groups", wallet: "—" },
+  { service: "nft", reads: "NFT info, balance", wallet: "—" },
+  { service: "contract", reads: "callFunction, estimateGas", wallet: "—" },
 ];
 
 export const Route = createFileRoute("/sdk")({
@@ -87,13 +87,13 @@ export const Route = createFileRoute("/sdk")({
       {
         name: "description",
         content:
-          "Celina SDK for Celo mainnet — programmatic reads and unsigned prepares, plus a shared LLM tool catalog that powers celina-mcp and browser wallet apps from one source of truth.",
+          "Celina SDK for Celo mainnet — programmatic reads and unsigned wallet flows, plus a shared LLM tool catalog that powers celina-mcp and browser wallet apps from one source of truth.",
       },
       { property: "og:title", content: "Celina SDK — shared tool catalog for Celo agents" },
       {
         property: "og:description",
         content:
-          "Celina SDK for Celo mainnet — programmatic reads and unsigned prepares, plus a shared LLM tool catalog that powers celina-mcp and browser wallet apps from one source of truth.",
+          "Celina SDK for Celo mainnet — programmatic reads and unsigned wallet flows, plus a shared LLM tool catalog that powers celina-mcp and browser wallet apps from one source of truth.",
       },
     ],
   }),
@@ -169,7 +169,7 @@ function SdkPage() {
           description={
             <>
               One mainnet library for Celo agents — <span className="font-medium text-foreground">reads</span>,{" "}
-              <span className="font-medium text-foreground">unsigned prepares</span>, and a shared{" "}
+              <span className="font-medium text-foreground">unsigned wallet flows</span>, and a shared{" "}
               <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">/tools</span> export that powers{" "}
               <span className="font-medium text-foreground">celina-mcp</span> and{" "}
               <span className="font-medium text-foreground">browser wallet apps</span> from the same definitions.
@@ -230,19 +230,19 @@ function SdkPage() {
           />
           <CapabilityCard
             icon={faPenRuler}
-            title="Prepare"
-            body="Unsigned tx flows for sends, Mento FX, GoodDollar reserve (G$ ↔ USDm), Uniswap v4, Aave, GoodDollar UBI,."
+            title="Wallet signing"
+            body="Unsigned tx flows for sends, Mento FX, GoodDollar reserve (G$ ↔ USDm), Uniswap v4, Aave, and GoodDollar UBI."
           />
           <CapabilityCard
             icon={faBolt}
             title="Tool catalog"
-            body="Import @andrewkimjoseph/celina-sdk/tools — filter by surface (mcp or browser), family (read/prepare/execute). Same schemas celina-mcp registers."
+            body="Import @andrewkimjoseph/celina-sdk/tools — filter by surface (mcp or browser), family (read/execute). Same schemas celina-mcp registers."
           />
         </div>
         <div className="mt-5 flex items-start gap-3 rounded-xl border border-[var(--celo-forest)]/30 bg-[var(--celo-forest)]/5 p-4 text-sm text-foreground">
           <FontAwesomeIcon icon={faLock} className="mt-0.5 h-4 w-4 text-[var(--celo-forest)] dark:text-[var(--celo-yellow)]" />
           <span>
-            The SDK never holds or uses private keys. Call <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">prepare*</span> methods with the user&apos;s wallet address, then pass the returned <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">steps</span> to wagmi for signing. Optional-address defaults and <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">get_wallet_address</span> are celina-mcp only (local stdio + server key), not this package.
+            The SDK never holds or uses private keys. Build unsigned flows with the user&apos;s wallet address, then pass the returned <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">steps</span> to wagmi for signing. Optional-address defaults and <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">get_wallet_address</span> are celina-mcp only (local stdio + server key), not this package.
           </span>
         </div>
         <p className="mt-4 text-sm text-muted-foreground">
@@ -329,7 +329,7 @@ function SdkPage() {
                 <tr>
                   <th className="px-5 py-3 font-semibold">Service</th>
                   <th className="px-5 py-3 font-semibold">Reads</th>
-                  <th className="px-5 py-3 font-semibold">Prepare (unsigned)</th>
+                  <th className="px-5 py-3 font-semibold">Wallet signing (unsigned)</th>
                 </tr>
               </thead>
               <tbody>
@@ -340,10 +340,10 @@ function SdkPage() {
                     </td>
                     <td className="px-5 py-3 align-top text-muted-foreground">{r.reads}</td>
                     <td className="px-5 py-3 align-top">
-                      {r.prepare === "—" ? (
+                      {r.wallet === "—" ? (
                         <span className="text-muted-foreground">—</span>
                       ) : (
-                        <code className="font-mono text-xs text-foreground">{r.prepare}</code>
+                        <code className="font-mono text-xs text-foreground">{r.wallet}</code>
                       )}
                     </td>
                   </tr>
@@ -355,7 +355,7 @@ function SdkPage() {
         <p className="mt-3 text-sm text-muted-foreground">
           Full method signatures are in the{" "}
           <a className="text-foreground underline decoration-[var(--celo-yellow)] decoration-2 underline-offset-4" href={`${SDK_DOCS_URL}/concepts/prepared-flows`} target="_blank" rel="noreferrer">
-            Prepared flows
+            Wallet signing flows
           </a>{" "}
          
           on GitBook, plus the{" "}
