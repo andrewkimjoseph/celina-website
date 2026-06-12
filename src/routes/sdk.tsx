@@ -35,15 +35,11 @@ const celina = createCelinaClient({ rpcUrl: "https://forno.celo.org" });
 // Browser wallet app — user signs prepared txs
 const browserTools = filterToolDefinitions(ALL_TOOL_DEFINITIONS, {
   surface: "browser",
-  carbonPrepareEnabled: true,
-  carbonExecuteEnabled: false,
 });
 
 // MCP server — full catalog with executors when CELO_PRIVATE_KEY is set
 const mcpTools = filterToolDefinitions(ALL_TOOL_DEFINITIONS, {
   surface: "mcp",
-  carbonPrepareEnabled: true,
-  carbonExecuteEnabled: true,
 });`;
 
 const QUICK_START = `import { createCelinaClient } from "@andrewkimjoseph/celina-sdk";
@@ -78,7 +74,6 @@ const API_ROWS: Row[] = [
   { service: "mentoFx", reads: "getFxQuote, estimateFx", prepare: "prepareFx" },
   { service: "uniswap", reads: "getSwapQuote, estimateSwap", prepare: "prepareSwap" },
   { service: "aave", reads: "—", prepare: "prepareSupply, prepareWithdraw" },
-  { service: "carbon", reads: "strategies, pair explore, quotes, simulation", prepare: "13 prepare* (via finalizeCarbonPrepare)" },
   { service: "governance", reads: "proposals list, details", prepare: "—" },
   { service: "staking", reads: "balances, validator groups", prepare: "—" },
   { service: "nft", reads: "NFT info, balance", prepare: "—" },
@@ -236,12 +231,12 @@ function SdkPage() {
           <CapabilityCard
             icon={faPenRuler}
             title="Prepare"
-            body="Unsigned tx flows for sends, Mento FX, GoodDollar reserve (G$ ↔ USDm), Uniswap v4, Aave, GoodDollar UBI, and Carbon strategies/trades. Carbon uses finalizeCarbonPrepare to merge approve + controller steps."
+            body="Unsigned tx flows for sends, Mento FX, GoodDollar reserve (G$ ↔ USDm), Uniswap v4, Aave, GoodDollar UBI,."
           />
           <CapabilityCard
             icon={faBolt}
             title="Tool catalog"
-            body="Import @andrewkimjoseph/celina-sdk/tools — filter by surface (mcp or browser), family (read/prepare/execute), and Carbon flags. Same schemas celina-mcp registers."
+            body="Import @andrewkimjoseph/celina-sdk/tools — filter by surface (mcp or browser), family (read/prepare/execute). Same schemas celina-mcp registers."
           />
         </div>
         <div className="mt-5 flex items-start gap-3 rounded-xl border border-[var(--celo-forest)]/30 bg-[var(--celo-forest)]/5 p-4 text-sm text-foreground">
@@ -362,10 +357,7 @@ function SdkPage() {
           <a className="text-foreground underline decoration-[var(--celo-yellow)] decoration-2 underline-offset-4" href={`${SDK_DOCS_URL}/concepts/prepared-flows`} target="_blank" rel="noreferrer">
             Prepared flows
           </a>{" "}
-          and{" "}
-          <a className="text-foreground underline decoration-[var(--celo-yellow)] decoration-2 underline-offset-4" href={`${SDK_DOCS_URL}/guides/carbon`} target="_blank" rel="noreferrer">
-            Carbon guide
-          </a>{" "}
+         
           on GitBook, plus the{" "}
           <a className="text-foreground underline decoration-[var(--celo-yellow)] decoration-2 underline-offset-4" href={`${SDK_DOCS_URL}/api-reference`} target="_blank" rel="noreferrer">
             API reference
@@ -389,7 +381,7 @@ function SdkPage() {
             </div>
             <h3 className="mt-2 font-mono text-sm font-semibold text-foreground">@andrewkimjoseph/celina-mcp</h3>
             <p className="mt-1 text-sm text-muted-foreground">
-              MCP server for IDE / CLI agents — registers the shared SDK tool catalog. {HOSTED_TOOL_COUNT} tools on remote hosted (reads + Carbon prepare + GoodDollar reserve quote), full stdio with <span className="font-mono text-xs">CELO_PRIVATE_KEY</span> for execute/write.
+              MCP server for IDE / CLI agents — registers the shared SDK tool catalog. {HOSTED_TOOL_COUNT} tools on remote hosted (reads + GoodDollar reserve quote), full stdio with <span className="font-mono text-xs">CELO_PRIVATE_KEY</span> for execute/write.
             </p>
             <div className="mt-3 flex flex-wrap gap-2">
               <Link

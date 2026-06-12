@@ -9,8 +9,8 @@
 - Website: [usecelina.xyz](https://usecelina.xyz)
 - SDK: [@andrewkimjoseph/celina-sdk](https://www.npmjs.com/package/@andrewkimjoseph/celina-sdk) — reads, prepares, and the shared LLM tool catalog
 - MCP: [@andrewkimjoseph/celina-mcp](https://www.npmjs.com/package/@andrewkimjoseph/celina-mcp) — registers the catalog for IDE / CLI agents
-- Hosted endpoint: `https://mcp.usecelina.xyz/api/mcp` — **54 tools** (reads + quotes + Carbon prepare; no `estimate_*` or server-key writes). Public read-only — no API key; see [celina-mcp-host SECURITY.md](../celina-mcp-host/SECURITY.md).
-- Full stdio catalog: **88 tools** (adds `execute_carbon_*`, `execute_gooddollar_reserve_swap`, and other server-key execute/write paths)
+- Hosted endpoint: `https://mcp.usecelina.xyz/api/mcp` — **29 tools** (reads + quotes; no `estimate_*` or server-key writes). Public read-only — no API key; see [celina-mcp-host SECURITY.md](../celina-mcp-host/SECURITY.md).
+- Full stdio catalog: **54 tools** (adds `execute_gooddollar_reserve_swap`, and other server-key execute/write paths)
 
 This repo is the **marketing site** for Celina. The SDK and MCP packages live in sibling directories in the monorepo.
 
@@ -23,7 +23,7 @@ This repo is the **marketing site** for Celina. The SDK and MCP packages live in
   - **Remote hosted** (`/mcp/remote`) — Streamable HTTP endpoint and `mcp-remote` bridge
 - **SDK page** (`/sdk`) — shared tool catalog, programmatic client, and integration paths
 - **Tools catalog** (`/tools`) — browse all MCP tools by category
-  - Category pages: `/tools/blockchain`, `/tools/carbon-defi`, `/tools/mento-fx`, `/tools/uniswap`, `/tools/aave`, `/tools/gooddollar` (UBI + reserve quote), `/tools/self`, and more
+  - Category pages: `/tools/blockchain`, `/tools/mento-fx`, `/tools/uniswap`, `/tools/aave`, `/tools/gooddollar` (UBI + reserve quote), `/tools/self`, and more
   - Individual tool docs: `/tools/:category/:toolSlug`
 - **Stats dashboard** (`/stats`) — on-chain activity (Dune), off-chain MCP tool calls and unique wallets (Amplitude → Supabase), and npm downloads
 
@@ -115,7 +115,7 @@ Full catalog with execute/write when you set `CELO_PRIVATE_KEY`. Keys stay on yo
 
 ### Hosted (reads + prepare)
 
-No install, no keys — chain reads and unsigned `prepare_carbon_*` flows:
+No install, no keys — chain reads and chain reads:
 
 ```json
 {
@@ -150,7 +150,7 @@ For stdio-only clients that cannot use Streamable HTTP directly, bridge to the h
 }
 ```
 
-- `CELO_PRIVATE_KEY` — required for **write** tools (send tokens, swaps, Aave supply/withdraw, `execute_carbon_*`). On local stdio, many reads accept an omitted `address` / `wallet_address` and default to this signer; use **`get_wallet_address`** when the agent needs the address as data.
+- `CELO_PRIVATE_KEY` — required for **write** tools (send tokens, swaps, Aave supply/withdraw, server-key execute tools). On local stdio, many reads accept an omitted `address` / `wallet_address` and default to this signer; use **`get_wallet_address`** when the agent needs the address as data.
 - `SELF_AGENT_PRIVATE_KEY` — required for **Self Agent** registration and verification tools
 
 Never commit private keys.

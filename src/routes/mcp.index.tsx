@@ -20,7 +20,7 @@ export const Route = createFileRoute("/mcp/")({
       {
         name: "description",
         content:
-          "Overview of Celina MCP — local stdio for full Celo execution vs remote hosted reads and Carbon prepare.",
+          "Overview of Celina MCP — local stdio for full Celo execution vs remote hosted reads and prepare.",
       },
     ],
   }),
@@ -39,8 +39,7 @@ function McpOverviewPage() {
         <p>
           Pick a deployment mode: <strong className="text-foreground">local stdio</strong> for the full catalog
           with execute/write when you set <code className="rounded bg-secondary px-1 py-0.5 text-sm">CELO_PRIVATE_KEY</code>,
-          or <strong className="text-foreground">remote hosted</strong> for instant reads and unsigned Carbon
-          prepares without installing Node.
+          or <strong className="text-foreground">remote hosted</strong> for instant reads and unsigned prepare flows without installing Node.
         </p>
       </div>
 
@@ -65,7 +64,6 @@ function McpOverviewPage() {
               ["Install", "Node.js ≥ 20, npx", "None — URL only"],
               ["Private keys", "Your machine (optional)", "Never — no server keys"],
               ["Writes", "send_token, execute_*, Aave, UBI", "Not available"],
-              ["Carbon", "prepare + execute", "prepare_carbon_* only"],
               ["Self Agent ID", "Full lifecycle", "Verify/lookup only"],
             ].map(([label, local, remote]) => (
               <tr key={label}>
@@ -114,7 +112,7 @@ function McpOverviewPage() {
             Remote hosted
           </h2>
           <p className="mt-1.5 flex-1 text-sm text-muted-foreground">
-            Streamable HTTP at mcp.usecelina.xyz — reads, estimates, and unsigned Carbon prepares.
+            Streamable HTTP at mcp.usecelina.xyz — reads and unsigned prepares.
           </p>
           <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-foreground group-hover:underline">
             Connect remotely <FontAwesomeIcon icon={faArrowRight} className="h-3 w-3" />

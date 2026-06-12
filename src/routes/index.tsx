@@ -356,7 +356,7 @@ function Index() {
             icon={faCloud}
             title="Remote MCP"
             subtitle="Streamable HTTP"
-            body={`${HOSTED_TOOL_COUNT} tools — chain reads, GoodDollar reserve estimates, and unsigned Carbon prepares.`}
+            body={`${HOSTED_TOOL_COUNT} tools — chain reads, GoodDollar reserve estimates, and GoodDollar reserve quotes.`}
           >
             <Link
               to="/mcp/remote"
@@ -460,7 +460,7 @@ function Index() {
             {
               icon: faCloud,
               title: "Local or remote MCP",
-              body: "Streamable HTTP for instant reads + Carbon prepare. Local stdio with CELO_PRIVATE_KEY for execute/write tools.",
+              body: "Streamable HTTP for instant reads + prepare. Local stdio with CELO_PRIVATE_KEY for execute/write tools.",
             },
             {
               icon: faLock,

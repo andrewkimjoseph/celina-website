@@ -11,13 +11,13 @@ export const Route = createFileRoute("/mcp/remote")({
       {
         name: "description",
         content:
-          "Connect to Celina remote MCP at mcp.usecelina.xyz — Streamable HTTP for reads, estimates, and Carbon prepare without a local install.",
+          "Connect to Celina remote MCP at mcp.usecelina.xyz — Streamable HTTP for reads and prepare without a local install.",
       },
       { property: "og:title", content: "Celina MCP — remote hosted endpoint" },
       {
         property: "og:description",
         content:
-          "Connect to Celina remote MCP at mcp.usecelina.xyz — Streamable HTTP for reads, estimates, and Carbon prepare without a local install.",
+          "Connect to Celina remote MCP at mcp.usecelina.xyz — Streamable HTTP for reads and prepare without a local install.",
       },
     ],
   }),
@@ -44,8 +44,7 @@ function McpRemotePage() {
           No Node, no <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">npx</span>, no keys.
           The hosted endpoint exposes <span className="font-semibold text-foreground">{HOSTED_TOOL_COUNT} tools</span>:
           chain reads (including GoodDollar G$ ↔ USDm reserve quotes), gas estimates, and all{" "}
-          <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">prepare_carbon_*</span> tools
-          (unsigned approve + Carbon controller flows).
+          unsigned prepare flows for Mento FX, Uniswap, Aave, and GoodDollar.
         </p>
 
         <div className="mt-5 rounded-xl border border-foreground/10 bg-muted/30 p-4 text-sm">
@@ -94,7 +93,6 @@ function McpRemotePage() {
             <li>Chain reads and balances</li>
             <li>Gas estimates (with explicit addresses)</li>
             <li>GoodDollar reserve quote / estimate</li>
-            <li>All <code className="rounded bg-secondary px-1 py-0.5 text-xs">prepare_carbon_*</code> tools</li>
             <li>Self verify / lookup (read-only)</li>
           </ul>
         </div>
@@ -102,7 +100,6 @@ function McpRemotePage() {
           <p className="text-sm font-semibold text-foreground">Requires local stdio</p>
           <ul className="mt-2 space-y-1 text-sm text-muted-foreground">
             <li>
-              <code className="rounded bg-secondary px-1 py-0.5 text-xs">execute_carbon_*</code>,{" "}
               <code className="rounded bg-secondary px-1 py-0.5 text-xs">send_token</code>
             </li>
             <li>Mento FX, Uniswap v4, Aave execute</li>

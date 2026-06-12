@@ -13,13 +13,13 @@ export const Route = createFileRoute("/mcp")({
       {
         name: "description",
         content:
-          "Celina MCP server for Celo mainnet — local stdio with full execution or remote hosted reads and Carbon prepare.",
+          "Celina MCP server for Celo mainnet — local stdio with full execution or remote hosted reads and prepare.",
       },
       { property: "og:title", content: "Celina MCP — connect LLMs to Celo" },
       {
         property: "og:description",
         content:
-          "Celina MCP server for Celo mainnet — local stdio with full execution or remote hosted reads and Carbon prepare.",
+          "Celina MCP server for Celo mainnet — local stdio with full execution or remote hosted reads and prepare.",
       },
     ],
   }),

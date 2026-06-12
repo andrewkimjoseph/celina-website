@@ -1,7 +1,7 @@
 {
   "type": "https://eips.ethereum.org/EIPS/eip-8004#registration-v1",
   "name": "Celina",
-  "description": "Celina is an open-source agent stack for Celo mainnet — MCP server, SDK, and hosted endpoint for balances, swaps, Carbon DeFi, Self Agent ID, and 75+ chain tools for LLM agents.",
+  "description": "Celina is an open-source agent stack for Celo mainnet — MCP server, SDK, and hosted endpoint for balances, swaps, Self Agent ID, and chain tools for LLM agents.",
   "image": "https://usecelina.xyz/celina-logo-yellow.png",
   "active": true,
   "x402Support": false,

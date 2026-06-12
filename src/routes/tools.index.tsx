@@ -7,7 +7,7 @@ import { SiteHeader } from "@/components/site-header";
 export const Route = createFileRoute("/tools/")({
   head: () => {
     const title = "All Celina tools — Celo MCP";
-    const desc = `Browse every Celina MCP tool: ${TOOLS.length} operations on Celo mainnet (${HOSTED_TOOL_COUNT} on hosted, full stdio with server-key writes). Reads, Carbon prepare, Mento FX, GoodDollar reserve, Uniswap v4, Aave, GoodDollar UBI, governance, staking, NFTs, and contract calls.`;
+    const desc = `Browse every Celina MCP tool: ${TOOLS.length} operations on Celo mainnet (${HOSTED_TOOL_COUNT} on hosted, full stdio with server-key writes). Reads, Mento FX, GoodDollar reserve, Uniswap v4, Aave, GoodDollar UBI, governance, staking, NFTs, and contract calls.`;
     return {
       meta: [
         { title },
@@ -51,7 +51,7 @@ function ToolsIndex() {
           {TOOLS.length} tools. One agent. Whole chain.
         </h1>
         <p className="mt-4 max-w-2xl text-lg text-muted-foreground">
-          Every operation Celina exposes to your LLM — {readCount} read, {writeCount} write, {prepareCount} prep — across Celo mainnet, Mento FX, GoodDollar reserve (G$ ↔ USDm), Uniswap v4, Aave, Carbon DeFi, and GoodDollar UBI. Click any tool for its full spec.
+          Every operation Celina exposes to your LLM — {readCount} read, {writeCount} write, {prepareCount} prep — across Celo mainnet, Mento FX, GoodDollar reserve (G$ ↔ USDm), Uniswap v4, Aave, and GoodDollar UBI. Click any tool for its full spec.
         </p>
 
         <nav className="mt-8 flex flex-wrap gap-2 text-sm">

@@ -167,7 +167,7 @@ function AboutPage() {
           </p>
           <p>
             Celina targets <span className="font-medium text-foreground">Celo mainnet</span> today — stablecoins,
-            Mento FX, Uniswap v4, Aave V3, Carbon DeFi, GoodDollar, Self Agent ID, and core chain reads. MIT
+            Mento FX, Uniswap v4, Aave V3, GoodDollar, Self Agent ID, and core chain reads. MIT
             licensed and built for builders shipping real on-chain agents.
           </p>
         </div>
@@ -279,7 +279,7 @@ function AboutPage() {
             icon={faCloud}
             title="Hosted endpoint"
             subtitle="Streamable HTTP"
-            body={`${HOSTED_TOOL_COUNT} tools — chain reads, GoodDollar reserve estimates, and unsigned Carbon prepares. No install, no server keys.`}
+            body={`${HOSTED_TOOL_COUNT} tools — chain reads, GoodDollar reserve estimates, and GoodDollar reserve quotes. No install, no server keys.`}
           >
             <a
               href={HOSTED_MCP_URL}
