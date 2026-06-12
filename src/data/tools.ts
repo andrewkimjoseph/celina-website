@@ -162,9 +162,9 @@ export const TOOLS: ToolDoc[] = [
     name: "get_stablecoin_balances",
     slug: "get-stablecoin-balances",
     title: "Get Stablecoin Balances",
-    summary: "Scan all registry stablecoins; omits zero balances by default",
+    summary: "Scan fiat-pegged registry stablecoins; omits zero balances by default",
     description:
-      "Scan all registry stablecoins; omits zero balances by default.",
+      "Scan fiat-pegged registry stablecoins (Mento *m, USDT, USDC, etc.) in one call. Omits zero balances by default. Excludes GoodDollar (G$) and WETH — use get_token_balance or GoodDollar tools for those.",
     kind: "read",
     category: "Token",
     inputs: [
