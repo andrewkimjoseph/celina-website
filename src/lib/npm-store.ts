@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { getNpmDownloads, type NpmDownloadDay } from "./npm.functions";
+import { withTimeout } from "./refresh-utils";
 import { STALE_MS } from "./stats-store";
 
 type NpmState = {
@@ -20,28 +21,33 @@ export const useNpmStore = create<NpmState>()(
       error: null,
       refresh: async (opts) => {
         const { fetchedAt, loading } = get();
-        if (loading) return;
+        if (loading && !opts?.force) return;
         if (
           !opts?.force &&
           fetchedAt &&
           Date.now() - fetchedAt < STALE_MS &&
           get().rows.length > 0
-        )
+        ) {
           return;
+        }
         set({ loading: true, error: null });
         try {
-          const result = await getNpmDownloads();
+          const result = await withTimeout(
+            getNpmDownloads(),
+            45_000,
+            "npm downloads",
+          );
           set({
             rows: result.rows,
             fetchedAt: result.fetchedAt,
             error: result.error,
-            loading: false,
           });
         } catch (e) {
           set({
-            loading: false,
             error: e instanceof Error ? e.message : "Failed to load npm downloads",
           });
+        } finally {
+          set({ loading: false });
         }
       },
     }),

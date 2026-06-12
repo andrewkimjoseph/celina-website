@@ -126,9 +126,9 @@ function StatsLayout() {
           </div>
           <button
             onClick={() => {
-              refresh();
-              refreshNpm();
-              refreshAmp();
+              void refresh({ force: true });
+              void refreshNpm({ force: true });
+              void refreshAmp({ force: true });
             }}
             disabled={busy || cooldown}
             className="inline-flex items-center gap-2 rounded-lg border border-foreground/15 bg-card px-3.5 py-2 text-sm font-medium text-foreground transition hover:border-[var(--celo-forest)] hover:bg-muted disabled:opacity-60"

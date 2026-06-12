@@ -5,6 +5,7 @@ import {
   type AmplitudeEventDay,
   type AmplitudeEventTotal,
 } from "./amplitude.functions";
+import { withTimeout } from "./refresh-utils";
 import { STALE_MS } from "./stats-store";
 
 type AmplitudeState = {
@@ -36,17 +37,22 @@ export const useAmplitudeStore = create<AmplitudeState>()(
       error: null,
       refresh: async (opts) => {
         const { fetchedAt, loading } = get();
-        if (loading) return;
+        if (loading && !opts?.force) return;
         if (
           !opts?.force &&
           fetchedAt &&
           Date.now() - fetchedAt < STALE_MS &&
           get().daily.length > 0
-        )
+        ) {
           return;
+        }
         set({ loading: true, error: null });
         try {
-          const result = await getAmplitudeStats();
+          const result = await withTimeout(
+            getAmplitudeStats(),
+            90_000,
+            "Off-chain stats",
+          );
           set({
             daily: result.daily,
             dailyWallets: result.dailyWallets,
@@ -57,14 +63,14 @@ export const useAmplitudeStore = create<AmplitudeState>()(
             fetchedAt: result.fetchedAt,
             lastSyncedAt: result.lastSyncedAt,
             error: result.error,
-            loading: false,
           });
         } catch (e) {
           set({
-            loading: false,
             error:
               e instanceof Error ? e.message : "Failed to load Amplitude stats",
           });
+        } finally {
+          set({ loading: false });
         }
       },
     }),
