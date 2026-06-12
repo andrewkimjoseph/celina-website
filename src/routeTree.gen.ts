@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as StatsRouteImport } from './routes/stats'
+import { Route as StackRouteImport } from './routes/stack'
 import { Route as SdkRouteImport } from './routes/sdk'
 import { Route as McpRouteImport } from './routes/mcp'
 import { Route as AboutRouteImport } from './routes/about'
@@ -28,6 +29,11 @@ import { Route as ToolsCategoryToolSlugRouteImport } from './routes/tools.$categ
 const StatsRoute = StatsRouteImport.update({
   id: '/stats',
   path: '/stats',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StackRoute = StackRouteImport.update({
+  id: '/stack',
+  path: '/stack',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SdkRoute = SdkRouteImport.update({
@@ -106,6 +112,7 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/mcp': typeof McpRouteWithChildren
   '/sdk': typeof SdkRoute
+  '/stack': typeof StackRoute
   '/stats': typeof StatsRouteWithChildren
   '/mcp/local': typeof McpLocalRoute
   '/mcp/remote': typeof McpRemoteRoute
@@ -122,6 +129,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/sdk': typeof SdkRoute
+  '/stack': typeof StackRoute
   '/mcp/local': typeof McpLocalRoute
   '/mcp/remote': typeof McpRemoteRoute
   '/stats/offchain': typeof StatsOffchainRoute
@@ -139,6 +147,7 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/mcp': typeof McpRouteWithChildren
   '/sdk': typeof SdkRoute
+  '/stack': typeof StackRoute
   '/stats': typeof StatsRouteWithChildren
   '/mcp/local': typeof McpLocalRoute
   '/mcp/remote': typeof McpRemoteRoute
@@ -158,6 +167,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/mcp'
     | '/sdk'
+    | '/stack'
     | '/stats'
     | '/mcp/local'
     | '/mcp/remote'
@@ -174,6 +184,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/sdk'
+    | '/stack'
     | '/mcp/local'
     | '/mcp/remote'
     | '/stats/offchain'
@@ -190,6 +201,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/mcp'
     | '/sdk'
+    | '/stack'
     | '/stats'
     | '/mcp/local'
     | '/mcp/remote'
@@ -208,6 +220,7 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   McpRoute: typeof McpRouteWithChildren
   SdkRoute: typeof SdkRoute
+  StackRoute: typeof StackRoute
   StatsRoute: typeof StatsRouteWithChildren
   ToolsIndexRoute: typeof ToolsIndexRoute
   ToolsCategoryToolSlugRoute: typeof ToolsCategoryToolSlugRoute
@@ -221,6 +234,13 @@ declare module '@tanstack/react-router' {
       path: '/stats'
       fullPath: '/stats'
       preLoaderRoute: typeof StatsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/stack': {
+      id: '/stack'
+      path: '/stack'
+      fullPath: '/stack'
+      preLoaderRoute: typeof StackRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/sdk': {
@@ -359,6 +379,7 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   McpRoute: McpRouteWithChildren,
   SdkRoute: SdkRoute,
+  StackRoute: StackRoute,
   StatsRoute: StatsRouteWithChildren,
   ToolsIndexRoute: ToolsIndexRoute,
   ToolsCategoryToolSlugRoute: ToolsCategoryToolSlugRoute,

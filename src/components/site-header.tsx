@@ -49,6 +49,13 @@ export function SiteHeader() {
             MCP
           </Link>
           <Link
+            to="/stack"
+            activeProps={{ className: "text-foreground" }}
+            className="rounded-md px-2 py-1.5 text-foreground/70 transition hover:text-foreground sm:px-3"
+          >
+            Stack
+          </Link>
+          <Link
             to="/sdk"
             activeProps={{ className: "text-foreground" }}
             className="rounded-md px-2 py-1.5 text-foreground/70 transition hover:text-foreground sm:px-3"

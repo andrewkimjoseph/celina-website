@@ -16,12 +16,13 @@ This repo is the **marketing site** for Celina. The SDK and MCP packages live in
 
 ## Site
 
-- **Landing page** (`/`) — full stack overview, architecture, product cards, and tool teaser
+- **Landing page** (`/`) — hero, stack teaser, demo, principles, and tool teaser
+- **Stack** (`/stack`) — architecture diagram and product cards (SDK, MCP, hosted endpoint, Celeste AI)
 - **About** (`/about`) — mission, architecture, ecosystem links (SDK, MCP, hosted endpoint, Celeste AI)
 - **MCP hub** (`/mcp`) — MCP overview, local vs remote comparison
   - **Local stdio** (`/mcp/local`) — npx install and client config
   - **Remote hosted** (`/mcp/remote`) — Streamable HTTP endpoint and `mcp-remote` bridge
-- **SDK page** (`/sdk`) — shared tool catalog, programmatic client, and integration paths
+- **SDK page** (`/sdk`) — SDK deep-dive: shared tool catalog, programmatic client, and integration paths
 - **Tools catalog** (`/tools`) — browse all MCP tools by category
   - Category pages: `/tools/blockchain`, `/tools/mento-fx`, `/tools/uniswap`, `/tools/aave`, `/tools/gooddollar` (UBI + reserve quote), `/tools/self`, and more
   - Individual tool docs: `/tools/:category/:toolSlug`

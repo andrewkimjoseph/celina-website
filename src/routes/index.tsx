@@ -9,25 +9,14 @@ import {
   faCloud,
   faCircleNodes,
   faShieldHalved,
-  faCodeBranch,
-  faChartLine,
-  faArrowUpRightFromSquare,
 } from "@fortawesome/free-solid-svg-icons";
 import { faNpm, faGithub } from "@fortawesome/free-brands-svg-icons";
 import celoWordmarkOnyx from "@/assets/celo-wordmark-onyx.svg";
 import celoWordmarkYellow from "@/assets/celo-wordmark-yellow.svg";
 import { TOOLS as TOOL_DOCS, categorySlug, HOSTED_TOOL_COUNT } from "@/data/tools";
-import {
-  HOSTED_MCP_URL,
-  MCP_INSTALL_CMD,
-  MCP_NPM_URL,
-  STDIO_TOOL_COUNT,
-} from "@/data/mcp";
+import { MCP_INSTALL_CMD, MCP_NPM_URL } from "@/data/mcp";
 import { CopyButton } from "@/components/marketing/code-block";
 import { SiteHeader } from "@/components/site-header";
-
-const SDK_DOCS_URL = "https://andrewkimjoseph.gitbook.io/celina-sdk";
-const CELESTE_GITHUB_URL = "https://github.com/andrewkimjoseph/celeste-ai";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -65,62 +54,6 @@ function BrowserFrame({ children, url = "claude.ai" }: { children: React.ReactNo
         <div className="w-12" />
       </div>
       {children}
-    </div>
-  );
-}
-
-function ArchNode({
-  label,
-  detail,
-  highlight,
-}: {
-  label: string;
-  detail: string;
-  highlight?: boolean;
-}) {
-  return (
-    <div
-      className={`rounded-xl border px-4 py-3 text-center ${
-        highlight
-          ? "border-[var(--celo-yellow)]/50 bg-[var(--celo-yellow)]/10"
-          : "border-foreground/10 bg-card"
-      }`}
-    >
-      <p className="font-mono text-sm font-semibold text-foreground">{label}</p>
-      <p className="mt-1 text-xs text-muted-foreground">{detail}</p>
-    </div>
-  );
-}
-
-function ProductCard({
-  icon,
-  title,
-  subtitle,
-  body,
-  children,
-}: {
-  icon: typeof faBolt;
-  title: string;
-  subtitle: string;
-  body: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <div className="flex flex-col rounded-2xl border border-foreground/10 bg-card p-6 shadow-[var(--shadow-soft)]">
-      <div className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-[var(--celo-yellow)] text-[var(--celo-ink)]">
-        <FontAwesomeIcon icon={icon} className="h-4 w-4" />
-      </div>
-      <h3
-        className="mt-4 text-lg font-semibold tracking-tight"
-        style={{ fontFamily: "var(--font-display)" }}
-      >
-        {title}
-      </h3>
-      <p className="mt-0.5 text-xs font-medium uppercase tracking-[0.16em] text-muted-foreground">
-        {subtitle}
-      </p>
-      <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">{body}</p>
-      <div className="mt-4 flex flex-wrap gap-2">{children}</div>
     </div>
   );
 }
@@ -194,7 +127,7 @@ function Index() {
                   <FontAwesomeIcon icon={faArrowRight} className="h-3 w-3 transition group-hover:translate-x-0.5" />
                 </Link>
                 <Link
-                  to="/sdk"
+                  to="/stack"
                   className="inline-flex items-center gap-2 rounded-lg border border-border bg-card px-6 py-3.5 text-sm font-semibold text-foreground transition hover:border-[var(--celo-yellow)] hover:bg-muted"
                 >
                   Explore the stack
@@ -274,149 +207,19 @@ function Index() {
         </div>
       </section>
 
-      {/* Architecture */}
+      {/* Stack teaser */}
       <section className="mx-auto max-w-6xl px-4 pb-12 sm:px-6">
-        <div className="mb-5 flex items-center gap-2">
-          <FontAwesomeIcon icon={faCircleNodes} className="h-4 w-4 text-[var(--celo-forest)] dark:text-[var(--celo-yellow)]" />
-          <h2
-            className="text-2xl font-bold tracking-tight sm:text-3xl"
-            style={{ fontFamily: "var(--font-display)" }}
+        <div className="rounded-2xl border border-foreground/10 bg-card px-6 py-5 sm:flex sm:items-center sm:justify-between sm:gap-6">
+          <p className="text-sm leading-relaxed text-muted-foreground sm:text-base">
+            One catalog, four surfaces. SDK, local MCP, hosted endpoint, and browser apps.
+          </p>
+          <Link
+            to="/stack"
+            className="mt-4 inline-flex shrink-0 items-center gap-2 text-sm font-semibold text-foreground transition hover:text-[var(--celo-forest)] dark:hover:text-[var(--celo-yellow)] sm:mt-0"
           >
-            Architecture
-          </h2>
-        </div>
-        <p className="mb-6 max-w-2xl text-sm text-muted-foreground">
-          Everything flows from the SDK tool catalog. Hosts filter by surface (
-          <span className="font-mono text-xs">mcp</span> vs <span className="font-mono text-xs">browser</span>) and
-          wire signing their own way.
-        </p>
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-          <ArchNode label="celina-sdk" detail="/tools catalog + services" highlight />
-          <ArchNode label="celina-mcp" detail="stdio MCP server" />
-          <ArchNode label="mcp.usecelina.xyz" detail="remote hosted HTTP" />
-          <ArchNode label="Celeste AI" detail="browser chat UI" />
-        </div>
-        <p className="mt-4 text-center text-xs text-muted-foreground">
-          {STDIO_TOOL_COUNT} tools in the full stdio catalog · {HOSTED_TOOL_COUNT} on the remote endpoint
-        </p>
-      </section>
-
-      {/* Products */}
-      <section className="mx-auto max-w-6xl px-4 pb-12 sm:px-6">
-        <h2
-          className="mb-5 text-2xl font-bold tracking-tight sm:text-3xl"
-          style={{ fontFamily: "var(--font-display)" }}
-        >
-          Stack
-        </h2>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          <ProductCard
-            icon={faCodeBranch}
-            title="Celina SDK"
-            subtitle="Core library"
-            body="Programmatic reads, wallet signing flows, and the shared LLM tool catalog."
-          >
-            <Link
-              to="/sdk"
-              className="inline-flex items-center gap-1 rounded-md border border-border bg-background px-3 py-1.5 text-xs font-medium text-foreground transition hover:border-[var(--celo-yellow)]"
-            >
-              SDK page
-            </Link>
-            <a
-              href={SDK_DOCS_URL}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center gap-1 rounded-md border border-border bg-background px-3 py-1.5 text-xs font-medium text-foreground transition hover:border-[var(--celo-yellow)]"
-            >
-              Docs <FontAwesomeIcon icon={faArrowUpRightFromSquare} className="h-2.5 w-2.5" />
-            </a>
-          </ProductCard>
-
-          <ProductCard
-            icon={faBolt}
-            title="Celina MCP"
-            subtitle="Local + remote"
-            body="Registers the SDK catalog for IDE and CLI agents — local stdio or remote hosted HTTP."
-          >
-            <Link
-              to="/mcp"
-              className="inline-flex items-center gap-1 rounded-md border border-border bg-background px-3 py-1.5 text-xs font-medium text-foreground transition hover:border-[var(--celo-yellow)]"
-            >
-              MCP hub
-            </Link>
-            <Link
-              to="/mcp/local"
-              className="inline-flex items-center gap-1 rounded-md border border-border bg-background px-3 py-1.5 text-xs font-medium text-foreground transition hover:border-[var(--celo-yellow)]"
-            >
-              Local install
-            </Link>
-          </ProductCard>
-
-          <ProductCard
-            icon={faCloud}
-            title="Remote MCP"
-            subtitle="Streamable HTTP"
-            body={`${HOSTED_TOOL_COUNT} tools — chain reads, GoodDollar reserve estimates, and GoodDollar reserve quotes.`}
-          >
-            <Link
-              to="/mcp/remote"
-              className="inline-flex items-center gap-1 rounded-md border border-border bg-background px-3 py-1.5 text-xs font-medium text-foreground transition hover:border-[var(--celo-yellow)]"
-            >
-              Connect remotely
-            </Link>
-            <a
-              href={HOSTED_MCP_URL}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center gap-1 rounded-md border border-border bg-background px-3 py-1.5 text-xs font-medium text-foreground transition hover:border-[var(--celo-yellow)]"
-            >
-              Endpoint <FontAwesomeIcon icon={faArrowUpRightFromSquare} className="h-2.5 w-2.5" />
-            </a>
-          </ProductCard>
-
-          <ProductCard
-            icon={faChartLine}
-            title="Tools catalog"
-            subtitle="Reference"
-            body="Browse all MCP tools by category — reads and writes with full input/output specs."
-          >
-            <Link
-              to="/tools"
-              className="inline-flex items-center gap-1 rounded-md border border-border bg-background px-3 py-1.5 text-xs font-medium text-foreground transition hover:border-[var(--celo-yellow)]"
-            >
-              Browse tools
-            </Link>
-          </ProductCard>
-
-          <ProductCard
-            icon={faChartLine}
-            title="Stats"
-            subtitle="Live metrics"
-            body="On-chain activity, MCP tool calls, unique wallets, and npm package downloads."
-          >
-            <Link
-              to="/stats"
-              className="inline-flex items-center gap-1 rounded-md border border-border bg-background px-3 py-1.5 text-xs font-medium text-foreground transition hover:border-[var(--celo-yellow)]"
-            >
-              View stats
-            </Link>
-          </ProductCard>
-
-          <ProductCard
-            icon={faWandMagicSparkles}
-            title="Celeste AI"
-            subtitle="Reference browser app"
-            body="DeFAI chat UI using surface: browser + wagmi. Users sign in their wallet — no MCP server."
-          >
-            <a
-              href={CELESTE_GITHUB_URL}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center gap-1 rounded-md border border-border bg-background px-3 py-1.5 text-xs font-medium text-foreground transition hover:border-[var(--celo-yellow)]"
-            >
-              <FontAwesomeIcon icon={faGithub} className="h-3 w-3" /> GitHub
-            </a>
-          </ProductCard>
+            Explore the stack
+            <FontAwesomeIcon icon={faArrowRight} className="h-3 w-3" />
+          </Link>
         </div>
       </section>
 
