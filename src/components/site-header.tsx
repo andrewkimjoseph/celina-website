@@ -16,7 +16,8 @@ import celinaLogoBlack from "@/assets/celina-logo-black.png";
 
 const NPM_URL = "https://www.npmjs.com/package/@andrewkimjoseph/celina-mcp";
 
-const NAV_LINKS = [
+type NavLink = { to: string; label: string; exact?: boolean };
+const NAV_LINKS: NavLink[] = [
   { to: "/", label: "Home", exact: true },
   { to: "/about", label: "About" },
   { to: "/tools", label: "Tools" },
@@ -24,7 +25,7 @@ const NAV_LINKS = [
   { to: "/stack", label: "Stack" },
   { to: "/sdk", label: "SDK" },
   { to: "/stats", label: "Stats" },
-] as const;
+];
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
