@@ -1,30 +1,29 @@
-## Goal
+## Mobile Navbar Optimization
 
-Make the "§ Try saying" section render on every tool detail page by adding an `examples` array to the 29 tools in `src/data/tools.ts` that currently don't define one. No JSX or type changes — the conditional render in `src/routes/tools.$category.$toolSlug.tsx` already handles this once data is present.
+### Problem
+The site header now has 7 nav links plus an npm button and theme toggle. On small screens the links overflow or wrap awkwardly.
 
-## Approach
+### Solution
+Collapse the nav links into a hamburger-drawer on mobile while keeping the logo and theme toggle visible at all times.
 
-For each tool, add 1–2 natural-language prompts that an end user would actually say to Celina, matched to the tool's `kind`, `inputs`, and `description`. Keep them concrete (real-sounding token symbols, IDs, addresses redacted as `0x…`) and consistent in voice with the existing 42 examples (imperative, conversational, short).
+### What will change
 
-## Examples to add
+**1. Desktop (sm and above)** — unchanged horizontal nav with all links visible.
 
-**Mento FX / Uniswap**
-- `estimate_mento_fx`: "Estimate gas to convert 100 USDm to EURm via Mento."
-- `estimate_uniswap_swap`: "Estimate gas to swap 1000 G$ to USDT on Uniswap v4."
+**2. Mobile (below sm)** — only the logo, theme toggle, and a hamburger button are shown in the header row. Tapping the hamburger opens a right-side Sheet panel listing all nav links plus the npm button.
 
-**Self (agent identity)**
-- `verify_self_request`: "Verify this signed Self agent request from these headers."
-- `check_self_registration`: "Check the status of my Self registration session."
-- `get_self_identity`: "What's my Self agent identity and proof status?"
-- `refresh_self_proof`: "Refresh my Self human proof."
-- `deregister_self_agent`: "Deregister my Self agent."
-- `sign_self_request`: "Sign a GET request to https://api.self.xyz/me as my Self agent."
-- `authenticated_self_fetch`: "Fetch https://api.self.xyz/me with my Self agent credentials."
+### Implementation details
+- Import `Sheet`, `SheetTrigger`, `SheetContent`, `SheetHeader`, `SheetTitle`, `SheetClose` from `@/components/ui/sheet`.
+- Import `Menu` and `X` icons from `lucide-react`.
+- In `SiteHeader`, use Tailwind responsive classes:
+  - Nav links wrapper: `hidden sm:flex` on desktop, removed on mobile.
+  - Add a hamburger trigger button: `flex sm:hidden`.
+- The Sheet panel will contain:
+  - A header with "Menu" title and close button
+  - Stacked `Link` items for each route (same routes as desktop)
+  - The npm external link at the bottom of the list
+  - Active link styling preserved
+- Keep the `ThemeToggle` outside the drawer so it stays accessible without opening the menu.
 
-## Files
-
-- `src/data/tools.ts` — add an `examples: [...]` line to each of the 29 tools above, placed after `returns` to match the existing convention.
-
-## Verification
-
-- Spot-check the build output and a couple of tool pages (e.g. `/tools/self/refresh-self-proof`, `/tools/self/verify-self-agent`) in the preview to confirm "§ Try saying" now renders.
+### Files to modify
+- `src/components/site-header.tsx`
