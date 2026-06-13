@@ -73,7 +73,7 @@ const API_ROWS: Row[] = [
   { service: "transaction", reads: "gas fees, estimates", wallet: "send" },
   { service: "mentoFx", reads: "getFxQuote, estimateFx", wallet: "FX swap" },
   { service: "uniswap", reads: "getSwapQuote, estimateSwap", wallet: "swap" },
-  { service: "aave", reads: "—", wallet: "supply, withdraw" },
+  { service: "aave", reads: "getBalances (supplied aToken positions)", wallet: "supply, withdraw" },
   { service: "governance", reads: "proposals list, details", wallet: "—" },
   { service: "staking", reads: "balances, validator groups", wallet: "—" },
   { service: "nft", reads: "NFT info, balance", wallet: "—" },

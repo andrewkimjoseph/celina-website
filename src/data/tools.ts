@@ -444,6 +444,23 @@ export const TOOLS: ToolDoc[] = [
     examples: ["Swap 1000 G$ to USDT on Uniswap.", "Swap 25 USDC to USDT via Uniswap v4."],
   },
   {
+    name: "get_aave_balances",
+    slug: "get-aave-balances",
+    title: "Get Aave Balances",
+    summary: "Supplied aToken positions on Aave V3",
+    description:
+      "Return an address's supplied Aave V3 positions on Celo mainnet by reading aToken balances (e.g. aCelUSDT). Amounts are in underlying token units including accrued interest. Supports USDT, WETH, USDm, USDC, CELO, and EURm. Omits zero balances by default.",
+    kind: "read",
+    category: "Aave",
+    inputs: [
+      { name: "address", type: "0x… address", required: false, description: "Account to inspect. Defaults to the session wallet when CELO_PRIVATE_KEY is set." },
+      { name: "tokens", type: "string[]", required: false, description: "Subset of supported Aave asset symbols to check." },
+      { name: "include_zero", type: "boolean", required: false, description: "Include assets with zero supplied balance." },
+    ],
+    returns: "{ address, market, balances: [{ symbol, underlying, aToken, raw, formatted }] }",
+    examples: ["What do I have supplied on Aave?", "Check my Aave USDT supply balance on Celo."],
+  },
+  {
     name: "supply_aave",
     slug: "supply-aave",
     title: "Supply Aave",
@@ -465,7 +482,7 @@ export const TOOLS: ToolDoc[] = [
     title: "Withdraw Aave",
     summary: "Redeem aTokens back to underlying",
     description:
-      "Withdraw supported tokens from Aave V3 on Celo mainnet by redeeming aTokens. Supports USDT, WETH, USDm, USDC, CELO, and EURm. Pass an explicit amount or set withdrawMax to pull the full supplied balance. Requires CELO_PRIVATE_KEY in your MCP client env.",
+      "Withdraw supported tokens from Aave V3 on Celo mainnet by redeeming aTokens. Supports USDT, WETH, USDm, USDC, CELO, and EURm. Use get_aave_balances first to confirm supplied amount; pass an explicit amount or set withdrawMax to pull the full supplied balance. Requires CELO_PRIVATE_KEY in your MCP client env.",
     kind: "write",
     category: "Aave",
     inputs: [
@@ -899,8 +916,8 @@ export function findTool(catSlug: string, toolSlug: string): ToolDoc | undefined
   );
 }
 
-/** Hosted endpoint exposes 29 tools; full stdio catalog includes server-key writes and estimates. */
-export const HOSTED_TOOL_COUNT = 29;
+/** Hosted endpoint exposes 30 tools; full stdio catalog includes server-key writes and estimates. */
+export const HOSTED_TOOL_COUNT = 30;
 
 const STDIO_ONLY_TOOLS = new Set([
   "send_token",
