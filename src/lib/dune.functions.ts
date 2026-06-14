@@ -17,7 +17,8 @@ export type CelinaStatsResult = {
   error: string | null;
 };
 
-const DUNE_QUERY_ID = 7576390;
+export const DUNE_QUERY_ID = 7719421;
+export const DUNE_QUERY_URL = `https://dune.com/queries/${DUNE_QUERY_ID}`;
 
 export const getCelinaStats = createServerFn({ method: "GET" }).handler(
   async (): Promise<CelinaStatsResult> => {

@@ -84,7 +84,7 @@ function OnchainPage() {
             rel="noreferrer"
             className="inline-flex shrink-0 items-center gap-1.5 self-start text-xs font-medium text-muted-foreground transition hover:text-foreground"
           >
-            Dune dashboard
+            Dune query
             <FontAwesomeIcon icon={faArrowUpRightFromSquare} className="h-2.5 w-2.5" />
           </a>
         </div>
@@ -202,6 +202,7 @@ function OnchainPage() {
             <table className="w-full min-w-[720px] text-sm">
               <thead className="border-b border-foreground/10 bg-muted/40 text-left text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
                 <tr>
+                  <th className="w-12 px-4 py-3 font-medium">#</th>
                   <th className="px-4 py-3 font-medium">When</th>
                   <th className="px-4 py-3 font-medium">Block</th>
                   <th className="px-4 py-3 font-medium">From</th>
@@ -212,13 +213,16 @@ function OnchainPage() {
               <tbody>
                 {pageRows.length === 0 && !loading && (
                   <tr>
-                    <td colSpan={5} className="px-4 py-10 text-center text-muted-foreground">
+                    <td colSpan={6} className="px-4 py-10 text-center text-muted-foreground">
                       No transactions yet.
                     </td>
                   </tr>
                 )}
-                {pageRows.map((r) => (
+                {pageRows.map((r, i) => (
                   <tr key={r.hash} className="border-b border-foreground/5 last:border-0 hover:bg-muted/30">
+                    <td className="whitespace-nowrap px-4 py-3 font-mono text-xs text-muted-foreground">
+                      {currentPage * pageSize + i + 1}
+                    </td>
                     <td className="whitespace-nowrap px-4 py-3 text-foreground/80">{formatDateTime(r.block_time)}</td>
                     <td className="whitespace-nowrap px-4 py-3 font-mono text-xs text-muted-foreground">{r.block_number.toLocaleString()}</td>
                     <td className="whitespace-nowrap px-4 py-3">
@@ -238,13 +242,24 @@ function OnchainPage() {
               </tbody>
             </table>
           </div>
-          {totalPages > 1 && (
+          {rows.length > 0 && (
             <div className="flex items-center justify-between gap-2 border-t border-foreground/10 px-4 py-3 text-xs text-muted-foreground">
-              <span>Page {currentPage + 1} of {totalPages}</span>
-              <div className="flex gap-2">
-                <button onClick={() => setPage((p) => Math.max(0, p - 1))} disabled={currentPage === 0} className="rounded-md border border-foreground/15 px-3 py-1.5 text-foreground/80 transition hover:bg-muted disabled:opacity-40">Prev</button>
-                <button onClick={() => setPage((p) => Math.min(totalPages - 1, p + 1))} disabled={currentPage >= totalPages - 1} className="rounded-md border border-foreground/15 px-3 py-1.5 text-foreground/80 transition hover:bg-muted disabled:opacity-40">Next</button>
-              </div>
+              <span>
+                {currentPage * pageSize + 1}–{Math.min((currentPage + 1) * pageSize, rows.length)} of{" "}
+                {rows.length.toLocaleString()} txn{rows.length === 1 ? "" : "s"}
+                {totalPages > 1 && (
+                  <>
+                    {" "}
+                    · page {currentPage + 1} of {totalPages}
+                  </>
+                )}
+              </span>
+              {totalPages > 1 && (
+                <div className="flex gap-2">
+                  <button onClick={() => setPage((p) => Math.max(0, p - 1))} disabled={currentPage === 0} className="rounded-md border border-foreground/15 px-3 py-1.5 text-foreground/80 transition hover:bg-muted disabled:opacity-40">Prev</button>
+                  <button onClick={() => setPage((p) => Math.min(totalPages - 1, p + 1))} disabled={currentPage >= totalPages - 1} className="rounded-md border border-foreground/15 px-3 py-1.5 text-foreground/80 transition hover:bg-muted disabled:opacity-40">Next</button>
+                </div>
+              )}
             </div>
           )}
         </div>
