@@ -199,15 +199,15 @@ function OnchainPage() {
 
         <div className="overflow-hidden rounded-2xl border border-foreground/10 bg-card shadow-[var(--shadow-soft)]">
           <div className="overflow-x-auto">
-            <table className="w-full min-w-[720px] text-sm">
+            <table className="w-full text-sm">
               <thead className="border-b border-foreground/10 bg-muted/40 text-left text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
                 <tr>
-                  <th className="w-12 px-4 py-3 font-medium">#</th>
-                  <th className="px-4 py-3 font-medium">When</th>
-                  <th className="px-4 py-3 font-medium">Block</th>
-                  <th className="px-4 py-3 font-medium">From</th>
-                  <th className="px-4 py-3 font-medium">To</th>
-                  <th className="px-4 py-3 font-medium">Hash</th>
+                  <th className="w-px whitespace-nowrap py-3 pl-3 pr-1 font-medium">#</th>
+                  <th className="whitespace-nowrap px-3 py-3 font-medium">When</th>
+                  <th className="whitespace-nowrap px-3 py-3 font-medium">Block</th>
+                  <th className="px-3 py-3 font-medium">From</th>
+                  <th className="px-3 py-3 font-medium">To</th>
+                  <th className="px-3 py-3 font-medium">Hash</th>
                 </tr>
               </thead>
               <tbody>
@@ -220,21 +220,21 @@ function OnchainPage() {
                 )}
                 {pageRows.map((r, i) => (
                   <tr key={r.hash} className="border-b border-foreground/5 last:border-0 hover:bg-muted/30">
-                    <td className="whitespace-nowrap px-4 py-3 font-mono text-xs text-muted-foreground">
+                    <td className="w-px whitespace-nowrap py-3 pl-3 pr-1 text-right font-mono text-xs tabular-nums text-muted-foreground">
                       {currentPage * pageSize + i + 1}
                     </td>
-                    <td className="whitespace-nowrap px-4 py-3 text-foreground/80">{formatDateTime(r.block_time)}</td>
-                    <td className="whitespace-nowrap px-4 py-3 font-mono text-xs text-muted-foreground">{r.block_number.toLocaleString()}</td>
-                    <td className="whitespace-nowrap px-4 py-3">
-                      <a href={`https://celoscan.io/address/${r.from}`} target="_blank" rel="noreferrer" className="font-mono text-xs text-foreground/80 hover:text-foreground hover:underline">{truncate(r.from)}</a>
+                    <td className="whitespace-nowrap px-3 py-3 text-foreground/80">{formatDateTime(r.block_time)}</td>
+                    <td className="whitespace-nowrap px-3 py-3 font-mono text-xs text-muted-foreground">{r.block_number.toLocaleString()}</td>
+                    <td className="px-3 py-3">
+                      <a href={`https://celoscan.io/address/${r.from}`} target="_blank" rel="noreferrer" className="font-mono text-xs text-foreground/80 hover:text-foreground hover:underline">{truncate(r.from, 10, 8)}</a>
                     </td>
-                    <td className="whitespace-nowrap px-4 py-3">
-                      <a href={`https://celoscan.io/address/${r.to}`} target="_blank" rel="noreferrer" className="font-mono text-xs text-foreground/80 hover:text-foreground hover:underline">{truncate(r.to)}</a>
+                    <td className="px-3 py-3">
+                      <a href={`https://celoscan.io/address/${r.to}`} target="_blank" rel="noreferrer" className="font-mono text-xs text-foreground/80 hover:text-foreground hover:underline">{truncate(r.to, 10, 8)}</a>
                     </td>
-                    <td className="whitespace-nowrap px-4 py-3">
+                    <td className="px-3 py-3">
                       <a href={`https://celoscan.io/tx/${r.hash}`} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1.5 font-mono text-xs text-[var(--celo-forest)] hover:underline dark:text-[var(--celo-yellow)]">
-                        {truncate(r.hash, 8, 6)}
-                        <FontAwesomeIcon icon={faArrowUpRightFromSquare} className="h-2.5 w-2.5" />
+                        {truncate(r.hash, 6, 4)}
+                        <FontAwesomeIcon icon={faArrowUpRightFromSquare} className="h-2.5 w-2.5 shrink-0" />
                       </a>
                     </td>
                   </tr>
