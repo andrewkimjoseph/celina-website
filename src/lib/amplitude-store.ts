@@ -10,11 +10,11 @@ import { STALE_MS } from "./stats-store";
 
 type AmplitudeState = {
   daily: AmplitudeEventDay[];
-  dailyWallets: AmplitudeEventDay[];
+  dailyWalletsQueried: AmplitudeEventDay[];
   perTool: AmplitudeEventTotal[];
   total: number;
   uniqueDevices: number;
-  uniqueWallets: number;
+  walletsQueried: number;
   fetchedAt: number | null;
   lastSyncedAt: string | null;
   loading: boolean;
@@ -26,11 +26,11 @@ export const useAmplitudeStore = create<AmplitudeState>()(
   persist(
     (set, get) => ({
       daily: [],
-      dailyWallets: [],
+      dailyWalletsQueried: [],
       perTool: [],
       total: 0,
       uniqueDevices: 0,
-      uniqueWallets: 0,
+      walletsQueried: 0,
       fetchedAt: null,
       lastSyncedAt: null,
       loading: false,
@@ -55,11 +55,11 @@ export const useAmplitudeStore = create<AmplitudeState>()(
           );
           set({
             daily: result.daily,
-            dailyWallets: result.dailyWallets,
+            dailyWalletsQueried: result.dailyWalletsQueried,
             perTool: result.perTool,
             total: result.total,
             uniqueDevices: result.uniqueDevices,
-            uniqueWallets: result.uniqueWallets,
+            walletsQueried: result.walletsQueried,
             fetchedAt: result.fetchedAt,
             lastSyncedAt: result.lastSyncedAt,
             error: result.error,
@@ -75,14 +75,14 @@ export const useAmplitudeStore = create<AmplitudeState>()(
       },
     }),
     {
-      name: "celina-amplitude-v6",
+      name: "celina-amplitude-v7",
       partialize: (s) => ({
         daily: s.daily,
-        dailyWallets: s.dailyWallets,
+        dailyWalletsQueried: s.dailyWalletsQueried,
         perTool: s.perTool,
         total: s.total,
         uniqueDevices: s.uniqueDevices,
-        uniqueWallets: s.uniqueWallets,
+        walletsQueried: s.walletsQueried,
         fetchedAt: s.fetchedAt,
         lastSyncedAt: s.lastSyncedAt,
       }),

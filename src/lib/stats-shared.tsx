@@ -351,31 +351,31 @@ export function aggregateAmplitude(
   };
 }
 
-export type AmplitudeDailyWalletRow = {
+export type AmplitudeDailyQueriedRow = {
   day: string;
   label: string;
   calls: number;
-  wallets: number;
-  callsPerWallet: number | null;
+  walletsQueried: number;
+  callsPerQueriedWallet: number | null;
 };
 
-/** Merge daily call volume with distinct wallet counts per day. */
-export function mergeAmplitudeDailyWallets(
+/** Merge daily call volume with distinct queried wallet counts per day. */
+export function mergeAmplitudeDailyQueriedWallets(
   daily: AmplitudeEventDay[],
-  dailyWallets: AmplitudeEventDay[],
-): AmplitudeDailyWalletRow[] {
-  const walletByDay = new Map(dailyWallets.map((r) => [r.day, r.count]));
+  dailyWalletsQueried: AmplitudeEventDay[],
+): AmplitudeDailyQueriedRow[] {
+  const walletByDay = new Map(dailyWalletsQueried.map((r) => [r.day, r.count]));
   return [...daily]
     .sort((a, b) => a.day.localeCompare(b.day))
     .map((r) => {
-      const wallets = walletByDay.get(r.day) ?? 0;
+      const walletsQueried = walletByDay.get(r.day) ?? 0;
       return {
         day: r.day,
         label: formatDateOnly(r.day),
         calls: r.count,
-        wallets,
-        callsPerWallet:
-          wallets > 0 ? Math.round((r.count / wallets) * 10) / 10 : null,
+        walletsQueried,
+        callsPerQueriedWallet:
+          walletsQueried > 0 ? Math.round((r.count / walletsQueried) * 10) / 10 : null,
       };
     });
 }

@@ -26,7 +26,7 @@ This repo is the **marketing site** for Celina. The SDK and MCP packages live in
 - **Tools catalog** (`/tools`) — browse all MCP tools by category
   - Category pages: `/tools/blockchain`, `/tools/mento-fx`, `/tools/uniswap`, `/tools/aave`, `/tools/gooddollar` (UBI + reserve quote), `/tools/self`, and more
   - Individual tool docs: `/tools/:category/:toolSlug`
-- **Stats dashboard** (`/stats`) — on-chain activity (Dune), off-chain MCP tool calls and unique wallets (Amplitude → Supabase), and npm downloads
+- **Stats dashboard** (`/stats`) — on-chain activity (Dune), off-chain MCP tool calls and wallets queried (Amplitude → Supabase), and npm downloads
 
 ## Stack
 

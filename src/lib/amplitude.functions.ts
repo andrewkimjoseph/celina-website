@@ -13,11 +13,11 @@ export type AmplitudeEventTotal = {
 
 export type AmplitudeStatsResult = {
   daily: AmplitudeEventDay[];
-  dailyWallets: AmplitudeEventDay[];
+  dailyWalletsQueried: AmplitudeEventDay[];
   perTool: AmplitudeEventTotal[];
   total: number;
   uniqueDevices: number;
-  uniqueWallets: number;
+  walletsQueried: number;
   fetchedAt: number;
   lastSyncedAt: string | null;
   error: string | null;
@@ -151,12 +151,12 @@ async function countUniqueProjectDeviceIds(sinceDay: string): Promise<number> {
   return ids.size;
 }
 
-/** Distinct wallet addresses and per-day counts from wallet-scoped read events. */
-async function aggregateWalletUserIds(sinceDay: string): Promise<{
-  uniqueWallets: number;
-  dailyWallets: AmplitudeEventDay[];
+/** Distinct queried wallet addresses and per-day counts from wallet-scoped read events. */
+async function aggregateQueriedWallets(sinceDay: string): Promise<{
+  walletsQueried: number;
+  dailyWalletsQueried: AmplitudeEventDay[];
 }> {
-  const allWallets = new Set<string>();
+  const queriedWallets = new Set<string>();
   const byDay = new Map<string, Set<string>>();
   const pageSize = 1000;
   let offset = 0;
@@ -180,7 +180,7 @@ async function aggregateWalletUserIds(sinceDay: string): Promise<{
     for (const row of rows) {
       const id = row.user_id?.trim().toLowerCase();
       if (!id || !WALLET_USER_ID_RE.test(id)) continue;
-      allWallets.add(id);
+      queriedWallets.add(id);
       const day = row.event_day;
       let daySet = byDay.get(day);
       if (!daySet) {
@@ -195,11 +195,11 @@ async function aggregateWalletUserIds(sinceDay: string): Promise<{
     offset += pageSize;
   }
 
-  const dailyWallets = [...byDay.entries()]
+  const dailyWalletsQueried = [...byDay.entries()]
     .sort(([a], [b]) => a.localeCompare(b))
     .map(([day, wallets]) => ({ day, count: wallets.size }));
 
-  return { uniqueWallets: allWallets.size, dailyWallets };
+  return { walletsQueried: queriedWallets.size, dailyWalletsQueried };
 }
 
 async function getSyncState(): Promise<{ last_synced_at: string }> {
@@ -457,11 +457,11 @@ export const getAmplitudeStats = createServerFn({ method: "GET" }).handler(
     if (!process.env.AMPLITUDE_API_KEY || !process.env.AMPLITUDE_SECRET_KEY) {
       return {
         daily: [],
-        dailyWallets: [],
+        dailyWalletsQueried: [],
         perTool: [],
         total: 0,
         uniqueDevices: 0,
-        uniqueWallets: 0,
+        walletsQueried: 0,
         fetchedAt: Date.now(),
         lastSyncedAt: null,
         error: "Missing AMPLITUDE_API_KEY / AMPLITUDE_SECRET_KEY",
@@ -470,11 +470,11 @@ export const getAmplitudeStats = createServerFn({ method: "GET" }).handler(
     if (!process.env.CUSTOM_SUPABASE_URL || !process.env.CUSTOM_SUPABASE_SERVICE_ROLE_KEY) {
       return {
         daily: [],
-        dailyWallets: [],
+        dailyWalletsQueried: [],
         perTool: [],
         total: 0,
         uniqueDevices: 0,
-        uniqueWallets: 0,
+        walletsQueried: 0,
         fetchedAt: Date.now(),
         lastSyncedAt: null,
         error: "Missing CUSTOM_SUPABASE_URL / CUSTOM_SUPABASE_SERVICE_ROLE_KEY",
@@ -526,18 +526,18 @@ export const getAmplitudeStats = createServerFn({ method: "GET" }).handler(
       const daily: AmplitudeEventDay[] = dailyRows.map((r) => ({ day: r.day, count: r.count }));
       const perTool: AmplitudeEventTotal[] = toolRows.map((r) => ({ event: r.event, count: r.count }));
       const total = daily.reduce((s, d) => s + d.count, 0);
-      const [uniqueDevices, walletAgg] = await Promise.all([
+      const [uniqueDevices, queriedWalletAgg] = await Promise.all([
         countUniqueProjectDeviceIds(sinceDay),
-        aggregateWalletUserIds(sinceDay),
+        aggregateQueriedWallets(sinceDay),
       ]);
 
       return {
         daily,
-        dailyWallets: walletAgg.dailyWallets,
+        dailyWalletsQueried: queriedWalletAgg.dailyWalletsQueried,
         perTool,
         total,
         uniqueDevices,
-        uniqueWallets: walletAgg.uniqueWallets,
+        walletsQueried: queriedWalletAgg.walletsQueried,
         fetchedAt: Date.now(),
         lastSyncedAt,
         // Keep serving cached Supabase rows when export sync fails (e.g. Amplitude 524).
@@ -546,11 +546,11 @@ export const getAmplitudeStats = createServerFn({ method: "GET" }).handler(
     } catch (e) {
       return {
         daily: [],
-        dailyWallets: [],
+        dailyWalletsQueried: [],
         perTool: [],
         total: 0,
         uniqueDevices: 0,
-        uniqueWallets: 0,
+        walletsQueried: 0,
         fetchedAt: Date.now(),
         lastSyncedAt: null,
         error: e instanceof Error ? e.message : "Failed to read cached stats",

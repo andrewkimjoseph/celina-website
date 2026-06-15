@@ -15,7 +15,7 @@ import {
   KpiCard,
   ChartCard,
   aggregateAmplitude,
-  mergeAmplitudeDailyWallets,
+  mergeAmplitudeDailyQueriedWallets,
   formatDateOnly,
   tooltipStyle,
   tooltipItemStyle,
@@ -42,13 +42,13 @@ export const Route = createFileRoute("/stats/offchain")({
       {
         name: "description",
         content:
-          "Live off-chain Celina MCP tool-call stats — read tools, unique wallets, and registry queries logged to Amplitude.",
+          "Live off-chain Celina MCP tool-call stats — read tools, wallets queried, and registry queries logged to Amplitude.",
       },
       { property: "og:title", content: "Celina stats — Off-chain tool calls" },
       {
         property: "og:description",
         content:
-          "Live off-chain Celina MCP tool-call stats — read tools, unique wallets, and registry queries logged to Amplitude.",
+          "Live off-chain Celina MCP tool-call stats — read tools, wallets queried, and registry queries logged to Amplitude.",
       },
     ],
   }),
@@ -56,22 +56,22 @@ export const Route = createFileRoute("/stats/offchain")({
 });
 
 function OffchainPage() {
-  const { daily, dailyWallets, perTool, uniqueWallets, loading, lastSyncedAt } =
+  const { daily, dailyWalletsQueried, perTool, walletsQueried, loading, lastSyncedAt } =
     useAmplitudeStore();
   const agg = useMemo(() => aggregateAmplitude(daily, perTool), [daily, perTool]);
-  const walletDaily = useMemo(
+  const queriedWalletsDaily = useMemo(
     () =>
-      [...dailyWallets]
+      [...dailyWalletsQueried]
         .sort((a, b) => a.day.localeCompare(b.day))
         .map((r) => ({
           ...r,
           label: formatDateOnly(r.day),
         })),
-    [dailyWallets],
+    [dailyWalletsQueried],
   );
-  const dailyWalletMerged = useMemo(
-    () => mergeAmplitudeDailyWallets(daily, dailyWallets),
-    [daily, dailyWallets],
+  const dailyCallsAndQueriedWallets = useMemo(
+    () => mergeAmplitudeDailyQueriedWallets(daily, dailyWalletsQueried),
+    [daily, dailyWalletsQueried],
   );
   const lastUpdatedLabel = useMemo(() => {
     if (!lastSyncedAt) return null;
@@ -98,7 +98,7 @@ function OffchainPage() {
             MCP tool calls — reads, lookups & registry queries
           </h2>
           <p className="mt-1 text-xs text-muted-foreground">
-            Every time an LLM invokes a Celina read tool, it&apos;s logged to Amplitude. Unique wallets counts distinct addresses on wallet-scoped reads.
+            Every time an LLM invokes a Celina read tool, it&apos;s logged to Amplitude. Wallets queried counts distinct addresses passed into wallet-scoped read tools — not on-chain unique users.
           </p>
           {lastUpdatedLabel && (
             <p className="mt-1 text-[11px] text-muted-foreground/80">
@@ -115,7 +115,7 @@ function OffchainPage() {
         </div>
 
         <div className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-4">
-          <KpiCard label="Unique wallets" value={uniqueWallets.toLocaleString()} />
+          <KpiCard label="Wallets queried" value={walletsQueried.toLocaleString()} />
           <KpiCard label="Avg / active day" value={agg.avgPerActiveDay.toLocaleString()} />
           <KpiCard label="Peak day" value={agg.peakDay?.count.toLocaleString() ?? "—"} />
           <KpiCard label="Unique tools" value={agg.topTools.length.toLocaleString()} />
@@ -148,25 +148,25 @@ function OffchainPage() {
             </ResponsiveContainer>
           </ChartCard>
 
-          <ChartCard title="Unique wallets per day" subtitle="distinct addresses">
+          <ChartCard title="Wallets queried per day" subtitle="distinct addresses">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={walletDaily} margin={{ top: 8, right: 12, left: 0, bottom: 0 }}>
+              <BarChart data={queriedWalletsDaily} margin={{ top: 8, right: 12, left: 0, bottom: 0 }}>
                 <CartesianGrid stroke="var(--border)" strokeDasharray="3 3" vertical={false} />
-                <XAxis dataKey="label" stroke="var(--muted-foreground)" fontSize={10} tickLine={false} interval={Math.max(0, Math.floor(walletDaily.length / 8))} />
+                <XAxis dataKey="label" stroke="var(--muted-foreground)" fontSize={10} tickLine={false} interval={Math.max(0, Math.floor(queriedWalletsDaily.length / 8))} />
                 <YAxis stroke="var(--muted-foreground)" fontSize={11} tickLine={false} axisLine={false} width={40} allowDecimals={false} />
                 <Tooltip contentStyle={tooltipStyle} itemStyle={tooltipItemStyle} labelStyle={tooltipLabelStyle} cursor={{ fill: "var(--muted)" }} />
-                <Bar dataKey="count" name="Wallets" fill={forest} radius={[4, 4, 0, 0]} />
+                <Bar dataKey="count" name="Queried wallets" fill={forest} radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </ChartCard>
 
-          <ChartCard title="Calls vs unique wallets" subtitle="volume and reach">
+          <ChartCard title="Calls vs wallets queried" subtitle="volume and reach">
             <ResponsiveContainer width="100%" height="100%">
-              <ComposedChart data={dailyWalletMerged} margin={{ top: 8, right: 12, left: 0, bottom: 0 }}>
+              <ComposedChart data={dailyCallsAndQueriedWallets} margin={{ top: 8, right: 12, left: 0, bottom: 0 }}>
                 <CartesianGrid stroke="var(--border)" strokeDasharray="3 3" vertical={false} />
-                <XAxis dataKey="label" stroke="var(--muted-foreground)" fontSize={10} tickLine={false} interval={Math.max(0, Math.floor(dailyWalletMerged.length / 8))} />
+                <XAxis dataKey="label" stroke="var(--muted-foreground)" fontSize={10} tickLine={false} interval={Math.max(0, Math.floor(dailyCallsAndQueriedWallets.length / 8))} />
                 <YAxis yAxisId="calls" stroke="var(--muted-foreground)" fontSize={11} tickLine={false} axisLine={false} width={40} />
-                <YAxis yAxisId="wallets" orientation="right" stroke="var(--muted-foreground)" fontSize={11} tickLine={false} axisLine={false} width={40} allowDecimals={false} />
+                <YAxis yAxisId="walletsQueried" orientation="right" stroke="var(--muted-foreground)" fontSize={11} tickLine={false} axisLine={false} width={40} allowDecimals={false} />
                 <Tooltip contentStyle={tooltipStyle} itemStyle={tooltipItemStyle} labelStyle={tooltipLabelStyle} cursor={{ fill: "var(--muted)" }} />
                 <Legend
                   wrapperStyle={{ fontSize: 11 }}
@@ -175,7 +175,7 @@ function OffchainPage() {
                   )}
                 />
                 <Bar yAxisId="calls" dataKey="calls" name="Calls" fill={yellow} radius={[4, 4, 0, 0]} />
-                <Line yAxisId="wallets" type="monotone" dataKey="wallets" name="Wallets" stroke={lineStroke} strokeWidth={2} dot={false} />
+                <Line yAxisId="walletsQueried" type="monotone" dataKey="walletsQueried" name="Wallets queried" stroke={lineStroke} strokeWidth={2} dot={false} />
               </ComposedChart>
             </ResponsiveContainer>
           </ChartCard>
@@ -291,17 +291,17 @@ function OffchainPage() {
             </ResponsiveContainer>
           </ChartCard>
 
-          <ChartCard title="Calls per wallet per day" subtitle="wallet-scoped reads only">
+          <ChartCard title="Calls per queried wallet per day" subtitle="wallet-scoped reads only">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart
-                data={dailyWalletMerged.filter((r) => r.callsPerWallet != null)}
+                data={dailyCallsAndQueriedWallets.filter((r) => r.callsPerQueriedWallet != null)}
                 margin={{ top: 8, right: 12, left: 0, bottom: 0 }}
               >
                 <CartesianGrid stroke="var(--border)" strokeDasharray="3 3" vertical={false} />
-                <XAxis dataKey="label" stroke="var(--muted-foreground)" fontSize={10} tickLine={false} interval={Math.max(0, Math.floor(dailyWalletMerged.length / 8))} />
+                <XAxis dataKey="label" stroke="var(--muted-foreground)" fontSize={10} tickLine={false} interval={Math.max(0, Math.floor(dailyCallsAndQueriedWallets.length / 8))} />
                 <YAxis stroke="var(--muted-foreground)" fontSize={11} tickLine={false} axisLine={false} width={40} />
                 <Tooltip contentStyle={tooltipStyle} itemStyle={tooltipItemStyle} labelStyle={tooltipLabelStyle} cursor={{ stroke: "var(--border)" }} />
-                <Line type="monotone" dataKey="callsPerWallet" name="Calls / wallet" stroke={lineStroke} strokeWidth={2.5} dot={false} activeDot={{ r: 4, fill: lineStroke }} />
+                <Line type="monotone" dataKey="callsPerQueriedWallet" name="Calls / queried wallet" stroke={lineStroke} strokeWidth={2.5} dot={false} activeDot={{ r: 4, fill: lineStroke }} />
               </LineChart>
             </ResponsiveContainer>
           </ChartCard>
