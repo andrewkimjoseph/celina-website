@@ -6,7 +6,6 @@
   "scripts": {
     "dev": "vite dev",
     "sync-tools": "node ../celina-sdk/scripts/generate-website-tools.mjs",
-    "prebuild": "npm run sync-tools",
     "build": "vite build",
     "build:dev": "vite build --mode development",
     "preview": "vite preview",
