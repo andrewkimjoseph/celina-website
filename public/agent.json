@@ -16,6 +16,10 @@
       "version": "0.8.14"
     },
     {
+      "name": "Celeste",
+      "endpoint": "https://celeste.usecelina.xyz"
+    },
+    {
       "name": "MCP docs",
       "endpoint": "https://usecelina.xyz/mcp/remote"
     },

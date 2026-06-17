@@ -21,6 +21,7 @@ const SDK_GITHUB_URL = "https://github.com/andrewkimjoseph/celina-sdk";
 const MCP_NPM_URL = "https://www.npmjs.com/package/@andrewkimjoseph/celina-mcp";
 const MCP_GITHUB_URL = "https://github.com/andrewkimjoseph/celina-mcp";
 const HOSTED_MCP_URL = "https://mcp.usecelina.xyz/api/mcp";
+const CELESTE_URL = "https://celeste.usecelina.xyz";
 const CELESTE_GITHUB_URL = "https://github.com/andrewkimjoseph/celeste-ai";
 const AUTHOR_NPM_URL = "https://www.npmjs.com/~andrewkimjoseph";
 
@@ -196,7 +197,7 @@ function AboutPage() {
           />
           <ArchNode label="celina-mcp" detail="stdio MCP server" />
           <ArchNode label="mcp.usecelina.xyz" detail="hosted HTTP" />
-          <ArchNode label="Celeste AI" detail="browser chat UI" />
+          <ArchNode label="celeste.usecelina.xyz" detail="browser chat UI" />
         </div>
         <div className="mt-4 flex justify-center">
           <div className="hidden h-8 w-px bg-foreground/15 sm:block" aria-hidden />
@@ -297,14 +298,24 @@ function AboutPage() {
             subtitle="Reference browser app"
             body="DeFAI chat UI using surface: browser + wagmi. Users sign in their wallet — no MCP server, no CELO_PRIVATE_KEY. Independent of usecelina.xyz."
           >
-            <a
-              href={CELESTE_GITHUB_URL}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center gap-1 rounded-md border border-border bg-background px-3 py-1.5 text-xs font-medium text-foreground transition hover:border-[var(--celo-yellow)]"
-            >
-              <FontAwesomeIcon icon={faGithub} className="h-3 w-3" /> GitHub
-            </a>
+            <div className="flex flex-wrap gap-2">
+              <a
+                href={CELESTE_URL}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-1 rounded-md border border-border bg-background px-3 py-1.5 text-xs font-medium text-foreground transition hover:border-[var(--celo-yellow)]"
+              >
+                Open app <FontAwesomeIcon icon={faArrowUpRightFromSquare} className="h-2.5 w-2.5" />
+              </a>
+              <a
+                href={CELESTE_GITHUB_URL}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-1 rounded-md border border-border bg-background px-3 py-1.5 text-xs font-medium text-foreground transition hover:border-[var(--celo-yellow)]"
+              >
+                <FontAwesomeIcon icon={faGithub} className="h-3 w-3" /> GitHub
+              </a>
+            </div>
           </ProductCard>
         </div>
       </section>
