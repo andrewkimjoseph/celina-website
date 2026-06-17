@@ -12,8 +12,10 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as StatsRouteImport } from './routes/stats'
 import { Route as StackRouteImport } from './routes/stack'
 import { Route as SdkRouteImport } from './routes/sdk'
+import { Route as OasfRouteImport } from './routes/oasf'
 import { Route as McpRouteImport } from './routes/mcp'
 import { Route as AboutRouteImport } from './routes/about'
+import { Route as A2aRouteImport } from './routes/a2a'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ToolsIndexRouteImport } from './routes/tools.index'
 import { Route as StatsIndexRouteImport } from './routes/stats.index'
@@ -41,6 +43,11 @@ const SdkRoute = SdkRouteImport.update({
   path: '/sdk',
   getParentRoute: () => rootRouteImport,
 } as any)
+const OasfRoute = OasfRouteImport.update({
+  id: '/oasf',
+  path: '/oasf',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const McpRoute = McpRouteImport.update({
   id: '/mcp',
   path: '/mcp',
@@ -49,6 +56,11 @@ const McpRoute = McpRouteImport.update({
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const A2aRoute = A2aRouteImport.update({
+  id: '/a2a',
+  path: '/a2a',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -109,8 +121,10 @@ const ToolsCategoryToolSlugRoute = ToolsCategoryToolSlugRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/a2a': typeof A2aRoute
   '/about': typeof AboutRoute
   '/mcp': typeof McpRouteWithChildren
+  '/oasf': typeof OasfRoute
   '/sdk': typeof SdkRoute
   '/stack': typeof StackRoute
   '/stats': typeof StatsRouteWithChildren
@@ -127,7 +141,9 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/a2a': typeof A2aRoute
   '/about': typeof AboutRoute
+  '/oasf': typeof OasfRoute
   '/sdk': typeof SdkRoute
   '/stack': typeof StackRoute
   '/mcp/local': typeof McpLocalRoute
@@ -144,8 +160,10 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/a2a': typeof A2aRoute
   '/about': typeof AboutRoute
   '/mcp': typeof McpRouteWithChildren
+  '/oasf': typeof OasfRoute
   '/sdk': typeof SdkRoute
   '/stack': typeof StackRoute
   '/stats': typeof StatsRouteWithChildren
@@ -164,8 +182,10 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/a2a'
     | '/about'
     | '/mcp'
+    | '/oasf'
     | '/sdk'
     | '/stack'
     | '/stats'
@@ -182,7 +202,9 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/a2a'
     | '/about'
+    | '/oasf'
     | '/sdk'
     | '/stack'
     | '/mcp/local'
@@ -198,8 +220,10 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/a2a'
     | '/about'
     | '/mcp'
+    | '/oasf'
     | '/sdk'
     | '/stack'
     | '/stats'
@@ -217,8 +241,10 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  A2aRoute: typeof A2aRoute
   AboutRoute: typeof AboutRoute
   McpRoute: typeof McpRouteWithChildren
+  OasfRoute: typeof OasfRoute
   SdkRoute: typeof SdkRoute
   StackRoute: typeof StackRoute
   StatsRoute: typeof StatsRouteWithChildren
@@ -250,6 +276,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SdkRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/oasf': {
+      id: '/oasf'
+      path: '/oasf'
+      fullPath: '/oasf'
+      preLoaderRoute: typeof OasfRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/mcp': {
       id: '/mcp'
       path: '/mcp'
@@ -262,6 +295,13 @@ declare module '@tanstack/react-router' {
       path: '/about'
       fullPath: '/about'
       preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/a2a': {
+      id: '/a2a'
+      path: '/a2a'
+      fullPath: '/a2a'
+      preLoaderRoute: typeof A2aRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -376,8 +416,10 @@ const StatsRouteWithChildren = StatsRoute._addFileChildren(StatsRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  A2aRoute: A2aRoute,
   AboutRoute: AboutRoute,
   McpRoute: McpRouteWithChildren,
+  OasfRoute: OasfRoute,
   SdkRoute: SdkRoute,
   StackRoute: StackRoute,
   StatsRoute: StatsRouteWithChildren,
