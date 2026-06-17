@@ -59,6 +59,8 @@ function McpLayout() {
           <SubNavLink to="/mcp" label="Overview" />
           <SubNavLink to="/mcp/local" label="Local" />
           <SubNavLink to="/mcp/remote" label="Remote" />
+          <SubNavLink to="/a2a" label="A2A" />
+          <SubNavLink to="/oasf" label="OASF" />
         </div>
       </PageHeroSection>
 
