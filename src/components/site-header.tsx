@@ -22,6 +22,8 @@ const NAV_LINKS: NavLink[] = [
   { to: "/about", label: "About" },
   { to: "/tools", label: "Tools" },
   { to: "/mcp", label: "MCP" },
+  { to: "/a2a", label: "A2A" },
+  { to: "/oasf", label: "OASF" },
   { to: "/stack", label: "Stack" },
   { to: "/sdk", label: "SDK" },
   { to: "/stats", label: "Stats" },
