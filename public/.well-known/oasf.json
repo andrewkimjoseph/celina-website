@@ -1,0 +1,97 @@
+{
+  "name": "Celina",
+  "description": "Celo mainnet specialist agent — hosted read-only access to balances, DeFi quotes, governance, staking, NFTs, and Self Agent ID verification via structured tool calls.",
+  "version": "0.9.2",
+  "schema_version": "1.0.0",
+  "authors": [
+    "Celina <https://usecelina.xyz>"
+  ],
+  "created_at": "2025-06-01T00:00:00Z",
+  "skills": [
+    {
+      "name": "natural_language_processing/information_retrieval_synthesis/information_retrieval_synthesis_search",
+      "id": 10306
+    },
+    {
+      "name": "natural_language_processing/information_retrieval_synthesis/fact_extraction",
+      "id": 10301
+    },
+    {
+      "name": "natural_language_processing/analytical_reasoning/fact_verification",
+      "id": 10703
+    },
+    {
+      "name": "tool_interaction/api_schema_understanding",
+      "id": 1401
+    },
+    {
+      "name": "tool_interaction/tool_use_planning",
+      "id": 1403
+    },
+    {
+      "name": "governance_compliance/compliance_assessment",
+      "id": 1302
+    }
+  ],
+  "domains": [
+    {
+      "name": "technology/blockchain",
+      "id": 109
+    },
+    {
+      "name": "technology/blockchain/cryptocurrency",
+      "id": 10901
+    },
+    {
+      "name": "technology/blockchain/defi",
+      "id": 10902
+    },
+    {
+      "name": "technology/blockchain/smart_contracts",
+      "id": 10903
+    },
+    {
+      "name": "finance_and_business/investment_services",
+      "id": 203
+    }
+  ],
+  "modules": [],
+  "locators": [
+    {
+      "type": "source_code",
+      "urls": [
+        "https://github.com/andrewkimjoseph/celina-sdk"
+      ]
+    },
+    {
+      "type": "web",
+      "urls": [
+        "https://usecelina.xyz"
+      ]
+    },
+    {
+      "type": "mcp",
+      "urls": [
+        "https://mcp.usecelina.xyz/api/mcp"
+      ]
+    },
+    {
+      "type": "a2a",
+      "urls": [
+        "https://mcp.usecelina.xyz/api/a2a"
+      ]
+    },
+    {
+      "type": "agent_card",
+      "urls": [
+        "https://usecelina.xyz/.well-known/agent-card.json"
+      ]
+    },
+    {
+      "type": "registration",
+      "urls": [
+        "https://usecelina.xyz/agent.json"
+      ]
+    }
+  ]
+}

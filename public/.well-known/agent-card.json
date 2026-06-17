@@ -1,0 +1,197 @@
+{
+  "name": "Celina",
+  "description": "Celo mainnet specialist agent — hosted read-only access to balances, DeFi quotes, governance, staking, NFTs, and Self Agent ID verification via structured tool calls.",
+  "protocolVersion": "0.3.0",
+  "version": "0.9.2",
+  "url": "https://mcp.usecelina.xyz/api/a2a",
+  "skills": [
+    {
+      "id": "aave",
+      "name": "Aave V3 reads",
+      "description": "Aave V3 reads on Celo mainnet. Allowed tools: get_aave_balances.",
+      "tags": [
+        "celo",
+        "aave",
+        "defi"
+      ],
+      "examples": [
+        "Send a DataPart (application/vnd.celina.tool+json) with {\"tool\":\"get_aave_balances\",\"arguments\":{...}}."
+      ]
+    },
+    {
+      "id": "celo-balances",
+      "name": "Celo balances",
+      "description": "Celo balances on Celo mainnet. Allowed tools: get_account, get_celo_balances, get_stablecoin_balances, get_token_info, get_token_balance.",
+      "tags": [
+        "celo",
+        "balances",
+        "account"
+      ],
+      "examples": [
+        "Send a DataPart (application/vnd.celina.tool+json) with {\"tool\":\"get_account\",\"arguments\":{...}}."
+      ]
+    },
+    {
+      "id": "celo-blockchain",
+      "name": "Celo blockchain reads",
+      "description": "Celo blockchain reads on Celo mainnet. Allowed tools: get_network_status, get_block, get_latest_blocks, get_transaction, get_gas_fee_data.",
+      "tags": [
+        "celo",
+        "blockchain",
+        "mainnet"
+      ],
+      "examples": [
+        "Send a DataPart (application/vnd.celina.tool+json) with {\"tool\":\"get_network_status\",\"arguments\":{...}}."
+      ]
+    },
+    {
+      "id": "contract-read",
+      "name": "Contract reads",
+      "description": "Contract reads on Celo mainnet. Allowed tools: call_contract_function.",
+      "tags": [
+        "celo",
+        "contract",
+        "abi"
+      ],
+      "examples": [
+        "Send a DataPart (application/vnd.celina.tool+json) with {\"tool\":\"call_contract_function\",\"arguments\":{...}}."
+      ]
+    },
+    {
+      "id": "ens",
+      "name": "ENS resolution",
+      "description": "ENS resolution on Celo mainnet. Allowed tools: resolve_ens.",
+      "tags": [
+        "celo",
+        "ens",
+        "wallet"
+      ],
+      "examples": [
+        "Send a DataPart (application/vnd.celina.tool+json) with {\"tool\":\"resolve_ens\",\"arguments\":{...}}."
+      ]
+    },
+    {
+      "id": "gooddollar",
+      "name": "GoodDollar reads",
+      "description": "GoodDollar reads on Celo mainnet. Allowed tools: get_gooddollar_whitelisting_info, get_gooddollar_identity_link, get_gooddollar_ubi_entitlement, get_gooddollar_reserve_quote.",
+      "tags": [
+        "celo",
+        "gooddollar",
+        "ubi",
+        "reserve"
+      ],
+      "examples": [
+        "Send a DataPart (application/vnd.celina.tool+json) with {\"tool\":\"get_gooddollar_whitelisting_info\",\"arguments\":{...}}."
+      ]
+    },
+    {
+      "id": "governance",
+      "name": "Celo governance",
+      "description": "Celo governance on Celo mainnet. Allowed tools: get_governance_proposals, get_proposal_details.",
+      "tags": [
+        "celo",
+        "governance",
+        "cgp"
+      ],
+      "examples": [
+        "Send a DataPart (application/vnd.celina.tool+json) with {\"tool\":\"get_governance_proposals\",\"arguments\":{...}}."
+      ]
+    },
+    {
+      "id": "mento-fx",
+      "name": "Mento FX quotes",
+      "description": "Mento FX quotes on Celo mainnet. Allowed tools: get_mento_fx_quote.",
+      "tags": [
+        "celo",
+        "mento",
+        "fx",
+        "swap"
+      ],
+      "examples": [
+        "Send a DataPart (application/vnd.celina.tool+json) with {\"tool\":\"get_mento_fx_quote\",\"arguments\":{...}}."
+      ]
+    },
+    {
+      "id": "nft",
+      "name": "NFT reads",
+      "description": "NFT reads on Celo mainnet. Allowed tools: get_nft_info, get_nft_balance.",
+      "tags": [
+        "celo",
+        "nft",
+        "erc721",
+        "erc1155"
+      ],
+      "examples": [
+        "Send a DataPart (application/vnd.celina.tool+json) with {\"tool\":\"get_nft_info\",\"arguments\":{...}}."
+      ]
+    },
+    {
+      "id": "self-verify",
+      "name": "Self Agent ID verification",
+      "description": "Self Agent ID verification on Celo mainnet. Allowed tools: verify_self_agent, lookup_self_agent, verify_self_request.",
+      "tags": [
+        "celo",
+        "self",
+        "identity",
+        "agent"
+      ],
+      "examples": [
+        "Send a DataPart (application/vnd.celina.tool+json) with {\"tool\":\"verify_self_agent\",\"arguments\":{...}}."
+      ]
+    },
+    {
+      "id": "staking",
+      "name": "Celo staking",
+      "description": "Celo staking on Celo mainnet. Allowed tools: get_staking_balances, get_activatable_stakes, get_validator_groups, get_validator_group_details, get_total_staking_info.",
+      "tags": [
+        "celo",
+        "staking",
+        "validators"
+      ],
+      "examples": [
+        "Send a DataPart (application/vnd.celina.tool+json) with {\"tool\":\"get_staking_balances\",\"arguments\":{...}}."
+      ]
+    },
+    {
+      "id": "uniswap",
+      "name": "Uniswap v4 quotes",
+      "description": "Uniswap v4 quotes on Celo mainnet. Allowed tools: get_uniswap_quote.",
+      "tags": [
+        "celo",
+        "uniswap",
+        "swap",
+        "amm"
+      ],
+      "examples": [
+        "Send a DataPart (application/vnd.celina.tool+json) with {\"tool\":\"get_uniswap_quote\",\"arguments\":{...}}."
+      ]
+    }
+  ],
+  "capabilities": {
+    "streaming": false,
+    "pushNotifications": false
+  },
+  "defaultInputModes": [
+    "text",
+    "data"
+  ],
+  "defaultOutputModes": [
+    "text",
+    "data"
+  ],
+  "additionalInterfaces": [
+    {
+      "url": "https://mcp.usecelina.xyz/api/a2a",
+      "transport": "JSONRPC"
+    }
+  ],
+  "extensions": {
+    "celina": {
+      "toolPayloadMime": "application/vnd.celina.tool+json",
+      "toolPayloadSchema": {
+        "tool": "string — hosted MCP tool name",
+        "arguments": "object — snake_case tool arguments"
+      }
+    }
+  }
+}
