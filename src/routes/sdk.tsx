@@ -10,6 +10,7 @@ import {
   faLock,
   faMagnifyingGlass,
   faPenRuler,
+  faShieldHalved,
   faArrowUpRightFromSquare,
 } from "@fortawesome/free-solid-svg-icons";
 import { faNpm, faGithub } from "@fortawesome/free-brands-svg-icons";
@@ -217,7 +218,7 @@ function SdkPage() {
         >
           What you can do
         </h2>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           <CapabilityCard
             icon={faMagnifyingGlass}
             title="Reads"
@@ -232,6 +233,11 @@ function SdkPage() {
             icon={faPenRuler}
             title="Wallet signing"
             body="Unsigned tx flows for sends, Mento FX, GoodDollar reserve (G$ ↔ USDm), Uniswap v4, Aave, and GoodDollar UBI."
+          />
+          <CapabilityCard
+            icon={faShieldHalved}
+            title="Sign-time simulation"
+            body="Import @andrewkimjoseph/celina-sdk/simulation — simulatePreparedStep dry-runs each PreparedTx before wagmi send; celina-mcp uses the same helper in executePreparedFlow."
           />
           <CapabilityCard
             icon={faBolt}
@@ -306,9 +312,13 @@ function SdkPage() {
           <a className="text-foreground underline decoration-[var(--celo-yellow)] decoration-2 underline-offset-4" href={`${SDK_DOCS_URL}/getting-started/quick-start`} target="_blank" rel="noreferrer">
             Quick start
           </a>{" "}
-          and{" "}
+          ,{" "}
           <a className="text-foreground underline decoration-[var(--celo-yellow)] decoration-2 underline-offset-4" href={`${SDK_DOCS_URL}/guides/wagmi-integration`} target="_blank" rel="noreferrer">
             wagmi integration
+          </a>
+          , and{" "}
+          <a className="text-foreground underline decoration-[var(--celo-yellow)] decoration-2 underline-offset-4" href={`${SDK_DOCS_URL}/guides/prepared-step-simulation`} target="_blank" rel="noreferrer">
+            prepared-step simulation
           </a>{" "}
           for the full signing flow.
         </p>
