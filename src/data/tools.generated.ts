@@ -594,7 +594,7 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
     "slug": "get-aave-balances",
     "title": "Get Aave Balances",
     "summary": "Read supplied Aave V3 balances (aToken holdings) on Celo in underlying token units including accrued interest.",
-    "description": "Read supplied Aave V3 balances (aToken holdings) on Celo in underlying token units including accrued interest. Supported: USDT, WETH, USDm, USDC, CELO, EURm. Omit address to use the session wallet when CELO_PRIVATE_KEY is set.",
+    "description": "Read supplied Aave V3 balances (aToken holdings) on Celo in underlying token units including accrued interest. Each balance has formatted (human-readable, e.g. \"0.000002\") and raw (atomic units — do not quote raw to users). Supported: USDT, WETH, USDm, USDC, CELO, EURm. Omit address to use the session wallet when CELO_PRIVATE_KEY is set.",
     "kind": "read",
     "category": "Aave",
     "inputs": [
@@ -759,7 +759,7 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
     "slug": "get-gooddollar-reserve-quote",
     "title": "Get GoodDollar Reserve Quote",
     "summary": "GoodDollar reserve quote for G$ ↔ USDm on Celo (MentoBroker bonding curve).",
-    "description": "GoodDollar reserve quote for G$ ↔ USDm on Celo (MentoBroker bonding curve). Uses the literal signing wallet address for balances; does not resolve GoodDollar identity roots.",
+    "description": "GoodDollar reserve quote for G$ ↔ USDm on Celo (MentoBroker bonding curve). Use amount_side \"out\" when the user names the amount they want to receive (e.g. \"get 0.6 USDm\"). Uses the literal signing wallet address for balances; does not resolve GoodDollar identity roots.",
     "kind": "read",
     "category": "GoodDollar",
     "inputs": [
@@ -780,6 +780,12 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
         "type": "string",
         "required": true,
         "description": "amount"
+      },
+      {
+        "name": "amount_side",
+        "type": "string",
+        "required": true,
+        "description": "amount side"
       },
       {
         "name": "from",
@@ -815,6 +821,12 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
         "type": "string",
         "required": true,
         "description": "amount"
+      },
+      {
+        "name": "amount_side",
+        "type": "string",
+        "required": true,
+        "description": "amount side"
       },
       {
         "name": "from",
@@ -862,6 +874,12 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
         "type": "string",
         "required": true,
         "description": "amount"
+      },
+      {
+        "name": "amount_side",
+        "type": "string",
+        "required": true,
+        "description": "amount side"
       },
       {
         "name": "from",
