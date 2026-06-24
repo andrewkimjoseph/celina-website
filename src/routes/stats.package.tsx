@@ -4,8 +4,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowUpRightFromSquare } from "@fortawesome/free-solid-svg-icons";
 import { faNpm } from "@fortawesome/free-brands-svg-icons";
 import { useNpmStore } from "@/lib/npm-store";
+import { useNpmHydrated } from "@/lib/use-persist-hydrated";
 import {
   KpiCard,
+  KpiSkeleton,
   ChartCard,
   aggregateNpm,
   tooltipStyle,
@@ -47,6 +49,7 @@ export const Route = createFileRoute("/stats/package")({
 
 function PackagePage() {
   const { rows } = useNpmStore();
+  const npmHydrated = useNpmHydrated();
   const npmAgg = useMemo(() => aggregateNpm(rows), [rows]);
 
   return (
@@ -74,20 +77,32 @@ function PackagePage() {
             rel="noreferrer"
             className="inline-flex items-center gap-1.5 text-xs font-medium text-muted-foreground transition hover:text-foreground"
           >
-            npm-stat.com
+            Compare on npm-stat.com
             <FontAwesomeIcon icon={faArrowUpRightFromSquare} className="h-2.5 w-2.5" />
           </a>
         </div>
 
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
-          <KpiCard label="Total (365d)" value={npmAgg.total365.toLocaleString()} />
-          <KpiCard label="Last 7 days" value={npmAgg.last7.toLocaleString()} />
-          <KpiCard label="Last 30 days" value={npmAgg.last30.toLocaleString()} />
-          <KpiCard label="Avg / day (30d)" value={npmAgg.avg30.toLocaleString()} />
+          {npmHydrated ? (
+            <>
+              <KpiCard label="Total (365d)" value={npmAgg.total365.toLocaleString()} />
+              <KpiCard label="Last 7 days" value={npmAgg.last7.toLocaleString()} />
+              <KpiCard label="Last 30 days" value={npmAgg.last30.toLocaleString()} />
+              <KpiCard label="Avg / day (30d)" value={npmAgg.avg30.toLocaleString()} />
+            </>
+          ) : (
+            <>
+              <KpiSkeleton />
+              <KpiSkeleton />
+              <KpiSkeleton />
+              <KpiSkeleton />
+            </>
+          )}
         </div>
       </section>
 
       <section className="mx-auto max-w-6xl px-4 pb-16 sm:px-6">
+        {npmHydrated ? (
         <div className="grid gap-4 lg:grid-cols-2">
           <ChartCard title="Daily downloads" subtitle="last 90 days">
             <ResponsiveContainer width="100%" height="100%">
@@ -96,7 +111,7 @@ function PackagePage() {
                 <XAxis dataKey="label" stroke="var(--muted-foreground)" fontSize={10} tickLine={false} interval={Math.max(0, Math.floor(npmAgg.daily90.length / 8))} />
                 <YAxis stroke="var(--muted-foreground)" fontSize={11} tickLine={false} axisLine={false} width={40} />
                 <Tooltip contentStyle={tooltipStyle} itemStyle={tooltipItemStyle} labelStyle={tooltipLabelStyle} cursor={{ fill: "var(--muted)" }} />
-                <Bar dataKey="downloads" name="Downloads" fill={yellow} radius={[4, 4, 0, 0]} />
+                <Bar dataKey="downloads" name="Downloads" fill={yellow} radius={[4, 4, 0, 0]} isAnimationActive={false} />
               </BarChart>
             </ResponsiveContainer>
           </ChartCard>
@@ -108,7 +123,7 @@ function PackagePage() {
                 <XAxis dataKey="label" stroke="var(--muted-foreground)" fontSize={10} tickLine={false} interval={Math.max(0, Math.floor(npmAgg.cumulative.length / 8))} />
                 <YAxis stroke="var(--muted-foreground)" fontSize={11} tickLine={false} axisLine={false} width={40} />
                 <Tooltip contentStyle={tooltipStyle} itemStyle={tooltipItemStyle} labelStyle={tooltipLabelStyle} cursor={{ stroke: "var(--border)" }} />
-                <Line type="monotone" dataKey="total" name="Cumulative" stroke={forest} strokeWidth={2.5} dot={false} activeDot={{ r: 4, fill: forest }} />
+                <Line type="monotone" dataKey="total" name="Cumulative" stroke={forest} strokeWidth={2.5} dot={false} activeDot={{ r: 4, fill: forest }} isAnimationActive={false} />
               </LineChart>
             </ResponsiveContainer>
           </ChartCard>
@@ -120,7 +135,7 @@ function PackagePage() {
                 <XAxis dataKey="week" stroke="var(--muted-foreground)" fontSize={10} tickLine={false} interval={Math.max(0, Math.floor(npmAgg.weekly.length / 8))} />
                 <YAxis stroke="var(--muted-foreground)" fontSize={11} tickLine={false} axisLine={false} width={40} />
                 <Tooltip contentStyle={tooltipStyle} itemStyle={tooltipItemStyle} labelStyle={tooltipLabelStyle} cursor={{ fill: "var(--muted)" }} />
-                <Bar dataKey="downloads" name="Downloads" fill={forest} radius={[4, 4, 0, 0]} />
+                <Bar dataKey="downloads" name="Downloads" fill={forest} radius={[4, 4, 0, 0]} isAnimationActive={false} />
               </BarChart>
             </ResponsiveContainer>
           </ChartCard>
@@ -132,11 +147,19 @@ function PackagePage() {
                 <XAxis dataKey="label" stroke="var(--muted-foreground)" fontSize={11} tickLine={false} />
                 <YAxis stroke="var(--muted-foreground)" fontSize={11} tickLine={false} axisLine={false} width={40} />
                 <Tooltip contentStyle={tooltipStyle} itemStyle={tooltipItemStyle} labelStyle={tooltipLabelStyle} cursor={{ fill: "var(--muted)" }} />
-                <Bar dataKey="downloads" name="Downloads" fill={yellow} radius={[4, 4, 0, 0]} />
+                <Bar dataKey="downloads" name="Downloads" fill={yellow} radius={[4, 4, 0, 0]} isAnimationActive={false} />
               </BarChart>
             </ResponsiveContainer>
           </ChartCard>
         </div>
+        ) : (
+          <div className="grid gap-4 lg:grid-cols-2">
+            <div className="h-80 animate-pulse rounded-2xl bg-muted" />
+            <div className="h-80 animate-pulse rounded-2xl bg-muted" />
+            <div className="h-80 animate-pulse rounded-2xl bg-muted" />
+            <div className="h-80 animate-pulse rounded-2xl bg-muted" />
+          </div>
+        )}
       </section>
     </>
   );

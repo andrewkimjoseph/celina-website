@@ -55,6 +55,7 @@ function StatsLayout() {
     fetchedAt: npmFetchedAt,
     loading: npmLoading,
     error: npmError,
+    partial: npmPartial,
     refresh: refreshNpm,
   } = useNpmStore();
   const {
@@ -98,10 +99,12 @@ function StatsLayout() {
   const busy = loading || npmLoading || ampLoading;
   const combinedError = (() => {
     if (pathname.startsWith("/stats/onchain")) return error;
-    if (pathname.startsWith("/stats/package")) return npmError;
+    if (pathname.startsWith("/stats/package")) return npmPartial ? null : npmError;
     if (pathname.startsWith("/stats/offchain")) return ampError;
-    return error || npmError || ampError;
+    return error || (npmPartial ? null : npmError) || ampError;
   })();
+  const showNpmPartial =
+    pathname.startsWith("/stats/package") && npmPartial && npmError;
 
   return (
     <main className="min-h-screen bg-background text-foreground">
@@ -145,6 +148,13 @@ function StatsLayout() {
           <div className="mt-6 flex items-start gap-3 rounded-xl border border-destructive/30 bg-destructive/10 p-4 text-sm text-foreground">
             <FontAwesomeIcon icon={faTriangleExclamation} className="mt-0.5 h-4 w-4 text-destructive" />
             <span>{combinedError}</span>
+          </div>
+        )}
+
+        {showNpmPartial && (
+          <div className="mt-6 flex items-start gap-3 rounded-xl border border-[var(--celo-yellow)]/40 bg-[var(--celo-yellow)]/10 p-4 text-sm text-foreground">
+            <FontAwesomeIcon icon={faTriangleExclamation} className="mt-0.5 h-4 w-4 text-[var(--celo-forest)] dark:text-[var(--celo-yellow)]" />
+            <span>{npmError}</span>
           </div>
         )}
 

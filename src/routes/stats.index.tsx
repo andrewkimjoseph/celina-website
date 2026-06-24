@@ -5,9 +5,11 @@ import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { faNpm } from "@fortawesome/free-brands-svg-icons";
 import { useStatsStore } from "@/lib/stats-store";
 import { useNpmStore } from "@/lib/npm-store";
+import { useNpmHydrated } from "@/lib/use-persist-hydrated";
 import { useAmplitudeStore } from "@/lib/amplitude-store";
 import {
   KpiCard,
+  KpiSkeleton,
   aggregate,
   aggregateNpm,
   aggregateAmplitude,
@@ -79,6 +81,7 @@ function SectionCard({
 function OverviewPage() {
   const { rows } = useStatsStore();
   const { rows: npmRows } = useNpmStore();
+  const npmHydrated = useNpmHydrated();
   const { daily: ampDaily, perTool: ampPerTool, walletsQueried } = useAmplitudeStore();
   const agg = useMemo(() => aggregate(rows), [rows]);
   const npmAgg = useMemo(() => aggregateNpm(npmRows), [npmRows]);
@@ -96,8 +99,17 @@ function OverviewPage() {
           <KpiCard label="Off-chain total" value={ampAgg.total.toLocaleString()} />
           <KpiCard label="Off-chain 7d" value={ampAgg.last7.toLocaleString()} />
           <KpiCard label="Wallets queried" value={walletsQueried.toLocaleString()} />
-          <KpiCard label="npm 365d" value={npmAgg.total365.toLocaleString()} />
-          <KpiCard label="npm last 7d" value={npmAgg.last7.toLocaleString()} />
+          {npmHydrated ? (
+            <>
+              <KpiCard label="npm 365d" value={npmAgg.total365.toLocaleString()} />
+              <KpiCard label="npm last 7d" value={npmAgg.last7.toLocaleString()} />
+            </>
+          ) : (
+            <>
+              <KpiSkeleton />
+              <KpiSkeleton />
+            </>
+          )}
         </div>
       </section>
 
@@ -154,17 +166,21 @@ function OverviewPage() {
               </span>
             }
             title="Package adoption"
-            description="Daily, weekly, and monthly downloads for @andrewkimjoseph/celina-mcp from the npm registry."
+            description="Combined daily downloads for celina-mcp, celina-sdk, and the legacy celina wrapper from the npm registry."
           >
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={npmAgg.daily90} margin={{ top: 8, right: 8, left: 0, bottom: 0 }}>
-                <CartesianGrid stroke="var(--border)" strokeDasharray="3 3" vertical={false} />
-                <XAxis dataKey="label" stroke="var(--muted-foreground)" fontSize={10} tickLine={false} hide />
-                <YAxis stroke="var(--muted-foreground)" fontSize={10} tickLine={false} axisLine={false} width={32} />
-                <Tooltip contentStyle={tooltipStyle} itemStyle={tooltipItemStyle} labelStyle={tooltipLabelStyle} cursor={{ fill: "var(--muted)" }} />
-                <Bar dataKey="downloads" fill={forest} radius={[3, 3, 0, 0]} />
-              </BarChart>
-            </ResponsiveContainer>
+            {npmHydrated ? (
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={npmAgg.daily90} margin={{ top: 8, right: 8, left: 0, bottom: 0 }}>
+                  <CartesianGrid stroke="var(--border)" strokeDasharray="3 3" vertical={false} />
+                  <XAxis dataKey="label" stroke="var(--muted-foreground)" fontSize={10} tickLine={false} hide />
+                  <YAxis stroke="var(--muted-foreground)" fontSize={10} tickLine={false} axisLine={false} width={32} />
+                  <Tooltip contentStyle={tooltipStyle} itemStyle={tooltipItemStyle} labelStyle={tooltipLabelStyle} cursor={{ fill: "var(--muted)" }} />
+                  <Bar dataKey="downloads" fill={forest} radius={[3, 3, 0, 0]} isAnimationActive={false} />
+                </BarChart>
+              </ResponsiveContainer>
+            ) : (
+              <div className="h-full w-full animate-pulse rounded-xl bg-muted" />
+            )}
           </SectionCard>
         </div>
       </section>

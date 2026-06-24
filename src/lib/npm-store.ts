@@ -9,6 +9,7 @@ type NpmState = {
   fetchedAt: number | null;
   loading: boolean;
   error: string | null;
+  partial: boolean;
   refresh: (opts?: { force?: boolean }) => Promise<void>;
 };
 
@@ -19,6 +20,7 @@ export const useNpmStore = create<NpmState>()(
       fetchedAt: null,
       loading: false,
       error: null,
+      partial: false,
       refresh: async (opts) => {
         const { fetchedAt, loading } = get();
         if (loading && !opts?.force) return;
@@ -30,17 +32,25 @@ export const useNpmStore = create<NpmState>()(
         ) {
           return;
         }
-        set({ loading: true, error: null });
+        set({ loading: true, error: null, partial: false });
         try {
           const result = await withTimeout(
             getNpmDownloads(),
             45_000,
             "npm downloads",
           );
+          const hasRows = result.rows.length > 0;
+          const keepCache = Boolean(result.error) && !hasRows;
+
           set({
-            rows: result.rows,
-            fetchedAt: result.fetchedAt,
+            ...(keepCache
+              ? {}
+              : {
+                  rows: result.rows,
+                  fetchedAt: result.fetchedAt,
+                }),
             error: result.error,
+            partial: result.partial,
           });
         } catch (e) {
           set({
@@ -52,7 +62,7 @@ export const useNpmStore = create<NpmState>()(
       },
     }),
     {
-      name: "celina-npm",
+      name: "celina-npm-v2",
       partialize: (s) => ({ rows: s.rows, fetchedAt: s.fetchedAt }),
     },
   ),
