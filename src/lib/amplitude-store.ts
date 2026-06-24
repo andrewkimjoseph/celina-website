@@ -19,6 +19,7 @@ type AmplitudeState = {
   lastSyncedAt: string | null;
   loading: boolean;
   error: string | null;
+  partial: boolean;
   refresh: (opts?: { force?: boolean }) => Promise<void>;
 };
 
@@ -35,6 +36,7 @@ export const useAmplitudeStore = create<AmplitudeState>()(
       lastSyncedAt: null,
       loading: false,
       error: null,
+      partial: false,
       refresh: async (opts) => {
         const { fetchedAt, loading } = get();
         if (loading && !opts?.force) return;
@@ -46,28 +48,39 @@ export const useAmplitudeStore = create<AmplitudeState>()(
         ) {
           return;
         }
-        set({ loading: true, error: null });
+        set({ loading: true, error: null, partial: false });
         try {
           const result = await withTimeout(
             getAmplitudeStats(),
             90_000,
             "Off-chain stats",
           );
+          const hasRows = result.daily.length > 0;
+          const keepCache = Boolean(result.error) && !hasRows;
+
           set({
-            daily: result.daily,
-            dailyWalletsQueried: result.dailyWalletsQueried,
-            perTool: result.perTool,
-            total: result.total,
-            uniqueDevices: result.uniqueDevices,
-            walletsQueried: result.walletsQueried,
-            fetchedAt: result.fetchedAt,
-            lastSyncedAt: result.lastSyncedAt,
+            ...(keepCache
+              ? {}
+              : {
+                  daily: result.daily,
+                  dailyWalletsQueried: result.dailyWalletsQueried,
+                  perTool: result.perTool,
+                  total: result.total,
+                  uniqueDevices: result.uniqueDevices,
+                  walletsQueried: result.walletsQueried,
+                  fetchedAt: result.fetchedAt,
+                  lastSyncedAt: result.lastSyncedAt,
+                }),
             error: result.error,
+            partial: Boolean(result.error) && hasRows,
           });
         } catch (e) {
+          const message =
+            e instanceof Error ? e.message : "Failed to load Amplitude stats";
+          const hasCache = get().daily.length > 0;
           set({
-            error:
-              e instanceof Error ? e.message : "Failed to load Amplitude stats",
+            error: message,
+            partial: hasCache,
           });
         } finally {
           set({ loading: false });
@@ -75,7 +88,7 @@ export const useAmplitudeStore = create<AmplitudeState>()(
       },
     }),
     {
-      name: "celina-amplitude-v7",
+      name: "celina-amplitude-v8",
       partialize: (s) => ({
         daily: s.daily,
         dailyWalletsQueried: s.dailyWalletsQueried,

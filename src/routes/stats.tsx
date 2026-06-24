@@ -62,6 +62,7 @@ function StatsLayout() {
     fetchedAt: ampFetchedAt,
     loading: ampLoading,
     error: ampError,
+    partial: ampPartial,
     refresh: refreshAmp,
   } = useAmplitudeStore();
   const [now, setNow] = useState(() => Date.now());
@@ -100,11 +101,12 @@ function StatsLayout() {
   const combinedError = (() => {
     if (pathname.startsWith("/stats/onchain")) return error;
     if (pathname.startsWith("/stats/package")) return npmPartial ? null : npmError;
-    if (pathname.startsWith("/stats/offchain")) return ampError;
-    return error || (npmPartial ? null : npmError) || ampError;
+    if (pathname.startsWith("/stats/offchain")) return ampPartial ? null : ampError;
+    return error || (npmPartial ? null : npmError) || (ampPartial ? null : ampError);
   })();
   const showNpmPartial =
     pathname.startsWith("/stats/package") && npmPartial && npmError;
+  const showAmpPartial = ampPartial && ampError;
 
   return (
     <main className="min-h-screen bg-background text-foreground">
@@ -155,6 +157,15 @@ function StatsLayout() {
           <div className="mt-6 flex items-start gap-3 rounded-xl border border-[var(--celo-yellow)]/40 bg-[var(--celo-yellow)]/10 p-4 text-sm text-foreground">
             <FontAwesomeIcon icon={faTriangleExclamation} className="mt-0.5 h-4 w-4 text-[var(--celo-forest)] dark:text-[var(--celo-yellow)]" />
             <span>{npmError}</span>
+          </div>
+        )}
+
+        {showAmpPartial && (
+          <div className="mt-6 flex items-start gap-3 rounded-xl border border-[var(--celo-yellow)]/40 bg-[var(--celo-yellow)]/10 p-4 text-sm text-foreground">
+            <FontAwesomeIcon icon={faTriangleExclamation} className="mt-0.5 h-4 w-4 text-[var(--celo-forest)] dark:text-[var(--celo-yellow)]" />
+            <span>
+              Off-chain refresh failed — showing cached data. {ampError}
+            </span>
           </div>
         )}
 

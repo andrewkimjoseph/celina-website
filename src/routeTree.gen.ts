@@ -27,6 +27,7 @@ import { Route as McpRemoteRouteImport } from './routes/mcp.remote'
 import { Route as McpLocalRouteImport } from './routes/mcp.local'
 import { Route as ToolsCategoryIndexRouteImport } from './routes/tools.$category.index'
 import { Route as ToolsCategoryToolSlugRouteImport } from './routes/tools.$category.$toolSlug'
+import { Route as ApiCronAmplitudeSyncRouteImport } from './routes/api/cron/amplitude-sync'
 
 const StatsRoute = StatsRouteImport.update({
   id: '/stats',
@@ -118,6 +119,11 @@ const ToolsCategoryToolSlugRoute = ToolsCategoryToolSlugRouteImport.update({
   path: '/tools/$category/$toolSlug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiCronAmplitudeSyncRoute = ApiCronAmplitudeSyncRouteImport.update({
+  id: '/api/cron/amplitude-sync',
+  path: '/api/cron/amplitude-sync',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -136,6 +142,7 @@ export interface FileRoutesByFullPath {
   '/mcp/': typeof McpIndexRoute
   '/stats/': typeof StatsIndexRoute
   '/tools/': typeof ToolsIndexRoute
+  '/api/cron/amplitude-sync': typeof ApiCronAmplitudeSyncRoute
   '/tools/$category/$toolSlug': typeof ToolsCategoryToolSlugRoute
   '/tools/$category/': typeof ToolsCategoryIndexRoute
 }
@@ -154,6 +161,7 @@ export interface FileRoutesByTo {
   '/mcp': typeof McpIndexRoute
   '/stats': typeof StatsIndexRoute
   '/tools': typeof ToolsIndexRoute
+  '/api/cron/amplitude-sync': typeof ApiCronAmplitudeSyncRoute
   '/tools/$category/$toolSlug': typeof ToolsCategoryToolSlugRoute
   '/tools/$category': typeof ToolsCategoryIndexRoute
 }
@@ -175,6 +183,7 @@ export interface FileRoutesById {
   '/mcp/': typeof McpIndexRoute
   '/stats/': typeof StatsIndexRoute
   '/tools/': typeof ToolsIndexRoute
+  '/api/cron/amplitude-sync': typeof ApiCronAmplitudeSyncRoute
   '/tools/$category/$toolSlug': typeof ToolsCategoryToolSlugRoute
   '/tools/$category/': typeof ToolsCategoryIndexRoute
 }
@@ -197,6 +206,7 @@ export interface FileRouteTypes {
     | '/mcp/'
     | '/stats/'
     | '/tools/'
+    | '/api/cron/amplitude-sync'
     | '/tools/$category/$toolSlug'
     | '/tools/$category/'
   fileRoutesByTo: FileRoutesByTo
@@ -215,6 +225,7 @@ export interface FileRouteTypes {
     | '/mcp'
     | '/stats'
     | '/tools'
+    | '/api/cron/amplitude-sync'
     | '/tools/$category/$toolSlug'
     | '/tools/$category'
   id:
@@ -235,6 +246,7 @@ export interface FileRouteTypes {
     | '/mcp/'
     | '/stats/'
     | '/tools/'
+    | '/api/cron/amplitude-sync'
     | '/tools/$category/$toolSlug'
     | '/tools/$category/'
   fileRoutesById: FileRoutesById
@@ -249,6 +261,7 @@ export interface RootRouteChildren {
   StackRoute: typeof StackRoute
   StatsRoute: typeof StatsRouteWithChildren
   ToolsIndexRoute: typeof ToolsIndexRoute
+  ApiCronAmplitudeSyncRoute: typeof ApiCronAmplitudeSyncRoute
   ToolsCategoryToolSlugRoute: typeof ToolsCategoryToolSlugRoute
   ToolsCategoryIndexRoute: typeof ToolsCategoryIndexRoute
 }
@@ -381,6 +394,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ToolsCategoryToolSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/cron/amplitude-sync': {
+      id: '/api/cron/amplitude-sync'
+      path: '/api/cron/amplitude-sync'
+      fullPath: '/api/cron/amplitude-sync'
+      preLoaderRoute: typeof ApiCronAmplitudeSyncRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -424,6 +444,7 @@ const rootRouteChildren: RootRouteChildren = {
   StackRoute: StackRoute,
   StatsRoute: StatsRouteWithChildren,
   ToolsIndexRoute: ToolsIndexRoute,
+  ApiCronAmplitudeSyncRoute: ApiCronAmplitudeSyncRoute,
   ToolsCategoryToolSlugRoute: ToolsCategoryToolSlugRoute,
   ToolsCategoryIndexRoute: ToolsCategoryIndexRoute,
 }
