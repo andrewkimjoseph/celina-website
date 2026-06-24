@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCloud, faLock } from "@fortawesome/free-solid-svg-icons";
-import { CodeBlock } from "@/components/marketing/code-block";
+import { CodeBlock, CopyButton } from "@/components/marketing/code-block";
 import { HOSTED_CONFIG, HOSTED_MCP_URL, HOSTED_TOOL_COUNT, MCP_REMOTE_CONFIG } from "@/data/mcp";
 
 export const Route = createFileRoute("/mcp/remote")({
@@ -48,7 +48,12 @@ function McpRemotePage() {
 
         <div className="mt-5 rounded-xl border border-foreground/10 bg-muted/30 p-4 text-sm">
           <p className="font-medium text-foreground">Endpoint</p>
-          <p className="mt-1 font-mono text-xs text-muted-foreground break-all">{HOSTED_MCP_URL}</p>
+          <div className="mt-2 flex items-center gap-2 rounded-lg border border-border bg-background/60 px-3 py-2">
+            <code className="flex-1 overflow-x-auto font-mono text-xs text-muted-foreground break-all">
+              {HOSTED_MCP_URL}
+            </code>
+            <CopyButton text={HOSTED_MCP_URL} />
+          </div>
           <p className="mt-2 text-xs text-muted-foreground">
             Alias: <code className="rounded bg-secondary px-1 py-0.5">https://mcp.usecelina.xyz/mcp</code> rewrites to{" "}
             <code className="rounded bg-secondary px-1 py-0.5">/api/mcp</code>
