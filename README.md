@@ -92,7 +92,7 @@ Stats pages call server functions that need API keys. Without them, dashboards s
 
 Manual Amplitude sync (e.g. cron debugging): `node scripts/run-amplitude-sync.mjs` reads `.env.local` then `.env`.
 
-**Supabase setup (one-time):** after deploying off-chain stats changes, run [`scripts/supabase-amplitude-aggregates.sql`](scripts/supabase-amplitude-aggregates.sql) in the custom Supabase SQL editor (plus optional [`scripts/supabase-amplitude-user-id-index.sql`](scripts/supabase-amplitude-user-id-index.sql)). Production sync runs on Vercel Cron every 6 hours at `/api/cron/amplitude-sync`.
+**Supabase setup (one-time):** after deploying off-chain stats changes, run [`scripts/supabase-amplitude-aggregates.sql`](scripts/supabase-amplitude-aggregates.sql) in the custom Supabase SQL editor (plus optional [`scripts/supabase-amplitude-user-id-index.sql`](scripts/supabase-amplitude-user-id-index.sql)). Production sync runs on Vercel Cron daily at midnight UTC (`/api/cron/amplitude-sync`); use `node scripts/run-amplitude-sync.mjs` for manual runs.
 
 Never commit real keys. `.env`, `.env.local`, and `.dev.vars` are gitignored; only the `*.example` templates are tracked.
 
