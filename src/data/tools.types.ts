@@ -36,7 +36,8 @@ export interface ToolDoc {
     | "Governance"
     | "Staking"
     | "NFT"
-    | "Contract";
+    | "Contract"
+    | "AgentKarma";
   inputs: ToolField[];
   /** What the LLM should expect back */
   returns: string;

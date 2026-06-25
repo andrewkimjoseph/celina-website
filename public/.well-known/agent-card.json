@@ -2,7 +2,7 @@
   "name": "Celina",
   "description": "Celo mainnet specialist agent — hosted read-only access to balances, DeFi quotes, governance, staking, NFTs, and Self Agent ID verification via structured tool calls.",
   "protocolVersion": "0.3.0",
-  "version": "0.9.2",
+  "version": "0.9.9",
   "url": "https://mcp.usecelina.xyz/api/a2a",
   "skills": [
     {
@@ -16,6 +16,21 @@
       ],
       "examples": [
         "Send a DataPart (application/vnd.celina.tool+json) with {\"tool\":\"get_aave_balances\",\"arguments\":{...}}."
+      ]
+    },
+    {
+      "id": "agentkarma-reputation",
+      "name": "AgentKarma reputation reads",
+      "description": "AgentKarma reputation reads on Celo mainnet. Allowed tools: get_agentkarma_reputation, get_agentkarma_celo_agent, check_agentkarma_counterparty.",
+      "tags": [
+        "celo",
+        "agentkarma",
+        "reputation",
+        "trust",
+        "erc-8004"
+      ],
+      "examples": [
+        "Send a DataPart (application/vnd.celina.tool+json) with {\"tool\":\"get_agentkarma_reputation\",\"arguments\":{...}}."
       ]
     },
     {

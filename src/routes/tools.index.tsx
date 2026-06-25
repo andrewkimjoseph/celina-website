@@ -7,7 +7,7 @@ import { SiteHeader } from "@/components/site-header";
 export const Route = createFileRoute("/tools/")({
   head: () => {
     const title = "All Celina tools — Celo MCP";
-    const desc = `Browse every Celina MCP tool: ${TOOLS.length} operations on Celo mainnet (${HOSTED_TOOL_COUNT} on hosted, full stdio with server-key writes). Reads, Mento FX, GoodDollar reserve, Uniswap v4, Aave, GoodDollar UBI, governance, staking, NFTs, and contract calls.`;
+    const desc = `Browse every Celina MCP tool: ${TOOLS.length} operations on Celo mainnet (${HOSTED_TOOL_COUNT} on hosted, full stdio with server-key writes). Reads, Mento FX, GoodDollar reserve, Uniswap v4, Aave, GoodDollar UBI, governance, staking, NFTs, contract calls, and AgentKarma reputation.`;
     return {
       meta: [
         { title },

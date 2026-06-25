@@ -425,5 +425,32 @@ export const TOOL_OVERRIDES: Record<string, ToolDocOverride> = {
     "examples": [
       "Estimate gas to mint() on contract 0x… from 0x…"
     ]
+  },
+  "get_agentkarma_reputation": {
+    "summary": "AgentKarma Provider + Consumer reputation for a Celo wallet",
+    "description": "Read AgentKarma reputation for a Celo agent wallet via agentkarma.io. Returns Provider/Consumer karma scores, trust tiers, and confidence badges. Read-only trust context — never routes, signs, or holds custody. The subject address is required (no signer fallback).",
+    "returns": "{ address, face, provider?, consumer?, autonomy? }",
+    "availability": "hosted",
+    "examples": [
+      "What is the AgentKarma reputation for 0x… on Celo?"
+    ]
+  },
+  "get_agentkarma_celo_agent": {
+    "summary": "ERC-8004 Celo agent identity + reputation by ID",
+    "description": "Resolve a Celo ERC-8004 agent (identity + reputation) by numeric agent ID through AgentKarma. Read-only external lookup on agentkarma.io.",
+    "returns": "{ chain, agentId, owner, agentWallet?, tokenURI?, registration?, reputation?, explorer? }",
+    "availability": "hosted",
+    "examples": [
+      "Look up ERC-8004 agent 9058 on Celo via AgentKarma."
+    ]
+  },
+  "check_agentkarma_counterparty": {
+    "summary": "Local trust-policy check against AgentKarma karma",
+    "description": "Evaluate a Celo counterparty wallet against a local AgentKarma trust policy (min score, receipt-backed requirements). Returns an explainable allow/deny decision plus the karma snapshot that informed it. Read-only — never routes, signs, or holds custody.",
+    "returns": "{ chain, wallet, decision: { allowed, reasons, observed }, snapshot }",
+    "availability": "hosted",
+    "examples": [
+      "Should I trust counterparty 0x… with min score 50 and receipt-backed karma?"
+    ]
   }
 };
