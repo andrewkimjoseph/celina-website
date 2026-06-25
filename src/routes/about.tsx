@@ -280,7 +280,7 @@ function AboutPage() {
             icon={faCloud}
             title="Hosted endpoint"
             subtitle="Streamable HTTP"
-            body={`${HOSTED_TOOL_COUNT} tools — chain reads, GoodDollar reserve estimates, and GoodDollar reserve quotes. No install, no server keys.`}
+            body={`${HOSTED_TOOL_COUNT} tools — chain reads, GoodDollar reserve quotes, and AgentKarma reputation. No install, no server keys.`}
           >
             <a
               href={HOSTED_MCP_URL}

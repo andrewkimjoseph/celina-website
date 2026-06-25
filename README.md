@@ -9,7 +9,7 @@
 - Website: [usecelina.xyz](https://usecelina.xyz)
 - SDK: [@andrewkimjoseph/celina-sdk](https://www.npmjs.com/package/@andrewkimjoseph/celina-sdk) — reads, wallet signing flows, `/simulation` for revert-before-send, and the shared LLM tool catalog
 - MCP: [@andrewkimjoseph/celina-mcp](https://www.npmjs.com/package/@andrewkimjoseph/celina-mcp) — registers the catalog for IDE / CLI agents
-- Hosted endpoint: `https://mcp.usecelina.xyz/api/mcp` — **31 tools** (reads + quotes; no `estimate_*` or server-key writes). Public read-only — no API key; see [celina-mcp-host SECURITY.md](../celina-mcp-host/SECURITY.md).
+- Hosted endpoint: `https://mcp.usecelina.xyz/api/mcp` — **34 tools** (reads + quotes + AgentKarma reputation; no `estimate_*` or server-key writes). Public read-only — no API key; see [celina-mcp-host SECURITY.md](../celina-mcp-host/SECURITY.md).
 - Celeste AI: [celeste.usecelina.xyz](https://celeste.usecelina.xyz) — reference browser wallet chat UI (SDK + wagmi, not MCP)
 - Full stdio catalog: **54 tools** (adds `execute_gooddollar_reserve_swap`, and other server-key execute/write paths)
 
@@ -58,7 +58,7 @@ src/
     stats.offchain.tsx
     stats.package.tsx
   components/       # Reusable UI (SiteHeader, etc.)
-  data/tools.ts     # Tool definitions (88 stdio tools, 75 hosted)
+  data/tools.ts     # Tool definitions (54 stdio catalog tools, 34 hosted)
   data/mcp.ts       # MCP config snippets and URLs
   lib/              # Stores, helpers, server functions
   styles.css        # Tailwind v4 + custom tokens

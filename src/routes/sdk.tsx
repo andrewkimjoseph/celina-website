@@ -391,7 +391,7 @@ function SdkPage() {
             </div>
             <h3 className="mt-2 font-mono text-sm font-semibold text-foreground">@andrewkimjoseph/celina-mcp</h3>
             <p className="mt-1 text-sm text-muted-foreground">
-              MCP server for IDE / CLI agents — registers the shared SDK tool catalog. {HOSTED_TOOL_COUNT} tools on remote hosted (reads + GoodDollar reserve quote), full stdio with <span className="font-mono text-xs">CELO_PRIVATE_KEY</span> for execute/write.
+              MCP server for IDE / CLI agents — registers the shared SDK tool catalog. {HOSTED_TOOL_COUNT} tools on remote hosted (reads, GoodDollar reserve quote, AgentKarma reputation), full stdio with <span className="font-mono text-xs">CELO_PRIVATE_KEY</span> for execute/write.
             </p>
             <div className="mt-3 flex flex-wrap gap-2">
               <Link
