@@ -1,4 +1,4 @@
-import agentCard from "../../public/.well-known/agent-card.json";
+import agentCard from "@/data/agent-card.json";
 
 export interface A2ASkill {
   id: string;
