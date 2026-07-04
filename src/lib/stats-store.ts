@@ -8,6 +8,7 @@ type StatsState = {
   fetchedAt: number | null;
   loading: boolean;
   error: string | null;
+  partial: boolean;
   refresh: (opts?: { force?: boolean }) => Promise<void>;
 };
 
@@ -20,6 +21,7 @@ export const useStatsStore = create<StatsState>()(
       fetchedAt: null,
       loading: false,
       error: null,
+      partial: false,
       refresh: async (opts) => {
         const { fetchedAt, loading } = get();
         if (loading && !opts?.force) return;
@@ -31,21 +33,35 @@ export const useStatsStore = create<StatsState>()(
         ) {
           return;
         }
-        set({ loading: true, error: null });
+        set({ loading: true, error: null, partial: false });
         try {
           const result = await withTimeout(
             getCelinaStats(),
             45_000,
             "On-chain stats",
           );
+          const hasRows = result.rows.length > 0;
+          const keepCache = Boolean(result.error) && !hasRows;
+
           set({
-            rows: result.rows,
-            fetchedAt: result.fetchedAt,
+            ...(keepCache
+              ? {}
+              : {
+                  rows: result.rows,
+                  fetchedAt: result.fetchedAt,
+                }),
             error: result.error,
+            partial:
+              Boolean(result.error) &&
+              (keepCache ? get().rows.length > 0 : hasRows),
           });
         } catch (e) {
+          const message =
+            e instanceof Error ? e.message : "Failed to load stats";
+          const hasCache = get().rows.length > 0;
           set({
-            error: e instanceof Error ? e.message : "Failed to load stats",
+            error: message,
+            partial: hasCache,
           });
         } finally {
           set({ loading: false });

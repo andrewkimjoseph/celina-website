@@ -20,11 +20,15 @@ export type CelinaStatsResult = {
 export const DUNE_QUERY_ID = 7721677;
 export const DUNE_QUERY_URL = `https://dune.com/queries/${DUNE_QUERY_ID}`;
 
+const UNAVAILABLE_MSG = "On-chain stats are temporarily unavailable.";
+const UNAVAILABLE_PROVIDER_MSG =
+  "On-chain stats are temporarily unavailable (data provider unreachable).";
+
 export const getCelinaStats = createServerFn({ method: "GET" }).handler(
   async (): Promise<CelinaStatsResult> => {
     const apiKey = process.env.DUNE_API_KEY;
     if (!apiKey) {
-      return { rows: [], fetchedAt: Date.now(), error: "Missing DUNE_API_KEY" };
+      return { rows: [], fetchedAt: Date.now(), error: UNAVAILABLE_MSG };
     }
 
     try {
@@ -35,10 +39,13 @@ export const getCelinaStats = createServerFn({ method: "GET" }).handler(
         },
       );
       if (!res.ok) {
+        console.error(
+          `[dune] query ${DUNE_QUERY_ID} failed: ${res.status} ${res.statusText}`,
+        );
         return {
           rows: [],
           fetchedAt: Date.now(),
-          error: `Dune API ${res.status}: ${res.statusText}`,
+          error: UNAVAILABLE_PROVIDER_MSG,
         };
       }
       const json = (await res.json()) as {
@@ -57,10 +64,11 @@ export const getCelinaStats = createServerFn({ method: "GET" }).handler(
       }));
       return { rows, fetchedAt: Date.now(), error: null };
     } catch (e) {
+      console.error("[dune] fetch failed:", e);
       return {
         rows: [],
         fetchedAt: Date.now(),
-        error: e instanceof Error ? e.message : "Failed to fetch Dune results",
+        error: UNAVAILABLE_PROVIDER_MSG,
       };
     }
   },

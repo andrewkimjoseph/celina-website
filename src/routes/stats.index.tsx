@@ -79,7 +79,8 @@ function SectionCard({
 }
 
 function OverviewPage() {
-  const { rows } = useStatsStore();
+  const { rows, error, partial } = useStatsStore();
+  const onchainUnavailable = Boolean(error) && !partial && rows.length === 0;
   const { rows: npmRows } = useNpmStore();
   const npmHydrated = useNpmHydrated();
   const { daily: ampDaily, perTool: ampPerTool, walletsQueried } = useAmplitudeStore();
@@ -94,8 +95,8 @@ function OverviewPage() {
     <>
       <section className="mx-auto max-w-6xl px-4 pb-6 sm:px-6">
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-7">
-          <KpiCard label="On-chain total" value={agg.totalTx.toLocaleString()} />
-          <KpiCard label="On-chain today" value={agg.todayCount.toLocaleString()} />
+          <KpiCard label="On-chain total" value={onchainUnavailable ? "—" : agg.totalTx.toLocaleString()} />
+          <KpiCard label="On-chain today" value={onchainUnavailable ? "—" : agg.todayCount.toLocaleString()} />
           <KpiCard label="Off-chain total" value={ampAgg.total.toLocaleString()} />
           <KpiCard label="Off-chain 7d" value={ampAgg.last7.toLocaleString()} />
           <KpiCard label="Wallets queried" value={walletsQueried.toLocaleString()} />

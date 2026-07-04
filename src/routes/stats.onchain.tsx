@@ -49,7 +49,8 @@ export const Route = createFileRoute("/stats/onchain")({
 });
 
 function OnchainPage() {
-  const { rows, loading } = useStatsStore();
+  const { rows, loading, error, partial } = useStatsStore();
+  const unavailable = Boolean(error) && !partial && rows.length === 0;
   const [page, setPage] = useState(0);
   const pageSize = 25;
 
@@ -90,15 +91,25 @@ function OnchainPage() {
         </div>
 
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
-          <KpiCard label="Total txns" value={agg.totalTx.toLocaleString()} />
-          <KpiCard label="Today" value={agg.todayCount.toLocaleString()} />
-          <KpiCard label="Days active" value={agg.uniqueDays} />
-          <KpiCard label="Unique receivers" value={agg.uniqueReceivers} />
-          <KpiCard label="Unique senders" value={agg.uniqueSenders} />
+          <KpiCard label="Total txns" value={unavailable ? "—" : agg.totalTx.toLocaleString()} />
+          <KpiCard label="Today" value={unavailable ? "—" : agg.todayCount.toLocaleString()} />
+          <KpiCard label="Days active" value={unavailable ? "—" : agg.uniqueDays} />
+          <KpiCard label="Unique receivers" value={unavailable ? "—" : agg.uniqueReceivers} />
+          <KpiCard label="Unique senders" value={unavailable ? "—" : agg.uniqueSenders} />
         </div>
       </section>
 
       <section className="mx-auto max-w-6xl px-4 pb-10 sm:px-6">
+        {unavailable ? (
+          <div className="rounded-2xl border border-foreground/10 bg-card p-10 text-center shadow-[var(--shadow-soft)]">
+            <p className="text-lg font-semibold tracking-tight" style={{ fontFamily: "var(--font-display)" }}>
+              On-chain stats are temporarily unavailable.
+            </p>
+            <p className="mx-auto mt-2 max-w-md text-sm text-muted-foreground">
+              Our data provider (Dune Analytics) is currently unreachable. Off-chain and package stats are still available.
+            </p>
+          </div>
+        ) : (
         <div className="grid gap-4 lg:grid-cols-2">
           <ChartCard title="Cumulative transactions" subtitle="all time">
             <ResponsiveContainer width="100%" height="100%">
@@ -182,6 +193,7 @@ function OnchainPage() {
             </ResponsiveContainer>
           </ChartCard>
         </div>
+        )}
       </section>
 
       <section className="mx-auto max-w-6xl px-4 pb-16 sm:px-6">
@@ -214,7 +226,14 @@ function OnchainPage() {
                 {pageRows.length === 0 && !loading && (
                   <tr>
                     <td colSpan={6} className="px-4 py-10 text-center text-muted-foreground">
-                      No transactions yet.
+                      {unavailable ? (
+                        <div>
+                          <p className="font-medium text-foreground">On-chain stats are temporarily unavailable.</p>
+                          <p className="mt-1 text-sm">Our data provider (Dune Analytics) is currently unreachable.</p>
+                        </div>
+                      ) : (
+                        "No transactions yet."
+                      )}
                     </td>
                   </tr>
                 )}

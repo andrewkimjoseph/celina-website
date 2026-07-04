@@ -50,7 +50,7 @@ function SubNavLink({ to, label }: { to: string; label: string }) {
 }
 
 function StatsLayout() {
-  const { fetchedAt, loading, error, refresh } = useStatsStore();
+  const { fetchedAt, loading, error, partial, refresh } = useStatsStore();
   const {
     fetchedAt: npmFetchedAt,
     loading: npmLoading,
@@ -99,14 +99,21 @@ function StatsLayout() {
   })();
   const busy = loading || npmLoading || ampLoading;
   const combinedError = (() => {
-    if (pathname.startsWith("/stats/onchain")) return error;
+    if (pathname.startsWith("/stats/onchain")) return null;
     if (pathname.startsWith("/stats/package")) return npmPartial ? null : npmError;
     if (pathname.startsWith("/stats/offchain")) return ampPartial ? null : ampError;
-    return error || (npmPartial ? null : npmError) || (ampPartial ? null : ampError);
+    return (
+      (npmPartial ? null : npmError) ||
+      (ampPartial ? null : ampError)
+    );
   })();
   const showNpmPartial =
     pathname.startsWith("/stats/package") && npmPartial && npmError;
   const showAmpPartial = ampPartial && ampError;
+  const showOnchainPartial =
+    pathname.startsWith("/stats/onchain") && partial && error;
+  const showOnchainUnavailable =
+    pathname.startsWith("/stats/onchain") && error && !partial;
 
   return (
     <main className="min-h-screen bg-background text-foreground">
@@ -166,6 +173,20 @@ function StatsLayout() {
             <span>
               Off-chain refresh failed — showing cached data. {ampError}
             </span>
+          </div>
+        )}
+
+        {showOnchainPartial && (
+          <div className="mt-6 flex items-start gap-3 rounded-xl border border-[var(--celo-yellow)]/40 bg-[var(--celo-yellow)]/10 p-4 text-sm text-foreground">
+            <FontAwesomeIcon icon={faTriangleExclamation} className="mt-0.5 h-4 w-4 text-[var(--celo-forest)] dark:text-[var(--celo-yellow)]" />
+            <span>Showing cached on-chain data.</span>
+          </div>
+        )}
+
+        {showOnchainUnavailable && (
+          <div className="mt-6 flex items-start gap-3 rounded-xl border border-foreground/15 bg-muted/40 p-4 text-sm text-foreground">
+            <FontAwesomeIcon icon={faTriangleExclamation} className="mt-0.5 h-4 w-4 text-muted-foreground" />
+            <span>{error}</span>
           </div>
         )}
 
