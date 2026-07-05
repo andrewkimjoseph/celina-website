@@ -15,7 +15,6 @@ import {
   forest,
   truncate,
   formatDateTime,
-  DUNE_DASHBOARD_URL,
   ResponsiveContainer,
   BarChart,
   Bar,
@@ -49,7 +48,7 @@ export const Route = createFileRoute("/stats/onchain")({
 });
 
 function OnchainPage() {
-  const { rows, loading, error, partial } = useStatsStore();
+  const { rows, loading, error, partial, queryUrl } = useStatsStore();
   const unavailable = Boolean(error) && !partial && rows.length === 0;
   const [page, setPage] = useState(0);
   const pageSize = 25;
@@ -79,15 +78,17 @@ function OnchainPage() {
               Celo mainnet transactions tagged CELINA
             </h2>
           </div>
-          <a
-            href={DUNE_DASHBOARD_URL}
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex shrink-0 items-center gap-1.5 self-start text-xs font-medium text-muted-foreground transition hover:text-foreground"
-          >
-            Dune query
-            <FontAwesomeIcon icon={faArrowUpRightFromSquare} className="h-2.5 w-2.5" />
-          </a>
+          {queryUrl && (
+            <a
+              href={queryUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex shrink-0 items-center gap-1.5 self-start text-xs font-medium text-muted-foreground transition hover:text-foreground"
+            >
+              Dune query
+              <FontAwesomeIcon icon={faArrowUpRightFromSquare} className="h-2.5 w-2.5" />
+            </a>
+          )}
         </div>
 
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">

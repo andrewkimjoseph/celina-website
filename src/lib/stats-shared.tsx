@@ -10,7 +10,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { DUNE_QUERY_URL, type CelinaTxRow } from "@/lib/dune.functions";
+import type { CelinaTxRow } from "@/lib/dune.functions";
 import { aggregateNpm, type NpmAgg } from "@/lib/npm-aggregate";
 import type {
   AmplitudeEventDay,
@@ -23,8 +23,6 @@ export { NPM_RANGE_DAYS, fillDailyRange } from "@/lib/npm-aggregate";
 export const NPM_URL = "https://www.npmjs.com/package/@andrewkimjoseph/celina-mcp";
 export const NPM_STAT_URL =
   "https://npm-stat.com/charts.html?package=@andrewkimjoseph/celina-mcp&package=@andrewkimjoseph/celina-sdk&package=@andrewkimjoseph/celina";
-export const DUNE_DASHBOARD_URL = DUNE_QUERY_URL;
-
 export { Bar, BarChart, CartesianGrid, Cell, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis };
 
 export const yellow = "var(--celo-yellow)";

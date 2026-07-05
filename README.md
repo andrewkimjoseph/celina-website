@@ -80,7 +80,8 @@ Stats pages call server functions that need API keys. Without them, dashboards s
 
 | Variable | Used for |
 |----------|----------|
-| `DUNE_API_KEY` | On-chain activity (`/stats/onchain`) |
+| `DUNE_API_KEY` | On-chain activity API auth (`/stats/onchain`) |
+| `DUNE_QUERY_ID` | Dune query ID for on-chain stats fetch and dashboard link (required with `DUNE_API_KEY`) |
 | `AMPLITUDE_API_KEY` / `AMPLITUDE_SECRET_KEY` | Off-chain MCP tool calls (`/stats/offchain`) |
 | `AMPLITUDE_REGION` | Optional — `us` (default) or `eu` |
 | `CUSTOM_SUPABASE_URL` / `CUSTOM_SUPABASE_SERVICE_ROLE_KEY` | Amplitude export cache in Supabase |

@@ -6,6 +6,7 @@ import { withTimeout } from "./refresh-utils";
 type StatsState = {
   rows: CelinaTxRow[];
   fetchedAt: number | null;
+  queryUrl: string | null;
   loading: boolean;
   error: string | null;
   partial: boolean;
@@ -19,6 +20,7 @@ export const useStatsStore = create<StatsState>()(
     (set, get) => ({
       rows: [],
       fetchedAt: null,
+      queryUrl: null,
       loading: false,
       error: null,
       partial: false,
@@ -49,6 +51,7 @@ export const useStatsStore = create<StatsState>()(
               : {
                   rows: result.rows,
                   fetchedAt: result.fetchedAt,
+                  queryUrl: result.queryUrl,
                 }),
             error: result.error,
             partial:
@@ -70,7 +73,11 @@ export const useStatsStore = create<StatsState>()(
     }),
     {
       name: "celina-stats",
-      partialize: (s) => ({ rows: s.rows, fetchedAt: s.fetchedAt }),
+      partialize: (s) => ({
+        rows: s.rows,
+        fetchedAt: s.fetchedAt,
+        queryUrl: s.queryUrl,
+      }),
     },
   ),
 );
