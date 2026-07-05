@@ -86,22 +86,22 @@ function OffchainPage() {
   return (
     <>
       <section className="mx-auto max-w-6xl px-4 pb-6 sm:px-6">
-        <div className="mb-5">
-          <div className="inline-flex items-center gap-2 rounded-full border border-[var(--celo-forest)]/40 bg-card/80 px-3 py-1 text-xs font-medium text-foreground">
-            <FontAwesomeIcon icon={faChartLine} className="h-3 w-3 text-[var(--celo-forest)] dark:text-foreground" />
-            <span className="uppercase tracking-[0.18em]">Off-chain · Amplitude</span>
+        <div className="mb-5 min-w-0">
+          <div className="inline-flex max-w-full items-center gap-2 rounded-full border border-[var(--celo-forest)]/40 bg-card/80 px-3 py-1 text-[10px] font-medium text-foreground sm:text-xs">
+            <FontAwesomeIcon icon={faChartLine} className="h-3 w-3 shrink-0 text-[var(--celo-forest)] dark:text-foreground" />
+            <span className="uppercase tracking-[0.14em] sm:tracking-[0.18em]">Off-chain · Amplitude</span>
           </div>
           <h2
-            className="mt-3 text-2xl font-bold tracking-tight"
+            className="mt-3 text-xl font-bold tracking-tight break-words sm:text-2xl"
             style={{ fontFamily: "var(--font-display)" }}
           >
             MCP tool calls — reads, lookups & registry queries
           </h2>
-          <p className="mt-1 text-xs text-muted-foreground">
+          <p className="mt-2 text-sm leading-relaxed text-muted-foreground sm:mt-1 sm:text-xs sm:leading-normal">
             Every time an LLM invokes a Celina read tool, it&apos;s logged to Amplitude. Wallets queried counts distinct addresses passed into wallet-scoped read tools — not on-chain unique users.
           </p>
           {lastUpdatedLabel && (
-            <p className="mt-1 text-[11px] text-muted-foreground/80">
+            <p className="mt-2 text-xs text-muted-foreground/80 sm:mt-1 sm:text-[11px]">
               Last updated {lastUpdatedLabel} · syncs daily at 00:00 UTC
             </p>
           )}
