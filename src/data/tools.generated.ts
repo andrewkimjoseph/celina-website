@@ -34,7 +34,7 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
       {
         "name": "include_transactions",
         "type": "boolean",
-        "required": true,
+        "required": false,
         "description": "include transactions"
       }
     ]
@@ -51,13 +51,13 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
       {
         "name": "count",
         "type": "string",
-        "required": true,
+        "required": false,
         "description": "count"
       },
       {
         "name": "offset",
         "type": "string",
-        "required": true,
+        "required": false,
         "description": "offset"
       }
     ]
@@ -83,8 +83,8 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
     "name": "verify_attribution_tag",
     "slug": "verify-attribution-tag",
     "title": "Verify Attribution Tag",
-    "summary": "Decode legacy Celina and ERC-8021 attribution tags from a transaction's calldata on Celo mainnet.",
-    "description": "Decode legacy Celina and ERC-8021 attribution tags from a transaction's calldata on Celo mainnet.",
+    "summary": "Decode legacy Celina (CELINA|…) and ERC-8021 (celina, app codes) attribution tags from a transaction's calldata on Celo mainnet.",
+    "description": "Decode legacy Celina (CELINA|…) and ERC-8021 (celina, app codes) attribution tags from a transaction's calldata on Celo mainnet. Optionally pass tag to check for a specific code on either layer.",
     "kind": "read",
     "category": "Blockchain",
     "inputs": [
@@ -92,13 +92,13 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
         "name": "hash",
         "type": "string",
         "required": true,
-        "description": "hash"
+        "description": "Transaction hash (0x + 64 hex characters)."
       },
       {
         "name": "tag",
         "type": "string",
-        "required": true,
-        "description": "tag"
+        "required": false,
+        "description": "Optional attribution code to match (e.g. celo_862c21dd97a7, MY_APP). Omit to decode all tags."
       }
     ]
   },
@@ -124,8 +124,8 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
       {
         "name": "address",
         "type": "string",
-        "required": true,
-        "description": "address"
+        "required": false,
+        "description": "Wallet on Celo mainnet. Omit to use the connected wallet or MCP CELO_PRIVATE_KEY signer."
       }
     ]
   },
@@ -141,13 +141,13 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
       {
         "name": "address",
         "type": "string",
-        "required": true,
-        "description": "address"
+        "required": false,
+        "description": "Wallet on Celo mainnet. Omit to use the connected wallet or MCP CELO_PRIVATE_KEY signer."
       },
       {
         "name": "tokens",
         "type": "array",
-        "required": true,
+        "required": false,
         "description": "tokens"
       }
     ]
@@ -164,19 +164,19 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
       {
         "name": "address",
         "type": "string",
-        "required": true,
-        "description": "address"
+        "required": false,
+        "description": "Wallet on Celo mainnet. Omit to use the connected wallet or MCP CELO_PRIVATE_KEY signer."
       },
       {
         "name": "stablecoins",
         "type": "array",
-        "required": true,
+        "required": false,
         "description": "stablecoins"
       },
       {
         "name": "include_zero",
         "type": "boolean",
-        "required": true,
+        "required": false,
         "description": "include zero"
       }
     ]
@@ -194,7 +194,7 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
         "name": "token",
         "type": "string",
         "required": true,
-        "description": "token"
+        "description": "Celo mainnet token symbol (e.g. CELO, USDm, USDC, USDT)"
       }
     ]
   },
@@ -211,13 +211,13 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
         "name": "token",
         "type": "string",
         "required": true,
-        "description": "token"
+        "description": "Celo mainnet token symbol (e.g. CELO, USDm, USDC, USDT)"
       },
       {
         "name": "address",
         "type": "string",
-        "required": true,
-        "description": "address"
+        "required": false,
+        "description": "Wallet on Celo mainnet. Omit to use the connected wallet or MCP CELO_PRIVATE_KEY signer."
       }
     ]
   },
@@ -234,13 +234,13 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
         "name": "to",
         "type": "string",
         "required": true,
-        "description": "to"
+        "description": "Recipient 0x address or ENS name (e.g. andrewkimjoseph.celo.eth, celina.eth)"
       },
       {
         "name": "token",
         "type": "string",
-        "required": true,
-        "description": "token"
+        "required": false,
+        "description": "Celo mainnet token symbol (e.g. CELO, USDm, USDC, USDT)"
       },
       {
         "name": "amount",
@@ -251,8 +251,8 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
       {
         "name": "from",
         "type": "string",
-        "required": true,
-        "description": "from"
+        "required": false,
+        "description": "Wallet on Celo mainnet. Omit to use the connected wallet or MCP CELO_PRIVATE_KEY signer."
       }
     ]
   },
@@ -269,13 +269,13 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
         "name": "to",
         "type": "string",
         "required": true,
-        "description": "to"
+        "description": "Recipient 0x address or ENS name (e.g. andrewkimjoseph.celo.eth, celina.eth)"
       },
       {
         "name": "token",
         "type": "string",
-        "required": true,
-        "description": "token"
+        "required": false,
+        "description": "Celo mainnet token symbol (e.g. CELO, USDm, USDC, USDT)"
       },
       {
         "name": "amount",
@@ -307,8 +307,8 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
       {
         "name": "from",
         "type": "string",
-        "required": true,
-        "description": "from"
+        "required": false,
+        "description": "Wallet on Celo mainnet. Omit to use the connected wallet or MCP CELO_PRIVATE_KEY signer."
       },
       {
         "name": "to",
@@ -319,14 +319,14 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
       {
         "name": "value",
         "type": "string",
-        "required": true,
+        "required": false,
         "description": "value"
       },
       {
         "name": "data",
         "type": "string",
-        "required": true,
-        "description": "data"
+        "required": false,
+        "description": "Optional transaction calldata (hex)"
       }
     ]
   },
@@ -343,25 +343,25 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
         "name": "token_in",
         "type": "string",
         "required": true,
-        "description": "token in"
+        "description": "Input token symbol or address"
       },
       {
         "name": "token_out",
         "type": "string",
         "required": true,
-        "description": "token out"
+        "description": "Output token symbol or address"
       },
       {
         "name": "amount",
         "type": "string",
         "required": true,
-        "description": "amount"
+        "description": "Human-readable amount of token_in, e.g. 100"
       },
       {
         "name": "from",
         "type": "string",
-        "required": true,
-        "description": "from"
+        "required": false,
+        "description": "Wallet on Celo mainnet. Omit to use the connected wallet or MCP CELO_PRIVATE_KEY signer."
       }
     ]
   },
@@ -378,43 +378,43 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
         "name": "token_in",
         "type": "string",
         "required": true,
-        "description": "token in"
+        "description": "Input token symbol or address"
       },
       {
         "name": "token_out",
         "type": "string",
         "required": true,
-        "description": "token out"
+        "description": "Output token symbol or address"
       },
       {
         "name": "amount",
         "type": "string",
         "required": true,
-        "description": "amount"
+        "description": "Human-readable amount of token_in, e.g. 100"
       },
       {
         "name": "from",
         "type": "string",
-        "required": true,
-        "description": "from"
+        "required": false,
+        "description": "Wallet on Celo mainnet. Omit to use the connected wallet or MCP CELO_PRIVATE_KEY signer."
       },
       {
         "name": "recipient",
         "type": "string",
-        "required": true,
-        "description": "recipient"
+        "required": false,
+        "description": "Address that receives output tokens (defaults to signer)"
       },
       {
         "name": "slippage_tolerance",
         "type": "string",
-        "required": true,
-        "description": "slippage tolerance"
+        "required": false,
+        "description": "Max slippage in percent (default 0.5)"
       },
       {
         "name": "deadline_minutes",
         "type": "string",
-        "required": true,
-        "description": "deadline minutes"
+        "required": false,
+        "description": "Transaction deadline in minutes (default 5)"
       }
     ]
   },
@@ -431,43 +431,43 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
         "name": "token_in",
         "type": "string",
         "required": true,
-        "description": "token in"
+        "description": "Input token symbol or address"
       },
       {
         "name": "token_out",
         "type": "string",
         "required": true,
-        "description": "token out"
+        "description": "Output token symbol or address"
       },
       {
         "name": "amount",
         "type": "string",
         "required": true,
-        "description": "amount"
+        "description": "Human-readable amount of token_in, e.g. 100"
       },
       {
         "name": "from",
         "type": "string",
-        "required": true,
-        "description": "from"
+        "required": false,
+        "description": "Wallet on Celo mainnet. Omit to use the connected wallet or MCP CELO_PRIVATE_KEY signer."
       },
       {
         "name": "recipient",
         "type": "string",
-        "required": true,
-        "description": "recipient"
+        "required": false,
+        "description": "Address that receives output tokens (defaults to signer)"
       },
       {
         "name": "slippage_tolerance",
         "type": "string",
-        "required": true,
-        "description": "slippage tolerance"
+        "required": false,
+        "description": "Max slippage in percent (default 0.5)"
       },
       {
         "name": "deadline_minutes",
         "type": "string",
-        "required": true,
-        "description": "deadline minutes"
+        "required": false,
+        "description": "Transaction deadline in minutes (default 5)"
       }
     ]
   },
@@ -484,25 +484,25 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
         "name": "token_in",
         "type": "string",
         "required": true,
-        "description": "token in"
+        "description": "Celo mainnet token symbol (e.g. CELO, USDm, USDC, USDT)"
       },
       {
         "name": "token_out",
         "type": "string",
         "required": true,
-        "description": "token out"
+        "description": "Celo mainnet token symbol (e.g. CELO, USDm, USDC, USDT)"
       },
       {
         "name": "amount",
         "type": "string",
         "required": true,
-        "description": "amount"
+        "description": "Human-readable amount of token_in"
       },
       {
         "name": "from",
         "type": "string",
-        "required": true,
-        "description": "from"
+        "required": false,
+        "description": "Wallet on Celo mainnet. Omit to use the connected wallet or MCP CELO_PRIVATE_KEY signer."
       }
     ]
   },
@@ -519,42 +519,42 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
         "name": "token_in",
         "type": "string",
         "required": true,
-        "description": "token in"
+        "description": "Celo mainnet token symbol (e.g. CELO, USDm, USDC, USDT)"
       },
       {
         "name": "token_out",
         "type": "string",
         "required": true,
-        "description": "token out"
+        "description": "Celo mainnet token symbol (e.g. CELO, USDm, USDC, USDT)"
       },
       {
         "name": "amount",
         "type": "string",
         "required": true,
-        "description": "amount"
+        "description": "Human-readable amount of token_in"
       },
       {
         "name": "from",
         "type": "string",
-        "required": true,
-        "description": "from"
+        "required": false,
+        "description": "Wallet on Celo mainnet. Omit to use the connected wallet or MCP CELO_PRIVATE_KEY signer."
       },
       {
         "name": "recipient",
         "type": "string",
-        "required": true,
+        "required": false,
         "description": "recipient"
       },
       {
         "name": "slippage_tolerance",
         "type": "string",
-        "required": true,
+        "required": false,
         "description": "slippage tolerance"
       },
       {
         "name": "deadline_minutes",
         "type": "string",
-        "required": true,
+        "required": false,
         "description": "deadline minutes"
       }
     ]
@@ -572,42 +572,42 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
         "name": "token_in",
         "type": "string",
         "required": true,
-        "description": "token in"
+        "description": "Celo mainnet token symbol (e.g. CELO, USDm, USDC, USDT)"
       },
       {
         "name": "token_out",
         "type": "string",
         "required": true,
-        "description": "token out"
+        "description": "Celo mainnet token symbol (e.g. CELO, USDm, USDC, USDT)"
       },
       {
         "name": "amount",
         "type": "string",
         "required": true,
-        "description": "amount"
+        "description": "Human-readable amount of token_in"
       },
       {
         "name": "from",
         "type": "string",
-        "required": true,
-        "description": "from"
+        "required": false,
+        "description": "Wallet on Celo mainnet. Omit to use the connected wallet or MCP CELO_PRIVATE_KEY signer."
       },
       {
         "name": "recipient",
         "type": "string",
-        "required": true,
+        "required": false,
         "description": "recipient"
       },
       {
         "name": "slippage_tolerance",
         "type": "string",
-        "required": true,
+        "required": false,
         "description": "slippage tolerance"
       },
       {
         "name": "deadline_minutes",
         "type": "string",
-        "required": true,
+        "required": false,
         "description": "deadline minutes"
       }
     ]
@@ -624,19 +624,19 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
       {
         "name": "address",
         "type": "string",
-        "required": true,
-        "description": "address"
+        "required": false,
+        "description": "Wallet on Celo mainnet. Omit to use the connected wallet or MCP CELO_PRIVATE_KEY signer."
       },
       {
         "name": "tokens",
         "type": "array",
-        "required": true,
+        "required": false,
         "description": "tokens"
       },
       {
         "name": "include_zero",
         "type": "boolean",
-        "required": true,
+        "required": false,
         "description": "include zero"
       }
     ]
@@ -654,7 +654,7 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
         "name": "token",
         "type": "string",
         "required": true,
-        "description": "token"
+        "description": "Aave asset symbol on Celo (USDT, WETH, USDm, USDC, CELO, EURm). Pass the symbol only."
       },
       {
         "name": "amount",
@@ -677,18 +677,18 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
         "name": "token",
         "type": "string",
         "required": true,
-        "description": "token"
+        "description": "Aave asset symbol on Celo (USDT, WETH, USDm, USDC, CELO, EURm). Pass the symbol only."
       },
       {
         "name": "amount",
         "type": "string",
-        "required": true,
+        "required": false,
         "description": "amount"
       },
       {
         "name": "withdraw_max",
         "type": "boolean",
-        "required": true,
+        "required": false,
         "description": "withdraw max"
       }
     ]
@@ -706,12 +706,12 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
         "name": "name",
         "type": "string",
         "required": true,
-        "description": "name"
+        "description": "ENS name, e.g. celina.eth or andrewkimjoseph.celo.eth"
       },
       {
         "name": "chain",
         "type": "string",
-        "required": true,
+        "required": false,
         "description": "chain"
       }
     ]
@@ -728,8 +728,8 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
       {
         "name": "address",
         "type": "string",
-        "required": true,
-        "description": "address"
+        "required": false,
+        "description": "Wallet on Celo mainnet. Omit to use the connected wallet or MCP CELO_PRIVATE_KEY signer."
       }
     ]
   },
@@ -745,8 +745,8 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
       {
         "name": "address",
         "type": "string",
-        "required": true,
-        "description": "address"
+        "required": false,
+        "description": "Wallet on Celo mainnet. Omit to use the connected wallet or MCP CELO_PRIVATE_KEY signer."
       }
     ]
   },
@@ -762,8 +762,8 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
       {
         "name": "address",
         "type": "string",
-        "required": true,
-        "description": "address"
+        "required": false,
+        "description": "Wallet on Celo mainnet. Omit to use the connected wallet or MCP CELO_PRIVATE_KEY signer."
       }
     ]
   },
@@ -790,31 +790,31 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
         "name": "token_in",
         "type": "string",
         "required": true,
-        "description": "token in"
+        "description": "GoodDollar or G$"
       },
       {
         "name": "token_out",
         "type": "string",
         "required": true,
-        "description": "token out"
+        "description": "USDm or cUSD"
       },
       {
         "name": "amount",
         "type": "string",
         "required": true,
-        "description": "amount"
+        "description": "Human-readable amount; paired with amount_side (in = spend, out = receive)"
       },
       {
         "name": "amount_side",
         "type": "string",
-        "required": true,
-        "description": "amount side"
+        "required": false,
+        "description": "'in': amount is token_in spend (default). 'out': amount is desired token_out receive amount."
       },
       {
         "name": "from",
         "type": "string",
-        "required": true,
-        "description": "from"
+        "required": false,
+        "description": "Wallet on Celo mainnet. Omit to use the connected wallet or MCP CELO_PRIVATE_KEY signer."
       }
     ]
   },
@@ -831,42 +831,42 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
         "name": "token_in",
         "type": "string",
         "required": true,
-        "description": "token in"
+        "description": "GoodDollar or G$"
       },
       {
         "name": "token_out",
         "type": "string",
         "required": true,
-        "description": "token out"
+        "description": "USDm or cUSD"
       },
       {
         "name": "amount",
         "type": "string",
         "required": true,
-        "description": "amount"
+        "description": "Human-readable amount; paired with amount_side (in = spend, out = receive)"
       },
       {
         "name": "amount_side",
         "type": "string",
-        "required": true,
-        "description": "amount side"
+        "required": false,
+        "description": "'in': amount is token_in spend (default). 'out': amount is desired token_out receive amount."
       },
       {
         "name": "from",
         "type": "string",
-        "required": true,
-        "description": "from"
+        "required": false,
+        "description": "Wallet on Celo mainnet. Omit to use the connected wallet or MCP CELO_PRIVATE_KEY signer."
       },
       {
         "name": "recipient",
         "type": "string",
-        "required": true,
+        "required": false,
         "description": "recipient"
       },
       {
         "name": "slippage_tolerance",
         "type": "string",
-        "required": true,
+        "required": false,
         "description": "slippage tolerance"
       }
     ]
@@ -884,42 +884,42 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
         "name": "token_in",
         "type": "string",
         "required": true,
-        "description": "token in"
+        "description": "GoodDollar or G$"
       },
       {
         "name": "token_out",
         "type": "string",
         "required": true,
-        "description": "token out"
+        "description": "USDm or cUSD"
       },
       {
         "name": "amount",
         "type": "string",
         "required": true,
-        "description": "amount"
+        "description": "Human-readable amount; paired with amount_side (in = spend, out = receive)"
       },
       {
         "name": "amount_side",
         "type": "string",
-        "required": true,
-        "description": "amount side"
+        "required": false,
+        "description": "'in': amount is token_in spend (default). 'out': amount is desired token_out receive amount."
       },
       {
         "name": "from",
         "type": "string",
-        "required": true,
-        "description": "from"
+        "required": false,
+        "description": "Wallet on Celo mainnet. Omit to use the connected wallet or MCP CELO_PRIVATE_KEY signer."
       },
       {
         "name": "recipient",
         "type": "string",
-        "required": true,
+        "required": false,
         "description": "recipient"
       },
       {
         "name": "slippage_tolerance",
         "type": "string",
-        "required": true,
+        "required": false,
         "description": "slippage tolerance"
       }
     ]
@@ -948,25 +948,25 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
       {
         "name": "page",
         "type": "string",
-        "required": true,
+        "required": false,
         "description": "page"
       },
       {
         "name": "page_size",
         "type": "string",
-        "required": true,
+        "required": false,
         "description": "page size"
       },
       {
         "name": "offset",
         "type": "string",
-        "required": true,
+        "required": false,
         "description": "offset"
       },
       {
         "name": "limit",
         "type": "string",
-        "required": true,
+        "required": false,
         "description": "limit"
       }
     ]
@@ -1000,8 +1000,8 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
       {
         "name": "address",
         "type": "string",
-        "required": true,
-        "description": "address"
+        "required": false,
+        "description": "Wallet on Celo mainnet. Omit to use the connected wallet or MCP CELO_PRIVATE_KEY signer."
       }
     ]
   },
@@ -1017,8 +1017,8 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
       {
         "name": "address",
         "type": "string",
-        "required": true,
-        "description": "address"
+        "required": false,
+        "description": "Wallet on Celo mainnet. Omit to use the connected wallet or MCP CELO_PRIVATE_KEY signer."
       }
     ]
   },
@@ -1034,25 +1034,25 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
       {
         "name": "page",
         "type": "string",
-        "required": true,
+        "required": false,
         "description": "page"
       },
       {
         "name": "page_size",
         "type": "string",
-        "required": true,
+        "required": false,
         "description": "page size"
       },
       {
         "name": "offset",
         "type": "string",
-        "required": true,
+        "required": false,
         "description": "offset"
       },
       {
         "name": "limit",
         "type": "string",
-        "required": true,
+        "required": false,
         "description": "limit"
       }
     ]
@@ -1103,7 +1103,7 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
         "name": "token_id",
         "type": "string",
         "required": true,
-        "description": "token id"
+        "description": "NFT token ID (decimal string)"
       }
     ]
   },
@@ -1125,14 +1125,14 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
       {
         "name": "address",
         "type": "string",
-        "required": true,
-        "description": "address"
+        "required": false,
+        "description": "Wallet on Celo mainnet. Omit to use the connected wallet or MCP CELO_PRIVATE_KEY signer."
       },
       {
         "name": "token_id",
         "type": "string",
-        "required": true,
-        "description": "token id"
+        "required": false,
+        "description": "NFT token ID (decimal string)"
       }
     ]
   },
@@ -1161,19 +1161,19 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
         "name": "abi",
         "type": "array",
         "required": true,
-        "description": "abi"
+        "description": "Contract ABI as a JSON array"
       },
       {
         "name": "function_args",
         "type": "array",
-        "required": true,
+        "required": false,
         "description": "function args"
       },
       {
         "name": "from_address",
         "type": "string",
-        "required": true,
-        "description": "from address"
+        "required": false,
+        "description": "Wallet on Celo mainnet. Omit to use the connected wallet or MCP CELO_PRIVATE_KEY signer."
       }
     ]
   },
@@ -1202,31 +1202,31 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
         "name": "abi",
         "type": "array",
         "required": true,
-        "description": "abi"
+        "description": "Contract ABI as a JSON array"
       },
       {
         "name": "function_args",
         "type": "array",
-        "required": true,
+        "required": false,
         "description": "function args"
       },
       {
         "name": "value",
         "type": "string",
-        "required": true,
+        "required": false,
         "description": "value"
       },
       {
         "name": "from",
         "type": "string",
-        "required": true,
-        "description": "from"
+        "required": false,
+        "description": "Wallet on Celo mainnet. Omit to use the connected wallet or MCP CELO_PRIVATE_KEY signer."
       },
       {
         "name": "from_address",
         "type": "string",
-        "required": true,
-        "description": "from address"
+        "required": false,
+        "description": "Wallet on Celo mainnet. Omit to use the connected wallet or MCP CELO_PRIVATE_KEY signer."
       }
     ]
   },
@@ -1365,7 +1365,7 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
       {
         "name": "human_address",
         "type": "string",
-        "required": true,
+        "required": false,
         "description": "human address"
       },
       {
@@ -1513,13 +1513,13 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
         "name": "address",
         "type": "string",
         "required": true,
-        "description": "address"
+        "description": "Celo 0x address of the agent/counterparty to look up."
       },
       {
         "name": "face",
         "type": "string",
         "required": true,
-        "description": "face"
+        "description": "Karma face to read: provider, consumer, or both (default)."
       }
     ]
   },
@@ -1536,7 +1536,7 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
         "name": "agent_id",
         "type": "string",
         "required": true,
-        "description": "agent id"
+        "description": "ERC-8004 agent ID on Celo."
       }
     ]
   },
@@ -1553,25 +1553,25 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
         "name": "address",
         "type": "string",
         "required": true,
-        "description": "address"
+        "description": "Celo 0x address of the agent/counterparty to look up."
       },
       {
         "name": "face",
         "type": "string",
         "required": true,
-        "description": "face"
+        "description": "Face to score the decision on (default provider)."
       },
       {
         "name": "min_score",
         "type": "string",
         "required": true,
-        "description": "min score"
+        "description": "Reject when the face score is below this (0–100)."
       },
       {
         "name": "require_receipt_backed",
         "type": "string",
         "required": true,
-        "description": "require receipt backed"
+        "description": "Require at least one Tier-1 receipt-backed signal on the face."
       }
     ]
   }

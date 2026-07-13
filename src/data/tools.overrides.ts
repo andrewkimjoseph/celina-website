@@ -34,6 +34,29 @@ export const TOOL_OVERRIDES: Record<string, ToolDocOverride> = {
       "Did transaction 0xabc… succeed?"
     ]
   },
+  "verify_attribution_tag": {
+    "summary": "Decode legacy Celina + ERC-8021 tags from tx calldata",
+    "description": "Fetches a Celo mainnet transaction by hash and inspects its calldata for attribution suffixes. Returns both the legacy UTF-8 CELINA|… tags and ERC-8021 Schema 0 codes (celina, hackathon codes like celo_862c21dd97a7, app tags). Pass an optional tag to check whether a specific code appears on either layer.",
+    "inputs": [
+      {
+        "name": "hash",
+        "type": "string",
+        "required": true,
+        "description": "Transaction hash (0x + 64 hex characters)."
+      },
+      {
+        "name": "tag",
+        "type": "string",
+        "required": false,
+        "description": "Optional attribution code to match (e.g. celo_862c21dd97a7, MY_APP). When omitted, matched is true if any tag is present."
+      }
+    ],
+    "returns": "{ hash, input, legacyTags, erc8021: { codes, schemaId } | null, matched }",
+    "examples": [
+      "Does transaction 0xabc… include celo_862c21dd97a7?",
+      "What attribution tags are on this tx?"
+    ]
+  },
   "get_wallet_address": {
     "summary": "Signer address from CELO_PRIVATE_KEY",
     "description": "Returns the wallet address derived from CELO_PRIVATE_KEY in the server env. Use when you need the signer explicitly; omit address on other tools to default to this wallet when the key is configured. On hosted MCP, returns an error without a configured key.",
