@@ -7,11 +7,13 @@ import {
   faCheck,
   faCopy,
   faGaugeHigh,
+  faLayerGroup,
   faLock,
   faMagnifyingGlass,
   faPenRuler,
   faShieldHalved,
   faArrowUpRightFromSquare,
+  faTags,
 } from "@fortawesome/free-solid-svg-icons";
 import { faNpm, faGithub } from "@fortawesome/free-brands-svg-icons";
 import { PageHero, PageHeroSection } from "@/components/marketing/page-hero";
@@ -232,7 +234,17 @@ function SdkPage() {
           <CapabilityCard
             icon={faPenRuler}
             title="Wallet signing"
-            body="Unsigned tx flows for sends, Mento FX, GoodDollar reserve (G$ ↔ USDm), Uniswap v4, Aave, and GoodDollar UBI."
+            body="Unsigned tx flows for sends, Mento FX, GoodDollar reserve (G$ ↔ USDm), Uniswap v4, Aave, and GoodDollar UBI. Prepared flows return chainId 42220."
+          />
+          <CapabilityCard
+            icon={faLayerGroup}
+            title="Sponsored UserOps"
+            body="createAAClient submits prepared steps as ERC-4337 UserOps with your Pimlico (or future) API key. MCP does not host sponsorship credentials."
+          />
+          <CapabilityCard
+            icon={faTags}
+            title="On-chain attribution"
+            body="Dual CELINA + ERC-8021 suffixes. Set attributionTags on createCelinaClient or createAAClient. Prefer check_attribution_tag for unified custom tags."
           />
           <CapabilityCard
             icon={faShieldHalved}
@@ -248,7 +260,7 @@ function SdkPage() {
         <div className="mt-5 flex items-start gap-3 rounded-xl border border-[var(--celo-forest)]/30 bg-[var(--celo-forest)]/5 p-4 text-sm text-foreground">
           <FontAwesomeIcon icon={faLock} className="mt-0.5 h-4 w-4 text-[var(--celo-forest)] dark:text-[var(--celo-yellow)]" />
           <span>
-            The SDK never holds or uses private keys. Build unsigned flows with the user&apos;s wallet address, then pass the returned <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">steps</span> to wagmi for signing. Optional-address defaults and <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">get_wallet_address</span> are celina-mcp only (local stdio + server key), not this package.
+            <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">createCelinaClient</span> never holds CELO wallet keys — pass prepared <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">steps</span> to wagmi. For sponsored UserOps, <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">createAAClient</span> uses an owner key and your app-owned gas sponsorship credentials. Optional-address defaults and <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">get_wallet_address</span> are celina-mcp only (local stdio + server key).
           </span>
         </div>
         <p className="mt-4 text-sm text-muted-foreground">
@@ -366,9 +378,16 @@ function SdkPage() {
           Full method signatures are in the{" "}
           <a className="text-foreground underline decoration-[var(--celo-yellow)] decoration-2 underline-offset-4" href={`${SDK_DOCS_URL}/concepts/prepared-flows`} target="_blank" rel="noreferrer">
             Wallet signing flows
-          </a>{" "}
-         
-          on GitBook, plus the{" "}
+          </a>
+          ,{" "}
+          <a className="text-foreground underline decoration-[var(--celo-yellow)] decoration-2 underline-offset-4" href={`${SDK_DOCS_URL}/guides/account-abstraction`} target="_blank" rel="noreferrer">
+            Account Abstraction
+          </a>
+          ,{" "}
+          <a className="text-foreground underline decoration-[var(--celo-yellow)] decoration-2 underline-offset-4" href={`${SDK_DOCS_URL}/guides/on-chain-attribution`} target="_blank" rel="noreferrer">
+            On-chain attribution
+          </a>
+          , plus the{" "}
           <a className="text-foreground underline decoration-[var(--celo-yellow)] decoration-2 underline-offset-4" href={`${SDK_DOCS_URL}/api-reference`} target="_blank" rel="noreferrer">
             API reference
           </a>
