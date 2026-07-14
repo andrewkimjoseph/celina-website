@@ -36,7 +36,7 @@ export const TOOL_OVERRIDES: Record<string, ToolDocOverride> = {
   },
   "verify_attribution_tag": {
     "summary": "Decode legacy Celina + ERC-8021 tags from tx calldata",
-    "description": "Fetches a Celo mainnet transaction by hash and inspects its calldata for attribution suffixes. Returns both the legacy UTF-8 CELINA|… tags and ERC-8021 Schema 0 codes (celina, hackathon codes like celo_862c21dd97a7, app tags). Pass an optional tag to check whether a specific code appears on either layer.",
+    "description": "Fetches a Celo mainnet transaction by hash and inspects its calldata for attribution suffixes. Returns both the legacy UTF-8 CELINA|… tags and ERC-8021 Schema 0 codes (celina, hackathon codes like celo_862c21dd97a7, app tags). Pass an optional tag to check whether a specific code appears on either layer. Prefer check_attribution_tag when you want a unified custom tags list.",
     "inputs": [
       {
         "name": "hash",
@@ -55,6 +55,29 @@ export const TOOL_OVERRIDES: Record<string, ToolDocOverride> = {
     "examples": [
       "Does transaction 0xabc… include celo_862c21dd97a7?",
       "What attribution tags are on this tx?"
+    ]
+  },
+  "check_attribution_tag": {
+    "summary": "List or check custom attribution tags on a tx",
+    "description": "Fetches a Celo mainnet transaction by hash and returns a unified tags array of custom/app attribution codes (excludes platform CELINA/celina), plus the raw legacyTags and erc8021 layers. Omit tag to list all custom codes; pass tag to check whether that code is present on either layer. Prefer this for “what tags are on this tx?”.",
+    "inputs": [
+      {
+        "name": "hash",
+        "type": "string",
+        "required": true,
+        "description": "Transaction hash (0x + 64 hex characters)."
+      },
+      {
+        "name": "tag",
+        "type": "string",
+        "required": false,
+        "description": "Optional attribution code to match (e.g. celo_862c21dd97a7, MY_APP). Omit to list all custom tags."
+      }
+    ],
+    "returns": "{ hash, input, tags, legacyTags, erc8021: { codes, schemaId } | null, matched }",
+    "examples": [
+      "What attribution tags are on this tx?",
+      "Does transaction 0xabc… include celo_862c21dd97a7?"
     ]
   },
   "get_wallet_address": {
