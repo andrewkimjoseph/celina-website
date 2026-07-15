@@ -244,7 +244,7 @@ function SdkPage() {
           <CapabilityCard
             icon={faTags}
             title="On-chain attribution"
-            body="Dual CELINA + ERC-8021 suffixes. Set attributionTags on createCelinaClient or createAAClient. Prefer check_attribution_tag for unified custom tags."
+            body="ERC-8021 Schema 0 (celina + app codes). Set attributionTags on createCelinaClient or createAAClient. Prefer check_attribution_tag for unified custom tags; verify still surfaces historical CELINA|… when present."
           />
           <CapabilityCard
             icon={faShieldHalved}

@@ -35,8 +35,8 @@ export const TOOL_OVERRIDES: Record<string, ToolDocOverride> = {
     ]
   },
   "verify_attribution_tag": {
-    "summary": "Decode legacy Celina + ERC-8021 tags from tx calldata",
-    "description": "Fetches a Celo mainnet transaction by hash and inspects its calldata for attribution suffixes. Returns both the legacy UTF-8 CELINA|… tags and ERC-8021 Schema 0 codes (celina, hackathon codes like celo_862c21dd97a7, app tags). Pass an optional tag to check whether a specific code appears on either layer. Prefer check_attribution_tag when you want a unified custom tags list.",
+    "summary": "Decode ERC-8021 (+ historical CELINA) attribution from tx calldata",
+    "description": "Fetches a Celo mainnet transaction by hash and inspects its calldata for attribution. New Celina writes use ERC-8021 Schema 0 codes (celina, hackathon codes like celo_862c21dd97a7, app tags). Historical txs may also include legacy UTF-8 CELINA|… — returned in legacyTags when present. Pass an optional tag to check for a specific code on either layer. Prefer check_attribution_tag when you want a unified custom tags list.",
     "inputs": [
       {
         "name": "hash",
@@ -59,7 +59,7 @@ export const TOOL_OVERRIDES: Record<string, ToolDocOverride> = {
   },
   "check_attribution_tag": {
     "summary": "List or check custom attribution tags on a tx",
-    "description": "Fetches a Celo mainnet transaction by hash and returns a unified tags array of custom/app attribution codes (excludes platform CELINA/celina), plus the raw legacyTags and erc8021 layers. Omit tag to list all custom codes; pass tag to check whether that code is present on either layer. Prefer this for “what tags are on this tx?”.",
+    "description": "Fetches a Celo mainnet transaction by hash and returns a unified tags array of custom/app attribution codes (excludes platform CELINA/celina), plus raw erc8021 and optional historical legacyTags. Omit tag to list all custom codes; pass tag to check whether that code is present on either layer. Prefer this for “what tags are on this tx?”.",
     "inputs": [
       {
         "name": "hash",

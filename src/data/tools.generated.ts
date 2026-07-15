@@ -83,8 +83,8 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
     "name": "verify_attribution_tag",
     "slug": "verify-attribution-tag",
     "title": "Verify Attribution Tag",
-    "summary": "Decode legacy Celina (CELINA|…) and ERC-8021 (celina, app codes) attribution tags from a transaction's calldata on Celo mainnet.",
-    "description": "Decode legacy Celina (CELINA|…) and ERC-8021 (celina, app codes) attribution tags from a transaction's calldata on Celo mainnet. Optionally pass tag to check for a specific code on either layer.",
+    "summary": "Decode ERC-8021 (celina, app codes) attribution from a Celo mainnet tx calldata; also returns historical legacy CELINA|… tags when present.",
+    "description": "Decode ERC-8021 (celina, app codes) attribution from a Celo mainnet tx calldata; also returns historical legacy CELINA|… tags when present. Optionally pass tag to check for a specific code on either layer.",
     "kind": "read",
     "category": "Blockchain",
     "inputs": [
@@ -106,8 +106,8 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
     "name": "check_attribution_tag",
     "slug": "check-attribution-tag",
     "title": "Check Attribution Tag",
-    "summary": "List custom attribution tags on a Celo mainnet transaction (unified tags array, excluding platform CELINA/celina), or check whether a specific tag is present.",
-    "description": "List custom attribution tags on a Celo mainnet transaction (unified tags array, excluding platform CELINA/celina), or check whether a specific tag is present. Prefer this for “what tags are on this tx?”; use verify_attribution_tag for raw legacy/ERC-8021 layers only.",
+    "summary": "List custom attribution tags on a Celo mainnet transaction (unified tags from ERC-8021 and historical legacy when present, excluding platform CELINA/celina), or check whether a specific tag is present.",
+    "description": "List custom attribution tags on a Celo mainnet transaction (unified tags from ERC-8021 and historical legacy when present, excluding platform CELINA/celina), or check whether a specific tag is present. Prefer this for “what tags are on this tx?”; use verify_attribution_tag for raw layers.",
     "kind": "read",
     "category": "Blockchain",
     "inputs": [
