@@ -466,10 +466,27 @@ export const TOOL_OVERRIDES: Record<string, ToolDocOverride> = {
   },
   "estimate_contract_gas": {
     "summary": "Gas estimate for a contract call",
-    "description": "Estimate gas for invoking a contract function on Celo mainnet with a caller-supplied ABI fragment. Does not broadcast.",
+    "description": "Estimate gas for invoking a contract function on Celo mainnet with a caller-supplied ABI fragment. Prefer this before execute_contract_function. Does not broadcast.",
     "returns": "{ gasLimit, gasPrice, estimatedFee }",
     "examples": [
       "Estimate gas to mint() on contract 0x… from 0x…"
+    ]
+  },
+  "execute_contract_function": {
+    "summary": "Broadcast a contract write with caller ABI",
+    "description": "Call a state-changing function on any Celo mainnet contract using a caller-supplied ABI fragment and positional args (like viem). Optional value is wei as a decimal string. Prefer estimate_contract_gas first. Requires CELO_PRIVATE_KEY in your MCP client env (stdio only).",
+    "returns": "{ network, hash, status, from, contractAddress, functionName }",
+    "examples": [
+      "Call approve(spender, 0) on USDm with the ERC-20 ABI.",
+      "Execute mint() on contract 0x… with ABI JSON and args."
+    ]
+  },
+  "prepare_contract_function": {
+    "summary": "Prepare an unsigned contract write",
+    "description": "Build an unsigned single-step flow for a state-changing contract call using a caller-supplied ABI fragment. User signs in wallet. Prefer estimate_contract_gas first. Optional value is wei as a decimal string.",
+    "returns": "SerializedPreparedFlow with one contract step",
+    "examples": [
+      "Prepare approve(spender, amount) on USDm for the connected wallet."
     ]
   },
   "get_agentkarma_reputation": {

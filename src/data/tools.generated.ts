@@ -3,7 +3,7 @@ import type { ToolDoc } from "./tools.types.js";
 
 export const GENERATED_HOSTED_TOOL_COUNT = 36;
 
-export const GENERATED_TOOL_NAMES = ["get_network_status","get_block","get_latest_blocks","get_transaction","verify_attribution_tag","check_attribution_tag","get_wallet_address","get_account","get_celo_balances","get_stablecoin_balances","get_token_info","get_token_balance","estimate_send","send_token","get_gas_fee_data","estimate_transaction","get_mento_fx_quote","estimate_mento_fx","execute_mento_fx","get_uniswap_quote","estimate_uniswap_swap","execute_uniswap_swap","get_aave_balances","supply_aave","withdraw_aave","resolve_ens","get_gooddollar_whitelisting_info","get_gooddollar_identity_link","get_gooddollar_ubi_entitlement","claim_daily_gooddollar_ubi","get_gooddollar_reserve_quote","estimate_gooddollar_reserve_swap","execute_gooddollar_reserve_swap","get_governance_proposals","get_proposal_details","get_staking_balances","get_activatable_stakes","get_validator_groups","get_validator_group_details","get_total_staking_info","get_nft_info","get_nft_balance","call_contract_function","estimate_contract_gas","verify_self_agent","lookup_self_agent","verify_self_request","register_self_agent","check_self_registration","get_self_identity","refresh_self_proof","deregister_self_agent","sign_self_request","authenticated_self_fetch","get_agentkarma_reputation","get_agentkarma_celo_agent","check_agentkarma_counterparty"] as const;
+export const GENERATED_TOOL_NAMES = ["get_network_status","get_block","get_latest_blocks","get_transaction","verify_attribution_tag","check_attribution_tag","get_wallet_address","get_account","get_celo_balances","get_stablecoin_balances","get_token_info","get_token_balance","estimate_send","send_token","get_gas_fee_data","estimate_transaction","get_mento_fx_quote","estimate_mento_fx","execute_mento_fx","get_uniswap_quote","estimate_uniswap_swap","execute_uniswap_swap","get_aave_balances","supply_aave","withdraw_aave","resolve_ens","get_gooddollar_whitelisting_info","get_gooddollar_identity_link","get_gooddollar_ubi_entitlement","claim_daily_gooddollar_ubi","get_gooddollar_reserve_quote","estimate_gooddollar_reserve_swap","execute_gooddollar_reserve_swap","get_governance_proposals","get_proposal_details","get_staking_balances","get_activatable_stakes","get_validator_groups","get_validator_group_details","get_total_staking_info","get_nft_info","get_nft_balance","call_contract_function","estimate_contract_gas","execute_contract_function","verify_self_agent","lookup_self_agent","verify_self_request","register_self_agent","check_self_registration","get_self_identity","refresh_self_proof","deregister_self_agent","sign_self_request","authenticated_self_fetch","get_agentkarma_reputation","get_agentkarma_celo_agent","check_agentkarma_counterparty"] as const;
 
 export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
   {
@@ -1205,7 +1205,7 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
     "slug": "estimate-contract-gas",
     "title": "Estimate Contract Gas",
     "summary": "Estimates gas for a contract function call.",
-    "description": "Estimates gas for a contract function call. Requires caller-supplied ABI JSON.",
+    "description": "Estimates gas for a contract function call. Requires caller-supplied ABI JSON. Call before execute_contract_function when possible.",
     "kind": "read",
     "category": "Contract",
     "inputs": [
@@ -1250,6 +1250,47 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
         "type": "string",
         "required": false,
         "description": "Wallet on Celo mainnet. Omit to use the connected wallet or MCP CELO_PRIVATE_KEY signer."
+      }
+    ]
+  },
+  {
+    "name": "execute_contract_function",
+    "slug": "execute-contract-function",
+    "title": "Execute Contract Function",
+    "summary": "Calls a state-changing contract function and broadcasts the transaction.",
+    "description": "Calls a state-changing contract function and broadcasts the transaction. Requires caller-supplied ABI JSON and CELO_PRIVATE_KEY. Prefer estimate_contract_gas first. Optional value is wei as a decimal string.",
+    "kind": "write",
+    "category": "Contract",
+    "inputs": [
+      {
+        "name": "contract_address",
+        "type": "string",
+        "required": true,
+        "description": "contract address"
+      },
+      {
+        "name": "function_name",
+        "type": "string",
+        "required": true,
+        "description": "function name"
+      },
+      {
+        "name": "abi",
+        "type": "array",
+        "required": true,
+        "description": "Contract ABI as a JSON array"
+      },
+      {
+        "name": "function_args",
+        "type": "array",
+        "required": false,
+        "description": "function args"
+      },
+      {
+        "name": "value",
+        "type": "string",
+        "required": false,
+        "description": "value"
       }
     ]
   },

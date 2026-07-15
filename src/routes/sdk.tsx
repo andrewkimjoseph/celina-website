@@ -80,7 +80,7 @@ const API_ROWS: Row[] = [
   { service: "governance", reads: "proposals list, details", wallet: "—" },
   { service: "staking", reads: "balances, validator groups", wallet: "—" },
   { service: "nft", reads: "NFT info, balance", wallet: "—" },
-  { service: "contract", reads: "callFunction, estimateGas", wallet: "—" },
+  { service: "contract", reads: "callFunction, estimateGas", wallet: "prepareFunction" },
 ];
 
 export const Route = createFileRoute("/sdk")({
@@ -234,7 +234,7 @@ function SdkPage() {
           <CapabilityCard
             icon={faPenRuler}
             title="Wallet signing"
-            body="Unsigned tx flows for sends, Mento FX, GoodDollar reserve (G$ ↔ USDm), Uniswap v4, Aave, and GoodDollar UBI. Prepared flows return chainId 42220."
+            body="Unsigned tx flows for sends, Mento FX, GoodDollar reserve (G$ ↔ USDm), Uniswap v4, Aave, GoodDollar UBI, and generic contract writes. Prepared flows return chainId 42220."
           />
           <CapabilityCard
             icon={faLayerGroup}

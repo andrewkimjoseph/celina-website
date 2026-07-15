@@ -59,6 +59,7 @@ const STDIO_ONLY_TOOLS = new Set([
   "withdraw_aave",
   "claim_daily_gooddollar_ubi",
   "execute_gooddollar_reserve_swap",
+  "execute_contract_function",
   "get_wallet_address",
   "get_self_identity",
   "sign_self_request",
