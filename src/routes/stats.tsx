@@ -179,7 +179,7 @@ function StatsLayout() {
         {showOnchainPartial && (
           <div className="mt-6 flex items-start gap-3 rounded-xl border border-[var(--celo-yellow)]/40 bg-[var(--celo-yellow)]/10 p-4 text-sm text-foreground">
             <FontAwesomeIcon icon={faTriangleExclamation} className="mt-0.5 h-4 w-4 text-[var(--celo-forest)] dark:text-[var(--celo-yellow)]" />
-            <span>Showing cached on-chain data.</span>
+            <span>Showing cached on-chain data (outdated).</span>
           </div>
         )}
 
