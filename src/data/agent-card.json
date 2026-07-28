@@ -2,7 +2,7 @@
   "name": "Celina",
   "description": "Celo mainnet specialist agent — hosted read-only access to balances, DeFi quotes, governance, staking, NFTs, and Self Agent ID verification via structured tool calls.",
   "protocolVersion": "0.3.0",
-  "version": "0.10.0",
+  "version": "0.15.8",
   "url": "https://mcp.usecelina.xyz/api/a2a",
   "skills": [
     {
@@ -49,7 +49,7 @@
     {
       "id": "celo-blockchain",
       "name": "Celo blockchain reads",
-      "description": "Celo blockchain reads on Celo mainnet. Allowed tools: get_network_status, get_block, get_latest_blocks, get_transaction, get_gas_fee_data.",
+      "description": "Celo blockchain reads on Celo mainnet. Allowed tools: get_network_status, get_block, get_latest_blocks, get_transaction, verify_attribution_tag, check_attribution_tag, get_celo_account_registration, get_gas_fee_data, get_locked_celo_balance, get_pending_withdrawals, get_votable_proposals, check_humanness, get_delegation_info.",
       "tags": [
         "celo",
         "blockchain",
