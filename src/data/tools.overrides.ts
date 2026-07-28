@@ -283,7 +283,7 @@ export const TOOL_OVERRIDES: Record<string, ToolDocOverride> = {
   },
   "verify_self_agent": {
     "summary": "Check if an agent is a verified human",
-    "description": "Verify whether an agent address is backed by a real human on Self Agent ID (Celo mainnet). Checks on-chain registration, proof provider, credentials, and proof expiry.",
+    "description": "Verify whether an agent address is backed by a real human on Self Agent ID (Celo mainnet). Defaults to requiring age 18+ and OFAC-clear credentials; pass require_age: 0 or require_ofac: false to relax. Returns credentials including nationality (ISO code) when disclosed at registration.",
     "returns": "{ isVerified, registration, credentials, proofExpiry, … }",
     "examples": [
       "Is 0x… a verified human on Self?"
@@ -307,7 +307,7 @@ export const TOOL_OVERRIDES: Record<string, ToolDocOverride> = {
   },
   "register_self_agent": {
     "summary": "Start Self Agent ID registration (QR flow)",
-    "description": "Start Self Agent ID registration. Returns a QR/deep link for the human to scan with the Self app. Poll with check_self_registration. Prefer local stdio — session state is unreliable on hosted serverless.",
+    "description": "Start Self Agent ID registration. Returns a QR/deep link for the human to scan with the Self app. Defaults to minimum_age 18, nationality disclosure, and OFAC screening. Poll with check_self_registration. Prefer local stdio — session state is unreliable on hosted serverless.",
     "returns": "{ sessionId, qrUrl, deepLink, … }",
     "examples": [
       "Register me as a Self agent."
