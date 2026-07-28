@@ -515,5 +515,276 @@ export const TOOL_OVERRIDES: Record<string, ToolDocOverride> = {
     "examples": [
       "Should I trust counterparty 0x… with min score 50 and receipt-backed karma?"
     ]
+  },
+  "check_humanness": {
+    "summary": "Dual-rail humanness check (Self Agent ID or GoodDollar IdentityV4)",
+    "description": "Check whether an address passes humanness verification on Celo mainnet. Uses a dual-rail gate: Self Agent ID (verified human-backed agent) OR GoodDollar IdentityV4 (whitelisted face-verified identity). Passes if either rail succeeds. Required before governance and staking execute tools (lock, vote, stake, delegate). Call this first when an agent needs to perform humanness-gated actions.",
+    "returns": "{ address, passed, self?: { isVerified, … }, gooddollar?: { isWhitelisted, whitelistedRoot, … } }",
+    "examples": [
+      "Does 0x… pass humanness verification?",
+      "Check humanness for my MCP server wallet before locking CELO."
+    ]
+  },
+  "get_celo_account_registration": {
+    "summary": "Whether an address is registered in Celo Accounts",
+    "description": "Returns whether an address is registered in the Celo Accounts contract — a prerequisite before locking CELO for governance or staking. Omit address on local stdio when CELO_PRIVATE_KEY is set to check the configured signer.",
+    "returns": "{ address, isRegistered }",
+    "examples": [
+      "Is 0x… registered as a Celo account?",
+      "Do I need to register my wallet before locking CELO?"
+    ]
+  },
+  "execute_register_celo_account": {
+    "summary": "Register the MCP server wallet in Celo Accounts",
+    "description": "Register the MCP server wallet as a Celo account via Accounts.createAccount. Required once before locking CELO for governance or staking. Requires CELO_PRIVATE_KEY or SELF_AGENT_PRIVATE_KEY in your MCP client env.",
+    "returns": "{ hash, status, blockNumber }",
+    "examples": [
+      "Register my wallet as a Celo account."
+    ]
+  },
+  "prepare_register_celo_account": {
+    "summary": "Prepare unsigned Celo account registration",
+    "description": "Build an unsigned Celo Accounts.createAccount flow for wallet signing. Required once before locking CELO in browser apps.",
+    "returns": "SerializedPreparedFlow with one account-registration step",
+    "examples": [
+      "Prepare account registration for the connected wallet."
+    ]
+  },
+  "get_locked_celo_balance": {
+    "summary": "Locked CELO balance and governance voting power",
+    "description": "Return locked CELO balances and governance voting power for an address on Celo mainnet via the LockedGold contract. Includes non-voting, voting, and total locked amounts.",
+    "returns": "{ address, nonvoting, voting, total, … }",
+    "examples": [
+      "How much CELO does 0x… have locked?",
+      "What is my governance voting power?"
+    ]
+  },
+  "get_pending_withdrawals": {
+    "summary": "Pending LockedGold unlocks with maturity timestamps",
+    "description": "List pending CELO unlock requests for an address from LockedGold, including amount and timeUntilLesser/Greater maturity timestamps. Use before execute_withdraw_celo or prepare_withdraw_celo.",
+    "returns": "Array of { index, value, timeUntilLesser, timeUntilGreater, … }",
+    "examples": [
+      "Do I have any pending CELO unlocks?",
+      "When can I withdraw my unlocked CELO?"
+    ]
+  },
+  "get_votable_proposals": {
+    "summary": "Governance proposals currently in Referendum",
+    "description": "Return Celo governance proposals currently in the Referendum stage with dequeue index for voting. Use before execute_vote or prepare_vote.",
+    "returns": "Array of { id, stage, dequeueIndex, … }",
+    "examples": [
+      "Which governance proposals can I vote on right now?"
+    ]
+  },
+  "execute_lock_celo": {
+    "summary": "Lock CELO for governance and staking",
+    "description": "Lock CELO into LockedGold for governance voting power and validator staking on Celo mainnet. Requires humanness verification (Self Agent ID or GoodDollar IdentityV4) and a registered Celo account. Requires CELO_PRIVATE_KEY or SELF_AGENT_PRIVATE_KEY in your MCP client env.",
+    "returns": "{ hash, status, blockNumber, amountLocked }",
+    "examples": [
+      "Lock 100 CELO for governance.",
+      "Lock CELO so I can stake with a validator group."
+    ]
+  },
+  "execute_unlock_celo": {
+    "summary": "Start unlocking locked CELO (3-day timelock)",
+    "description": "Begin unlocking locked CELO from LockedGold. Starts a 3-day timelock before funds can be withdrawn. Requires humanness verification. Requires CELO_PRIVATE_KEY or SELF_AGENT_PRIVATE_KEY in your MCP client env.",
+    "returns": "{ hash, status, blockNumber }",
+    "examples": [
+      "Unlock 50 CELO from LockedGold."
+    ]
+  },
+  "execute_relock_celo": {
+    "summary": "Relock CELO from a pending withdrawal",
+    "description": "Cancel a pending unlock and relock CELO from a pending withdrawal index back into LockedGold. Requires humanness verification. Requires CELO_PRIVATE_KEY or SELF_AGENT_PRIVATE_KEY in your MCP client env.",
+    "returns": "{ hash, status, blockNumber }",
+    "examples": [
+      "Relock CELO from pending withdrawal index 0."
+    ]
+  },
+  "execute_withdraw_celo": {
+    "summary": "Withdraw all matured pending CELO unlocks",
+    "description": "Withdraw all matured pending CELO unlocks from LockedGold to the signer wallet. Requires humanness verification. Requires CELO_PRIVATE_KEY or SELF_AGENT_PRIVATE_KEY in your MCP client env.",
+    "returns": "{ hash, status, blockNumber, amountWithdrawn }",
+    "examples": [
+      "Withdraw my matured unlocked CELO."
+    ]
+  },
+  "execute_vote": {
+    "summary": "Vote on a governance proposal in Referendum",
+    "description": "Cast a governance vote (Yes, No, or Abstain) on a Celo proposal in Referendum stage using locked CELO voting power. Requires humanness verification. Requires CELO_PRIVATE_KEY or SELF_AGENT_PRIVATE_KEY in your MCP client env.",
+    "returns": "{ hash, status, blockNumber, proposalId, vote }",
+    "examples": [
+      "Vote Yes on Celo governance proposal 245.",
+      "Abstain on the current referendum proposal."
+    ]
+  },
+  "prepare_lock_celo": {
+    "summary": "Prepare unsigned lock CELO flow",
+    "description": "Build an unsigned LockedGold lock flow for wallet signing in browser apps.",
+    "returns": "SerializedPreparedFlow with one lock step",
+    "examples": [
+      "Prepare locking 100 CELO for the connected wallet."
+    ]
+  },
+  "prepare_unlock_celo": {
+    "summary": "Prepare unsigned unlock CELO flow",
+    "description": "Build an unsigned LockedGold unlock flow for wallet signing in browser apps.",
+    "returns": "SerializedPreparedFlow with one unlock step",
+    "examples": [
+      "Prepare unlocking 50 CELO for the connected wallet."
+    ]
+  },
+  "prepare_relock_celo": {
+    "summary": "Prepare unsigned relock CELO flow",
+    "description": "Build an unsigned LockedGold relock flow for wallet signing in browser apps.",
+    "returns": "SerializedPreparedFlow with one relock step",
+    "examples": [
+      "Prepare relocking CELO from pending withdrawal index 0."
+    ]
+  },
+  "prepare_withdraw_celo": {
+    "summary": "Prepare unsigned withdraw matured CELO flow",
+    "description": "Build an unsigned LockedGold withdraw flow for wallet signing in browser apps.",
+    "returns": "SerializedPreparedFlow with one withdraw step",
+    "examples": [
+      "Prepare withdrawing matured unlocked CELO."
+    ]
+  },
+  "prepare_vote": {
+    "summary": "Prepare unsigned governance vote",
+    "description": "Build an unsigned governance vote flow for wallet signing in browser apps.",
+    "returns": "SerializedPreparedFlow with one vote step",
+    "examples": [
+      "Prepare a Yes vote on proposal 245 for the connected wallet."
+    ]
+  },
+  "get_delegation_info": {
+    "summary": "Governance vote delegation from LockedGold",
+    "description": "Return governance voting power delegation info for an address from LockedGold — who they delegate to and how much voting power is delegated.",
+    "returns": "{ address, delegations: [{ delegatee, percent, … }] }",
+    "examples": [
+      "Who does 0x… delegate governance power to?",
+      "Show my governance delegation settings."
+    ]
+  },
+  "execute_stake": {
+    "summary": "Stake locked CELO with a validator group",
+    "description": "Stake locked CELO with a Celo validator group via the Election contract. Requires humanness verification and a registered Celo account. Staked votes become active after the next epoch boundary (use execute_activate_stake). Requires CELO_PRIVATE_KEY or SELF_AGENT_PRIVATE_KEY in your MCP client env.",
+    "returns": "{ hash, status, blockNumber, groupAddress, amount }",
+    "examples": [
+      "Stake 100 locked CELO with validator group 0x…"
+    ]
+  },
+  "execute_activate_stake": {
+    "summary": "Activate pending stake after epoch boundary",
+    "description": "Activate pending staking votes for a validator group after the epoch boundary. Requires humanness verification. Requires CELO_PRIVATE_KEY or SELF_AGENT_PRIVATE_KEY in your MCP client env.",
+    "returns": "{ hash, status, blockNumber, groupAddress }",
+    "examples": [
+      "Activate my pending stake with validator group 0x…"
+    ]
+  },
+  "execute_unstake": {
+    "summary": "Unstake CELO from a validator group",
+    "description": "Remove staking votes from a Celo validator group. Requires humanness verification. Requires CELO_PRIVATE_KEY or SELF_AGENT_PRIVATE_KEY in your MCP client env.",
+    "returns": "{ hash, status, blockNumber, groupAddress, amount }",
+    "examples": [
+      "Unstake 50 CELO from validator group 0x…"
+    ]
+  },
+  "execute_delegate_power": {
+    "summary": "Delegate governance voting power to another address",
+    "description": "Delegate a percentage of governance voting power from LockedGold to another address. Requires humanness verification. Requires CELO_PRIVATE_KEY or SELF_AGENT_PRIVATE_KEY in your MCP client env.",
+    "returns": "{ hash, status, blockNumber, delegatee, percent }",
+    "examples": [
+      "Delegate 50% of my governance power to 0x…"
+    ]
+  },
+  "execute_undelegate_power": {
+    "summary": "Revoke delegated governance voting power",
+    "description": "Revoke a percentage of previously delegated governance voting power from a delegatee address. Requires humanness verification. Requires CELO_PRIVATE_KEY or SELF_AGENT_PRIVATE_KEY in your MCP client env.",
+    "returns": "{ hash, status, blockNumber, delegatee, percent }",
+    "examples": [
+      "Undelegate 100% of governance power from 0x…"
+    ]
+  },
+  "prepare_stake": {
+    "summary": "Prepare unsigned stake CELO flow",
+    "description": "Build an unsigned Election stake flow for wallet signing in browser apps.",
+    "returns": "SerializedPreparedFlow with one stake step",
+    "examples": [
+      "Prepare staking 100 CELO with validator group 0x…"
+    ]
+  },
+  "prepare_activate_stake": {
+    "summary": "Prepare unsigned activate stake flow",
+    "description": "Build an unsigned activate-stake flow for wallet signing in browser apps.",
+    "returns": "SerializedPreparedFlow with one activate step",
+    "examples": [
+      "Prepare activating pending stake with validator group 0x…"
+    ]
+  },
+  "prepare_unstake": {
+    "summary": "Prepare unsigned unstake flow",
+    "description": "Build an unsigned Election unstake flow for wallet signing in browser apps.",
+    "returns": "SerializedPreparedFlow with one unstake step",
+    "examples": [
+      "Prepare unstaking 50 CELO from validator group 0x…"
+    ]
+  },
+  "prepare_delegate_power": {
+    "summary": "Prepare unsigned delegate governance power flow",
+    "description": "Build an unsigned LockedGold delegate flow for wallet signing in browser apps.",
+    "returns": "SerializedPreparedFlow with one delegate step",
+    "examples": [
+      "Prepare delegating 50% governance power to 0x…"
+    ]
+  },
+  "prepare_undelegate_power": {
+    "summary": "Prepare unsigned undelegate governance power flow",
+    "description": "Build an unsigned LockedGold undelegate flow for wallet signing in browser apps.",
+    "returns": "SerializedPreparedFlow with one undelegate step",
+    "examples": [
+      "Prepare revoking delegated governance power from 0x…"
+    ]
+  },
+  "get_gooddollar_face_verification_link": {
+    "summary": "GoodDollar face verification link for humanness",
+    "description": "Generate a GoodDollar face verification link for the MCP server wallet. The human completes face verification in the GoodDollar app; on success the wallet becomes whitelisted on IdentityV4 and passes the humanness gate. Requires CELO_PRIVATE_KEY or SELF_AGENT_PRIVATE_KEY.",
+    "returns": "{ verificationUrl, callbackUrl, walletAddress }",
+    "examples": [
+      "Get a GoodDollar face verification link for humanness."
+    ]
+  },
+  "execute_connect_gooddollar_identity": {
+    "summary": "Connect a secondary wallet to GoodDollar identity root",
+    "description": "Connect a secondary wallet to the whitelisted GoodDollar IdentityV4 root so it inherits humanness status. Requires CELO_PRIVATE_KEY or SELF_AGENT_PRIVATE_KEY in your MCP client env.",
+    "returns": "{ hash, status, blockNumber, connectedAccount }",
+    "examples": [
+      "Connect wallet 0x… to my GoodDollar identity."
+    ]
+  },
+  "execute_disconnect_gooddollar_identity": {
+    "summary": "Disconnect a secondary wallet from GoodDollar identity",
+    "description": "Disconnect a secondary wallet from a GoodDollar IdentityV4 root. Requires CELO_PRIVATE_KEY or SELF_AGENT_PRIVATE_KEY in your MCP client env.",
+    "returns": "{ hash, status, blockNumber, connectedAccount }",
+    "examples": [
+      "Disconnect wallet 0x… from GoodDollar identity."
+    ]
+  },
+  "prepare_connect_gooddollar_identity": {
+    "summary": "Prepare unsigned GoodDollar identity connect",
+    "description": "Build an unsigned GoodDollar IdentityV4 connect flow for wallet signing in browser apps.",
+    "returns": "SerializedPreparedFlow with one connect step",
+    "examples": [
+      "Prepare connecting a secondary wallet to GoodDollar identity."
+    ]
+  },
+  "prepare_disconnect_gooddollar_identity": {
+    "summary": "Prepare unsigned GoodDollar identity disconnect",
+    "description": "Build an unsigned GoodDollar IdentityV4 disconnect flow for wallet signing in browser apps.",
+    "returns": "SerializedPreparedFlow with one disconnect step",
+    "examples": [
+      "Prepare disconnecting a wallet from GoodDollar identity."
+    ]
   }
 };

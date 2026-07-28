@@ -159,7 +159,7 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
     "summary": "Whether an address is registered in the Celo Accounts contract (required before locking CELO).",
     "description": "Whether an address is registered in the Celo Accounts contract (required before locking CELO).",
     "kind": "read",
-    "category": "Blockchain",
+    "category": "Account",
     "inputs": [
       {
         "name": "address",
@@ -176,7 +176,7 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
     "summary": "Register the MCP server wallet as a Celo account (Accounts.",
     "description": "Register the MCP server wallet as a Celo account (Accounts.createAccount).",
     "kind": "write",
-    "category": "Blockchain",
+    "category": "Account",
     "inputs": [
       {
         "name": "signer",
@@ -988,7 +988,7 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
     "summary": "Generate a GoodDollar face verification link for the MCP server wallet.",
     "description": "Generate a GoodDollar face verification link for the MCP server wallet. Requires a signing key.",
     "kind": "read",
-    "category": "Blockchain",
+    "category": "GoodDollar",
     "inputs": [
       {
         "name": "callback_url",
@@ -1005,7 +1005,7 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
     "summary": "Connect a secondary wallet to the whitelisted GoodDollar identity root.",
     "description": "Connect a secondary wallet to the whitelisted GoodDollar identity root.",
     "kind": "write",
-    "category": "Blockchain",
+    "category": "GoodDollar",
     "inputs": [
       {
         "name": "connected_account",
@@ -1028,7 +1028,7 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
     "summary": "Disconnect a secondary wallet from a GoodDollar identity.",
     "description": "Disconnect a secondary wallet from a GoodDollar identity.",
     "kind": "write",
-    "category": "Blockchain",
+    "category": "GoodDollar",
     "inputs": [
       {
         "name": "connected_account",
@@ -1115,7 +1115,7 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
     "summary": "Locked CELO balances and governance voting power for an address.",
     "description": "Locked CELO balances and governance voting power for an address.",
     "kind": "read",
-    "category": "Blockchain",
+    "category": "Governance",
     "inputs": [
       {
         "name": "address",
@@ -1132,7 +1132,7 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
     "summary": "Pending LockedGold withdrawals with maturity timestamps for an address.",
     "description": "Pending LockedGold withdrawals with maturity timestamps for an address.",
     "kind": "read",
-    "category": "Blockchain",
+    "category": "Governance",
     "inputs": [
       {
         "name": "address",
@@ -1149,7 +1149,7 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
     "summary": "Governance proposals currently in Referendum with dequeue index for voting.",
     "description": "Governance proposals currently in Referendum with dequeue index for voting.",
     "kind": "read",
-    "category": "Blockchain",
+    "category": "Governance",
     "inputs": []
   },
   {
@@ -1159,7 +1159,7 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
     "summary": "Lock CELO for governance and staking.",
     "description": "Lock CELO for governance and staking. Requires humanness verification and a registered Celo account.",
     "kind": "write",
-    "category": "Blockchain",
+    "category": "Governance",
     "inputs": [
       {
         "name": "amount",
@@ -1182,7 +1182,7 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
     "summary": "Start unlocking locked CELO (3-day timelock).",
     "description": "Start unlocking locked CELO (3-day timelock). Requires humanness verification.",
     "kind": "write",
-    "category": "Blockchain",
+    "category": "Governance",
     "inputs": [
       {
         "name": "amount",
@@ -1205,7 +1205,7 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
     "summary": "Relock CELO from a pending withdrawal index.",
     "description": "Relock CELO from a pending withdrawal index. Requires humanness verification.",
     "kind": "write",
-    "category": "Blockchain",
+    "category": "Governance",
     "inputs": [
       {
         "name": "index",
@@ -1234,7 +1234,7 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
     "summary": "Withdraw all matured pending CELO unlocks.",
     "description": "Withdraw all matured pending CELO unlocks. Requires humanness verification.",
     "kind": "write",
-    "category": "Blockchain",
+    "category": "Governance",
     "inputs": [
       {
         "name": "signer",
@@ -1251,7 +1251,7 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
     "summary": "Vote on a governance proposal in Referendum.",
     "description": "Vote on a governance proposal in Referendum. Vote values: Abstain, No, Yes.",
     "kind": "write",
-    "category": "Blockchain",
+    "category": "Governance",
     "inputs": [
       {
         "name": "proposal_id",
@@ -1280,7 +1280,7 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
     "summary": "Check whether an address passes humanness on Self Agent ID or GoodDollar IdentityV4.",
     "description": "Check whether an address passes humanness on Self Agent ID or GoodDollar IdentityV4. Pass if either rail succeeds.",
     "kind": "read",
-    "category": "Blockchain",
+    "category": "Humanness",
     "inputs": [
       {
         "name": "address",
@@ -1393,7 +1393,7 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
     "summary": "Governance vote delegation info from LockedGold for an address.",
     "description": "Governance vote delegation info from LockedGold for an address.",
     "kind": "read",
-    "category": "Blockchain",
+    "category": "Staking",
     "inputs": [
       {
         "name": "address",
@@ -1410,7 +1410,7 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
     "summary": "Stake locked CELO with a validator group.",
     "description": "Stake locked CELO with a validator group. Requires humanness verification and registered Celo account.",
     "kind": "write",
-    "category": "Blockchain",
+    "category": "Staking",
     "inputs": [
       {
         "name": "group_address",
@@ -1439,7 +1439,7 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
     "summary": "Activate pending stake for a validator group after epoch boundary.",
     "description": "Activate pending stake for a validator group after epoch boundary.",
     "kind": "write",
-    "category": "Blockchain",
+    "category": "Staking",
     "inputs": [
       {
         "name": "group_address",
@@ -1462,7 +1462,7 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
     "summary": "Unstake CELO from a validator group.",
     "description": "Unstake CELO from a validator group. Requires humanness verification.",
     "kind": "write",
-    "category": "Blockchain",
+    "category": "Staking",
     "inputs": [
       {
         "name": "group_address",
@@ -1491,7 +1491,7 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
     "summary": "Delegate governance voting power to another address.",
     "description": "Delegate governance voting power to another address. Requires humanness verification.",
     "kind": "write",
-    "category": "Blockchain",
+    "category": "Staking",
     "inputs": [
       {
         "name": "delegatee",
@@ -1520,7 +1520,7 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
     "summary": "Revoke delegated governance voting power.",
     "description": "Revoke delegated governance voting power. Requires humanness verification.",
     "kind": "write",
-    "category": "Blockchain",
+    "category": "Staking",
     "inputs": [
       {
         "name": "delegatee",

@@ -2,7 +2,7 @@
   "name": "Celina",
   "description": "Celo mainnet specialist agent — hosted read-only access to balances, DeFi quotes, governance, staking, NFTs, and Self Agent ID verification via structured tool calls.",
   "protocolVersion": "0.3.0",
-  "version": "0.15.8",
+  "version": "0.16.1",
   "url": "https://mcp.usecelina.xyz/api/a2a",
   "skills": [
     {
@@ -36,7 +36,7 @@
     {
       "id": "celo-balances",
       "name": "Celo balances",
-      "description": "Celo balances on Celo mainnet. Allowed tools: get_account, get_celo_balances, get_stablecoin_balances, get_token_info, get_token_balance.",
+      "description": "Celo balances on Celo mainnet. Allowed tools: get_account, get_celo_account_registration, get_celo_balances, get_stablecoin_balances, get_token_info, get_token_balance.",
       "tags": [
         "celo",
         "balances",
@@ -49,7 +49,7 @@
     {
       "id": "celo-blockchain",
       "name": "Celo blockchain reads",
-      "description": "Celo blockchain reads on Celo mainnet. Allowed tools: get_network_status, get_block, get_latest_blocks, get_transaction, verify_attribution_tag, check_attribution_tag, get_celo_account_registration, get_gas_fee_data, get_locked_celo_balance, get_pending_withdrawals, get_votable_proposals, check_humanness, get_delegation_info.",
+      "description": "Celo blockchain reads on Celo mainnet. Allowed tools: get_network_status, get_block, get_latest_blocks, get_transaction, verify_attribution_tag, check_attribution_tag, get_gas_fee_data.",
       "tags": [
         "celo",
         "blockchain",
@@ -102,7 +102,7 @@
     {
       "id": "governance",
       "name": "Celo governance",
-      "description": "Celo governance on Celo mainnet. Allowed tools: get_governance_proposals, get_proposal_details.",
+      "description": "Celo governance on Celo mainnet. Allowed tools: get_governance_proposals, get_proposal_details, get_locked_celo_balance, get_pending_withdrawals, get_votable_proposals.",
       "tags": [
         "celo",
         "governance",
@@ -110,6 +110,21 @@
       ],
       "examples": [
         "Send a DataPart (application/vnd.celina.tool+json) with {\"tool\":\"get_governance_proposals\",\"arguments\":{...}}."
+      ]
+    },
+    {
+      "id": "humanness",
+      "name": "Humanness verification",
+      "description": "Humanness verification on Celo mainnet. Allowed tools: check_humanness.",
+      "tags": [
+        "celo",
+        "humanness",
+        "self",
+        "gooddollar",
+        "identity"
+      ],
+      "examples": [
+        "Send a DataPart (application/vnd.celina.tool+json) with {\"tool\":\"check_humanness\",\"arguments\":{...}}."
       ]
     },
     {
@@ -157,7 +172,7 @@
     {
       "id": "staking",
       "name": "Celo staking",
-      "description": "Celo staking on Celo mainnet. Allowed tools: get_staking_balances, get_activatable_stakes, get_validator_groups, get_validator_group_details, get_total_staking_info.",
+      "description": "Celo staking on Celo mainnet. Allowed tools: get_staking_balances, get_activatable_stakes, get_validator_groups, get_validator_group_details, get_total_staking_info, get_delegation_info.",
       "tags": [
         "celo",
         "staking",

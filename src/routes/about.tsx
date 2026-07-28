@@ -168,8 +168,9 @@ function AboutPage() {
           </p>
           <p>
             Celina targets <span className="font-medium text-foreground">Celo mainnet</span> today — stablecoins,
-            Mento FX, Uniswap v4, Aave V3, GoodDollar, Self Agent ID, and core chain reads. MIT
-            licensed and built for builders shipping real on-chain agents.
+            Mento FX, Uniswap v4, Aave V3, GoodDollar, Self Agent ID, governance, staking, and core chain reads.
+            Humanness-gated writes (lock CELO, vote, stake, delegate) require Self Agent ID or GoodDollar
+            IdentityV4 verification. MIT licensed and built for builders shipping real on-chain agents.
           </p>
         </div>
       </section>

@@ -69,16 +69,17 @@ type Row = { service: string; reads: string; wallet: string };
 
 const API_ROWS: Row[] = [
   { service: "blockchain", reads: "network status, blocks, transactions", wallet: "—" },
-  { service: "account", reads: "CELO balance, nonce", wallet: "—" },
+  { service: "account", reads: "CELO balance, nonce, account registration status", wallet: "register Celo account" },
   { service: "token", reads: "balances, token info, stablecoins", wallet: "—" },
   { service: "ens", reads: "resolve ENS names", wallet: "—" },
-  { service: "gooddollar", reads: "whitelist status, UBI entitlement, reserve quote/estimate", wallet: "claim UBI, reserve swap; MCP execute: executeReserveSwap" },
+  { service: "gooddollar", reads: "whitelist status, UBI entitlement, reserve quote/estimate, face verification link", wallet: "claim UBI, reserve swap, identity connect/disconnect; MCP execute: executeReserveSwap, connectIdentity" },
   { service: "transaction", reads: "gas fees, estimates", wallet: "send" },
   { service: "mentoFx", reads: "getFxQuote, estimateFx", wallet: "FX swap" },
   { service: "uniswap", reads: "getSwapQuote, estimateSwap", wallet: "swap" },
   { service: "aave", reads: "getBalances (supplied aToken positions)", wallet: "supply, withdraw" },
-  { service: "governance", reads: "proposals list, details", wallet: "—" },
-  { service: "staking", reads: "balances, validator groups", wallet: "—" },
+  { service: "governance", reads: "proposals, locked balance, pending withdrawals, votable proposals", wallet: "lock/unlock/relock/withdraw CELO, vote (humanness-gated)" },
+  { service: "staking", reads: "balances, validator groups, delegation info", wallet: "stake/unstake/activate, delegate/undelegate (humanness-gated)" },
+  { service: "humanness", reads: "checkHumanness (Self Agent ID or GoodDollar IdentityV4)", wallet: "gates governance and staking writes" },
   { service: "nft", reads: "NFT info, balance", wallet: "—" },
   { service: "contract", reads: "callFunction, estimateGas", wallet: "prepareFunction" },
 ];
@@ -224,7 +225,7 @@ function SdkPage() {
           <CapabilityCard
             icon={faMagnifyingGlass}
             title="Reads"
-            body="Token balances, Mento FX quotes, GoodDollar reserve quotes (G$ ↔ USDm), governance proposals, ENS resolution."
+            body="Token balances, Mento FX quotes, GoodDollar reserve quotes (G$ ↔ USDm), governance proposals, locked CELO and staking/delegation info, humanness status, ENS resolution."
           />
           <CapabilityCard
             icon={faGaugeHigh}
@@ -234,7 +235,7 @@ function SdkPage() {
           <CapabilityCard
             icon={faPenRuler}
             title="Wallet signing"
-            body="Unsigned tx flows for sends, Mento FX, GoodDollar reserve (G$ ↔ USDm), Uniswap v4, Aave, GoodDollar UBI, and generic contract writes. Prepared flows return chainId 42220."
+            body="Unsigned tx flows for sends, Mento FX, GoodDollar reserve (G$ ↔ USDm), Uniswap v4, Aave, GoodDollar UBI, governance (lock/vote/unlock), staking (stake/delegate), GoodDollar identity connect, and generic contract writes. Prepared flows return chainId 42220."
           />
           <CapabilityCard
             icon={faLayerGroup}

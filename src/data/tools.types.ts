@@ -35,6 +35,7 @@ export interface ToolDoc {
     | "Self"
     | "Governance"
     | "Staking"
+    | "Humanness"
     | "NFT"
     | "Contract"
     | "AgentKarma";
