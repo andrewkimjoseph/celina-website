@@ -81,11 +81,12 @@ export const TOOL_OVERRIDES: Record<string, ToolDocOverride> = {
     ]
   },
   "get_wallet_address": {
-    "summary": "Signer address from CELO_PRIVATE_KEY",
-    "description": "Returns the wallet address derived from CELO_PRIVATE_KEY in the server env. Use when you need the signer explicitly; omit address on other tools to default to this wallet when the key is configured. On hosted MCP, returns an error without a configured key.",
-    "returns": "{ wallet_address, has_wallet, source }",
+    "summary": "Signer address(es) from CELO_PRIVATE_KEY / SELF_AGENT_PRIVATE_KEY",
+    "description": "Returns the MCP server wallet address(es). Omit signer to get the default signer's address plus every configured wallet (celo, self_agent) in one call — use it to find the Self agent's address before funding it. Pass signer to look up one wallet explicitly. On hosted MCP, returns an error without a configured key.",
+    "returns": "{ wallet_address, has_wallet, source, wallets? }",
     "examples": [
-      "What is my wallet address?"
+      "What is my wallet address?",
+      "What is my Self agent's wallet address?"
     ]
   },
   "get_account": {
@@ -132,7 +133,7 @@ export const TOOL_OVERRIDES: Record<string, ToolDocOverride> = {
   },
   "estimate_send": {
     "summary": "Gas estimate for a CELO/ERC-20 send",
-    "description": "Estimates gas for sending CELO or an ERC-20 token on mainnet without broadcasting. Requires CELO_PRIVATE_KEY — fails on hosted MCP without a local signer.",
+    "description": "Estimates gas for sending CELO or an ERC-20 token on mainnet without broadcasting. Requires CELO_PRIVATE_KEY or SELF_AGENT_PRIVATE_KEY — fails on hosted MCP without a local signer. Pass signer to estimate from a specific configured wallet.",
     "returns": "{ gas, maxFeePerGas, maxPriorityFeePerGas, estimatedCostWei }",
     "examples": [
       "Estimate the gas to send 1 USDm to 0x…"
@@ -140,10 +141,11 @@ export const TOOL_OVERRIDES: Record<string, ToolDocOverride> = {
   },
   "send_token": {
     "summary": "Broadcast a CELO or ERC-20 transfer",
-    "description": "Send CELO or an ERC-20 token on Celo mainnet. Requires CELO_PRIVATE_KEY in your MCP client env.",
+    "description": "Send CELO or an ERC-20 token on Celo mainnet. Requires CELO_PRIVATE_KEY or SELF_AGENT_PRIVATE_KEY in your MCP client env. Pass signer to choose which wallet sends — e.g. signer: \"celo\" to fund a freshly registered Self agent before any Self-signed write.",
     "returns": "{ hash, status, blockNumber }",
     "examples": [
-      "Send 0.5 USDm to 0x…"
+      "Send 0.5 USDm to 0x…",
+      "Fund my Self agent with 5.2 CELO from my main wallet"
     ]
   },
   "get_gooddollar_whitelisting_info": {
@@ -535,8 +537,8 @@ export const TOOL_OVERRIDES: Record<string, ToolDocOverride> = {
     ]
   },
   "execute_register_celo_account": {
-    "summary": "Register the MCP server wallet in Celo Accounts",
-    "description": "Register the MCP server wallet as a Celo account via Accounts.createAccount. Required once before locking CELO for governance or staking. Requires CELO_PRIVATE_KEY or SELF_AGENT_PRIVATE_KEY in your MCP client env.",
+    "summary": "Register a configured MCP wallet in Celo Accounts",
+    "description": "Register a configured MCP server wallet as a Celo account via Accounts.createAccount. Required once before that same wallet can lock CELO for governance or staking. Pass signer to choose which wallet (celo = main, self_agent = Self identity) gets registered. Requires CELO_PRIVATE_KEY or SELF_AGENT_PRIVATE_KEY in your MCP client env.",
     "returns": "{ hash, status, blockNumber }",
     "examples": [
       "Register my wallet as a Celo account."

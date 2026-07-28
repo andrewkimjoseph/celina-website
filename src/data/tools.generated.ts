@@ -129,11 +129,18 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
     "name": "get_wallet_address",
     "slug": "get-wallet-address",
     "title": "Get Wallet Address",
-    "summary": "Returns the wallet address derived from CELO_PRIVATE_KEY in the MCP server env.",
-    "description": "Returns the wallet address derived from CELO_PRIVATE_KEY in the MCP server env.",
+    "summary": "Returns the MCP server wallet address(es).",
+    "description": "Returns the MCP server wallet address(es). Omit signer to get the default signer's address plus every configured wallet (celo, self_agent) — use this to find the Self agent's address before funding it. Pass signer to look up one wallet specifically.",
     "kind": "read",
     "category": "Wallet",
-    "inputs": []
+    "inputs": [
+      {
+        "name": "signer",
+        "type": "string",
+        "required": false,
+        "description": "MCP server signer: celo (CELO_PRIVATE_KEY) or self_agent (SELF_AGENT_PRIVATE_KEY). Defaults to CELO when both are set."
+      }
+    ]
   },
   {
     "name": "get_account",
@@ -173,8 +180,8 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
     "name": "execute_register_celo_account",
     "slug": "execute-register-celo-account",
     "title": "Register Celo Account",
-    "summary": "Register the MCP server wallet as a Celo account (Accounts.",
-    "description": "Register the MCP server wallet as a Celo account (Accounts.createAccount).",
+    "summary": "Register a configured MCP server wallet as a Celo account (Accounts.",
+    "description": "Register a configured MCP server wallet as a Celo account (Accounts.createAccount). Pass signer to choose which wallet (celo = main, self_agent = Self identity) gets registered — required before that same wallet can lock CELO or stake.",
     "kind": "write",
     "category": "Account",
     "inputs": [
@@ -283,7 +290,7 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
     "slug": "estimate-send",
     "title": "Estimate Send",
     "summary": "Estimates gas for sending CELO or an ERC-20.",
-    "description": "Estimates gas for sending CELO or an ERC-20. Recipient can be ENS.",
+    "description": "Estimates gas for sending CELO or an ERC-20. Recipient can be ENS. On MCP, pass signer to estimate from a specific configured wallet (celo or self_agent) — e.g. before funding a Self agent from the main wallet.",
     "kind": "read",
     "category": "Transaction",
     "inputs": [
@@ -310,6 +317,12 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
         "type": "string",
         "required": false,
         "description": "Wallet on Celo mainnet. Omit to use the connected wallet or MCP CELO_PRIVATE_KEY signer."
+      },
+      {
+        "name": "signer",
+        "type": "string",
+        "required": false,
+        "description": "MCP server signer: celo (CELO_PRIVATE_KEY) or self_agent (SELF_AGENT_PRIVATE_KEY). Defaults to CELO when both are set."
       }
     ]
   },
@@ -318,7 +331,7 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
     "slug": "send-token",
     "title": "Send Token",
     "summary": "Send CELO or an ERC-20 on mainnet.",
-    "description": "Send CELO or an ERC-20 on mainnet. Requires CELO_PRIVATE_KEY in MCP server env.",
+    "description": "Send CELO or an ERC-20 on mainnet. Requires CELO_PRIVATE_KEY or SELF_AGENT_PRIVATE_KEY in MCP server env. Pass signer to choose which configured wallet sends — e.g. signer: \"celo\" to fund a freshly registered Self agent with CELO before any Self-signed write (lock, stake, vote, register_celo_account).",
     "kind": "write",
     "category": "Transaction",
     "inputs": [
@@ -339,6 +352,12 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
         "type": "string",
         "required": true,
         "description": "amount"
+      },
+      {
+        "name": "signer",
+        "type": "string",
+        "required": false,
+        "description": "MCP server signer: celo (CELO_PRIVATE_KEY) or self_agent (SELF_AGENT_PRIVATE_KEY). Defaults to CELO when both are set."
       }
     ]
   },
