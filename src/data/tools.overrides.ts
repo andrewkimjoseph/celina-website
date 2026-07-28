@@ -156,7 +156,7 @@ export const TOOL_OVERRIDES: Record<string, ToolDocOverride> = {
   },
   "get_gooddollar_identity_link": {
     "summary": "How a wallet links to GoodDollar identity",
-    "description": "Inspect how a wallet connects to GoodDollar IdentityV4: resolved whitelisted root, connected-to root (from connectedAccounts), whether the address is itself the root, and live isWhitelisted on the checked identity.",
+    "description": "Inspect how a wallet connects to GoodDollar IdentityV4: resolved whitelisted root, connected-to root (from connectedAccounts), whether the address is itself the root, and live isWhitelisted on the checked identity. Use before choosing face verification (new root) vs execute_connect_gooddollar_identity (link secondary wallet to existing verified root).",
     "returns": "{ whitelistedRoot, isConnectedWallet, isWhitelistedRoot, connectedTo, checkedAddress, isWhitelisted }",
     "examples": [
       "Which GoodDollar identity root is 0x… linked to?"
@@ -749,16 +749,16 @@ export const TOOL_OVERRIDES: Record<string, ToolDocOverride> = {
   },
   "get_gooddollar_face_verification_link": {
     "summary": "GoodDollar face verification link for humanness",
-    "description": "Generate a GoodDollar face verification link for the MCP server wallet. The human completes face verification in the GoodDollar app; on success the wallet becomes whitelisted on IdentityV4 and passes the humanness gate. Requires CELO_PRIVATE_KEY or SELF_AGENT_PRIVATE_KEY.",
-    "returns": "{ verificationUrl, callbackUrl, walletAddress }",
+    "description": "Generate a GoodDollar face verification link for the MCP server wallet when this wallet needs first-time verification as an identity root. Skipped when the signer is already whitelisted or linked to a verified root — use execute_connect_gooddollar_identity instead if you verified on a different wallet and want to link this one. Requires CELO_PRIVATE_KEY or SELF_AGENT_PRIVATE_KEY.",
+    "returns": "{ from, callbackUrl, link?, skipped?, guidance?, network }",
     "examples": [
       "Get a GoodDollar face verification link for humanness."
     ]
   },
   "execute_connect_gooddollar_identity": {
     "summary": "Connect a secondary wallet to GoodDollar identity root",
-    "description": "Connect a secondary wallet to the whitelisted GoodDollar IdentityV4 root so it inherits humanness status. Requires CELO_PRIVATE_KEY or SELF_AGENT_PRIVATE_KEY in your MCP client env.",
-    "returns": "{ hash, status, blockNumber, connectedAccount }",
+    "description": "Connect a secondary wallet to the whitelisted GoodDollar IdentityV4 root so it inherits humanness. The MCP signer (CELO_PRIVATE_KEY) must be the verified whitelisted root; pass the wallet to link as connected_account. If already verified on wallet A and MCP signer is wallet B, switch CELO_PRIVATE_KEY to wallet A and connect B.",
+    "returns": "{ hash, status, blockNumber, connectedAccount, from }",
     "examples": [
       "Connect wallet 0x… to my GoodDollar identity."
     ]

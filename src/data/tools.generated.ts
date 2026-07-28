@@ -985,8 +985,8 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
     "name": "get_gooddollar_face_verification_link",
     "slug": "get-gooddollar-face-verification-link",
     "title": "Get GoodDollar Face Verification Link",
-    "summary": "Generate a GoodDollar face verification link for the MCP server wallet.",
-    "description": "Generate a GoodDollar face verification link for the MCP server wallet. Requires a signing key.",
+    "summary": "Generate a GoodDollar face verification link for the MCP server wallet (first-time verify this wallet as an identity root).",
+    "description": "Generate a GoodDollar face verification link for the MCP server wallet (first-time verify this wallet as an identity root). Skipped when the signer is already whitelisted or linked to a verified root. Requires a signing key.",
     "kind": "read",
     "category": "GoodDollar",
     "inputs": [
@@ -1003,7 +1003,7 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
     "slug": "execute-connect-gooddollar-identity",
     "title": "Connect GoodDollar Identity",
     "summary": "Connect a secondary wallet to the whitelisted GoodDollar identity root.",
-    "description": "Connect a secondary wallet to the whitelisted GoodDollar identity root.",
+    "description": "Connect a secondary wallet to the whitelisted GoodDollar identity root. The MCP signer (CELO_PRIVATE_KEY or SELF_AGENT_PRIVATE_KEY) must be the verified whitelisted root; pass the wallet to link as connected_account. If already verified on a different wallet, switch the signing key to that verified root first.",
     "kind": "write",
     "category": "GoodDollar",
     "inputs": [
