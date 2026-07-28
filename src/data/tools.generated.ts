@@ -1753,7 +1753,7 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
     "slug": "verify-self-agent",
     "title": "Verify Self Agent",
     "summary": "Verify whether an agent address is backed by a real human on Self Agent ID (Celo mainnet).",
-    "description": "Verify whether an agent address is backed by a real human on Self Agent ID (Celo mainnet).",
+    "description": "Verify whether an agent address is backed by a real human on Self Agent ID (Celo mainnet). Defaults to requiring age 18+ and OFAC-clear credentials; pass require_age: 0 or require_ofac: false to relax.",
     "kind": "read",
     "category": "Self",
     "inputs": [
@@ -1858,7 +1858,7 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
     "slug": "register-self-agent",
     "title": "Register Self Agent",
     "summary": "Start Self Agent ID registration.",
-    "description": "Start Self Agent ID registration. Returns qr_code_url and deep_link — present BOTH to the user.",
+    "description": "Start Self Agent ID registration. Returns qr_code_url and deep_link — present BOTH to the user. Defaults to minimum_age 18, nationality disclosure, and OFAC screening (Self agents must not be tied to OFAC-listed humans). Pass minimum_age: 0, nationality: false, or ofac: false to opt out.",
     "kind": "write",
     "category": "Self",
     "inputs": [
@@ -1879,6 +1879,12 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
         "type": "string",
         "required": true,
         "description": "ofac"
+      },
+      {
+        "name": "nationality",
+        "type": "string",
+        "required": true,
+        "description": "nationality"
       },
       {
         "name": "human_address",
