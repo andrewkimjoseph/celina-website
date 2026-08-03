@@ -95,6 +95,8 @@ function McpRemotePage() {
           <p className="text-sm font-semibold text-foreground">Works remotely</p>
           <ul className="mt-2 space-y-1 text-sm text-muted-foreground">
             <li>Chain reads and balances</li>
+            <li>Validator groups, staking balances, and <code className="rounded bg-secondary px-1 py-0.5 text-xs">get_stake_eligibility</code></li>
+            <li>Governance proposals and locked CELO reads</li>
             <li>Gas estimates (with explicit addresses)</li>
             <li>GoodDollar reserve quote / estimate</li>
             <li>Self verify / lookup (read-only)</li>
@@ -107,6 +109,7 @@ function McpRemotePage() {
               <code className="rounded bg-secondary px-1 py-0.5 text-xs">send_token</code>
             </li>
             <li>Mento FX, Uniswap v4, Aave execute</li>
+            <li>Governance lock/vote and staking execute (<code className="rounded bg-secondary px-1 py-0.5 text-xs">execute_stake</code>, etc.)</li>
             <li>GoodDollar UBI claim, reserve execute</li>
             <li>Self Agent ID registration lifecycle</li>
             <li>Wallet-scoped estimates without a key</li>

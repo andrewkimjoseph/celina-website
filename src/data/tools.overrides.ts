@@ -428,10 +428,11 @@ export const TOOL_OVERRIDES: Record<string, ToolDocOverride> = {
   },
   "get_validator_group_details": {
     "summary": "Single validator group details",
-    "description": "Fetch full details for a single Celo validator group by address — members, votes, commission, and slashing history.",
-    "returns": "{ name, address, members, votes, commission, … }",
+    "description": "Fetch full details for a single Celo validator group by address — members, votes, on-chain canReceiveVotes headroom (0 means at capacity), eligibility, and slashing history.",
+    "returns": "{ name, address, members, votes, canReceiveVotes, eligible, capacity, … }",
     "examples": [
-      "Show me details for validator group 0x…"
+      "Show me details for validator group 0x…",
+      "Can cLabs still receive staking votes?"
     ]
   },
   "get_total_staking_info": {
@@ -669,12 +670,21 @@ export const TOOL_OVERRIDES: Record<string, ToolDocOverride> = {
       "Show my governance delegation settings."
     ]
   },
+  "get_stake_eligibility": {
+    "summary": "Pre-check stake before execute_stake",
+    "description": "Call before execute_stake. Checks Election.canReceiveVotes (group headroom), non-voting locked CELO balance, and Celo account registration. Returns canStake and reasons — when false, do not execute (common: 'Group cannot receive votes' for full groups like cLabs).",
+    "returns": "{ canStake, reasons, canReceiveVotes, nonvotingLocked, maxStakeAmount, inEligibleGroups }",
+    "examples": [
+      "Can I stake 1 CELO with validator group 0xe09632da…?",
+      "Check stake eligibility for 100 CELO with group 0x… before executing."
+    ]
+  },
   "execute_stake": {
     "summary": "Stake locked CELO with a validator group",
-    "description": "Stake locked CELO with a Celo validator group via the Election contract. Requires humanness verification and a registered Celo account. Staked votes become active after the next epoch boundary (use execute_activate_stake). Requires CELO_PRIVATE_KEY or SELF_AGENT_PRIVATE_KEY in your MCP client env.",
+    "description": "Stake locked CELO with a Celo validator group via the Election contract. Call get_stake_eligibility first — avoids 'Group cannot receive votes' reverts when a group is at capacity. Requires humanness verification and a registered Celo account. Staked votes become active after the next epoch boundary (use execute_activate_stake). Requires CELO_PRIVATE_KEY or SELF_AGENT_PRIVATE_KEY in your MCP client env.",
     "returns": "{ hash, status, blockNumber, groupAddress, amount }",
     "examples": [
-      "Stake 100 locked CELO with validator group 0x…"
+      "Check stake eligibility for 100 CELO with validator group 0x…, then stake if canStake is true."
     ]
   },
   "execute_activate_stake": {
