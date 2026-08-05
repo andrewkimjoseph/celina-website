@@ -14,6 +14,7 @@ export type CelinaTxRow = {
 export type CelinaStatsResult = {
   rows: CelinaTxRow[];
   fetchedAt: number;
+  queryExecutedAt: string | null;
   error: string | null;
   queryUrl: string | null;
 };
@@ -37,6 +38,7 @@ function unavailableResult(): CelinaStatsResult {
   return {
     rows: [],
     fetchedAt: Date.now(),
+    queryExecutedAt: null,
     error: UNAVAILABLE_MSG,
     queryUrl: null,
   };
@@ -70,13 +72,19 @@ export const getCelinaStats = createServerFn({ method: "GET" }).handler(
         return {
           rows: [],
           fetchedAt: Date.now(),
+          queryExecutedAt: null,
           error: UNAVAILABLE_PROVIDER_MSG,
           queryUrl: null,
         };
       }
       const json = (await res.json()) as {
+        execution_ended_at?: string;
         result?: { rows?: Array<Record<string, unknown>> };
       };
+      const queryExecutedAt =
+        typeof json.execution_ended_at === "string"
+          ? json.execution_ended_at
+          : null;
       const raw = json.result?.rows ?? [];
       const rows: CelinaTxRow[] = raw.map((r) => ({
         day: String(r.day ?? ""),
@@ -88,12 +96,19 @@ export const getCelinaStats = createServerFn({ method: "GET" }).handler(
         from: String(r.from ?? ""),
         to: String(r.to ?? ""),
       }));
-      return { rows, fetchedAt: Date.now(), error: null, queryUrl };
+      return {
+        rows,
+        fetchedAt: Date.now(),
+        queryExecutedAt,
+        error: null,
+        queryUrl,
+      };
     } catch (e) {
       console.error("[dune] fetch failed:", e);
       return {
         rows: [],
         fetchedAt: Date.now(),
+        queryExecutedAt: null,
         error: UNAVAILABLE_PROVIDER_MSG,
         queryUrl: null,
       };

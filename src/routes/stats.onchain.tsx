@@ -48,10 +48,21 @@ export const Route = createFileRoute("/stats/onchain")({
 });
 
 function OnchainPage() {
-  const { rows, loading, error, partial, queryUrl } = useStatsStore();
+  const { rows, loading, error, partial, queryUrl, queryExecutedAt } =
+    useStatsStore();
   const unavailable = Boolean(error) && !partial && rows.length === 0;
   const [page, setPage] = useState(0);
   const pageSize = 25;
+
+  const lastUpdatedLabel = useMemo(() => {
+    if (!queryExecutedAt) return null;
+    const d = new Date(queryExecutedAt);
+    if (Number.isNaN(d.getTime())) return null;
+    return d.toLocaleString(undefined, {
+      dateStyle: "medium",
+      timeStyle: "short",
+    });
+  }, [queryExecutedAt]);
 
   const agg = useMemo(() => aggregate(rows), [rows]);
   const txs = useMemo(
@@ -69,14 +80,22 @@ function OnchainPage() {
           <div className="min-w-0">
             <div className="inline-flex max-w-full items-center gap-2 rounded-full border border-[var(--celo-forest)]/40 bg-card/80 px-3 py-1 text-[10px] font-medium text-foreground sm:text-xs">
               <FontAwesomeIcon icon={faChartLine} className="h-3 w-3 shrink-0 text-[var(--celo-forest)] dark:text-foreground" />
-              <span className="uppercase tracking-[0.18em]">On-chain · Dune Analytics</span>
+              <span className="uppercase tracking-[0.14em] sm:tracking-[0.18em]">On-chain · Dune Analytics</span>
             </div>
             <h2
-              className="mt-3 text-xl font-bold tracking-tight sm:text-2xl"
+              className="mt-3 text-xl font-bold tracking-tight break-words sm:text-2xl"
               style={{ fontFamily: "var(--font-display)" }}
             >
               Celo mainnet transactions tagged CELINA
             </h2>
+            <p className="mt-2 text-sm leading-relaxed text-muted-foreground sm:mt-1 sm:text-xs sm:leading-normal">
+              Celo mainnet transactions that include the CELINA attribution tag in calldata, indexed by Dune. Unique senders and receivers are distinct on-chain wallet addresses — not MCP users or off-chain wallet lookups.
+            </p>
+            {lastUpdatedLabel && (
+              <p className="mt-2 text-xs text-muted-foreground/80 sm:mt-1 sm:text-[11px]">
+                Last updated {lastUpdatedLabel} · syncs daily at 00:00 UTC
+              </p>
+            )}
           </div>
           {queryUrl && (
             <a
