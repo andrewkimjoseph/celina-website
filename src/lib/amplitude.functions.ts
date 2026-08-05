@@ -24,8 +24,8 @@ export type AmplitudeStatsResult = {
 };
 
 const LOOKBACK_DAYS = 90;
-const CACHE_GATE_MS = 5 * 60 * 1000;
-const SYNC_ATTEMPT_GATE_MS = 5 * 60 * 1000;
+const CACHE_GATE_MS = 24 * 60 * 60 * 1000;
+const SYNC_ATTEMPT_GATE_MS = 24 * 60 * 60 * 1000;
 const EXPORT_CHUNK_HOURS = 6;
 const EXPORT_MAX_RETRIES = 2;
 const SYNC_FLOOR_ISO = "2026-06-01T00:00:00Z";

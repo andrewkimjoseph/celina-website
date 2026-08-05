@@ -20,13 +20,13 @@ export const Route = createFileRoute("/stats")({
       {
         name: "description",
         content:
-          "Live stats for Celina — on-chain activity, off-chain tool calls, wallets queried, and npm downloads.",
+          "Stats for Celina — on-chain activity, off-chain tool calls, wallets queried, and npm downloads.",
       },
       { property: "og:title", content: "Celina stats" },
       {
         property: "og:description",
         content:
-          "Live stats for Celina — on-chain activity, off-chain tool calls, wallets queried, and npm downloads.",
+          "Stats for Celina — on-chain activity, off-chain tool calls, wallets queried, and npm downloads.",
       },
     ],
   }),
@@ -72,16 +72,8 @@ function StatsLayout() {
     refresh();
     refreshNpm();
     refreshAmp();
-    const refetchId = setInterval(() => {
-      refresh();
-      refreshNpm();
-      refreshAmp();
-    }, STALE_MS);
     const tickId = setInterval(() => setNow(Date.now()), 1000);
-    return () => {
-      clearInterval(refetchId);
-      clearInterval(tickId);
-    };
+    return () => clearInterval(tickId);
   }, [refresh, refreshNpm, refreshAmp]);
 
   const fetchedAts = [fetchedAt, npmFetchedAt, ampFetchedAt].filter(
@@ -94,6 +86,7 @@ function StatsLayout() {
   const cooldown = msUntilReady > 0;
   const cooldownLabel = (() => {
     const s = Math.ceil(msUntilReady / 1000);
+    if (s >= 3600) return `Refresh in ${Math.ceil(s / 3600)}h`;
     if (s >= 60) return `Refresh in ${Math.ceil(s / 60)}m`;
     return `Refresh in ${s}s`;
   })();
@@ -124,7 +117,7 @@ function StatsLayout() {
           <div>
             <div className="inline-flex items-center gap-2 rounded-full border border-[var(--celo-forest)]/40 bg-card/80 px-3 py-1 text-xs font-medium text-foreground">
               <FontAwesomeIcon icon={faChartLine} className="h-3 w-3 text-[var(--celo-forest)] dark:text-foreground" />
-              <span className="uppercase tracking-[0.18em]">Live · Updated {timeAgo(oldestFetchedAt)}</span>
+              <span className="uppercase tracking-[0.18em]">Updated {timeAgo(oldestFetchedAt)}</span>
             </div>
             <h1
               className="mt-5 text-4xl font-bold tracking-tight sm:text-5xl"
@@ -133,14 +126,14 @@ function StatsLayout() {
               Celina stats
             </h1>
             <p className="mt-3 max-w-xl text-muted-foreground">
-              On-chain activity on Celo and npm package downloads — refreshed every 5 minutes.
+              On-chain activity on Celo and npm package downloads — data updates daily; refresh available once per day.
             </p>
           </div>
           <button
             onClick={() => {
-              void refresh({ force: true });
-              void refreshNpm({ force: true });
-              void refreshAmp({ force: true });
+              void refresh();
+              void refreshNpm();
+              void refreshAmp();
             }}
             disabled={busy || cooldown}
             className="inline-flex items-center gap-2 rounded-lg border border-foreground/15 bg-card px-3.5 py-2 text-sm font-medium text-foreground transition hover:border-[var(--celo-forest)] hover:bg-muted disabled:opacity-60"

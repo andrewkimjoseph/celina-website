@@ -34,13 +34,13 @@ export const Route = createFileRoute("/stats/onchain")({
       {
         name: "description",
         content:
-          "Live on-chain stats for transactions tagged CELINA on Celo mainnet — sourced from Dune Analytics.",
+          "On-chain stats for transactions tagged CELINA on Celo mainnet — sourced from Dune Analytics.",
       },
       { property: "og:title", content: "Celina stats — On-chain activity" },
       {
         property: "og:description",
         content:
-          "Live on-chain stats for transactions tagged CELINA on Celo mainnet — sourced from Dune Analytics.",
+          "On-chain stats for transactions tagged CELINA on Celo mainnet — sourced from Dune Analytics.",
       },
     ],
   }),

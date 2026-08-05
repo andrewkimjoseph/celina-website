@@ -42,13 +42,13 @@ export const Route = createFileRoute("/stats/offchain")({
       {
         name: "description",
         content:
-          "Live off-chain Celina MCP tool-call stats — read tools, wallets queried, and registry queries logged to Amplitude.",
+          "Off-chain Celina MCP tool-call stats — read tools, wallets queried, and registry queries logged to Amplitude.",
       },
       { property: "og:title", content: "Celina stats — Off-chain tool calls" },
       {
         property: "og:description",
         content:
-          "Live off-chain Celina MCP tool-call stats — read tools, wallets queried, and registry queries logged to Amplitude.",
+          "Off-chain Celina MCP tool-call stats — read tools, wallets queried, and registry queries logged to Amplitude.",
       },
     ],
   }),
