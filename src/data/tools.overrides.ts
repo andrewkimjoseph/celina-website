@@ -670,6 +670,16 @@ export const TOOL_OVERRIDES: Record<string, ToolDocOverride> = {
       "Show my governance delegation settings."
     ]
   },
+  "get_governance_delegates": {
+    "summary": "Browse Celo Mondo governance delegates",
+    "description": "Curated Celo Mondo delegate directory (off-chain, not an on-chain registry). Use when the user asks who to delegate to. Returns name, address, interests, description; optionally LockedGold stats (voting power, total delegated to them). Then pick a delegatee and call execute_delegate_power.",
+    "returns": "{ source, delegates: [{ name, address, interests, … }], pagination }",
+    "examples": [
+      "Who can I delegate my governance voting power to?",
+      "List governance delegates focused on DeFi.",
+      "Show me the top delegates on Celo Mondo."
+    ]
+  },
   "get_stake_eligibility": {
     "summary": "Pre-check stake before execute_stake",
     "description": "Call before execute_stake. Checks Election.canReceiveVotes (group headroom), non-voting locked CELO balance, and Celo account registration. Returns canStake and reasons — when false, do not execute (common: 'Group cannot receive votes' for full groups like cLabs).",
