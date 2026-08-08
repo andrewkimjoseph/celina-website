@@ -2,6 +2,7 @@ import { HOSTED_TOOL_COUNT, TOOLS } from "@/data/tools";
 
 export const MCP_NPM_URL = "https://www.npmjs.com/package/@andrewkimjoseph/celina-mcp";
 export const MCP_GITHUB_URL = "https://github.com/andrewkimjoseph/celina-mcp";
+export const MCP_REMOTE_GITHUB_URL = "https://github.com/andrewkimjoseph/celina-mcp-remote";
 export const HOSTED_MCP_URL = "https://mcp.usecelina.xyz/api/mcp";
 export const A2A_AGENT_CARD_URL = "https://usecelina.xyz/.well-known/agent-card.json";
 export const A2A_JSONRPC_URL = "https://mcp.usecelina.xyz/api/a2a";

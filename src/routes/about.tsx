@@ -20,6 +20,7 @@ const SDK_DOCS_URL = "https://andrewkimjoseph.gitbook.io/celina-sdk";
 const SDK_GITHUB_URL = "https://github.com/andrewkimjoseph/celina-sdk";
 const MCP_NPM_URL = "https://www.npmjs.com/package/@andrewkimjoseph/celina-mcp";
 const MCP_GITHUB_URL = "https://github.com/andrewkimjoseph/celina-mcp";
+const MCP_REMOTE_GITHUB_URL = "https://github.com/andrewkimjoseph/celina-mcp-remote";
 const HOSTED_MCP_URL = "https://mcp.usecelina.xyz/api/mcp";
 const CELESTE_URL = "https://celeste.usecelina.xyz";
 const CELESTE_GITHUB_URL = "https://github.com/andrewkimjoseph/celeste-ai";
@@ -279,7 +280,7 @@ function AboutPage() {
 
           <ProductCard
             icon={faCloud}
-            title="Hosted endpoint"
+            title="Celina MCP Remote"
             subtitle="Streamable HTTP"
             body={`${HOSTED_TOOL_COUNT} tools — chain reads, GoodDollar reserve quotes, and AgentKarma reputation. No install, no server keys.`}
           >
@@ -290,6 +291,14 @@ function AboutPage() {
               className="inline-flex items-center gap-1 rounded-md border border-border bg-background px-3 py-1.5 text-xs font-medium text-foreground transition hover:border-[var(--celo-yellow)]"
             >
               Endpoint <FontAwesomeIcon icon={faArrowUpRightFromSquare} className="h-2.5 w-2.5" />
+            </a>
+            <a
+              href={MCP_REMOTE_GITHUB_URL}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-1 rounded-md border border-border bg-background px-3 py-1.5 text-xs font-medium text-foreground transition hover:border-[var(--celo-yellow)]"
+            >
+              <FontAwesomeIcon icon={faGithub} className="h-3 w-3" /> GitHub
             </a>
           </ProductCard>
 
