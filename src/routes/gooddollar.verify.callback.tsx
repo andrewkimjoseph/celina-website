@@ -7,6 +7,7 @@ import {
   faCircleInfo,
 } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
+import goodDollarLogo from "@/assets/gooddollar.svg";
 import { SiteHeader } from "@/components/site-header";
 import {
   parseGoodDollarCallbackSearch,
@@ -26,17 +27,12 @@ export const Route = createFileRoute("/gooddollar/verify/callback")({
   component: GoodDollarVerifyCallbackPage,
 });
 
-function ParamRow({ label, raw, decoded }: { label: string; raw: string | null; decoded: string | null }) {
-  if (!raw && !decoded) return null;
+function ParamRow({ label, value }: { label: string; value: string | null }) {
+  if (!value) return null;
   return (
     <div className="rounded-lg border border-foreground/10 bg-muted/40 px-4 py-3">
       <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">{label}</p>
-      <p className="mt-1 font-mono text-sm text-foreground">{decoded ?? "—"}</p>
-      {raw ? (
-        <p className="mt-1 truncate font-mono text-xs text-muted-foreground" title={raw}>
-          raw: {raw}
-        </p>
-      ) : null}
+      <p className="mt-1 font-mono text-sm text-foreground">{value}</p>
     </div>
   );
 }
@@ -60,6 +56,8 @@ function GoodDollarVerifyCallbackPage() {
       <section className="mx-auto max-w-lg px-4 py-16 sm:px-6 sm:py-24">
         <div className="rounded-2xl border border-foreground/10 bg-card p-8 shadow-sm">
           <div className="flex flex-col items-center text-center">
+            <img src={goodDollarLogo} alt="GoodDollar" className="mb-4 h-14 w-14" />
+
             {isSuccess ? (
               <span className="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-full bg-[var(--celo-yellow)]/20 text-[var(--celo-forest)] dark:text-[var(--celo-yellow)]">
                 <FontAwesomeIcon icon={faCircleCheck} className="h-8 w-8" />
@@ -98,15 +96,10 @@ function GoodDollarVerifyCallbackPage() {
             <div className="mt-8 space-y-3">
               <ParamRow
                 label="Verified"
-                raw={result.raw.verified ?? result.raw.isVerified}
-                decoded={
-                  result.verified == null ? null : result.verified ? "true" : "false"
-                }
+                value={result.verified == null ? null : result.verified ? "true" : "false"}
               />
-              <ParamRow label="Chain" raw={result.raw.chain} decoded={result.chain} />
-              {result.reason ? (
-                <ParamRow label="Reason" raw={result.raw.reason} decoded={result.reason} />
-              ) : null}
+              <ParamRow label="Chain" value={result.chain} />
+              {result.reason ? <ParamRow label="Reason" value={result.reason} /> : null}
             </div>
           ) : null}
 
