@@ -133,14 +133,14 @@ function GoodDollarVerifyCallbackPage() {
           <div className="mt-8 flex flex-wrap justify-center gap-3 text-sm">
             <Link
               to="/"
-              className="inline-flex items-center gap-2 rounded-md border border-input bg-background px-4 py-2 font-medium transition hover:bg-accent"
+              className="inline-flex items-center gap-2 rounded-md border border-border bg-background px-4 py-2 font-medium text-foreground transition hover:border-[var(--celo-forest)] hover:bg-muted dark:hover:border-[var(--celo-yellow)]"
             >
               <FontAwesomeIcon icon={faArrowLeft} className="h-3.5 w-3.5" />
               Celina home
             </Link>
             <a
               href={MCP_LOCAL_URL}
-              className="inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 font-medium text-primary-foreground transition hover:bg-primary/90"
+              className="inline-flex items-center gap-2 rounded-md bg-[var(--celo-yellow)] px-4 py-2 font-medium text-[var(--celo-ink)] transition hover:opacity-90"
             >
               MCP setup guide
             </a>
