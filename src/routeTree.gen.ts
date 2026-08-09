@@ -27,6 +27,7 @@ import { Route as McpRemoteRouteImport } from './routes/mcp.remote'
 import { Route as McpLocalRouteImport } from './routes/mcp.local'
 import { Route as ToolsCategoryIndexRouteImport } from './routes/tools.$category.index'
 import { Route as ToolsCategoryToolSlugRouteImport } from './routes/tools.$category.$toolSlug'
+import { Route as GooddollarVerifyCallbackRouteImport } from './routes/gooddollar.verify.callback'
 import { Route as ApiCronAmplitudeSyncRouteImport } from './routes/api/cron/amplitude-sync'
 
 const StatsRoute = StatsRouteImport.update({
@@ -119,6 +120,12 @@ const ToolsCategoryToolSlugRoute = ToolsCategoryToolSlugRouteImport.update({
   path: '/tools/$category/$toolSlug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const GooddollarVerifyCallbackRoute =
+  GooddollarVerifyCallbackRouteImport.update({
+    id: '/gooddollar/verify/callback',
+    path: '/gooddollar/verify/callback',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiCronAmplitudeSyncRoute = ApiCronAmplitudeSyncRouteImport.update({
   id: '/api/cron/amplitude-sync',
   path: '/api/cron/amplitude-sync',
@@ -143,6 +150,7 @@ export interface FileRoutesByFullPath {
   '/stats/': typeof StatsIndexRoute
   '/tools/': typeof ToolsIndexRoute
   '/api/cron/amplitude-sync': typeof ApiCronAmplitudeSyncRoute
+  '/gooddollar/verify/callback': typeof GooddollarVerifyCallbackRoute
   '/tools/$category/$toolSlug': typeof ToolsCategoryToolSlugRoute
   '/tools/$category/': typeof ToolsCategoryIndexRoute
 }
@@ -162,6 +170,7 @@ export interface FileRoutesByTo {
   '/stats': typeof StatsIndexRoute
   '/tools': typeof ToolsIndexRoute
   '/api/cron/amplitude-sync': typeof ApiCronAmplitudeSyncRoute
+  '/gooddollar/verify/callback': typeof GooddollarVerifyCallbackRoute
   '/tools/$category/$toolSlug': typeof ToolsCategoryToolSlugRoute
   '/tools/$category': typeof ToolsCategoryIndexRoute
 }
@@ -184,6 +193,7 @@ export interface FileRoutesById {
   '/stats/': typeof StatsIndexRoute
   '/tools/': typeof ToolsIndexRoute
   '/api/cron/amplitude-sync': typeof ApiCronAmplitudeSyncRoute
+  '/gooddollar/verify/callback': typeof GooddollarVerifyCallbackRoute
   '/tools/$category/$toolSlug': typeof ToolsCategoryToolSlugRoute
   '/tools/$category/': typeof ToolsCategoryIndexRoute
 }
@@ -207,6 +217,7 @@ export interface FileRouteTypes {
     | '/stats/'
     | '/tools/'
     | '/api/cron/amplitude-sync'
+    | '/gooddollar/verify/callback'
     | '/tools/$category/$toolSlug'
     | '/tools/$category/'
   fileRoutesByTo: FileRoutesByTo
@@ -226,6 +237,7 @@ export interface FileRouteTypes {
     | '/stats'
     | '/tools'
     | '/api/cron/amplitude-sync'
+    | '/gooddollar/verify/callback'
     | '/tools/$category/$toolSlug'
     | '/tools/$category'
   id:
@@ -247,6 +259,7 @@ export interface FileRouteTypes {
     | '/stats/'
     | '/tools/'
     | '/api/cron/amplitude-sync'
+    | '/gooddollar/verify/callback'
     | '/tools/$category/$toolSlug'
     | '/tools/$category/'
   fileRoutesById: FileRoutesById
@@ -262,6 +275,7 @@ export interface RootRouteChildren {
   StatsRoute: typeof StatsRouteWithChildren
   ToolsIndexRoute: typeof ToolsIndexRoute
   ApiCronAmplitudeSyncRoute: typeof ApiCronAmplitudeSyncRoute
+  GooddollarVerifyCallbackRoute: typeof GooddollarVerifyCallbackRoute
   ToolsCategoryToolSlugRoute: typeof ToolsCategoryToolSlugRoute
   ToolsCategoryIndexRoute: typeof ToolsCategoryIndexRoute
 }
@@ -394,6 +408,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ToolsCategoryToolSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/gooddollar/verify/callback': {
+      id: '/gooddollar/verify/callback'
+      path: '/gooddollar/verify/callback'
+      fullPath: '/gooddollar/verify/callback'
+      preLoaderRoute: typeof GooddollarVerifyCallbackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/cron/amplitude-sync': {
       id: '/api/cron/amplitude-sync'
       path: '/api/cron/amplitude-sync'
@@ -445,6 +466,7 @@ const rootRouteChildren: RootRouteChildren = {
   StatsRoute: StatsRouteWithChildren,
   ToolsIndexRoute: ToolsIndexRoute,
   ApiCronAmplitudeSyncRoute: ApiCronAmplitudeSyncRoute,
+  GooddollarVerifyCallbackRoute: GooddollarVerifyCallbackRoute,
   ToolsCategoryToolSlugRoute: ToolsCategoryToolSlugRoute,
   ToolsCategoryIndexRoute: ToolsCategoryIndexRoute,
 }

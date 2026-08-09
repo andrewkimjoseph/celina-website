@@ -771,7 +771,7 @@ export const TOOL_OVERRIDES: Record<string, ToolDocOverride> = {
   },
   "get_gooddollar_face_verification_link": {
     "summary": "GoodDollar face verification link for humanness",
-    "description": "Generate a GoodDollar face verification link for the MCP server wallet when this wallet needs first-time verification as an identity root. Skipped when the signer is already whitelisted or linked to a verified root — use execute_connect_gooddollar_identity instead if you verified on a different wallet and want to link this one. Requires CELO_PRIVATE_KEY or SELF_AGENT_PRIVATE_KEY.",
+    "description": "Generate a GoodDollar face verification link for the MCP server wallet when this wallet needs first-time verification as an identity root. Omit callback_url to use https://usecelina.xyz/gooddollar/verify/callback (GoodDollar redirects there with base64 verified and chain params). Skipped when the signer is already whitelisted or linked to a verified root. Requires CELO_PRIVATE_KEY or SELF_AGENT_PRIVATE_KEY.",
     "returns": "{ from, callbackUrl, link?, skipped?, guidance?, network }",
     "examples": [
       "Get a GoodDollar face verification link for humanness."

@@ -1012,8 +1012,8 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
       {
         "name": "callback_url",
         "type": "string",
-        "required": true,
-        "description": "URL to redirect after verification"
+        "required": false,
+        "description": "URL to redirect after verification; defaults to Celina callback page"
       }
     ]
   },
@@ -2008,7 +2008,7 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
     "slug": "register-self-agent",
     "title": "Register Self Agent",
     "summary": "Start Self Agent ID registration.",
-    "description": "Start Self Agent ID registration. Returns qr_code_url and deep_link — present BOTH to the user. Defaults to minimum_age 18, nationality disclosure, and OFAC screening (Self agents must not be tied to OFAC-listed humans). Pass minimum_age: 0, nationality: false, or ofac: false to opt out.",
+    "description": "Start Self Agent ID registration. Returns qr_code_url and deep_link — present BOTH to the user. Default mode: wallet-free — omit mode for a standalone agent wallet. Use linked only when binding to a human's existing wallet (pass human_address). Defaults to minimum_age 18, nationality disclosure, and OFAC screening (Self agents must not be tied to OFAC-listed humans). Pass minimum_age: 0, nationality: false, or ofac: false to opt out.",
     "kind": "write",
     "category": "Self",
     "inputs": [
@@ -2016,7 +2016,7 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
         "name": "mode",
         "type": "string",
         "required": true,
-        "description": "mode"
+        "description": "Registration mode. Default wallet-free when omitted. Use linked only with human_address to tie the agent to an existing human wallet."
       },
       {
         "name": "minimum_age",
