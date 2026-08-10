@@ -59,34 +59,18 @@ function McpLocalPage() {
             </div>
           </li>
           <li>
-            <span className="font-semibold text-foreground">02.</span> Open your MCP config and merge the snippet below
-            into <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">mcpServers</span>. Claude
-            Desktop:{" "}
-            <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">
-              claude_desktop_config.json
-            </span>{" "}
-            (macOS{" "}
-            <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">
-              ~/Library/Application Support/Claude/
-            </span>
-            ; Windows{" "}
-            <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">%APPDATA%\Claude\</span>; Linux{" "}
-            <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">~/.config/Claude/</span>). Cursor:{" "}
-            <em>Settings → MCP</em>.
+            <span className="font-semibold text-foreground">02.</span> Add to your MCP client:
+            <div className="mt-2">
+              <CodeBlock code={LOCAL_BRIDGE_CONFIG} />
+            </div>
           </li>
           <li>
-            <span className="font-semibold text-foreground">03.</span> Fully quit and restart the client (closing the
-            window is not enough on Claude Desktop)
+            <span className="font-semibold text-foreground">03.</span> Restart your MCP client.
           </li>
           <li>
-            <span className="font-semibold text-foreground">04.</span> Verify MCP shows connected; ask{" "}
-            <em>What is my wallet address?</em>
+            <span className="font-semibold text-foreground">04.</span> Confirm Celina is connected.
           </li>
         </ol>
-        <div className="mt-5">
-          <p className="mb-2 text-xs font-medium text-foreground">Primary config</p>
-          <CodeBlock code={LOCAL_BRIDGE_CONFIG} />
-        </div>
 
         <div className="mt-6 overflow-x-auto rounded-xl border border-foreground/10">
           <table className="w-full min-w-[28rem] text-left text-xs">
