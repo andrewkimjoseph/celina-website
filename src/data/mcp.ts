@@ -18,7 +18,7 @@ export const OASF_SKILLS_CSV =
 /** OASF v0.8.0 domain slugs for ERC-8004 registry forms */
 export const OASF_DOMAINS_CSV =
   "technology/blockchain, technology/blockchain/cryptocurrency, technology/blockchain/defi, technology/blockchain/smart_contracts, finance_and_business/investment_services";
-export const MCP_INSTALL_CMD = "npm i @andrewkimjoseph/celina-mcp@latest";
+export const MCP_INSTALL_CMD = "npm i -g @andrewkimjoseph/celina-mcp@latest";
 
 export const STDIO_TOOL_COUNT = TOOLS.length;
 
@@ -28,8 +28,23 @@ export const LOCAL_BRIDGE_CONFIG = `{
   "mcpServers": {
     "celina-mcp": {
       "type": "stdio",
-      "command": "npx",
-      "args": ["-y", "@andrewkimjoseph/celina-mcp"],
+      "command": "celina-mcp",
+      "args": [],
+      "env": {
+        "CELO_PRIVATE_KEY": "0x...",
+        "SELF_AGENT_PRIVATE_KEY": "0x..."
+      }
+    }
+  }
+}`;
+
+/** When celina-mcp is not on PATH — run npm root -g and append /@andrewkimjoseph/celina-mcp/build/index.js */
+export const LOCAL_BRIDGE_CONFIG_NODE = `{
+  "mcpServers": {
+    "celina-mcp": {
+      "type": "stdio",
+      "command": "node",
+      "args": ["C:\\\\Users\\\\YOU\\\\AppData\\\\Roaming\\\\npm\\\\node_modules\\\\@andrewkimjoseph\\\\celina-mcp\\\\build\\\\index.js"],
       "env": {
         "CELO_PRIVATE_KEY": "0x...",
         "SELF_AGENT_PRIVATE_KEY": "0x..."

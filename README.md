@@ -21,7 +21,7 @@ This repo is the **marketing site** for Celina. The SDK and MCP packages live in
 - **Stack** (`/stack`) — architecture diagram and product cards (SDK, MCP, hosted endpoint, Celeste AI)
 - **About** (`/about`) — mission, architecture, ecosystem links (SDK, MCP, hosted endpoint, Celeste AI)
 - **MCP hub** (`/mcp`) — MCP overview, local vs remote comparison
-  - **Local stdio** (`/mcp/local`) — npx install and client config
+  - **Local stdio** (`/mcp/local`) — global install and client config
   - **Remote hosted** (`/mcp/remote`) — Streamable HTTP endpoint and `mcp-remote` bridge
 - **SDK page** (`/sdk`) — SDK deep-dive: shared tool catalog, programmatic client, and integration paths
 - **Tools catalog** (`/tools`) — browse all MCP tools by category
@@ -101,15 +101,15 @@ Never commit real keys. `.env`, `.env.local`, and `.dev.vars` are gitignored; on
 
 ### Local stdio (recommended)
 
-Full catalog with execute/write when you set `CELO_PRIVATE_KEY`. Keys stay on your machine.
+Full catalog with execute/write when you set `CELO_PRIVATE_KEY`. Keys stay on your machine. See [usecelina.xyz/mcp/local](https://www.usecelina.xyz/mcp/local) for install and troubleshooting.
 
 ```json
 {
   "mcpServers": {
     "celina-mcp": {
       "type": "stdio",
-      "command": "npx",
-      "args": ["-y", "@andrewkimjoseph/celina-mcp"],
+      "command": "celina-mcp",
+      "args": [],
       "env": {
         "CELO_PRIVATE_KEY": "0x...",
         "SELF_AGENT_PRIVATE_KEY": "0x..."

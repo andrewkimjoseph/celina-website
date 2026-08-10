@@ -2,7 +2,11 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTerminal } from "@fortawesome/free-solid-svg-icons";
 import { CodeBlock } from "@/components/marketing/code-block";
-import { LOCAL_BRIDGE_CONFIG, MCP_INSTALL_CMD } from "@/data/mcp";
+import {
+  LOCAL_BRIDGE_CONFIG,
+  LOCAL_BRIDGE_CONFIG_NODE,
+  MCP_INSTALL_CMD,
+} from "@/data/mcp";
 
 export const Route = createFileRoute("/mcp/local")({
   head: () => ({
@@ -11,13 +15,13 @@ export const Route = createFileRoute("/mcp/local")({
       {
         name: "description",
         content:
-          "Install Celina MCP locally via stdio — npx config for Cursor, Claude Desktop, and full execute/write with CELO_PRIVATE_KEY.",
+          "Install Celina MCP globally and connect via stdio — celina-mcp config for Cursor, Claude Desktop, and full execute/write with CELO_PRIVATE_KEY.",
       },
       { property: "og:title", content: "Celina MCP — local stdio install" },
       {
         property: "og:description",
         content:
-          "Install Celina MCP locally via stdio — npx config for Cursor, Claude Desktop, and full execute/write with CELO_PRIVATE_KEY.",
+          "Install Celina MCP globally and connect via stdio — celina-mcp config for Cursor, Claude Desktop, and full execute/write with CELO_PRIVATE_KEY.",
       },
     ],
   }),
@@ -41,28 +45,53 @@ function McpLocalPage() {
           Run it locally with Node
         </h2>
         <p className="mt-2 text-sm text-muted-foreground">
-          Your client spawns <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">npx</span> and
-          talks to Celina over stdio. Works in any stdio client (Cursor, Claude Desktop, LM Studio, Continue, MCP
-          Inspector). Requires Node.js{" "}
-          <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">≥ 20</span>.
+          Install Celina globally, then point your MCP client at the{" "}
+          <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">celina-mcp</span> command.
+          Works in any stdio client (Cursor, Claude Desktop, LM Studio, Continue, MCP Inspector). Use{" "}
+          <span className="font-semibold text-foreground">Node.js 20 or 22 LTS</span> (≥ 20 supported; avoid
+          bleeding-edge Node 24+ on Windows if startup is slow).
+        </p>
+        <p className="mt-2 text-sm text-muted-foreground">
+          Avoid <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">npx -y</span> in your MCP
+          config — cold starts can exceed Claude Desktop&apos;s ~60s handshake timeout on some machines, especially
+          Windows.
         </p>
         <ol className="mt-4 space-y-2 text-sm text-foreground/80">
           <li>
-            <span className="font-semibold text-foreground">01.</span> Run{" "}
+            <span className="font-semibold text-foreground">01.</span> Install globally:{" "}
             <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">{MCP_INSTALL_CMD}</span>
           </li>
           <li>
-            <span className="font-semibold text-foreground">02.</span> Open your MCP config (e.g.{" "}
-            <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">claude_desktop_config.json</span>,
-            Cursor <em>Settings → MCP</em>) and merge the snippet below into{" "}
+            <span className="font-semibold text-foreground">02.</span> Open your MCP config (
+            <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">
+              claude_desktop_config.json
+            </span>{" "}
+            — Windows:{" "}
+            <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">
+              %APPDATA%\Claude\claude_desktop_config.json
+            </span>
+            ; Cursor <em>Settings → MCP</em>) and merge the snippet below into{" "}
             <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">mcpServers</span>
           </li>
           <li>
-            <span className="font-semibold text-foreground">03.</span> Restart the client
+            <span className="font-semibold text-foreground">03.</span> Fully quit and restart the client (closing the
+            window is not enough on Claude Desktop)
+          </li>
+          <li>
+            <span className="font-semibold text-foreground">04.</span> Verify MCP shows connected; ask{" "}
+            <em>What is my wallet address?</em>
           </li>
         </ol>
         <div className="mt-5">
+          <p className="mb-2 text-xs font-medium text-foreground">Primary config</p>
           <CodeBlock code={LOCAL_BRIDGE_CONFIG} />
+        </div>
+        <div className="mt-5">
+          <p className="mb-2 text-xs font-medium text-foreground">
+            If <code className="rounded bg-secondary px-1 py-0.5">celina-mcp</code> is not found — use{" "}
+            <code className="rounded bg-secondary px-1 py-0.5">npm root -g</code> to find your global modules path
+          </p>
+          <CodeBlock code={LOCAL_BRIDGE_CONFIG_NODE} />
         </div>
         <p className="mt-3 text-xs text-muted-foreground">
           Keep <code className="rounded bg-secondary px-1 py-0.5">CELO_PRIVATE_KEY</code> and{" "}
@@ -73,18 +102,56 @@ function McpLocalPage() {
           With <code className="rounded bg-secondary px-1 py-0.5">CELO_PRIVATE_KEY</code>, omit{" "}
           <code className="rounded bg-secondary px-1 py-0.5">address</code> /{" "}
           <code className="rounded bg-secondary px-1 py-0.5">wallet_address</code> on wallet-scoped tools for “my”
-          reads and writes, or call <code className="rounded bg-secondary px-1 py-0.5">get_wallet_address</code>{" "}
-          when you need the signer as data.
+          reads and writes, or call <code className="rounded bg-secondary px-1 py-0.5">get_wallet_address</code> when
+          you need the signer as data.
         </p>
+
+        <div className="mt-6 overflow-x-auto rounded-xl border border-foreground/10">
+          <table className="w-full min-w-[28rem] text-left text-xs">
+            <thead>
+              <tr className="border-b border-foreground/10 bg-muted/40">
+                <th className="px-3 py-2 font-semibold text-foreground">Symptom</th>
+                <th className="px-3 py-2 font-semibold text-foreground">What to do</th>
+              </tr>
+            </thead>
+            <tbody className="text-muted-foreground">
+              <tr className="border-b border-foreground/5">
+                <td className="px-3 py-2 align-top">Disconnects after ~60s; logs show notifications/cancelled</td>
+                <td className="px-3 py-2 align-top">
+                  Global install + <code className="rounded bg-secondary px-1 py-0.5">celina-mcp</code> command;
+                  Node 20/22 LTS
+                </td>
+              </tr>
+              <tr className="border-b border-foreground/5">
+                <td className="px-3 py-2 align-top">celina-mcp not found</td>
+                <td className="px-3 py-2 align-top">Node fallback config above; path from npm root -g</td>
+              </tr>
+              <tr className="border-b border-foreground/5">
+                <td className="px-3 py-2 align-top">Cannot find package ox</td>
+                <td className="px-3 py-2 align-top">Upgrade package or npm i -g ox; fully restart client</td>
+              </tr>
+              <tr>
+                <td className="px-3 py-2 align-top">EPIPE in logs after timeout</td>
+                <td className="px-3 py-2 align-top">Late initialize response — fix startup path above</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </article>
 
       <p className="mt-6 text-sm text-muted-foreground">
         Need reads only without Node? See{" "}
-        <Link to="/mcp/remote" className="font-medium text-foreground underline decoration-[var(--celo-yellow)] underline-offset-4">
+        <Link
+          to="/mcp/remote"
+          className="font-medium text-foreground underline decoration-[var(--celo-yellow)] underline-offset-4"
+        >
           remote hosted MCP
         </Link>
         . Browse the full tool catalog on{" "}
-        <Link to="/tools" className="font-medium text-foreground underline decoration-[var(--celo-yellow)] underline-offset-4">
+        <Link
+          to="/tools"
+          className="font-medium text-foreground underline decoration-[var(--celo-yellow)] underline-offset-4"
+        >
           /tools
         </Link>
         .
