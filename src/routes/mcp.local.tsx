@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTerminal } from "@fortawesome/free-solid-svg-icons";
-import { CodeBlock } from "@/components/marketing/code-block";
+import { CodeBlock, CopyButton } from "@/components/marketing/code-block";
 import {
   LOCAL_BRIDGE_CONFIG,
   LOCAL_BRIDGE_CONFIG_NODE,
@@ -52,8 +52,12 @@ function McpLocalPage() {
         </p>
         <ol className="mt-4 space-y-2 text-sm text-foreground/80">
           <li>
-            <span className="font-semibold text-foreground">01.</span> Install globally:{" "}
-            <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">{MCP_INSTALL_CMD}</span>
+            <span className="font-semibold text-foreground">01.</span> Install globally:
+            <div className="mt-2 flex max-w-full items-center gap-2 overflow-hidden rounded-xl border border-[var(--celo-deep)]/40 bg-[var(--celo-ink)] py-2 pl-4 pr-2 text-[12px] text-[var(--celo-cream)] sm:text-sm">
+              <span className="font-mono text-[var(--celo-yellow)]">$</span>
+              <code className="flex-1 overflow-x-auto whitespace-nowrap font-mono">{MCP_INSTALL_CMD}</code>
+              <CopyButton text={MCP_INSTALL_CMD} />
+            </div>
           </li>
           <li>
             <span className="font-semibold text-foreground">02.</span> Open your MCP config and merge the snippet below
