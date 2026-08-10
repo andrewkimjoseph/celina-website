@@ -4,7 +4,6 @@ import { faTerminal } from "@fortawesome/free-solid-svg-icons";
 import { CodeBlock, CopyButton } from "@/components/marketing/code-block";
 import {
   LOCAL_BRIDGE_CONFIG,
-  LOCAL_BRIDGE_CONFIG_NODE,
   MCP_INSTALL_CMD,
 } from "@/data/mcp";
 
@@ -88,25 +87,6 @@ function McpLocalPage() {
           <p className="mb-2 text-xs font-medium text-foreground">Primary config</p>
           <CodeBlock code={LOCAL_BRIDGE_CONFIG} />
         </div>
-        <div className="mt-5">
-          <p className="mb-2 text-xs font-medium text-foreground">
-            If <code className="rounded bg-secondary px-1 py-0.5">celina-mcp</code> is not found — use{" "}
-            <code className="rounded bg-secondary px-1 py-0.5">npm root -g</code> to find your global modules path
-          </p>
-          <CodeBlock code={LOCAL_BRIDGE_CONFIG_NODE} />
-        </div>
-        <p className="mt-3 text-xs text-muted-foreground">
-          Keep <code className="rounded bg-secondary px-1 py-0.5">CELO_PRIVATE_KEY</code> and{" "}
-          <code className="rounded bg-secondary px-1 py-0.5">SELF_AGENT_PRIVATE_KEY</code> out of source control —
-          they stay on your machine.
-        </p>
-        <p className="mt-2 text-xs text-muted-foreground">
-          With <code className="rounded bg-secondary px-1 py-0.5">CELO_PRIVATE_KEY</code>, omit{" "}
-          <code className="rounded bg-secondary px-1 py-0.5">address</code> /{" "}
-          <code className="rounded bg-secondary px-1 py-0.5">wallet_address</code> on wallet-scoped tools for “my”
-          reads and writes, or call <code className="rounded bg-secondary px-1 py-0.5">get_wallet_address</code> when
-          you need the signer as data.
-        </p>
 
         <div className="mt-6 overflow-x-auto rounded-xl border border-foreground/10">
           <table className="w-full min-w-[28rem] text-left text-xs">
@@ -119,7 +99,7 @@ function McpLocalPage() {
             <tbody className="text-muted-foreground">
               <tr className="border-b border-foreground/5">
                 <td className="px-3 py-2 align-top">celina-mcp not found</td>
-                <td className="px-3 py-2 align-top">Node fallback config above; path from npm root -g</td>
+                <td className="px-3 py-2 align-top">Re-run global install; ensure npm global bin is on PATH</td>
               </tr>
               <tr>
                 <td className="px-3 py-2 align-top">Cannot find package ox</td>

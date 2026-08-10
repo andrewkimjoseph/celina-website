@@ -38,21 +38,6 @@ export const LOCAL_BRIDGE_CONFIG = `{
   }
 }`;
 
-/** When celina-mcp is not on PATH — run npm root -g and append /@andrewkimjoseph/celina-mcp/build/index.js */
-export const LOCAL_BRIDGE_CONFIG_NODE = `{
-  "mcpServers": {
-    "celina-mcp": {
-      "type": "stdio",
-      "command": "node",
-      "args": ["/path/to/npm/node_modules/@andrewkimjoseph/celina-mcp/build/index.js"],
-      "env": {
-        "CELO_PRIVATE_KEY": "0x...",
-        "SELF_AGENT_PRIVATE_KEY": "0x..."
-      }
-    }
-  }
-}`;
-
 export const HOSTED_CONFIG = `{
   "mcpServers": {
     "celina-mcp": {
