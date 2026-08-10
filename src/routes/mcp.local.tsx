@@ -71,27 +71,6 @@ function McpLocalPage() {
             <span className="font-semibold text-foreground">04.</span> Confirm Celina is connected.
           </li>
         </ol>
-
-        <div className="mt-6 overflow-x-auto rounded-xl border border-foreground/10">
-          <table className="w-full min-w-[28rem] text-left text-xs">
-            <thead>
-              <tr className="border-b border-foreground/10 bg-muted/40">
-                <th className="px-3 py-2 font-semibold text-foreground">Symptom</th>
-                <th className="px-3 py-2 font-semibold text-foreground">What to do</th>
-              </tr>
-            </thead>
-            <tbody className="text-muted-foreground">
-              <tr className="border-b border-foreground/5">
-                <td className="px-3 py-2 align-top">celina-mcp not found</td>
-                <td className="px-3 py-2 align-top">Re-run global install; ensure npm global bin is on PATH</td>
-              </tr>
-              <tr>
-                <td className="px-3 py-2 align-top">Cannot find package ox</td>
-                <td className="px-3 py-2 align-top">Upgrade package or npm i -g ox; fully restart client</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
       </article>
 
       <p className="mt-6 text-sm text-muted-foreground">
