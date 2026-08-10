@@ -44,7 +44,7 @@ export const LOCAL_BRIDGE_CONFIG_NODE = `{
     "celina-mcp": {
       "type": "stdio",
       "command": "node",
-      "args": ["C:\\\\Users\\\\YOU\\\\AppData\\\\Roaming\\\\npm\\\\node_modules\\\\@andrewkimjoseph\\\\celina-mcp\\\\build\\\\index.js"],
+      "args": ["/path/to/npm/node_modules/@andrewkimjoseph/celina-mcp/build/index.js"],
       "env": {
         "CELO_PRIVATE_KEY": "0x...",
         "SELF_AGENT_PRIVATE_KEY": "0x..."

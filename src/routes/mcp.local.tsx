@@ -47,14 +47,8 @@ function McpLocalPage() {
         <p className="mt-2 text-sm text-muted-foreground">
           Install Celina globally, then point your MCP client at the{" "}
           <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">celina-mcp</span> command.
-          Works in any stdio client (Cursor, Claude Desktop, LM Studio, Continue, MCP Inspector). Use{" "}
-          <span className="font-semibold text-foreground">Node.js 20 or 22 LTS</span> (≥ 20 supported; avoid
-          bleeding-edge Node 24+ on Windows if startup is slow).
-        </p>
-        <p className="mt-2 text-sm text-muted-foreground">
-          Avoid <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">npx -y</span> in your MCP
-          config — cold starts can exceed Claude Desktop&apos;s ~60s handshake timeout on some machines, especially
-          Windows.
+          Works in any stdio client (Cursor, Claude Desktop, LM Studio, Continue, MCP Inspector). Requires{" "}
+          <span className="font-semibold text-foreground">Node.js ≥ 20</span>.
         </p>
         <ol className="mt-4 space-y-2 text-sm text-foreground/80">
           <li>
@@ -62,16 +56,20 @@ function McpLocalPage() {
             <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">{MCP_INSTALL_CMD}</span>
           </li>
           <li>
-            <span className="font-semibold text-foreground">02.</span> Open your MCP config (
+            <span className="font-semibold text-foreground">02.</span> Open your MCP config and merge the snippet below
+            into <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">mcpServers</span>. Claude
+            Desktop:{" "}
             <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">
               claude_desktop_config.json
             </span>{" "}
-            — Windows:{" "}
+            (macOS{" "}
             <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">
-              %APPDATA%\Claude\claude_desktop_config.json
+              ~/Library/Application Support/Claude/
             </span>
-            ; Cursor <em>Settings → MCP</em>) and merge the snippet below into{" "}
-            <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">mcpServers</span>
+            ; Windows{" "}
+            <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">%APPDATA%\Claude\</span>; Linux{" "}
+            <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">~/.config/Claude/</span>). Cursor:{" "}
+            <em>Settings → MCP</em>.
           </li>
           <li>
             <span className="font-semibold text-foreground">03.</span> Fully quit and restart the client (closing the
@@ -116,23 +114,12 @@ function McpLocalPage() {
             </thead>
             <tbody className="text-muted-foreground">
               <tr className="border-b border-foreground/5">
-                <td className="px-3 py-2 align-top">Disconnects after ~60s; logs show notifications/cancelled</td>
-                <td className="px-3 py-2 align-top">
-                  Global install + <code className="rounded bg-secondary px-1 py-0.5">celina-mcp</code> command;
-                  Node 20/22 LTS
-                </td>
-              </tr>
-              <tr className="border-b border-foreground/5">
                 <td className="px-3 py-2 align-top">celina-mcp not found</td>
                 <td className="px-3 py-2 align-top">Node fallback config above; path from npm root -g</td>
               </tr>
-              <tr className="border-b border-foreground/5">
+              <tr>
                 <td className="px-3 py-2 align-top">Cannot find package ox</td>
                 <td className="px-3 py-2 align-top">Upgrade package or npm i -g ox; fully restart client</td>
-              </tr>
-              <tr>
-                <td className="px-3 py-2 align-top">EPIPE in logs after timeout</td>
-                <td className="px-3 py-2 align-top">Late initialize response — fix startup path above</td>
               </tr>
             </tbody>
           </table>
