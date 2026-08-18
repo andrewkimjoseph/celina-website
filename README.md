@@ -101,14 +101,40 @@ Never commit real keys. `.env`, `.env.local`, and `.dev.vars` are gitignored; on
 
 ### Local stdio (recommended)
 
-Full catalog with execute/write when you set `CELO_PRIVATE_KEY`. Keys stay on your machine. See [usecelina.xyz/mcp/local](https://www.usecelina.xyz/mcp/local) for install and troubleshooting.
+Full catalog with execute/write when you set `CELO_PRIVATE_KEY`. Keys stay on your machine. After `npm i -g @andrewkimjoseph/celina-mcp@latest`, resolve the binary path and paste it into `"command"` so GUI clients (Cursor, Claude Desktop) do not fail with `spawn celina-mcp ENOENT`:
+
+- **macOS / Linux:** `which celina-mcp`
+- **Windows (cmd):** `where celina-mcp`
+- **Windows (PowerShell):** `(Get-Command celina-mcp).Source`
+
+See [usecelina.xyz/mcp/local](https://www.usecelina.xyz/mcp/local).
+
+**macOS / Linux:**
 
 ```json
 {
   "mcpServers": {
     "celina-mcp": {
       "type": "stdio",
-      "command": "celina-mcp",
+      "command": "/Users/andi/.nvm/versions/node/v24.15.0/bin/celina-mcp",
+      "args": [],
+      "env": {
+        "CELO_PRIVATE_KEY": "0x...",
+        "SELF_AGENT_PRIVATE_KEY": "0x..."
+      }
+    }
+  }
+}
+```
+
+**Windows** (use the `.cmd` shim path from `where` / `Get-Command`):
+
+```json
+{
+  "mcpServers": {
+    "celina-mcp": {
+      "type": "stdio",
+      "command": "C:\\Users\\YourName\\AppData\\Roaming\\npm\\celina-mcp.cmd",
       "args": [],
       "env": {
         "CELO_PRIVATE_KEY": "0x...",

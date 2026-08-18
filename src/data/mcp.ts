@@ -19,16 +19,21 @@ export const OASF_SKILLS_CSV =
 export const OASF_DOMAINS_CSV =
   "technology/blockchain, technology/blockchain/cryptocurrency, technology/blockchain/defi, technology/blockchain/smart_contracts, finance_and_business/investment_services";
 export const MCP_INSTALL_CMD = "npm i -g @andrewkimjoseph/celina-mcp@latest";
+export const RESOLVE_CELINA_MCP_CMD = {
+  unix: "which celina-mcp",
+  windowsCmd: "where celina-mcp",
+  windowsPowerShell: "(Get-Command celina-mcp).Source",
+} as const;
 
 export const STDIO_TOOL_COUNT = TOOLS.length;
 
 export { HOSTED_TOOL_COUNT };
 
-export const LOCAL_BRIDGE_CONFIG = `{
+export const LOCAL_BRIDGE_CONFIG_MAC = `{
   "mcpServers": {
     "celina-mcp": {
       "type": "stdio",
-      "command": "celina-mcp",
+      "command": "/Users/andi/.nvm/versions/node/v24.15.0/bin/celina-mcp",
       "args": [],
       "env": {
         "CELO_PRIVATE_KEY": "0x...",
@@ -37,6 +42,23 @@ export const LOCAL_BRIDGE_CONFIG = `{
     }
   }
 }`;
+
+export const LOCAL_BRIDGE_CONFIG_WINDOWS = `{
+  "mcpServers": {
+    "celina-mcp": {
+      "type": "stdio",
+      "command": "C:\\\\Users\\\\YourName\\\\AppData\\\\Roaming\\\\npm\\\\celina-mcp.cmd",
+      "args": [],
+      "env": {
+        "CELO_PRIVATE_KEY": "0x...",
+        "SELF_AGENT_PRIVATE_KEY": "0x..."
+      }
+    }
+  }
+}`;
+
+/** @deprecated Use LOCAL_BRIDGE_CONFIG_MAC or LOCAL_BRIDGE_CONFIG_WINDOWS */
+export const LOCAL_BRIDGE_CONFIG = LOCAL_BRIDGE_CONFIG_MAC;
 
 export const HOSTED_CONFIG = `{
   "mcpServers": {
