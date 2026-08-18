@@ -396,7 +396,7 @@ export const TOOL_OVERRIDES: Record<string, ToolDocOverride> = {
   },
   "get_proposal_details": {
     "summary": "Single proposal + CGP content",
-    "description": "Fetch full details for a Celo governance proposal by ID, including on-chain stage, vote tallies, and the linked Celo Governance Proposal (CGP) markdown content when available.",
+    "description": "Fetch full details for a Celo governance proposal by ID, including on-chain stage, vote tallies, and the linked Celo Governance Proposal (CGP) markdown content when available. Call after get_queued_proposals or get_votable_proposals when you need the title and body before governing.",
     "returns": "{ id, stage, proposer, votes, transactions, cgp? }",
     "examples": [
       "Show me details of Celo proposal 245."
@@ -573,10 +573,28 @@ export const TOOL_OVERRIDES: Record<string, ToolDocOverride> = {
   },
   "get_votable_proposals": {
     "summary": "Governance proposals currently in Referendum",
-    "description": "Return Celo governance proposals currently in the Referendum stage with dequeue index for voting. Use before execute_vote or prepare_vote.",
+    "description": "Return Celo governance proposals currently in the Referendum stage with dequeue index for voting. Use before execute_vote or prepare_vote. For CGP title and markdown, call get_proposal_details on a proposal_id.",
     "returns": "Array of { id, stage, dequeueIndex, … }",
     "examples": [
       "Which governance proposals can I vote on right now?"
+    ]
+  },
+  "get_queued_proposals": {
+    "summary": "Governance proposals currently in Queue",
+    "description": "Return Celo governance proposals in the Queue stage with upvote weight. Fast on-chain read — use get_proposal_details(proposal_id) for CGP title and markdown before upvoting.",
+    "returns": "Array of { proposalId, upvotes, stage, url }",
+    "examples": [
+      "Which governance proposals can I upvote right now?",
+      "Show queued Celo governance proposals."
+    ]
+  },
+  "get_actionable_governance_proposals": {
+    "summary": "Queued and Referendum proposals you can act on",
+    "description": "Return both Queue and Referendum proposals in one call (hasAny, hasQueued, hasReferendum, queued, referendum). Fast on-chain read — use get_proposal_details on a proposal_id before governing.",
+    "returns": "{ hasAny, hasQueued, hasReferendum, queued, referendum, message }",
+    "examples": [
+      "What governance proposals can I act on right now?",
+      "Show queued and referendum proposals I can upvote or vote on."
     ]
   },
   "execute_lock_celo": {
