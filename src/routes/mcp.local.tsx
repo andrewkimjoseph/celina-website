@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTerminal } from "@fortawesome/free-solid-svg-icons";
-import { CodeBlock, CopyButton } from "@/components/marketing/code-block";
+import { CodeBlock, ShellCommand } from "@/components/marketing/code-block";
 import {
   LOCAL_BRIDGE_CONFIG_MAC,
   LOCAL_BRIDGE_CONFIG_WINDOWS,
@@ -28,16 +28,6 @@ export const Route = createFileRoute("/mcp/local")({
   }),
   component: McpLocalPage,
 });
-
-function ShellCommand({ command, prompt = "$" }: { command: string; prompt?: string }) {
-  return (
-    <div className="mt-2 flex max-w-full items-center gap-2 overflow-hidden rounded-xl border border-[var(--celo-deep)]/40 bg-[var(--celo-ink)] py-2 pl-4 pr-2 text-[12px] text-[var(--celo-cream)] sm:text-sm">
-      <span className="font-mono text-[var(--celo-yellow)]">{prompt}</span>
-      <code className="flex-1 overflow-x-auto whitespace-nowrap font-mono">{command}</code>
-      <CopyButton text={command} />
-    </div>
-  );
-}
 
 function McpLocalPage() {
   return (
@@ -69,16 +59,20 @@ function McpLocalPage() {
         <ol className="mt-4 space-y-2 text-sm text-foreground/80">
           <li>
             <span className="font-semibold text-foreground">01.</span> Install globally:
-            <ShellCommand command={MCP_INSTALL_CMD} />
+            <ShellCommand className="mt-2" command={MCP_INSTALL_CMD} />
           </li>
           <li>
             <span className="font-semibold text-foreground">02.</span> Copy the binary path:
             <p className="mt-2 text-xs text-muted-foreground">macOS / Linux</p>
-            <ShellCommand command={RESOLVE_CELINA_MCP_CMD.unix} />
+            <ShellCommand className="mt-2" command={RESOLVE_CELINA_MCP_CMD.unix} />
             <p className="mt-2 text-xs text-muted-foreground">Windows (cmd)</p>
-            <ShellCommand command={RESOLVE_CELINA_MCP_CMD.windowsCmd} prompt=">" />
+            <ShellCommand className="mt-2" command={RESOLVE_CELINA_MCP_CMD.windowsCmd} prompt=">" />
             <p className="mt-2 text-xs text-muted-foreground">Windows (PowerShell)</p>
-            <ShellCommand command={RESOLVE_CELINA_MCP_CMD.windowsPowerShell} prompt="PS>" />
+            <ShellCommand
+              className="mt-2"
+              command={RESOLVE_CELINA_MCP_CMD.windowsPowerShell}
+              prompt="PS>"
+            />
           </li>
           <li>
             <span className="font-semibold text-foreground">03.</span> Add to your MCP client — replace the example{" "}
