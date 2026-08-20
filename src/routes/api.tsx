@@ -8,6 +8,7 @@ import {
   faList,
 } from "@fortawesome/free-solid-svg-icons";
 import { PageHero, PageHeroSection } from "@/components/marketing/page-hero";
+import { CodeBlock, CopyButton } from "@/components/marketing/code-block";
 import { SiteHeader } from "@/components/site-header";
 
 const API_BASE_URL = "https://api.usecelina.xyz";
@@ -32,14 +33,6 @@ export const Route = createFileRoute("/api")({
   }),
   component: ApiPage,
 });
-
-function CodeBlock({ code }: { code: string }) {
-  return (
-    <pre className="overflow-x-auto rounded-xl border border-[var(--celo-forest)]/40 bg-[color-mix(in_oklab,var(--celo-forest)_18%,var(--celo-ink))] p-4 text-[12px] leading-relaxed text-[var(--celo-cream)] shadow-[var(--shadow-soft)] sm:p-5 sm:text-sm">
-      <code>{code}</code>
-    </pre>
-  );
-}
 
 function ApiPage() {
   return (
@@ -77,10 +70,13 @@ function ApiPage() {
       </PageHeroSection>
 
       <section className="mx-auto max-w-6xl px-4 pb-10 sm:px-6">
-        <p className="rounded-xl border border-foreground/10 bg-card p-4 text-sm leading-relaxed text-muted-foreground">
-          <span className="font-semibold text-foreground">Production base URL:</span>{" "}
-          <code className="rounded bg-secondary px-1.5 py-0.5 text-xs text-foreground">{API_BASE_URL}</code>
-        </p>
+        <div className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-foreground/10 bg-card p-4 text-sm leading-relaxed text-muted-foreground">
+          <p>
+            <span className="font-semibold text-foreground">Production base URL:</span>{" "}
+            <code className="rounded bg-secondary px-1.5 py-0.5 text-xs text-foreground">{API_BASE_URL}</code>
+          </p>
+          <CopyButton text={API_BASE_URL} />
+        </div>
       </section>
 
       <section className="mx-auto max-w-6xl px-4 pb-10 sm:px-6">
