@@ -1178,7 +1178,7 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
     "summary": "Governance proposals currently in Queue with upvote weight.",
     "description": "Governance proposals currently in Queue with upvote weight. Fast on-chain read — use get_proposal_details for CGP title and markdown.",
     "kind": "read",
-    "category": "Blockchain",
+    "category": "Governance",
     "inputs": []
   },
   {
@@ -1188,7 +1188,7 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
     "summary": "Queued and Referendum proposals you can act on now (upvote or vote).",
     "description": "Queued and Referendum proposals you can act on now (upvote or vote). Fast on-chain read — use get_proposal_details on a proposal_id before governing.",
     "kind": "read",
-    "category": "Blockchain",
+    "category": "Governance",
     "inputs": []
   },
   {
