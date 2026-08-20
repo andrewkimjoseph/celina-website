@@ -20,6 +20,7 @@ type NavLink = { to: string; label: string; exact?: boolean };
 const NAV_LINKS: NavLink[] = [
   { to: "/", label: "Home", exact: true },
   { to: "/about", label: "About" },
+  { to: "/api", label: "API" },
   { to: "/tools", label: "Tools" },
   { to: "/mcp", label: "MCP" },
   { to: "/a2a", label: "A2A" },

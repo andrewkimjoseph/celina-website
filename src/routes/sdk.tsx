@@ -392,6 +392,10 @@ function SdkPage() {
           <a className="text-foreground underline decoration-[var(--celo-yellow)] decoration-2 underline-offset-4" href={`${SDK_DOCS_URL}/api-reference`} target="_blank" rel="noreferrer">
             API reference
           </a>
+          . For the hosted read-only HTTP API endpoints and examples, see{" "}
+          <Link to="/api" className="text-foreground underline decoration-[var(--celo-yellow)] decoration-2 underline-offset-4">
+            Celina API
+          </Link>
           .
         </p>
       </section>

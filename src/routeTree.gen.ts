@@ -14,6 +14,7 @@ import { Route as StackRouteImport } from './routes/stack'
 import { Route as SdkRouteImport } from './routes/sdk'
 import { Route as OasfRouteImport } from './routes/oasf'
 import { Route as McpRouteImport } from './routes/mcp'
+import { Route as ApiRouteImport } from './routes/api'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as A2aRouteImport } from './routes/a2a'
 import { Route as IndexRouteImport } from './routes/index'
@@ -53,6 +54,11 @@ const OasfRoute = OasfRouteImport.update({
 const McpRoute = McpRouteImport.update({
   id: '/mcp',
   path: '/mcp',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiRoute = ApiRouteImport.update({
+  id: '/api',
+  path: '/api',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AboutRoute = AboutRouteImport.update({
@@ -127,15 +133,16 @@ const GooddollarVerifyCallbackRoute =
     getParentRoute: () => rootRouteImport,
   } as any)
 const ApiCronAmplitudeSyncRoute = ApiCronAmplitudeSyncRouteImport.update({
-  id: '/api/cron/amplitude-sync',
-  path: '/api/cron/amplitude-sync',
-  getParentRoute: () => rootRouteImport,
+  id: '/cron/amplitude-sync',
+  path: '/cron/amplitude-sync',
+  getParentRoute: () => ApiRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/a2a': typeof A2aRoute
   '/about': typeof AboutRoute
+  '/api': typeof ApiRouteWithChildren
   '/mcp': typeof McpRouteWithChildren
   '/oasf': typeof OasfRoute
   '/sdk': typeof SdkRoute
@@ -158,6 +165,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/a2a': typeof A2aRoute
   '/about': typeof AboutRoute
+  '/api': typeof ApiRouteWithChildren
   '/oasf': typeof OasfRoute
   '/sdk': typeof SdkRoute
   '/stack': typeof StackRoute
@@ -179,6 +187,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/a2a': typeof A2aRoute
   '/about': typeof AboutRoute
+  '/api': typeof ApiRouteWithChildren
   '/mcp': typeof McpRouteWithChildren
   '/oasf': typeof OasfRoute
   '/sdk': typeof SdkRoute
@@ -203,6 +212,7 @@ export interface FileRouteTypes {
     | '/'
     | '/a2a'
     | '/about'
+    | '/api'
     | '/mcp'
     | '/oasf'
     | '/sdk'
@@ -225,6 +235,7 @@ export interface FileRouteTypes {
     | '/'
     | '/a2a'
     | '/about'
+    | '/api'
     | '/oasf'
     | '/sdk'
     | '/stack'
@@ -245,6 +256,7 @@ export interface FileRouteTypes {
     | '/'
     | '/a2a'
     | '/about'
+    | '/api'
     | '/mcp'
     | '/oasf'
     | '/sdk'
@@ -268,13 +280,13 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   A2aRoute: typeof A2aRoute
   AboutRoute: typeof AboutRoute
+  ApiRoute: typeof ApiRouteWithChildren
   McpRoute: typeof McpRouteWithChildren
   OasfRoute: typeof OasfRoute
   SdkRoute: typeof SdkRoute
   StackRoute: typeof StackRoute
   StatsRoute: typeof StatsRouteWithChildren
   ToolsIndexRoute: typeof ToolsIndexRoute
-  ApiCronAmplitudeSyncRoute: typeof ApiCronAmplitudeSyncRoute
   GooddollarVerifyCallbackRoute: typeof GooddollarVerifyCallbackRoute
   ToolsCategoryToolSlugRoute: typeof ToolsCategoryToolSlugRoute
   ToolsCategoryIndexRoute: typeof ToolsCategoryIndexRoute
@@ -315,6 +327,13 @@ declare module '@tanstack/react-router' {
       path: '/mcp'
       fullPath: '/mcp'
       preLoaderRoute: typeof McpRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api': {
+      id: '/api'
+      path: '/api'
+      fullPath: '/api'
+      preLoaderRoute: typeof ApiRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/about': {
@@ -417,13 +436,23 @@ declare module '@tanstack/react-router' {
     }
     '/api/cron/amplitude-sync': {
       id: '/api/cron/amplitude-sync'
-      path: '/api/cron/amplitude-sync'
+      path: '/cron/amplitude-sync'
       fullPath: '/api/cron/amplitude-sync'
       preLoaderRoute: typeof ApiCronAmplitudeSyncRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof ApiRoute
     }
   }
 }
+
+interface ApiRouteChildren {
+  ApiCronAmplitudeSyncRoute: typeof ApiCronAmplitudeSyncRoute
+}
+
+const ApiRouteChildren: ApiRouteChildren = {
+  ApiCronAmplitudeSyncRoute: ApiCronAmplitudeSyncRoute,
+}
+
+const ApiRouteWithChildren = ApiRoute._addFileChildren(ApiRouteChildren)
 
 interface McpRouteChildren {
   McpLocalRoute: typeof McpLocalRoute
@@ -459,13 +488,13 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   A2aRoute: A2aRoute,
   AboutRoute: AboutRoute,
+  ApiRoute: ApiRouteWithChildren,
   McpRoute: McpRouteWithChildren,
   OasfRoute: OasfRoute,
   SdkRoute: SdkRoute,
   StackRoute: StackRoute,
   StatsRoute: StatsRouteWithChildren,
   ToolsIndexRoute: ToolsIndexRoute,
-  ApiCronAmplitudeSyncRoute: ApiCronAmplitudeSyncRoute,
   GooddollarVerifyCallbackRoute: GooddollarVerifyCallbackRoute,
   ToolsCategoryToolSlugRoute: ToolsCategoryToolSlugRoute,
   ToolsCategoryIndexRoute: ToolsCategoryIndexRoute,
