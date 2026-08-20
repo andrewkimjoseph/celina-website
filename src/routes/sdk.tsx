@@ -1,11 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBookOpen,
   faBolt,
-  faCheck,
-  faCopy,
   faGaugeHigh,
   faLayerGroup,
   faLock,
@@ -17,6 +14,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { faNpm, faGithub } from "@fortawesome/free-brands-svg-icons";
 import { PageHero, PageHeroSection } from "@/components/marketing/page-hero";
+import { CodeBlock, CopyButton } from "@/components/marketing/code-block";
 import { SiteHeader } from "@/components/site-header";
 import { HOSTED_TOOL_COUNT } from "@/data/tools";
 
@@ -103,36 +101,6 @@ export const Route = createFileRoute("/sdk")({
   }),
   component: SdkPage,
 });
-
-function CopyButton({ text }: { text: string }) {
-  const [copied, setCopied] = useState(false);
-  return (
-    <button
-      onClick={() => {
-        navigator.clipboard.writeText(text);
-        setCopied(true);
-        setTimeout(() => setCopied(false), 1600);
-      }}
-      className="inline-flex items-center gap-1.5 rounded-md border border-foreground/15 bg-background/80 px-2.5 py-1 text-xs font-medium text-foreground/80 backdrop-blur transition hover:bg-accent hover:text-accent-foreground"
-    >
-      <FontAwesomeIcon icon={copied ? faCheck : faCopy} className="h-3.5 w-3.5" />
-      {copied ? "Copied" : "Copy"}
-    </button>
-  );
-}
-
-function CodeBlock({ code }: { code: string }) {
-  return (
-    <div className="relative">
-      <div className="absolute right-3 top-3 z-10">
-        <CopyButton text={code} />
-      </div>
-      <pre className="overflow-x-auto rounded-xl border border-[var(--celo-forest)]/40 bg-[color-mix(in_oklab,var(--celo-forest)_18%,var(--celo-ink))] p-4 pr-20 text-[12px] leading-relaxed text-[var(--celo-cream)] shadow-[var(--shadow-soft)] sm:p-5 sm:text-sm">
-        <code>{code}</code>
-      </pre>
-    </div>
-  );
-}
 
 function CapabilityCard({
   icon,
