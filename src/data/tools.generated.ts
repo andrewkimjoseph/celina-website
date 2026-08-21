@@ -50,13 +50,13 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
     "inputs": [
       {
         "name": "count",
-        "type": "string",
+        "type": "number",
         "required": false,
         "description": "count"
       },
       {
         "name": "offset",
-        "type": "string",
+        "type": "number",
         "required": false,
         "description": "offset"
       }
@@ -482,13 +482,13 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
       },
       {
         "name": "slippage_tolerance",
-        "type": "string",
+        "type": "number",
         "required": false,
         "description": "Max slippage in percent (default 0.5)"
       },
       {
         "name": "deadline_minutes",
-        "type": "string",
+        "type": "number",
         "required": false,
         "description": "Transaction deadline in minutes (default 5)"
       }
@@ -535,13 +535,13 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
       },
       {
         "name": "slippage_tolerance",
-        "type": "string",
+        "type": "number",
         "required": false,
         "description": "Max slippage in percent (default 0.5)"
       },
       {
         "name": "deadline_minutes",
-        "type": "string",
+        "type": "number",
         "required": false,
         "description": "Transaction deadline in minutes (default 5)"
       }
@@ -623,13 +623,13 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
       },
       {
         "name": "slippage_tolerance",
-        "type": "string",
+        "type": "number",
         "required": false,
         "description": "slippage tolerance"
       },
       {
         "name": "deadline_minutes",
-        "type": "string",
+        "type": "number",
         "required": false,
         "description": "deadline minutes"
       }
@@ -676,13 +676,13 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
       },
       {
         "name": "slippage_tolerance",
-        "type": "string",
+        "type": "number",
         "required": false,
         "description": "slippage tolerance"
       },
       {
         "name": "deadline_minutes",
-        "type": "string",
+        "type": "number",
         "required": false,
         "description": "deadline minutes"
       }
@@ -941,7 +941,7 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
       },
       {
         "name": "slippage_tolerance",
-        "type": "string",
+        "type": "number",
         "required": false,
         "description": "slippage tolerance"
       }
@@ -994,7 +994,7 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
       },
       {
         "name": "slippage_tolerance",
-        "type": "string",
+        "type": "number",
         "required": false,
         "description": "slippage tolerance"
       }
@@ -1074,37 +1074,37 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
     "inputs": [
       {
         "name": "include_inactive",
-        "type": "string",
-        "required": true,
+        "type": "boolean",
+        "required": false,
         "description": "include inactive"
       },
       {
         "name": "include_metadata",
-        "type": "string",
-        "required": true,
+        "type": "boolean",
+        "required": false,
         "description": "include metadata"
       },
       {
         "name": "page",
-        "type": "string",
+        "type": "number",
         "required": false,
         "description": "page"
       },
       {
         "name": "page_size",
-        "type": "string",
+        "type": "number",
         "required": false,
         "description": "page size"
       },
       {
         "name": "offset",
-        "type": "string",
+        "type": "number",
         "required": false,
         "description": "offset"
       },
       {
         "name": "limit",
-        "type": "string",
+        "type": "number",
         "required": false,
         "description": "limit"
       }
@@ -1121,7 +1121,7 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
     "inputs": [
       {
         "name": "proposal_id",
-        "type": "string",
+        "type": "number",
         "required": true,
         "description": "proposal id"
       }
@@ -1208,7 +1208,7 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
       },
       {
         "name": "proposal_id",
-        "type": "string",
+        "type": "number",
         "required": false,
         "description": "proposal id"
       }
@@ -1271,7 +1271,7 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
     "inputs": [
       {
         "name": "index",
-        "type": "string",
+        "type": "number",
         "required": true,
         "description": "index"
       },
@@ -1317,7 +1317,7 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
     "inputs": [
       {
         "name": "proposal_id",
-        "type": "string",
+        "type": "number",
         "required": true,
         "description": "proposal id"
       },
@@ -1346,7 +1346,7 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
     "inputs": [
       {
         "name": "proposal_id",
-        "type": "string",
+        "type": "number",
         "required": true,
         "description": "proposal id"
       },
@@ -1403,7 +1403,7 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
     "inputs": [
       {
         "name": "proposal_id",
-        "type": "string",
+        "type": "number",
         "required": false,
         "description": "proposal id"
       },
@@ -1477,25 +1477,25 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
     "inputs": [
       {
         "name": "page",
-        "type": "string",
+        "type": "number",
         "required": false,
         "description": "page"
       },
       {
         "name": "page_size",
-        "type": "string",
+        "type": "number",
         "required": false,
         "description": "page size"
       },
       {
         "name": "offset",
-        "type": "string",
+        "type": "number",
         "required": false,
         "description": "offset"
       },
       {
         "name": "limit",
-        "type": "string",
+        "type": "number",
         "required": false,
         "description": "limit"
       }
@@ -1672,7 +1672,7 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
       },
       {
         "name": "limit",
-        "type": "string",
+        "type": "number",
         "required": false,
         "description": "limit"
       },
@@ -1970,19 +1970,19 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
       {
         "name": "require_age",
         "type": "string",
-        "required": true,
+        "required": false,
         "description": "require age"
       },
       {
         "name": "require_ofac",
-        "type": "string",
-        "required": true,
+        "type": "boolean",
+        "required": false,
         "description": "require ofac"
       },
       {
         "name": "require_self_provider",
-        "type": "string",
-        "required": true,
+        "type": "boolean",
+        "required": false,
         "description": "require self provider"
       }
     ]
@@ -1998,7 +1998,7 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
     "inputs": [
       {
         "name": "agent_id",
-        "type": "string",
+        "type": "number",
         "required": true,
         "description": "agent id"
       }
@@ -2035,24 +2035,24 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
         "name": "request_path",
         "type": "string",
         "required": true,
-        "description": "request path"
+        "description": "HTTP request path or URL path+query that was signed — not a filesystem path."
       },
       {
         "name": "body",
         "type": "string",
-        "required": true,
+        "required": false,
         "description": "body"
       },
       {
         "name": "keytype",
         "type": "string",
-        "required": true,
+        "required": false,
         "description": "keytype"
       },
       {
         "name": "agent_key",
         "type": "string",
-        "required": true,
+        "required": false,
         "description": "agent key"
       }
     ]
@@ -2069,25 +2069,25 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
       {
         "name": "mode",
         "type": "string",
-        "required": true,
+        "required": false,
         "description": "Registration mode. Default wallet-free when omitted. Use linked only with human_address to tie the agent to an existing human wallet."
       },
       {
         "name": "minimum_age",
         "type": "string",
-        "required": true,
+        "required": false,
         "description": "minimum age"
       },
       {
         "name": "ofac",
-        "type": "string",
-        "required": true,
+        "type": "boolean",
+        "required": false,
         "description": "ofac"
       },
       {
         "name": "nationality",
-        "type": "string",
-        "required": true,
+        "type": "boolean",
+        "required": false,
         "description": "nationality"
       },
       {
@@ -2099,13 +2099,13 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
       {
         "name": "agent_name",
         "type": "string",
-        "required": true,
+        "required": false,
         "description": "agent name"
       },
       {
         "name": "agent_description",
         "type": "string",
-        "required": true,
+        "required": false,
         "description": "agent description"
       }
     ]
@@ -2148,8 +2148,8 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
     "inputs": [
       {
         "name": "agent_id",
-        "type": "string",
-        "required": true,
+        "type": "number",
+        "required": false,
         "description": "agent id"
       }
     ]
@@ -2188,7 +2188,7 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
       {
         "name": "body",
         "type": "string",
-        "required": true,
+        "required": false,
         "description": "body"
       }
     ]
@@ -2217,13 +2217,13 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
       {
         "name": "body",
         "type": "string",
-        "required": true,
+        "required": false,
         "description": "body"
       },
       {
         "name": "content_type",
         "type": "string",
-        "required": true,
+        "required": false,
         "description": "content type"
       }
     ]
@@ -2246,7 +2246,7 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
       {
         "name": "face",
         "type": "string",
-        "required": true,
+        "required": false,
         "description": "Karma face to read: provider, consumer, or both (default)."
       }
     ]
@@ -2262,7 +2262,7 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
     "inputs": [
       {
         "name": "agent_id",
-        "type": "string",
+        "type": "number",
         "required": true,
         "description": "ERC-8004 agent ID on Celo."
       }
@@ -2286,19 +2286,19 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
       {
         "name": "face",
         "type": "string",
-        "required": true,
+        "required": false,
         "description": "Face to score the decision on (default provider)."
       },
       {
         "name": "min_score",
-        "type": "string",
-        "required": true,
+        "type": "number",
+        "required": false,
         "description": "Reject when the face score is below this (0–100)."
       },
       {
         "name": "require_receipt_backed",
-        "type": "string",
-        "required": true,
+        "type": "boolean",
+        "required": false,
         "description": "Require at least one Tier-1 receipt-backed signal on the face."
       }
     ]
