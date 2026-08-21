@@ -3,7 +3,7 @@ import type { ToolDoc } from "./tools.types.js";
 
 export const GENERATED_HOSTED_TOOL_COUNT = 48;
 
-export const GENERATED_TOOL_NAMES = ["get_network_status","get_block","get_latest_blocks","get_transaction","verify_attribution_tag","check_attribution_tag","get_wallet_address","get_account","get_celo_account_registration","execute_register_celo_account","get_celo_balances","get_stablecoin_balances","get_token_info","get_token_balance","estimate_send","send_token","get_gas_fee_data","estimate_transaction","get_mento_fx_quote","estimate_mento_fx","execute_mento_fx","get_uniswap_quote","estimate_uniswap_swap","execute_uniswap_swap","get_aave_balances","supply_aave","withdraw_aave","resolve_ens","get_gooddollar_whitelisting_info","get_gooddollar_identity_link","get_gooddollar_ubi_entitlement","claim_daily_gooddollar_ubi","get_gooddollar_reserve_quote","estimate_gooddollar_reserve_swap","execute_gooddollar_reserve_swap","get_gooddollar_face_verification_link","execute_connect_gooddollar_identity","execute_disconnect_gooddollar_identity","get_governance_proposals","get_proposal_details","get_locked_celo_balance","get_pending_withdrawals","get_votable_proposals","get_queued_proposals","get_actionable_governance_proposals","get_governance_votes","execute_lock_celo","execute_unlock_celo","execute_relock_celo","execute_withdraw_celo","execute_vote","execute_upvote","execute_revoke_governance_votes","execute_revoke_governance_upvote","check_humanness","get_staking_balances","get_activatable_stakes","get_validator_groups","get_validator_group_details","get_total_staking_info","get_delegation_info","get_stake_eligibility","execute_stake","execute_activate_stake","execute_unstake","get_governance_delegates","get_governance_delegate_details","execute_delegate_power","execute_undelegate_power","get_nft_info","get_nft_balance","call_contract_function","estimate_contract_gas","execute_contract_function","verify_self_agent","lookup_self_agent","verify_self_request","register_self_agent","check_self_registration","get_self_identity","refresh_self_proof","deregister_self_agent","sign_self_request","authenticated_self_fetch","get_agentkarma_reputation","get_agentkarma_celo_agent","check_agentkarma_counterparty"] as const;
+export const GENERATED_TOOL_NAMES = ["get_network_status","get_block","get_latest_blocks","get_transaction","verify_attribution_tag","check_attribution_tag","get_wallet_address","get_account","get_celo_account_registration","execute_register_celo_account","get_celo_balances","get_stablecoin_balances","get_token_info","get_token_balance","estimate_send","send_token","get_gas_fee_data","estimate_transaction","get_mento_fx_quote","estimate_mento_fx","execute_mento_fx","get_uniswap_quote","estimate_uniswap_swap","execute_uniswap_swap","get_aave_balances","supply_aave","withdraw_aave","resolve_ens","get_gooddollar_whitelisting_info","get_gooddollar_identity_link","get_gooddollar_ubi_entitlement","claim_daily_gooddollar_ubi","get_gooddollar_reserve_quote","estimate_gooddollar_reserve_swap","execute_gooddollar_reserve_swap","get_gooddollar_face_verification_link","execute_connect_gooddollar_identity","execute_disconnect_gooddollar_identity","get_governance_proposals","get_proposal_details","get_locked_celo_balance","get_pending_withdrawals","get_votable_proposals","get_queued_proposals","get_actionable_governance_proposals","get_governance_votes","execute_lock_celo","execute_unlock_celo","execute_relock_celo","execute_withdraw_celo","execute_vote","execute_upvote","execute_dequeue_proposals_if_ready","execute_revoke_governance_votes","execute_revoke_governance_upvote","check_humanness","get_staking_balances","get_activatable_stakes","get_validator_groups","get_validator_group_details","get_total_staking_info","get_delegation_info","get_stake_eligibility","execute_stake","execute_activate_stake","execute_unstake","get_governance_delegates","get_governance_delegate_details","execute_delegate_power","execute_undelegate_power","get_nft_info","get_nft_balance","call_contract_function","estimate_contract_gas","execute_contract_function","verify_self_agent","lookup_self_agent","verify_self_request","register_self_agent","check_self_registration","get_self_identity","refresh_self_proof","deregister_self_agent","sign_self_request","authenticated_self_fetch","get_agentkarma_reputation","get_agentkarma_celo_agent","check_agentkarma_counterparty"] as const;
 
 export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
   {
@@ -1176,7 +1176,7 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
     "slug": "get-queued-proposals",
     "title": "Get Queued Proposals",
     "summary": "Governance proposals currently in Queue with upvote weight.",
-    "description": "Governance proposals currently in Queue with upvote weight. Fast on-chain read — use get_proposal_details for CGP title and markdown.",
+    "description": "Governance proposals currently in Queue with upvote weight. Includes dequeueReady and upvoteable flags — when dequeue is overdue, top proposals are not upvoteable until execute_dequeue_proposals_if_ready. Use get_proposal_details for CGP title and markdown.",
     "kind": "read",
     "category": "Governance",
     "inputs": []
@@ -1186,7 +1186,7 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
     "slug": "get-actionable-governance-proposals",
     "title": "Get Actionable Governance Proposals",
     "summary": "Queued and Referendum proposals you can act on now (upvote or vote).",
-    "description": "Queued and Referendum proposals you can act on now (upvote or vote). Fast on-chain read — use get_proposal_details on a proposal_id before governing.",
+    "description": "Queued and Referendum proposals you can act on now (upvote or vote). When dequeueReady, queued items may have upvoteable=false — call execute_dequeue_proposals_if_ready first. Use get_proposal_details on a proposal_id before governing.",
     "kind": "read",
     "category": "Governance",
     "inputs": []
@@ -1340,7 +1340,7 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
     "slug": "execute-upvote",
     "title": "Upvote Proposal",
     "summary": "Upvote a Queued governance proposal.",
-    "description": "Upvote a Queued governance proposal. Requires locked CELO; only one active queue upvote per account.",
+    "description": "Upvote a Queued governance proposal. Requires locked CELO; only one active queue upvote per account. Fails early if dequeue is overdue and the proposal would be dequeued first — use execute_dequeue_proposals_if_ready.",
     "kind": "write",
     "category": "Governance",
     "inputs": [
@@ -1350,6 +1350,23 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
         "required": true,
         "description": "proposal id"
       },
+      {
+        "name": "signer",
+        "type": "string",
+        "required": false,
+        "description": "MCP server signer: celo (CELO_PRIVATE_KEY) or self_agent (SELF_AGENT_PRIVATE_KEY). Defaults to the CELO wallet when both keys are configured."
+      }
+    ]
+  },
+  {
+    "name": "execute_dequeue_proposals_if_ready",
+    "slug": "execute-dequeue-proposals-if-ready",
+    "title": "Dequeue Governance Proposals If Ready",
+    "summary": "Call Governance.",
+    "description": "Call Governance.dequeueProposalsIfReady. When dequeue is overdue, moves top concurrent proposals from Queue into Approval. Anyone can pay gas (not humanness-gated). Use when get_queued_proposals reports dequeueReady.",
+    "kind": "write",
+    "category": "Blockchain",
+    "inputs": [
       {
         "name": "signer",
         "type": "string",

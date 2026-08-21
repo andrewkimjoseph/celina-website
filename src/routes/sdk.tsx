@@ -75,7 +75,7 @@ const API_ROWS: Row[] = [
   { service: "mentoFx", reads: "getFxQuote, estimateFx", wallet: "FX swap" },
   { service: "uniswap", reads: "getSwapQuote, estimateSwap", wallet: "swap" },
   { service: "aave", reads: "getBalances (supplied aToken positions)", wallet: "supply, withdraw" },
-  { service: "governance", reads: "proposals, locked balance, pending withdrawals, votable proposals", wallet: "lock/unlock/relock/withdraw CELO, vote (humanness-gated)" },
+  { service: "governance", reads: "proposals, queued/votable/actionable (dequeueReady), locked balance, pending withdrawals", wallet: "lock/unlock/relock/withdraw CELO, upvote/vote/dequeue (humanness-gated except dequeue)" },
   { service: "staking", reads: "balances, validator groups, delegation info, Celo Mondo delegate directory (getGovernanceDelegates)", wallet: "stake/unstake/activate, delegate/undelegate (humanness-gated)" },
   { service: "humanness", reads: "checkHumanness (Self Agent ID or GoodDollar IdentityV4)", wallet: "gates governance and staking writes" },
   { service: "nft", reads: "NFT info, balance", wallet: "—" },

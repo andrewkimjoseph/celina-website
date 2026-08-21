@@ -581,8 +581,8 @@ export const TOOL_OVERRIDES: Record<string, ToolDocOverride> = {
   },
   "get_queued_proposals": {
     "summary": "Governance proposals currently in Queue",
-    "description": "Return Celo governance proposals in the Queue stage with upvote weight. Fast on-chain read — use get_proposal_details(proposal_id) for CGP title and markdown before upvoting.",
-    "returns": "Array of { proposalId, upvotes, stage, url }",
+    "description": "Return Celo governance proposals in the Queue stage with upvote weight, dequeueReady, and per-proposal upvoteable flags. When dequeue is overdue, top concurrent proposals are not upvoteable until execute_dequeue_proposals_if_ready. Use get_proposal_details(proposal_id) for CGP title and markdown before upvoting.",
+    "returns": "Array of { proposalId, upvotes, stage, url, upvoteable } plus dequeueReady, nextDequeueProposalIds",
     "examples": [
       "Which governance proposals can I upvote right now?",
       "Show queued Celo governance proposals."
@@ -590,11 +590,20 @@ export const TOOL_OVERRIDES: Record<string, ToolDocOverride> = {
   },
   "get_actionable_governance_proposals": {
     "summary": "Queued and Referendum proposals you can act on",
-    "description": "Return both Queue and Referendum proposals in one call (hasAny, hasQueued, hasReferendum, queued, referendum). Fast on-chain read — use get_proposal_details on a proposal_id before governing.",
-    "returns": "{ hasAny, hasQueued, hasReferendum, queued, referendum, message }",
+    "description": "Return Queue and Referendum proposals (hasAny, hasQueued, hasUpvoteableQueued, hasReferendum, queued, referendum) plus dequeueReady and nextDequeueProposalIds. When dequeue is overdue, queued items may have upvoteable=false — call execute_dequeue_proposals_if_ready first. Use get_proposal_details on a proposal_id before governing.",
+    "returns": "{ hasAny, hasQueued, hasUpvoteableQueued, hasReferendum, queued, referendum, dequeueReady, nextDequeueProposalIds, message }",
     "examples": [
       "What governance proposals can I act on right now?",
       "Show queued and referendum proposals I can upvote or vote on."
+    ]
+  },
+  "execute_dequeue_proposals_if_ready": {
+    "summary": "Dequeue overdue governance proposals",
+    "description": "Call Governance.dequeueProposalsIfReady on Celo mainnet. When dequeue is overdue, moves up to concurrentProposals from the Queue into Approval. Anyone can pay gas (not humanness-gated). Use when get_queued_proposals reports dequeueReady. Requires CELO_PRIVATE_KEY or SELF_AGENT_PRIVATE_KEY in your MCP client env (stdio only).",
+    "returns": "{ hash, status, from }",
+    "examples": [
+      "Dequeue the overdue governance proposals.",
+      "Call dequeueProposalsIfReady so I can vote after Approval."
     ]
   },
   "execute_lock_celo": {
