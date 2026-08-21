@@ -599,7 +599,7 @@ export const TOOL_OVERRIDES: Record<string, ToolDocOverride> = {
   },
   "execute_dequeue_proposals_if_ready": {
     "summary": "Dequeue overdue governance proposals",
-    "description": "Call Governance.dequeueProposalsIfReady on Celo mainnet. When dequeue is overdue, moves up to concurrentProposals from the Queue into Approval. Anyone can pay gas (not humanness-gated). Use when get_queued_proposals reports dequeueReady. Requires CELO_PRIVATE_KEY or SELF_AGENT_PRIVATE_KEY in your MCP client env (stdio only).",
+    "description": "Call Governance.dequeueProposalsIfReady on Celo mainnet. When dequeue is overdue, moves up to concurrentProposals from the Queue into Approval. Requires humanness verification (Self Agent ID or GoodDollar IdentityV4). Use when get_queued_proposals reports dequeueReady. Requires CELO_PRIVATE_KEY or SELF_AGENT_PRIVATE_KEY in your MCP client env (stdio only).",
     "returns": "{ hash, status, from }",
     "examples": [
       "Dequeue the overdue governance proposals.",

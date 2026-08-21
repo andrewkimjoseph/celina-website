@@ -1363,7 +1363,7 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
     "slug": "execute-dequeue-proposals-if-ready",
     "title": "Dequeue Governance Proposals If Ready",
     "summary": "Call Governance.",
-    "description": "Call Governance.dequeueProposalsIfReady. When dequeue is overdue, moves top concurrent proposals from Queue into Approval. Anyone can pay gas (not humanness-gated). Use when get_queued_proposals reports dequeueReady.",
+    "description": "Call Governance.dequeueProposalsIfReady. When dequeue is overdue, moves top concurrent proposals from Queue into Approval. Requires humanness verification. Use when get_queued_proposals reports dequeueReady.",
     "kind": "write",
     "category": "Governance",
     "inputs": [
