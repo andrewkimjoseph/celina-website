@@ -1365,7 +1365,7 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
     "summary": "Call Governance.",
     "description": "Call Governance.dequeueProposalsIfReady. When dequeue is overdue, moves top concurrent proposals from Queue into Approval. Anyone can pay gas (not humanness-gated). Use when get_queued_proposals reports dequeueReady.",
     "kind": "write",
-    "category": "Blockchain",
+    "category": "Governance",
     "inputs": [
       {
         "name": "signer",
