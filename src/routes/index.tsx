@@ -25,13 +25,13 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Open-source agent stack for Celo mainnet — SDK, MCP server, hosted endpoint, and browser apps from one shared tool catalog.",
+          "Celina is a third-party, open-source stack that gives an LLM read, prepare, and execute access to Celo mainnet through an SDK, an MCP server, and a REST API.",
       },
       { property: "og:title", content: "Celina — Celo agent stack for LLMs" },
       {
         property: "og:description",
         content:
-          "Open-source agent stack for Celo mainnet — SDK, MCP server, hosted endpoint, and browser apps from one shared tool catalog.",
+          "Celina is a third-party, open-source stack that gives an LLM read, prepare, and execute access to Celo mainnet through an SDK, an MCP server, and a REST API.",
       },
     ],
   }),
@@ -107,15 +107,15 @@ function Index() {
               </h1>
               <div className="mt-6 h-px w-24 bg-[var(--celo-yellow)]" />
               <p className="mt-6 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-                <span className="font-semibold text-foreground">Celina</span> is an open-source agent stack for
-                Celo mainnet — one shared tool catalog from{" "}
+                <span className="font-semibold text-foreground">Celina</span> is a third-party, open-source stack
+                that gives an LLM read, prepare, and execute access to Celo mainnet through an{" "}
                 <Link
                   className="underline decoration-[var(--celo-yellow)] decoration-2 underline-offset-4 hover:text-foreground"
                   to="/sdk"
                 >
-                  celina-sdk
-                </Link>{" "}
-                that powers MCP clients, a hosted remote endpoint, and browser wallet apps.
+                  SDK
+                </Link>
+                , an MCP server, and a REST API.
               </p>
               <div className="mt-8 flex flex-wrap items-center gap-3">
                 <Link

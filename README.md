@@ -4,7 +4,7 @@
 
 # Celina — marketing site
 
-**Celina** is an open-source agent stack for **Celo mainnet** — one shared tool catalog from [`@andrewkimjoseph/celina-sdk/tools`](https://www.npmjs.com/package/@andrewkimjoseph/celina-sdk) that powers MCP clients, the hosted endpoint, and browser wallet apps.
+**Celina** is a third-party, open-source stack that gives an LLM read, prepare, and execute access to **Celo mainnet** through an SDK, an MCP server, and a REST API — one shared tool catalog from [`@andrewkimjoseph/celina-sdk/tools`](https://www.npmjs.com/package/@andrewkimjoseph/celina-sdk) powers all three.
 
 - Website: [usecelina.xyz](https://usecelina.xyz)
 - SDK: [@andrewkimjoseph/celina-sdk](https://www.npmjs.com/package/@andrewkimjoseph/celina-sdk) — reads, wallet signing flows, `/simulation` for revert-before-send, and the shared LLM tool catalog

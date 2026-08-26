@@ -1,8 +1,8 @@
 {
   "name": "Celina",
-  "description": "Celo mainnet specialist agent — hosted read-only access to balances, DeFi quotes, governance, staking, NFTs, and Self Agent ID verification via structured tool calls.",
+  "description": "Celina is a third-party, open-source stack that gives an LLM read, prepare, and execute access to Celo mainnet through an SDK, an MCP server, and a REST API. This hosted agent exposes read-only access to balances, DeFi quotes, governance, staking, NFTs, and Self Agent ID verification via structured tool calls.",
   "protocolVersion": "0.3.0",
-  "version": "0.16.1",
+  "version": "0.25.16",
   "url": "https://mcp.usecelina.xyz/api/a2a",
   "skills": [
     {
@@ -102,7 +102,7 @@
     {
       "id": "governance",
       "name": "Celo governance",
-      "description": "Celo governance on Celo mainnet. Allowed tools: get_governance_proposals, get_proposal_details, get_locked_celo_balance, get_pending_withdrawals, get_votable_proposals.",
+      "description": "Celo governance on Celo mainnet. Allowed tools: get_governance_proposals, get_proposal_details, get_locked_celo_balance, get_pending_withdrawals, get_votable_proposals, get_queued_proposals, get_actionable_governance_proposals, get_governance_votes.",
       "tags": [
         "celo",
         "governance",
@@ -172,7 +172,7 @@
     {
       "id": "staking",
       "name": "Celo staking",
-      "description": "Celo staking on Celo mainnet. Allowed tools: get_staking_balances, get_activatable_stakes, get_validator_groups, get_validator_group_details, get_total_staking_info, get_delegation_info.",
+      "description": "Celo staking on Celo mainnet. Allowed tools: get_staking_balances, get_activatable_stakes, get_validator_groups, get_validator_group_details, get_total_staking_info, get_delegation_info, get_stake_eligibility, get_governance_delegates, get_governance_delegate_details.",
       "tags": [
         "celo",
         "staking",

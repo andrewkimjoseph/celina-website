@@ -129,9 +129,9 @@ function AboutPage() {
             <span className="text-[var(--celo-forest)] dark:text-[var(--celo-yellow)]">Celo mainnet</span>
           </h1>
           <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-            <span className="font-semibold text-foreground">Celina</span> is an open-source toolkit that gives LLMs
-            structured read and write access to Celo — through a single shared tool catalog, not a patchwork of
-            one-off RPC calls.
+            <span className="font-semibold text-foreground">Celina</span> is a third-party, open-source stack that
+            gives an LLM read, prepare, and execute access to Celo mainnet through an SDK, an MCP server, and a REST
+            API.
           </p>
         </div>
       </section>

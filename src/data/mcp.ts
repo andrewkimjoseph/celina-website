@@ -33,7 +33,7 @@ export const LOCAL_BRIDGE_CONFIG_MAC = `{
   "mcpServers": {
     "celina-mcp": {
       "type": "stdio",
-      "command": "/path/to/celina-mcp",
+      "command": "/Users/YourName/.nvm/versions/node/v24.15.0/bin/celina-mcp",
       "args": [],
       "env": {
         "CELO_PRIVATE_KEY": "0x...",
