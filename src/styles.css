@@ -62,7 +62,7 @@
 }
 
 :root {
-  --radius: 0.875rem;
+  --radius: 0.125rem;
   /* Celo Native — light variant (pure white + black + forest, yellow accents) */
   --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
   --font-body: "Manrope", ui-sans-serif, system-ui, sans-serif;
@@ -82,8 +82,8 @@
   --accent-foreground: oklch(0 0 0);
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(0 0 0 / 0.12);
-  --input: oklch(0 0 0 / 0.15);
+  --border: oklch(0 0 0);
+  --input: oklch(0 0 0);
   --ring: oklch(0.49 0.10 130);
 
   /* Celo Native brand tokens */
@@ -95,10 +95,12 @@
 
   --chart-line: oklch(0 0 0);               /* black line charts in light mode */
 
-  --gradient-hero: radial-gradient(ellipse at top right, oklch(0.97 0.20 110 / 0.35), transparent 55%),
-                   radial-gradient(ellipse at bottom left, oklch(0.49 0.10 130 / 0.14), transparent 65%);
-  --shadow-soft: 0 1px 0 oklch(0 0 0 / 0.05), 0 12px 32px -12px oklch(0 0 0 / 0.18);
-  --shadow-pop: 6px 6px 0 0 oklch(0.49 0.10 130);
+  /* Brutalist structure: hard offset shadows, no blur. Uses --foreground so
+     the shadow color flips light/dark automatically (black on light surfaces,
+     white on dark surfaces) instead of GoClaim's fixed black-only shadow. */
+  --shadow-brutal-sm: 3px 3px 0 0 var(--foreground);
+  --shadow-brutal: 4px 4px 0 0 var(--foreground);
+  --shadow-brutal-lg: 6px 6px 0 0 var(--foreground);
 
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
@@ -133,8 +135,8 @@
   --accent-foreground: oklch(0 0 0);
   --destructive: oklch(0.62 0.22 27);
   --destructive-foreground: oklch(1 0 0);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 12%);
+  --border: oklch(1 0 0);
+  --input: oklch(1 0 0);
   --ring: oklch(0.97 0.20 110);
 
   /* Celo Native brand tokens (dark) */
@@ -146,10 +148,6 @@
 
   --chart-line: oklch(0.62 0.13 130);      /* forest green line charts in dark mode */
 
-  --gradient-hero: radial-gradient(ellipse at top right, oklch(0.97 0.20 110 / 0.18), transparent 55%),
-                   radial-gradient(ellipse at bottom left, oklch(0.49 0.10 130 / 0.30), transparent 65%);
-  --shadow-soft: 0 1px 0 oklch(0 0 0 / 0.5), 0 18px 40px -16px oklch(0 0 0 / 0.7);
-  --shadow-pop: 6px 6px 0 0 oklch(0.97 0.20 110);
   --chart-1: oklch(0.488 0.243 264.376);
   --chart-2: oklch(0.696 0.17 162.48);
   --chart-3: oklch(0.769 0.188 70.08);
@@ -180,5 +178,45 @@
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-display);
     letter-spacing: -0.02em;
+  }
+}
+
+@layer utilities {
+  @keyframes terminal-line-in {
+    from {
+      opacity: 0;
+      transform: translateY(3px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @keyframes terminal-cursor-blink {
+    0%, 50% {
+      opacity: 1;
+    }
+    50.01%, 100% {
+      opacity: 0;
+    }
+  }
+
+  .terminal-line-in {
+    animation: terminal-line-in 220ms steps(6, end) both;
+  }
+
+  .terminal-cursor {
+    animation: terminal-cursor-blink 1s steps(1, end) infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .terminal-line-in {
+      animation: none;
+    }
+
+    .terminal-cursor {
+      animation: none;
+    }
   }
 }
