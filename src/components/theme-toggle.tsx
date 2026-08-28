@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSun, faMoon } from "@fortawesome/free-solid-svg-icons";
 import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
+import { cn } from "@/lib/utils";
 
 config.autoAddCss = false;
 
@@ -13,7 +14,7 @@ function getInitialTheme(): Theme {
   return document.documentElement.classList.contains("dark") ? "dark" : "light";
 }
 
-export function ThemeToggle() {
+export function ThemeToggle({ className }: { className?: string }) {
   const [theme, setTheme] = useState<Theme>("dark");
   const [mounted, setMounted] = useState(false);
 
@@ -40,7 +41,10 @@ export function ThemeToggle() {
       onClick={toggle}
       aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
       title={isDark ? "Switch to light mode" : "Switch to dark mode"}
-      className="inline-flex h-9 w-9 items-center justify-center rounded-md border border-border bg-card text-foreground/80 transition hover:bg-muted hover:text-foreground"
+      className={cn(
+        "inline-flex h-9 w-9 items-center justify-center rounded-[2px] border-2 border-foreground bg-card text-foreground/80 shadow-[var(--shadow-brutal-sm)] transition-[transform,box-shadow,background-color,color] hover:bg-muted hover:text-foreground active:translate-x-[2px] active:translate-y-[2px] active:shadow-none",
+        className,
+      )}
     >
       <FontAwesomeIcon icon={isDark ? faSun : faMoon} className="h-4 w-4" />
     </button>

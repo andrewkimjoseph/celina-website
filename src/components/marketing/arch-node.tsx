@@ -9,14 +9,18 @@ export function ArchNode({
 }) {
   return (
     <div
-      className={`rounded-xl border px-4 py-3 text-center ${
-        highlight
-          ? "border-[var(--celo-yellow)]/50 bg-[var(--celo-yellow)]/10"
-          : "border-foreground/10 bg-card"
+      className={`rounded-[2px] border-2 border-foreground px-4 py-3 text-center shadow-[var(--shadow-brutal-sm)] ${
+        highlight ? "bg-[var(--celo-yellow)]" : "bg-card"
       }`}
     >
-      <p className="font-mono text-sm font-semibold text-foreground">{label}</p>
-      <p className="mt-1 text-xs text-muted-foreground">{detail}</p>
+      <p
+        className={`font-mono text-sm font-semibold ${highlight ? "text-[var(--celo-ink)]" : "text-foreground"}`}
+      >
+        {label}
+      </p>
+      <p className={`mt-1 text-xs ${highlight ? "text-[var(--celo-ink)]/70" : "text-muted-foreground"}`}>
+        {detail}
+      </p>
     </div>
   );
 }

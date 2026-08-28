@@ -31,10 +31,11 @@ export const forest = "var(--celo-forest)";
 
 export const tooltipStyle = {
   backgroundColor: "var(--card)",
-  border: "1px solid var(--border)",
-  borderRadius: 8,
+  border: "2px solid var(--foreground)",
+  borderRadius: 2,
   color: "var(--foreground)",
   fontSize: 12,
+  boxShadow: "var(--shadow-brutal-sm)",
 };
 
 export const tooltipItemStyle = { color: "var(--foreground)" };
@@ -153,9 +154,9 @@ export function aggregate(rows: CelinaTxRow[]): Aggregates {
 
 export function KpiSkeleton() {
   return (
-    <div className="rounded-2xl border border-foreground/10 bg-card p-5 shadow-[var(--shadow-soft)]">
-      <div className="h-3 w-20 animate-pulse rounded bg-muted" />
-      <div className="mt-3 h-9 w-24 animate-pulse rounded bg-muted" />
+    <div className="rounded-[2px] border-2 border-foreground bg-card p-5 shadow-[var(--shadow-brutal)]">
+      <div className="h-3 w-20 animate-pulse rounded-[2px] bg-muted" />
+      <div className="mt-3 h-9 w-24 animate-pulse rounded-[2px] bg-muted" />
     </div>
   );
 }
@@ -170,7 +171,7 @@ export function ChartCard({
   children: React.ReactNode;
 }) {
   return (
-    <div className="rounded-2xl border border-foreground/10 bg-card p-5 shadow-[var(--shadow-soft)]">
+    <div className="rounded-[2px] border-2 border-foreground bg-card p-5 shadow-[var(--shadow-brutal)]">
       <div className="mb-4 flex items-baseline justify-between gap-2">
         <h3
           className="text-base font-semibold tracking-tight"
@@ -191,7 +192,7 @@ export function ChartCard({
 
 export function KpiCard({ label, value, sub }: { label: string; value: string | number; sub?: string }) {
   return (
-    <div className="rounded-2xl border border-foreground/10 bg-card p-5 shadow-[var(--shadow-soft)]">
+    <div className="rounded-[2px] border-2 border-foreground bg-card p-5 shadow-[var(--shadow-brutal)]">
       <div className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
         {label}
       </div>
