@@ -11,6 +11,7 @@ import { useStatsStore, STALE_MS } from "@/lib/stats-store";
 import { useNpmStore } from "@/lib/npm-store";
 import { useAmplitudeStore } from "@/lib/amplitude-store";
 import { SiteHeader } from "@/components/site-header";
+import { PageCrumbs } from "@/components/marketing/page-hero";
 import { NPM_URL, timeAgo } from "@/lib/stats-shared";
 
 export const Route = createFileRoute("/stats")({
@@ -38,10 +39,10 @@ function SubNavLink({ to, label }: { to: string; label: string }) {
     <Link
       to={to}
       activeOptions={{ exact: true }}
-      className="rounded-full border border-transparent px-3.5 py-1.5 text-sm font-medium text-muted-foreground transition hover:text-foreground"
+      className="rounded-[2px] border-2 border-transparent px-3.5 py-1.5 text-sm font-medium text-muted-foreground transition hover:text-foreground"
       activeProps={{
         className:
-          "rounded-full border border-[var(--celo-forest)]/50 bg-[var(--celo-forest)] px-3.5 py-1.5 text-sm font-semibold !text-white shadow-[var(--shadow-soft)] dark:border-[var(--celo-yellow)]/60 dark:bg-[var(--celo-yellow)] dark:!text-black",
+          "rounded-[2px] border-2 border-foreground bg-[var(--celo-forest)] px-3.5 py-1.5 text-sm font-semibold !text-white shadow-[var(--shadow-brutal-sm)] dark:bg-[var(--celo-yellow)] dark:!text-black",
       }}
     >
       {label}
@@ -115,7 +116,20 @@ function StatsLayout() {
       <section className="mx-auto max-w-6xl px-4 pt-12 pb-6 sm:px-6 sm:pt-16">
         <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-end">
           <div>
-            <div className="inline-flex items-center gap-2 rounded-full border border-[var(--celo-forest)]/40 bg-card/80 px-3 py-1 text-xs font-medium text-foreground">
+            <PageCrumbs
+              items={[
+                { label: "Celina", to: "/" },
+                { label: "Stats", to: "/stats" },
+                pathname.startsWith("/stats/onchain")
+                  ? { label: "On-chain" }
+                  : pathname.startsWith("/stats/offchain")
+                    ? { label: "Off-chain" }
+                    : pathname.startsWith("/stats/package")
+                      ? { label: "Package" }
+                      : { label: "Overview" },
+              ]}
+            />
+            <div className="inline-flex items-center gap-2 rounded-[2px] border-2 border-foreground bg-background px-3 py-1 text-xs font-medium text-foreground shadow-[var(--shadow-brutal-sm)]">
               <FontAwesomeIcon icon={faChartLine} className="h-3 w-3 text-[var(--celo-forest)] dark:text-foreground" />
               <span className="uppercase tracking-[0.18em]">Updated {timeAgo(oldestFetchedAt)}</span>
             </div>
@@ -136,7 +150,7 @@ function StatsLayout() {
               void refreshAmp();
             }}
             disabled={busy || cooldown}
-            className="inline-flex items-center gap-2 rounded-lg border border-foreground/15 bg-card px-3.5 py-2 text-sm font-medium text-foreground transition hover:border-[var(--celo-forest)] hover:bg-muted disabled:opacity-60"
+            className="inline-flex items-center gap-2 rounded-[2px] border-2 border-foreground bg-card px-3.5 py-2 text-sm font-medium text-foreground shadow-[var(--shadow-brutal-sm)] transition-[transform,box-shadow,background-color] hover:bg-muted active:translate-x-[1px] active:translate-y-[1px] active:shadow-none disabled:opacity-60 disabled:active:translate-x-0 disabled:active:translate-y-0 disabled:active:shadow-[var(--shadow-brutal-sm)]"
           >
             <FontAwesomeIcon
               icon={faRotate}
@@ -147,21 +161,21 @@ function StatsLayout() {
         </div>
 
         {combinedError && (
-          <div className="mt-6 flex items-start gap-3 rounded-xl border border-destructive/30 bg-destructive/10 p-4 text-sm text-foreground">
+          <div className="mt-6 flex items-start gap-3 rounded-[2px] border-2 border-destructive bg-destructive/10 p-4 text-sm text-foreground">
             <FontAwesomeIcon icon={faTriangleExclamation} className="mt-0.5 h-4 w-4 text-destructive" />
             <span>{combinedError}</span>
           </div>
         )}
 
         {showNpmPartial && (
-          <div className="mt-6 flex items-start gap-3 rounded-xl border border-[var(--celo-yellow)]/40 bg-[var(--celo-yellow)]/10 p-4 text-sm text-foreground">
+          <div className="mt-6 flex items-start gap-3 rounded-[2px] border-2 border-[var(--celo-forest)] bg-[var(--celo-yellow)]/10 p-4 text-sm text-foreground dark:border-[var(--celo-yellow)]">
             <FontAwesomeIcon icon={faTriangleExclamation} className="mt-0.5 h-4 w-4 text-[var(--celo-forest)] dark:text-[var(--celo-yellow)]" />
             <span>{npmError}</span>
           </div>
         )}
 
         {showAmpPartial && (
-          <div className="mt-6 flex items-start gap-3 rounded-xl border border-[var(--celo-yellow)]/40 bg-[var(--celo-yellow)]/10 p-4 text-sm text-foreground">
+          <div className="mt-6 flex items-start gap-3 rounded-[2px] border-2 border-[var(--celo-forest)] bg-[var(--celo-yellow)]/10 p-4 text-sm text-foreground dark:border-[var(--celo-yellow)]">
             <FontAwesomeIcon icon={faTriangleExclamation} className="mt-0.5 h-4 w-4 text-[var(--celo-forest)] dark:text-[var(--celo-yellow)]" />
             <span>
               Off-chain refresh failed — showing cached data. {ampError}
@@ -170,20 +184,20 @@ function StatsLayout() {
         )}
 
         {showOnchainPartial && (
-          <div className="mt-6 flex items-start gap-3 rounded-xl border border-[var(--celo-yellow)]/40 bg-[var(--celo-yellow)]/10 p-4 text-sm text-foreground">
+          <div className="mt-6 flex items-start gap-3 rounded-[2px] border-2 border-[var(--celo-forest)] bg-[var(--celo-yellow)]/10 p-4 text-sm text-foreground dark:border-[var(--celo-yellow)]">
             <FontAwesomeIcon icon={faTriangleExclamation} className="mt-0.5 h-4 w-4 text-[var(--celo-forest)] dark:text-[var(--celo-yellow)]" />
             <span>Showing cached on-chain data (outdated).</span>
           </div>
         )}
 
         {showOnchainUnavailable && (
-          <div className="mt-6 flex items-start gap-3 rounded-xl border border-foreground/15 bg-muted/40 p-4 text-sm text-foreground">
+          <div className="mt-6 flex items-start gap-3 rounded-[2px] border-2 border-foreground bg-muted/40 p-4 text-sm text-foreground">
             <FontAwesomeIcon icon={faTriangleExclamation} className="mt-0.5 h-4 w-4 text-muted-foreground" />
             <span>{error}</span>
           </div>
         )}
 
-        <div className="mt-8 flex flex-wrap items-center gap-2 border-b border-foreground/10 pb-4">
+        <div className="mt-8 flex flex-wrap items-center gap-2 border-b-2 border-foreground pb-4">
           <SubNavLink to="/stats" label="Overview" />
           <SubNavLink to="/stats/onchain" label="On-chain" />
           <SubNavLink to="/stats/offchain" label="Off-chain" />
@@ -193,7 +207,7 @@ function StatsLayout() {
 
       <Outlet />
 
-      <footer className="border-t border-foreground/10">
+      <footer className="border-t-2 border-foreground">
         <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-6 py-8 sm:flex-row">
           <p className="text-sm text-muted-foreground">
             Built by <a className="font-medium text-foreground hover:underline" href="https://www.npmjs.com/~andrewkimjoseph" target="_blank" rel="noreferrer">@andrewkimjoseph</a> · MIT

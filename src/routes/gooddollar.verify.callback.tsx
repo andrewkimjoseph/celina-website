@@ -7,7 +7,6 @@ import {
   faCircleInfo,
 } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
-import goodDollarLogo from "@/assets/gooddollar.svg";
 import { SiteHeader } from "@/components/site-header";
 import {
   parseGoodDollarCallbackSearch,
@@ -30,7 +29,7 @@ export const Route = createFileRoute("/gooddollar/verify/callback")({
 function ParamRow({ label, value }: { label: string; value: string | null }) {
   if (!value) return null;
   return (
-    <div className="rounded-lg border border-foreground/10 bg-muted/40 px-4 py-3">
+    <div className="rounded-[2px] border-2 border-foreground bg-muted/40 px-4 py-3">
       <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">{label}</p>
       <p className="mt-1 font-mono text-sm text-foreground">{value}</p>
     </div>
@@ -39,7 +38,7 @@ function ParamRow({ label, value }: { label: string; value: string | null }) {
 
 function StatusBadge({ isSuccess, isFailure }: { isSuccess: boolean; isFailure: boolean }) {
   const badgeClass =
-    "absolute -right-1 -top-1 inline-flex h-6 w-6 items-center justify-center rounded-full ring-2 ring-card";
+    "absolute -right-1 -top-1 inline-flex h-6 w-6 items-center justify-center rounded-full border-2 border-foreground ring-2 ring-card";
 
   if (isSuccess) {
     return (
@@ -83,10 +82,10 @@ function GoodDollarVerifyCallbackPage() {
       <SiteHeader />
 
       <section className="mx-auto max-w-lg px-4 py-16 sm:px-6 sm:py-24">
-        <div className="rounded-2xl border border-foreground/10 bg-card p-8 shadow-sm">
+        <div className="rounded-[2px] border-2 border-foreground bg-card p-8 shadow-[var(--shadow-brutal)]">
           <div className="flex flex-col items-center text-center">
             <div className="relative mb-4 inline-block">
-              <img src={goodDollarLogo} alt="GoodDollar" className="h-14 w-14" />
+              <img src="/gooddollar.svg" alt="GoodDollar" className="h-14 w-14" />
               <StatusBadge isSuccess={isSuccess} isFailure={isFailure} />
             </div>
 
@@ -123,7 +122,7 @@ function GoodDollarVerifyCallbackPage() {
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
             {isSuccess ? (
-              <p className="rounded-lg border border-[var(--celo-yellow)]/30 bg-[var(--celo-yellow)]/10 px-4 py-3 text-center text-sm text-foreground">
+              <p className="rounded-[2px] border-2 border-[var(--celo-forest)] bg-[var(--celo-yellow)]/10 px-4 py-3 text-center text-sm text-foreground dark:border-[var(--celo-yellow)]">
                 Next step: open Claude and say{" "}
                 <span className="font-mono font-medium">Run check_humanness for my wallet.</span>
               </p>
@@ -133,14 +132,14 @@ function GoodDollarVerifyCallbackPage() {
           <div className="mt-8 flex flex-wrap justify-center gap-3 text-sm">
             <Link
               to="/"
-              className="inline-flex items-center gap-2 rounded-md border border-border bg-background px-4 py-2 font-medium text-foreground transition hover:border-[var(--celo-forest)] hover:bg-muted dark:hover:border-[var(--celo-yellow)]"
+              className="inline-flex items-center gap-2 rounded-[2px] border-2 border-foreground bg-background px-4 py-2 font-medium text-foreground shadow-[var(--shadow-brutal-sm)] transition-[transform,box-shadow,background-color] hover:bg-muted active:translate-x-[2px] active:translate-y-[2px] active:shadow-none"
             >
               <FontAwesomeIcon icon={faArrowLeft} className="h-3.5 w-3.5" />
               Celina home
             </Link>
             <a
               href={MCP_LOCAL_URL}
-              className="inline-flex items-center gap-2 rounded-md bg-[var(--celo-yellow)] px-4 py-2 font-medium text-[var(--celo-ink)] transition hover:opacity-90"
+              className="inline-flex items-center gap-2 rounded-[2px] border-2 border-foreground bg-[var(--celo-yellow)] px-4 py-2 font-medium text-[var(--celo-ink)] shadow-[var(--shadow-brutal-sm)] transition-[transform,box-shadow] hover:opacity-90 active:translate-x-[2px] active:translate-y-[2px] active:shadow-none"
             >
               MCP setup guide
             </a>

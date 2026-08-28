@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faBolt, faCircleNodes } from "@fortawesome/free-solid-svg-icons";
 import { TOOLS, CATEGORY_BY_SLUG, categorySlug, type ToolDoc } from "@/data/tools";
 import { SiteHeader } from "@/components/site-header";
+import { PageCrumbs } from "@/components/marketing/page-hero";
 
 export const Route = createFileRoute("/tools/$category/")({
   loader: ({ params }) => {
@@ -32,7 +33,7 @@ export const Route = createFileRoute("/tools/$category/")({
       <div>
         <h1 className="text-3xl font-bold">Category not found</h1>
         <p className="mt-2 text-muted-foreground">No Celina tool category matches that URL.</p>
-        <Link to="/tools" className="mt-6 inline-flex items-center gap-2 rounded-md bg-[var(--celo-deep)] px-4 py-2 text-sm font-medium text-[var(--celo-cream)]">
+        <Link to="/tools" className="mt-6 inline-flex items-center gap-2 rounded-[2px] border-2 border-foreground bg-[var(--celo-deep)] px-4 py-2 text-sm font-medium text-[var(--celo-cream)] shadow-[var(--shadow-brutal-sm)]">
           <FontAwesomeIcon icon={faArrowLeft} className="h-3.5 w-3.5" /> All tools
         </Link>
       </div>
@@ -54,15 +55,15 @@ function CategoryPage() {
       <SiteHeader />
 
       <section className="mx-auto max-w-6xl px-6 pb-24 pt-12 sm:pt-16">
-        <div className="mb-6 flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-muted-foreground">
-          <Link to="/" className="hover:text-foreground">Celina</Link>
-          <span>/</span>
-          <Link to="/tools" className="hover:text-foreground">Tools</Link>
-          <span>/</span>
-          <span className="text-foreground/80">{category}</span>
-        </div>
+        <PageCrumbs
+          items={[
+            { label: "Celina", to: "/" },
+            { label: "Tools", to: "/tools" },
+            { label: category },
+          ]}
+        />
 
-        <span className="rounded-full border border-border bg-card px-3 py-1 text-xs font-bold uppercase tracking-[0.22em] text-foreground">
+        <span className="rounded-[2px] border-2 border-foreground bg-background px-3 py-1 text-xs font-bold uppercase tracking-[0.22em] text-foreground shadow-[var(--shadow-brutal-sm)]">
           § {category}
         </span>
         <h1
@@ -81,24 +82,24 @@ function CategoryPage() {
             const kindIcon = isWrite ? faBolt : faCircleNodes;
             const badgeClass = isWrite
               ? "bg-[var(--celo-yellow)] text-[var(--celo-ink)]"
-              : "bg-[var(--celo-forest)] text-[var(--celo-yellow)] dark:bg-[var(--celo-yellow)]/15 dark:text-[var(--celo-yellow)] dark:border dark:border-[var(--celo-yellow)]/40";
+              : "bg-[var(--celo-forest)] text-[var(--celo-yellow)] dark:bg-[var(--celo-yellow)]/15 dark:text-[var(--celo-yellow)]";
             return (
               <Link
                 key={t.name}
                 to="/tools/$category/$toolSlug"
                 params={{ category: catSlug, toolSlug: t.slug }}
-                className="group relative block overflow-hidden rounded-xl border border-foreground/10 bg-card p-4 transition hover:-translate-y-0.5 hover:border-[var(--celo-yellow)]/60"
+                className="group relative block overflow-hidden rounded-[2px] border-2 border-foreground bg-card p-4 shadow-[var(--shadow-brutal-sm)] transition-transform duration-150 ease-out hover:-translate-y-0.5 hover:shadow-[var(--shadow-brutal-lg)]"
               >
                 <span
                   aria-hidden
-                  className="absolute left-0 top-0 h-full w-0.5 bg-[var(--celo-yellow)] opacity-0 transition-opacity group-hover:opacity-100"
+                  className="absolute left-0 top-0 h-full w-1 bg-[var(--celo-yellow)] opacity-0 transition-opacity group-hover:opacity-100"
                 />
                 <div className="flex items-center justify-between gap-2">
                   <code className="truncate font-mono text-sm font-semibold text-foreground group-hover:underline">
                     {t.name}
                   </code>
                   <span
-                    className={`inline-flex shrink-0 items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.14em] ${badgeClass}`}
+                    className={`inline-flex shrink-0 items-center gap-1 rounded-[2px] border-2 border-foreground px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.14em] ${badgeClass}`}
                   >
                     <FontAwesomeIcon icon={kindIcon} className="h-2.5 w-2.5" />
                     {t.kind}

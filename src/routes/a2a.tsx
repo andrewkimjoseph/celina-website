@@ -64,7 +64,7 @@ function RegistryField({
   hint?: string;
 }) {
   return (
-    <div className="rounded-2xl border border-foreground/10 bg-card p-6">
+    <div className="rounded-[2px] border-2 border-foreground bg-card p-6 shadow-[var(--shadow-brutal)]">
       <h2
         className="text-lg font-semibold tracking-tight"
         style={{ fontFamily: "var(--font-display)" }}
@@ -72,7 +72,7 @@ function RegistryField({
         {label}
       </h2>
       {hint ? <p className="mt-2 text-sm text-muted-foreground">{hint}</p> : null}
-      <div className="mt-4 flex items-center gap-2 rounded-lg border border-border bg-muted/40 px-3 py-2">
+      <div className="mt-4 flex items-center gap-2 rounded-[2px] border-2 border-foreground bg-muted/40 px-3 py-2">
         <code className="flex-1 overflow-x-auto text-xs whitespace-pre-wrap break-all">
           {value}
         </code>
@@ -92,6 +92,7 @@ function A2APage() {
           icon={faCircleNodes}
           badge="A2A · Agent2Agent"
           title="Celina as a peer agent"
+          crumbs={[{ label: "Celina", to: "/" }, { label: "A2A" }]}
           description="Other autonomous agents discover Celina via an Agent Card and delegate Celo mainnet reads over A2A JSON-RPC — the same hosted tool profile as mcp.usecelina.xyz."
         />
       </PageHeroSection>
@@ -108,7 +109,7 @@ function A2APage() {
         </div>
 
         <div className="mt-10 grid gap-4 lg:grid-cols-2">
-          <div className="rounded-2xl border border-foreground/10 bg-card p-6">
+          <div className="rounded-[2px] border-2 border-foreground bg-card p-6 shadow-[var(--shadow-brutal)]">
             <h2
               className="text-lg font-semibold tracking-tight"
               style={{ fontFamily: "var(--font-display)" }}
@@ -118,13 +119,13 @@ function A2APage() {
             <p className="mt-2 text-sm text-muted-foreground">
               Machine-readable skills and JSON-RPC endpoint URL.
             </p>
-            <div className="mt-4 flex items-center gap-2 rounded-lg border border-border bg-muted/40 px-3 py-2">
+            <div className="mt-4 flex items-center gap-2 rounded-[2px] border-2 border-foreground bg-muted/40 px-3 py-2">
               <code className="flex-1 overflow-x-auto text-xs">{A2A_AGENT_CARD_URL}</code>
               <CopyButton text={A2A_AGENT_CARD_URL} />
             </div>
           </div>
 
-          <div className="rounded-2xl border border-foreground/10 bg-card p-6">
+          <div className="rounded-[2px] border-2 border-foreground bg-card p-6 shadow-[var(--shadow-brutal)]">
             <h2
               className="text-lg font-semibold tracking-tight"
               style={{ fontFamily: "var(--font-display)" }}
@@ -134,7 +135,7 @@ function A2APage() {
             <p className="mt-2 text-sm text-muted-foreground">
               POST <code className="text-xs">message/send</code> with a Celina tool payload.
             </p>
-            <div className="mt-4 flex items-center gap-2 rounded-lg border border-border bg-muted/40 px-3 py-2">
+            <div className="mt-4 flex items-center gap-2 rounded-[2px] border-2 border-foreground bg-muted/40 px-3 py-2">
               <code className="flex-1 overflow-x-auto text-xs">{A2A_JSONRPC_URL}</code>
               <CopyButton text={A2A_JSONRPC_URL} />
             </div>
@@ -163,7 +164,7 @@ function A2APage() {
             {A2A_SKILLS.map((skill) => (
               <li
                 key={skill.id}
-                className="rounded-xl border border-foreground/10 bg-card p-4"
+                className="rounded-[2px] border-2 border-foreground bg-card p-4 shadow-[var(--shadow-brutal-sm)]"
               >
                 <div className="flex flex-wrap items-baseline gap-2">
                   <code className="text-xs font-semibold text-[var(--celo-yellow)]">
@@ -179,7 +180,7 @@ function A2APage() {
           </ul>
         </div>
 
-        <div className="mt-10 rounded-2xl border border-foreground/10 bg-card p-6">
+        <div className="mt-10 rounded-[2px] border-2 border-foreground bg-card p-6 shadow-[var(--shadow-brutal)]">
           <h2
             className="text-lg font-semibold tracking-tight"
             style={{ fontFamily: "var(--font-display)" }}
@@ -192,7 +193,7 @@ function A2APage() {
             <code className="text-xs">{"{ tool, arguments }"}</code> (snake_case argument keys).
           </p>
           <div className="relative mt-4">
-            <pre className="overflow-x-auto rounded-xl bg-[var(--celo-ink)] p-4 text-xs leading-relaxed text-[var(--celo-cream)]">
+            <pre className="overflow-x-auto rounded-[2px] border-2 border-foreground bg-[var(--celo-ink)] p-4 text-xs leading-relaxed text-[var(--celo-cream)]">
               {EXAMPLE_PAYLOAD}
             </pre>
             <div className="absolute right-3 top-3">
@@ -204,14 +205,14 @@ function A2APage() {
         <div className="mt-10 flex flex-wrap gap-3">
           <Link
             to="/oasf"
-            className="inline-flex items-center gap-2 rounded-lg border border-border bg-card px-5 py-2.5 text-sm font-semibold transition hover:border-[var(--celo-yellow)]"
+            className="inline-flex items-center gap-2 rounded-[2px] border-2 border-foreground bg-card px-5 py-2.5 text-sm font-semibold shadow-[var(--shadow-brutal-sm)] transition-[transform,box-shadow] hover:bg-[var(--celo-yellow)] hover:text-[var(--celo-ink)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none"
           >
             OASF discovery
             <FontAwesomeIcon icon={faArrowRight} className="h-3 w-3" />
           </Link>
           <Link
             to="/mcp/remote"
-            className="inline-flex items-center gap-2 rounded-lg border border-border bg-card px-5 py-2.5 text-sm font-semibold transition hover:border-[var(--celo-yellow)]"
+            className="inline-flex items-center gap-2 rounded-[2px] border-2 border-foreground bg-card px-5 py-2.5 text-sm font-semibold shadow-[var(--shadow-brutal-sm)] transition-[transform,box-shadow] hover:bg-[var(--celo-yellow)] hover:text-[var(--celo-ink)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none"
           >
             MCP hosted endpoint
             <FontAwesomeIcon icon={faArrowRight} className="h-3 w-3" />
@@ -220,7 +221,7 @@ function A2APage() {
             href={A2A_AGENT_CARD_URL}
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center gap-2 rounded-lg bg-[var(--celo-yellow)] px-5 py-2.5 text-sm font-semibold text-[var(--celo-ink)]"
+            className="inline-flex items-center gap-2 rounded-[2px] border-2 border-foreground bg-[var(--celo-yellow)] px-5 py-2.5 text-sm font-semibold text-[var(--celo-ink)] shadow-[var(--shadow-brutal-sm)] transition-[transform,box-shadow] hover:-translate-y-0.5 active:translate-x-[1px] active:translate-y-[1px] active:shadow-none"
           >
             Open Agent Card
             <FontAwesomeIcon icon={faArrowRight} className="h-3 w-3" />

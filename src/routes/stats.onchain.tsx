@@ -78,7 +78,7 @@ function OnchainPage() {
       <section className="mx-auto max-w-6xl px-4 pb-6 sm:px-6">
         <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
           <div className="min-w-0">
-            <div className="inline-flex max-w-full items-center gap-2 rounded-full border border-[var(--celo-forest)]/40 bg-card/80 px-3 py-1 text-[10px] font-medium text-foreground sm:text-xs">
+            <div className="inline-flex max-w-full items-center gap-2 rounded-[2px] border-2 border-foreground bg-card px-3 py-1 text-[10px] font-medium text-foreground sm:text-xs">
               <FontAwesomeIcon icon={faChartLine} className="h-3 w-3 shrink-0 text-[var(--celo-forest)] dark:text-foreground" />
               <span className="uppercase tracking-[0.14em] sm:tracking-[0.18em]">On-chain · Dune Analytics</span>
             </div>
@@ -121,7 +121,7 @@ function OnchainPage() {
 
       <section className="mx-auto max-w-6xl px-4 pb-10 sm:px-6">
         {unavailable ? (
-          <div className="rounded-2xl border border-foreground/10 bg-card p-10 text-center shadow-[var(--shadow-soft)]">
+          <div className="rounded-[2px] border-2 border-foreground bg-card p-10 text-center shadow-[var(--shadow-brutal)]">
             <p className="text-lg font-semibold tracking-tight" style={{ fontFamily: "var(--font-display)" }}>
               On-chain stats are temporarily unavailable.
             </p>
@@ -150,7 +150,7 @@ function OnchainPage() {
                 <XAxis dataKey="label" stroke="var(--muted-foreground)" fontSize={11} tickLine={false} />
                 <YAxis stroke="var(--muted-foreground)" fontSize={11} tickLine={false} axisLine={false} width={40} />
                 <Tooltip contentStyle={tooltipStyle} itemStyle={tooltipItemStyle} labelStyle={tooltipLabelStyle} cursor={{ fill: "var(--muted)" }} />
-                <Bar dataKey="count" name="Transactions" fill={yellow} radius={[4, 4, 0, 0]} />
+                <Bar dataKey="count" name="Transactions" fill={yellow} radius={[0, 0, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </ChartCard>
@@ -162,7 +162,7 @@ function OnchainPage() {
                 <XAxis dataKey="hour" stroke="var(--muted-foreground)" fontSize={10} tickLine={false} interval={2} />
                 <YAxis stroke="var(--muted-foreground)" fontSize={11} tickLine={false} axisLine={false} width={40} />
                 <Tooltip contentStyle={tooltipStyle} itemStyle={tooltipItemStyle} labelStyle={tooltipLabelStyle} cursor={{ fill: "var(--muted)" }} />
-                <Bar dataKey="count" name="Txns" fill={forest} radius={[4, 4, 0, 0]} />
+                <Bar dataKey="count" name="Txns" fill={forest} radius={[0, 0, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </ChartCard>
@@ -174,7 +174,7 @@ function OnchainPage() {
                 <XAxis type="number" stroke="var(--muted-foreground)" fontSize={11} tickLine={false} axisLine={false} />
                 <YAxis type="category" dataKey="short" stroke="var(--muted-foreground)" fontSize={11} tickLine={false} axisLine={false} width={92} />
                 <Tooltip contentStyle={tooltipStyle} itemStyle={tooltipItemStyle} labelStyle={tooltipLabelStyle} cursor={{ fill: "var(--muted)" }} />
-                <Bar dataKey="count" name="Txns" fill={yellow} radius={[0, 4, 4, 0]}>
+                <Bar dataKey="count" name="Txns" fill={yellow} radius={[0, 0, 0, 0]}>
                   {agg.topReceivers.map((_, i) => (
                     <Cell key={i} fill={i === 0 ? yellow : forest} />
                   ))}
@@ -190,7 +190,7 @@ function OnchainPage() {
                 <XAxis type="number" stroke="var(--muted-foreground)" fontSize={11} tickLine={false} axisLine={false} />
                 <YAxis type="category" dataKey="short" stroke="var(--muted-foreground)" fontSize={11} tickLine={false} axisLine={false} width={92} />
                 <Tooltip contentStyle={tooltipStyle} itemStyle={tooltipItemStyle} labelStyle={tooltipLabelStyle} cursor={{ fill: "var(--muted)" }} />
-                <Bar dataKey="count" name="Txns" fill={forest} radius={[0, 4, 4, 0]} />
+                <Bar dataKey="count" name="Txns" fill={forest} radius={[0, 0, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </ChartCard>
@@ -208,7 +208,7 @@ function OnchainPage() {
                 <XAxis dataKey="short" stroke="var(--muted-foreground)" fontSize={10} tickLine={false} angle={-25} textAnchor="end" height={50} />
                 <YAxis stroke="var(--muted-foreground)" fontSize={11} tickLine={false} axisLine={false} width={40} unit="%" />
                 <Tooltip contentStyle={tooltipStyle} itemStyle={tooltipItemStyle} labelStyle={tooltipLabelStyle} cursor={{ fill: "var(--muted)" }} formatter={(v) => `${v}%`} />
-                <Bar dataKey="share" name="Share" fill={yellow} radius={[4, 4, 0, 0]} />
+                <Bar dataKey="share" name="Share" fill={yellow} radius={[0, 0, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </ChartCard>
@@ -229,10 +229,10 @@ function OnchainPage() {
           </span>
         </div>
 
-        <div className="overflow-hidden rounded-2xl border border-foreground/10 bg-card shadow-[var(--shadow-soft)]">
+        <div className="overflow-hidden rounded-[2px] border-2 border-foreground bg-card shadow-[var(--shadow-brutal)]">
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
-              <thead className="border-b border-foreground/10 bg-muted/40 text-left text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
+              <thead className="border-b-2 border-foreground bg-muted/40 text-left text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
                 <tr>
                   <th className="w-px whitespace-nowrap py-3 pl-3 pr-1 font-medium">#</th>
                   <th className="whitespace-nowrap px-3 py-3 font-medium">When</th>
@@ -258,7 +258,7 @@ function OnchainPage() {
                   </tr>
                 )}
                 {pageRows.map((r, i) => (
-                  <tr key={r.hash} className="border-b border-foreground/5 last:border-0 hover:bg-muted/30">
+                  <tr key={r.hash} className="border-b-2 border-foreground/20 last:border-0 hover:bg-muted/30">
                     <td className="w-px whitespace-nowrap py-3 pl-3 pr-1 text-right font-mono text-xs tabular-nums text-muted-foreground">
                       {currentPage * pageSize + i + 1}
                     </td>
@@ -282,7 +282,7 @@ function OnchainPage() {
             </table>
           </div>
           {rows.length > 0 && (
-            <div className="flex items-center justify-between gap-2 border-t border-foreground/10 px-4 py-3 text-xs text-muted-foreground">
+            <div className="flex items-center justify-between gap-2 border-t-2 border-foreground px-4 py-3 text-xs text-muted-foreground">
               <span>
                 {currentPage * pageSize + 1}–{Math.min((currentPage + 1) * pageSize, rows.length)} of{" "}
                 {rows.length.toLocaleString()} txn{rows.length === 1 ? "" : "s"}
@@ -295,8 +295,8 @@ function OnchainPage() {
               </span>
               {totalPages > 1 && (
                 <div className="flex gap-2">
-                  <button onClick={() => setPage((p) => Math.max(0, p - 1))} disabled={currentPage === 0} className="rounded-md border border-foreground/15 px-3 py-1.5 text-foreground/80 transition hover:bg-muted disabled:opacity-40">Prev</button>
-                  <button onClick={() => setPage((p) => Math.min(totalPages - 1, p + 1))} disabled={currentPage >= totalPages - 1} className="rounded-md border border-foreground/15 px-3 py-1.5 text-foreground/80 transition hover:bg-muted disabled:opacity-40">Next</button>
+                  <button onClick={() => setPage((p) => Math.max(0, p - 1))} disabled={currentPage === 0} className="rounded-[2px] border-2 border-foreground px-3 py-1.5 text-foreground/80 shadow-[var(--shadow-brutal-sm)] transition-[transform,box-shadow,background-color] hover:bg-muted active:translate-x-[1px] active:translate-y-[1px] active:shadow-none disabled:opacity-40 disabled:active:translate-x-0 disabled:active:translate-y-0 disabled:active:shadow-[var(--shadow-brutal-sm)]">Prev</button>
+                  <button onClick={() => setPage((p) => Math.min(totalPages - 1, p + 1))} disabled={currentPage >= totalPages - 1} className="rounded-[2px] border-2 border-foreground px-3 py-1.5 text-foreground/80 shadow-[var(--shadow-brutal-sm)] transition-[transform,box-shadow,background-color] hover:bg-muted active:translate-x-[1px] active:translate-y-[1px] active:shadow-none disabled:opacity-40 disabled:active:translate-x-0 disabled:active:translate-y-0 disabled:active:shadow-[var(--shadow-brutal-sm)]">Next</button>
                 </div>
               )}
             </div>

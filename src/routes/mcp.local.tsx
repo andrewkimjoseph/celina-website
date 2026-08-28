@@ -32,10 +32,10 @@ export const Route = createFileRoute("/mcp/local")({
 function McpLocalPage() {
   return (
     <section className="mx-auto max-w-6xl px-4 pb-16 sm:px-6">
-      <article className="min-w-0 overflow-hidden rounded-2xl border border-foreground/15 bg-card p-7 shadow-[var(--shadow-soft)]">
+      <article className="min-w-0 overflow-hidden rounded-[2px] border-2 border-foreground bg-card p-7 shadow-[var(--shadow-brutal)]">
         <div className="mb-1 flex flex-wrap items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-[var(--celo-forest)]">
           <FontAwesomeIcon icon={faTerminal} className="h-3.5 w-3.5" /> Local stdio
-          <span className="rounded-full bg-[var(--celo-forest)] px-2 py-0.5 text-[10px] tracking-[0.18em] text-[var(--celo-cream)] dark:text-[var(--celo-ink)]">
+          <span className="rounded-[2px] border-2 border-foreground bg-[var(--celo-forest)] px-2 py-0.5 text-[10px] tracking-[0.18em] text-[var(--celo-cream)] dark:text-[var(--celo-ink)]">
             Recommended
           </span>
         </div>

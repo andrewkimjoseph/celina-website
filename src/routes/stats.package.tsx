@@ -57,7 +57,7 @@ function PackagePage() {
       <section className="mx-auto max-w-6xl px-4 pb-6 sm:px-6">
         <div className="mb-5 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between sm:gap-3">
           <div className="min-w-0">
-            <div className="inline-flex max-w-full items-center gap-2 rounded-full border border-[var(--celo-forest)]/40 bg-card/80 px-3 py-1 text-[10px] font-medium text-foreground sm:text-xs">
+            <div className="inline-flex max-w-full items-center gap-2 rounded-[2px] border-2 border-foreground bg-card px-3 py-1 text-[10px] font-medium text-foreground sm:text-xs">
               <FontAwesomeIcon icon={faNpm} className="h-3 w-3 shrink-0 text-[var(--celo-forest)] dark:text-foreground sm:h-3.5 sm:w-3.5" />
               <span className="uppercase tracking-[0.14em] sm:tracking-[0.18em]">Package adoption · npm downloads</span>
             </div>
@@ -111,7 +111,7 @@ function PackagePage() {
                 <XAxis dataKey="label" stroke="var(--muted-foreground)" fontSize={10} tickLine={false} interval={Math.max(0, Math.floor(npmAgg.daily90.length / 8))} />
                 <YAxis stroke="var(--muted-foreground)" fontSize={11} tickLine={false} axisLine={false} width={40} />
                 <Tooltip contentStyle={tooltipStyle} itemStyle={tooltipItemStyle} labelStyle={tooltipLabelStyle} cursor={{ fill: "var(--muted)" }} />
-                <Bar dataKey="downloads" name="Downloads" fill={yellow} radius={[4, 4, 0, 0]} isAnimationActive={false} />
+                <Bar dataKey="downloads" name="Downloads" fill={yellow} radius={[0, 0, 0, 0]} isAnimationActive={false} />
               </BarChart>
             </ResponsiveContainer>
           </ChartCard>
@@ -135,7 +135,7 @@ function PackagePage() {
                 <XAxis dataKey="week" stroke="var(--muted-foreground)" fontSize={10} tickLine={false} interval={Math.max(0, Math.floor(npmAgg.weekly.length / 8))} />
                 <YAxis stroke="var(--muted-foreground)" fontSize={11} tickLine={false} axisLine={false} width={40} />
                 <Tooltip contentStyle={tooltipStyle} itemStyle={tooltipItemStyle} labelStyle={tooltipLabelStyle} cursor={{ fill: "var(--muted)" }} />
-                <Bar dataKey="downloads" name="Downloads" fill={forest} radius={[4, 4, 0, 0]} isAnimationActive={false} />
+                <Bar dataKey="downloads" name="Downloads" fill={forest} radius={[0, 0, 0, 0]} isAnimationActive={false} />
               </BarChart>
             </ResponsiveContainer>
           </ChartCard>
@@ -147,17 +147,17 @@ function PackagePage() {
                 <XAxis dataKey="label" stroke="var(--muted-foreground)" fontSize={11} tickLine={false} />
                 <YAxis stroke="var(--muted-foreground)" fontSize={11} tickLine={false} axisLine={false} width={40} />
                 <Tooltip contentStyle={tooltipStyle} itemStyle={tooltipItemStyle} labelStyle={tooltipLabelStyle} cursor={{ fill: "var(--muted)" }} />
-                <Bar dataKey="downloads" name="Downloads" fill={yellow} radius={[4, 4, 0, 0]} isAnimationActive={false} />
+                <Bar dataKey="downloads" name="Downloads" fill={yellow} radius={[0, 0, 0, 0]} isAnimationActive={false} />
               </BarChart>
             </ResponsiveContainer>
           </ChartCard>
         </div>
         ) : (
           <div className="grid gap-4 lg:grid-cols-2">
-            <div className="h-80 animate-pulse rounded-2xl bg-muted" />
-            <div className="h-80 animate-pulse rounded-2xl bg-muted" />
-            <div className="h-80 animate-pulse rounded-2xl bg-muted" />
-            <div className="h-80 animate-pulse rounded-2xl bg-muted" />
+            <div className="h-80 animate-pulse rounded-[2px] bg-muted" />
+            <div className="h-80 animate-pulse rounded-[2px] bg-muted" />
+            <div className="h-80 animate-pulse rounded-[2px] bg-muted" />
+            <div className="h-80 animate-pulse rounded-[2px] bg-muted" />
           </div>
         )}
       </section>

@@ -43,7 +43,7 @@ function RegistryField({
   hint?: string;
 }) {
   return (
-    <div className="rounded-2xl border border-foreground/10 bg-card p-6">
+    <div className="rounded-[2px] border-2 border-foreground bg-card p-6 shadow-[var(--shadow-brutal)]">
       <h2
         className="text-lg font-semibold tracking-tight"
         style={{ fontFamily: "var(--font-display)" }}
@@ -51,7 +51,7 @@ function RegistryField({
         {label}
       </h2>
       {hint ? <p className="mt-2 text-sm text-muted-foreground">{hint}</p> : null}
-      <div className="mt-4 flex items-center gap-2 rounded-lg border border-border bg-muted/40 px-3 py-2">
+      <div className="mt-4 flex items-center gap-2 rounded-[2px] border-2 border-foreground bg-muted/40 px-3 py-2">
         <code className="flex-1 overflow-x-auto text-xs whitespace-pre-wrap break-all">
           {value}
         </code>
@@ -71,6 +71,7 @@ function OasfPage() {
           icon={faDiagramProject}
           badge="OASF · Open Agentic Schema Framework"
           title="Celina OASF discovery"
+          crumbs={[{ label: "Celina", to: "/" }, { label: "OASF" }]}
           description="Standardized skills and domains for ERC-8004 registries. Copy the values below into 8004scan or similar UIs — execution still goes through MCP and A2A on the MCP host."
         />
       </PageHeroSection>
@@ -111,7 +112,7 @@ function OasfPage() {
         <div className="mt-10 flex flex-wrap gap-3">
           <Link
             to="/a2a"
-            className="inline-flex items-center gap-2 rounded-lg border border-border bg-card px-5 py-2.5 text-sm font-semibold transition hover:border-[var(--celo-yellow)]"
+            className="inline-flex items-center gap-2 rounded-[2px] border-2 border-foreground bg-card px-5 py-2.5 text-sm font-semibold shadow-[var(--shadow-brutal-sm)] transition-[transform,box-shadow] hover:bg-[var(--celo-yellow)] hover:text-[var(--celo-ink)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none"
           >
             A2A task server
             <FontAwesomeIcon icon={faArrowRight} className="h-3 w-3" />
@@ -120,7 +121,7 @@ function OasfPage() {
             href={AGENT_JSON_URL}
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center gap-2 rounded-lg border border-border bg-card px-5 py-2.5 text-sm font-semibold transition hover:border-[var(--celo-yellow)]"
+            className="inline-flex items-center gap-2 rounded-[2px] border-2 border-foreground bg-card px-5 py-2.5 text-sm font-semibold shadow-[var(--shadow-brutal-sm)] transition-[transform,box-shadow] hover:bg-[var(--celo-yellow)] hover:text-[var(--celo-ink)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none"
           >
             agent.json
             <FontAwesomeIcon icon={faArrowRight} className="h-3 w-3" />
@@ -129,7 +130,7 @@ function OasfPage() {
             href={OASF_MANIFEST_URL}
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center gap-2 rounded-lg bg-[var(--celo-yellow)] px-5 py-2.5 text-sm font-semibold text-[var(--celo-ink)]"
+            className="inline-flex items-center gap-2 rounded-[2px] border-2 border-foreground bg-[var(--celo-yellow)] px-5 py-2.5 text-sm font-semibold text-[var(--celo-ink)] shadow-[var(--shadow-brutal-sm)] transition-[transform,box-shadow] hover:-translate-y-0.5 active:translate-x-[1px] active:translate-y-[1px] active:shadow-none"
           >
             Open OASF manifest
             <FontAwesomeIcon icon={faArrowRight} className="h-3 w-3" />
@@ -138,7 +139,7 @@ function OasfPage() {
             href={A2A_AGENT_CARD_URL}
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center gap-2 rounded-lg border border-border bg-card px-5 py-2.5 text-sm font-semibold transition hover:border-[var(--celo-yellow)]"
+            className="inline-flex items-center gap-2 rounded-[2px] border-2 border-foreground bg-card px-5 py-2.5 text-sm font-semibold shadow-[var(--shadow-brutal-sm)] transition-[transform,box-shadow] hover:bg-[var(--celo-yellow)] hover:text-[var(--celo-ink)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none"
           >
             A2A Agent Card
             <FontAwesomeIcon icon={faArrowRight} className="h-3 w-3" />

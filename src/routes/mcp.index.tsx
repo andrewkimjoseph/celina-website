@@ -38,15 +38,15 @@ function McpOverviewPage() {
         </p>
         <p>
           Pick a deployment mode: <strong className="text-foreground">local stdio</strong> for the full catalog
-          with execute/write when you set <code className="rounded bg-secondary px-1 py-0.5 text-sm">CELO_PRIVATE_KEY</code>,
+          with execute/write when you set <code className="rounded-[2px] bg-secondary px-1 py-0.5 text-sm">CELO_PRIVATE_KEY</code>,
           or <strong className="text-foreground">remote hosted</strong> for instant reads without installing Node.
         </p>
       </div>
 
-      <div className="mt-10 overflow-hidden rounded-2xl border border-foreground/10">
+      <div className="mt-10 overflow-hidden rounded-[2px] border-2 border-foreground shadow-[var(--shadow-brutal)]">
         <table className="w-full text-sm">
           <thead>
-            <tr className="border-b border-foreground/10 bg-muted/40 text-left">
+            <tr className="border-b-2 border-foreground bg-muted/40 text-left">
               <th className="px-4 py-3 font-semibold text-foreground" />
               <th className="px-4 py-3 font-semibold text-foreground">
                 <FontAwesomeIcon icon={faTerminal} className="mr-1.5 h-3.5 w-3.5" />
@@ -58,7 +58,7 @@ function McpOverviewPage() {
               </th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-foreground/10">
+          <tbody className="divide-y-2 divide-foreground/20">
             {[
               ["Tools", `${STDIO_TOOL_COUNT} full catalog`, `${HOSTED_TOOL_COUNT} reads`],
               ["Install", "Node.js ≥ 20, npx", "None — URL only"],
@@ -79,9 +79,9 @@ function McpOverviewPage() {
       <div className="mt-10 grid gap-4 sm:grid-cols-2">
         <Link
           to="/mcp/local"
-          className="group flex flex-col rounded-2xl border border-foreground/10 bg-card p-6 shadow-[var(--shadow-soft)] transition hover:border-[var(--celo-yellow)]/60"
+          className="group flex flex-col rounded-[2px] border-2 border-foreground bg-card p-6 shadow-[var(--shadow-brutal)] transition-transform duration-150 ease-out hover:-translate-y-0.5 hover:shadow-[var(--shadow-brutal-lg)]"
         >
-          <div className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-[var(--celo-yellow)] text-[var(--celo-ink)]">
+          <div className="inline-flex h-9 w-9 items-center justify-center rounded-[2px] border-2 border-foreground bg-[var(--celo-yellow)] text-[var(--celo-ink)]">
             <FontAwesomeIcon icon={faTerminal} className="h-4 w-4" />
           </div>
           <h2
@@ -100,9 +100,9 @@ function McpOverviewPage() {
 
         <Link
           to="/mcp/remote"
-          className="group flex flex-col rounded-2xl border border-foreground/10 bg-card p-6 shadow-[var(--shadow-soft)] transition hover:border-[var(--celo-yellow)]/60"
+          className="group flex flex-col rounded-[2px] border-2 border-foreground bg-card p-6 shadow-[var(--shadow-brutal)] transition-transform duration-150 ease-out hover:-translate-y-0.5 hover:shadow-[var(--shadow-brutal-lg)]"
         >
-          <div className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-[var(--celo-yellow)] text-[var(--celo-ink)]">
+          <div className="inline-flex h-9 w-9 items-center justify-center rounded-[2px] border-2 border-foreground bg-[var(--celo-yellow)] text-[var(--celo-ink)]">
             <FontAwesomeIcon icon={faCloud} className="h-4 w-4" />
           </div>
           <h2
@@ -123,7 +123,7 @@ function McpOverviewPage() {
       <div className="mt-10 flex flex-wrap gap-3">
         <Link
           to="/tools"
-          className="inline-flex items-center gap-2 rounded-lg border border-border bg-card px-4 py-2 text-sm font-medium text-foreground transition hover:border-[var(--celo-yellow)]"
+          className="inline-flex items-center gap-2 rounded-[2px] border-2 border-foreground bg-card px-4 py-2 text-sm font-medium text-foreground shadow-[var(--shadow-brutal-sm)] transition-[transform,box-shadow] hover:bg-[var(--celo-yellow)] hover:text-[var(--celo-ink)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none"
         >
           Browse tool catalog
         </Link>
@@ -131,7 +131,7 @@ function McpOverviewPage() {
           href={MCP_NPM_URL}
           target="_blank"
           rel="noreferrer"
-          className="inline-flex items-center gap-2 rounded-lg border border-border bg-card px-4 py-2 text-sm font-medium text-foreground transition hover:border-[var(--celo-yellow)]"
+          className="inline-flex items-center gap-2 rounded-[2px] border-2 border-foreground bg-card px-4 py-2 text-sm font-medium text-foreground shadow-[var(--shadow-brutal-sm)] transition-[transform,box-shadow] hover:bg-[var(--celo-yellow)] hover:text-[var(--celo-ink)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none"
         >
           <FontAwesomeIcon icon={faNpm} className="h-3.5 w-3.5" /> npm
         </a>
@@ -139,7 +139,7 @@ function McpOverviewPage() {
           href={MCP_GITHUB_URL}
           target="_blank"
           rel="noreferrer"
-          className="inline-flex items-center gap-2 rounded-lg border border-border bg-card px-4 py-2 text-sm font-medium text-foreground transition hover:border-[var(--celo-yellow)]"
+          className="inline-flex items-center gap-2 rounded-[2px] border-2 border-foreground bg-card px-4 py-2 text-sm font-medium text-foreground shadow-[var(--shadow-brutal-sm)] transition-[transform,box-shadow] hover:bg-[var(--celo-yellow)] hover:text-[var(--celo-ink)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none"
         >
           <FontAwesomeIcon icon={faGithub} className="h-3.5 w-3.5" /> GitHub
         </a>

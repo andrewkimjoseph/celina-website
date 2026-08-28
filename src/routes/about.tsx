@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { PageCrumbs } from "@/components/marketing/page-hero";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArrowUpRightFromSquare,
@@ -11,7 +12,6 @@ import {
   faWandMagicSparkles,
 } from "@fortawesome/free-solid-svg-icons";
 import { faGithub, faNpm } from "@fortawesome/free-brands-svg-icons";
-import celoWordmarkYellow from "@/assets/celo-wordmark-yellow.svg";
 import { SiteHeader } from "@/components/site-header";
 import { HOSTED_TOOL_COUNT, TOOLS } from "@/data/tools";
 
@@ -60,8 +60,8 @@ function ProductCard({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex flex-col rounded-2xl border border-foreground/10 bg-card p-6 shadow-[var(--shadow-soft)]">
-      <div className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-[var(--celo-yellow)] text-[var(--celo-ink)]">
+    <div className="flex flex-col rounded-[2px] border-2 border-foreground bg-card p-6 shadow-[var(--shadow-brutal)] transition-transform duration-150 ease-out hover:-translate-y-0.5 hover:shadow-[var(--shadow-brutal-lg)]">
+      <div className="inline-flex h-9 w-9 items-center justify-center rounded-[2px] border-2 border-foreground bg-[var(--celo-yellow)] text-[var(--celo-ink)]">
         <FontAwesomeIcon icon={icon} className="h-4 w-4" />
       </div>
       <h3
@@ -90,14 +90,18 @@ function ArchNode({
 }) {
   return (
     <div
-      className={`rounded-xl border px-4 py-3 text-center ${
-        highlight
-          ? "border-[var(--celo-yellow)]/50 bg-[var(--celo-yellow)]/10"
-          : "border-foreground/10 bg-card"
+      className={`rounded-[2px] border-2 border-foreground px-4 py-3 text-center shadow-[var(--shadow-brutal-sm)] ${
+        highlight ? "bg-[var(--celo-yellow)]" : "bg-card"
       }`}
     >
-      <p className="font-mono text-sm font-semibold text-foreground">{label}</p>
-      <p className="mt-1 text-xs text-muted-foreground">{detail}</p>
+      <p
+        className={`font-mono text-sm font-semibold ${highlight ? "text-[var(--celo-ink)]" : "text-foreground"}`}
+      >
+        {label}
+      </p>
+      <p className={`mt-1 text-xs ${highlight ? "text-[var(--celo-ink)]/70" : "text-muted-foreground"}`}>
+        {detail}
+      </p>
     </div>
   );
 }
@@ -109,16 +113,9 @@ function AboutPage() {
 
       {/* Hero */}
       <section className="relative overflow-hidden">
-        <div className="absolute inset-0 -z-10" style={{ backgroundImage: "var(--gradient-hero)" }} />
         <div className="mx-auto max-w-6xl px-4 pt-12 pb-10 sm:px-6 sm:pt-16">
-          <div className="mb-6 flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-muted-foreground">
-            <Link to="/" className="hover:text-foreground">
-              Celina
-            </Link>
-            <span>/</span>
-            <span className="text-foreground/80">About</span>
-          </div>
-          <span className="rounded-full border border-border bg-card px-3 py-1 text-xs font-bold uppercase tracking-[0.22em] text-foreground">
+          <PageCrumbs items={[{ label: "Celina", to: "/" }, { label: "About" }]} />
+          <span className="rounded-[2px] border-2 border-foreground bg-background px-3 py-1 text-xs font-bold uppercase tracking-[0.22em] text-foreground shadow-[var(--shadow-brutal-sm)]">
             About
           </span>
           <h1
@@ -226,7 +223,7 @@ function AboutPage() {
           >
             <Link
               to="/sdk"
-              className="inline-flex items-center gap-1 rounded-md border border-border bg-background px-3 py-1.5 text-xs font-medium text-foreground transition hover:border-[var(--celo-yellow)]"
+              className="inline-flex items-center gap-1 rounded-[2px] border-2 border-foreground bg-background px-3 py-1.5 text-xs font-medium text-foreground shadow-[var(--shadow-brutal-sm)] transition-[transform,box-shadow] hover:bg-[var(--celo-yellow)] hover:text-[var(--celo-ink)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none"
             >
               SDK page
             </Link>
@@ -234,7 +231,7 @@ function AboutPage() {
               href={SDK_DOCS_URL}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-1 rounded-md border border-border bg-background px-3 py-1.5 text-xs font-medium text-foreground transition hover:border-[var(--celo-yellow)]"
+              className="inline-flex items-center gap-1 rounded-[2px] border-2 border-foreground bg-background px-3 py-1.5 text-xs font-medium text-foreground shadow-[var(--shadow-brutal-sm)] transition-[transform,box-shadow] hover:bg-[var(--celo-yellow)] hover:text-[var(--celo-ink)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none"
             >
               Docs <FontAwesomeIcon icon={faArrowUpRightFromSquare} className="h-2.5 w-2.5" />
             </a>
@@ -242,7 +239,7 @@ function AboutPage() {
               href={SDK_NPM_URL}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-1 rounded-md border border-border bg-background px-3 py-1.5 text-xs font-medium text-foreground transition hover:border-[var(--celo-yellow)]"
+              className="inline-flex items-center gap-1 rounded-[2px] border-2 border-foreground bg-background px-3 py-1.5 text-xs font-medium text-foreground shadow-[var(--shadow-brutal-sm)] transition-[transform,box-shadow] hover:bg-[var(--celo-yellow)] hover:text-[var(--celo-ink)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none"
             >
               <FontAwesomeIcon icon={faNpm} className="h-3 w-3" /> npm
             </a>
@@ -258,7 +255,7 @@ function AboutPage() {
               href={MCP_NPM_URL}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-1 rounded-md border border-border bg-background px-3 py-1.5 text-xs font-medium text-foreground transition hover:border-[var(--celo-yellow)]"
+              className="inline-flex items-center gap-1 rounded-[2px] border-2 border-foreground bg-background px-3 py-1.5 text-xs font-medium text-foreground shadow-[var(--shadow-brutal-sm)] transition-[transform,box-shadow] hover:bg-[var(--celo-yellow)] hover:text-[var(--celo-ink)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none"
             >
               <FontAwesomeIcon icon={faNpm} className="h-3 w-3" /> npm
             </a>
@@ -266,13 +263,13 @@ function AboutPage() {
               href={MCP_GITHUB_URL}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-1 rounded-md border border-border bg-background px-3 py-1.5 text-xs font-medium text-foreground transition hover:border-[var(--celo-yellow)]"
+              className="inline-flex items-center gap-1 rounded-[2px] border-2 border-foreground bg-background px-3 py-1.5 text-xs font-medium text-foreground shadow-[var(--shadow-brutal-sm)] transition-[transform,box-shadow] hover:bg-[var(--celo-yellow)] hover:text-[var(--celo-ink)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none"
             >
               <FontAwesomeIcon icon={faGithub} className="h-3 w-3" /> GitHub
             </a>
             <Link
               to="/mcp/local"
-              className="inline-flex items-center gap-1 rounded-md border border-border bg-background px-3 py-1.5 text-xs font-medium text-foreground transition hover:border-[var(--celo-yellow)]"
+              className="inline-flex items-center gap-1 rounded-[2px] border-2 border-foreground bg-background px-3 py-1.5 text-xs font-medium text-foreground shadow-[var(--shadow-brutal-sm)] transition-[transform,box-shadow] hover:bg-[var(--celo-yellow)] hover:text-[var(--celo-ink)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none"
             >
               Install guide
             </Link>
@@ -288,7 +285,7 @@ function AboutPage() {
               href={HOSTED_MCP_URL}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-1 rounded-md border border-border bg-background px-3 py-1.5 text-xs font-medium text-foreground transition hover:border-[var(--celo-yellow)]"
+              className="inline-flex items-center gap-1 rounded-[2px] border-2 border-foreground bg-background px-3 py-1.5 text-xs font-medium text-foreground shadow-[var(--shadow-brutal-sm)] transition-[transform,box-shadow] hover:bg-[var(--celo-yellow)] hover:text-[var(--celo-ink)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none"
             >
               Endpoint <FontAwesomeIcon icon={faArrowUpRightFromSquare} className="h-2.5 w-2.5" />
             </a>
@@ -296,7 +293,7 @@ function AboutPage() {
               href={MCP_REMOTE_GITHUB_URL}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-1 rounded-md border border-border bg-background px-3 py-1.5 text-xs font-medium text-foreground transition hover:border-[var(--celo-yellow)]"
+              className="inline-flex items-center gap-1 rounded-[2px] border-2 border-foreground bg-background px-3 py-1.5 text-xs font-medium text-foreground shadow-[var(--shadow-brutal-sm)] transition-[transform,box-shadow] hover:bg-[var(--celo-yellow)] hover:text-[var(--celo-ink)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none"
             >
               <FontAwesomeIcon icon={faGithub} className="h-3 w-3" /> GitHub
             </a>
@@ -313,7 +310,7 @@ function AboutPage() {
                 href={CELESTE_URL}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-1 rounded-md border border-border bg-background px-3 py-1.5 text-xs font-medium text-foreground transition hover:border-[var(--celo-yellow)]"
+                className="inline-flex items-center gap-1 rounded-[2px] border-2 border-foreground bg-background px-3 py-1.5 text-xs font-medium text-foreground shadow-[var(--shadow-brutal-sm)] transition-[transform,box-shadow] hover:bg-[var(--celo-yellow)] hover:text-[var(--celo-ink)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none"
               >
                 Open app <FontAwesomeIcon icon={faArrowUpRightFromSquare} className="h-2.5 w-2.5" />
               </a>
@@ -321,7 +318,7 @@ function AboutPage() {
                 href={CELESTE_GITHUB_URL}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-1 rounded-md border border-border bg-background px-3 py-1.5 text-xs font-medium text-foreground transition hover:border-[var(--celo-yellow)]"
+                className="inline-flex items-center gap-1 rounded-[2px] border-2 border-foreground bg-background px-3 py-1.5 text-xs font-medium text-foreground shadow-[var(--shadow-brutal-sm)] transition-[transform,box-shadow] hover:bg-[var(--celo-yellow)] hover:text-[var(--celo-ink)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none"
               >
                 <FontAwesomeIcon icon={faGithub} className="h-3 w-3" /> GitHub
               </a>
@@ -363,7 +360,7 @@ function AboutPage() {
           ].map((item) => (
             <li
               key={item.title}
-              className="flex gap-3 rounded-xl border border-foreground/10 bg-card p-4"
+              className="flex gap-3 rounded-[2px] border-2 border-foreground bg-card p-4 shadow-[var(--shadow-brutal-sm)]"
             >
               <FontAwesomeIcon
                 icon={item.icon}
@@ -380,7 +377,7 @@ function AboutPage() {
 
       {/* Author */}
       <section className="mx-auto max-w-6xl px-4 pb-16 sm:px-6">
-        <div className="rounded-2xl border border-[var(--celo-yellow)]/20 bg-[var(--celo-ink)] p-8 text-[var(--celo-cream)] sm:p-10">
+        <div className="rounded-[2px] border-2 border-foreground bg-[var(--celo-ink)] p-8 text-[var(--celo-cream)] shadow-[var(--shadow-brutal)] sm:p-10">
           <h2
             className="text-2xl font-bold tracking-tight sm:text-3xl"
             style={{ fontFamily: "var(--font-display)" }}
@@ -404,7 +401,7 @@ function AboutPage() {
               href={SDK_GITHUB_URL}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-2 rounded-lg border border-[var(--celo-cream)]/25 px-4 py-2 text-sm font-medium text-[var(--celo-cream)] transition hover:bg-[var(--celo-cream)]/10"
+              className="inline-flex items-center gap-2 rounded-[2px] border-2 border-[var(--celo-cream)] px-4 py-2 text-sm font-medium text-[var(--celo-cream)] shadow-[4px_4px_0_0_var(--celo-cream)] transition-[transform,box-shadow,background-color] hover:bg-[var(--celo-cream)]/10 active:translate-x-[2px] active:translate-y-[2px] active:shadow-none"
             >
               <FontAwesomeIcon icon={faGithub} className="h-4 w-4" /> celina-sdk
             </a>
@@ -412,20 +409,20 @@ function AboutPage() {
               href={MCP_GITHUB_URL}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-2 rounded-lg border border-[var(--celo-cream)]/25 px-4 py-2 text-sm font-medium text-[var(--celo-cream)] transition hover:bg-[var(--celo-cream)]/10"
+              className="inline-flex items-center gap-2 rounded-[2px] border-2 border-[var(--celo-cream)] px-4 py-2 text-sm font-medium text-[var(--celo-cream)] shadow-[4px_4px_0_0_var(--celo-cream)] transition-[transform,box-shadow,background-color] hover:bg-[var(--celo-cream)]/10 active:translate-x-[2px] active:translate-y-[2px] active:shadow-none"
             >
               <FontAwesomeIcon icon={faGithub} className="h-4 w-4" /> celina-mcp
             </a>
           </div>
-          <div className="mt-8 flex items-center gap-3 border-t border-[var(--celo-cream)]/15 pt-6 text-[10px] uppercase tracking-[0.28em] text-[var(--celo-cream)]/60">
+          <div className="mt-8 flex items-center gap-3 border-t-2 border-[var(--celo-cream)]/25 pt-6 text-[10px] uppercase tracking-[0.28em] text-[var(--celo-cream)]/60">
             <span>Powered by</span>
-            <img src={celoWordmarkYellow} alt="Celo" className="h-3.5 w-auto opacity-95" />
+            <img src="/celo-wordmark-yellow.svg" alt="Celo" className="h-3.5 w-auto opacity-95" />
           </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-foreground/10">
+      <footer className="border-t-2 border-foreground">
         <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-6 py-8 sm:flex-row">
           <p className="text-sm text-muted-foreground">
             Built by{" "}

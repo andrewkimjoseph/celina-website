@@ -44,6 +44,7 @@ function ApiPage() {
           icon={faBolt}
           badge="API · Read-only"
           title="Celina API"
+          crumbs={[{ label: "Celina", to: "/" }, { label: "API" }]}
           description="Public read-only HTTP API for Celo mainnet. Same snake_case tool names as Celina SDK/MCP, without server private keys."
         >
           <div className="flex flex-wrap gap-3">
@@ -51,7 +52,7 @@ function ApiPage() {
               href={API_DOCS_URL}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-2 rounded-lg bg-[var(--celo-yellow)] px-5 py-3 text-sm font-semibold text-[var(--celo-ink)] transition hover:-translate-y-0.5"
+              className="inline-flex items-center gap-2 rounded-[2px] border-2 border-foreground bg-[var(--celo-yellow)] px-5 py-3 text-sm font-semibold text-[var(--celo-ink)] shadow-[var(--shadow-brutal)] transition-[transform,box-shadow] hover:-translate-y-0.5 hover:shadow-[var(--shadow-brutal-lg)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none"
             >
               <FontAwesomeIcon icon={faBookOpen} className="h-4 w-4" />
               Open docs
@@ -61,7 +62,7 @@ function ApiPage() {
               href={API_GITHUB_URL}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-2 rounded-lg border border-border bg-card px-5 py-3 text-sm font-semibold text-foreground transition hover:border-[var(--celo-forest)] hover:bg-muted"
+              className="inline-flex items-center gap-2 rounded-[2px] border-2 border-foreground bg-card px-5 py-3 text-sm font-semibold text-foreground shadow-[var(--shadow-brutal-sm)] transition-[transform,box-shadow,background-color] hover:bg-muted active:translate-x-[2px] active:translate-y-[2px] active:shadow-none"
             >
               GitHub
             </a>
@@ -70,7 +71,7 @@ function ApiPage() {
       </PageHeroSection>
 
       <section className="mx-auto max-w-6xl px-4 pb-16 sm:px-6">
-        <article className="min-w-0 overflow-hidden rounded-2xl border border-foreground/15 bg-card p-7 shadow-[var(--shadow-soft)]">
+        <article className="min-w-0 overflow-hidden rounded-[2px] border-2 border-foreground bg-card p-7 shadow-[var(--shadow-brutal)]">
           <EndpointCopyCard label="Production base URL" value={API_BASE_URL} />
 
           <h2
@@ -80,8 +81,8 @@ function ApiPage() {
             Endpoints
           </h2>
           <div className="mt-4 grid gap-4 md:grid-cols-3">
-            <div className="rounded-xl border border-foreground/10 bg-muted/30 p-5">
-              <div className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-[var(--celo-yellow)] text-[var(--celo-ink)]">
+            <div className="rounded-[2px] border-2 border-foreground bg-muted/30 p-5">
+              <div className="inline-flex h-8 w-8 items-center justify-center rounded-[2px] border-2 border-foreground bg-[var(--celo-yellow)] text-[var(--celo-ink)]">
                 <FontAwesomeIcon icon={faList} className="h-4 w-4" />
               </div>
               <h3 className="mt-3 font-semibold text-foreground">Catalog</h3>
@@ -89,8 +90,8 @@ function ApiPage() {
                 <code>GET /v1/tools</code> lists available read tools and schemas.
               </p>
             </div>
-            <div className="rounded-xl border border-foreground/10 bg-muted/30 p-5">
-              <div className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-[var(--celo-yellow)] text-[var(--celo-ink)]">
+            <div className="rounded-[2px] border-2 border-foreground bg-muted/30 p-5">
+              <div className="inline-flex h-8 w-8 items-center justify-center rounded-[2px] border-2 border-foreground bg-[var(--celo-yellow)] text-[var(--celo-ink)]">
                 <FontAwesomeIcon icon={faCode} className="h-4 w-4" />
               </div>
               <h3 className="mt-3 font-semibold text-foreground">Metadata</h3>
@@ -98,8 +99,8 @@ function ApiPage() {
                 <code>GET /v1/:name</code> returns metadata for one tool.
               </p>
             </div>
-            <div className="rounded-xl border border-foreground/10 bg-muted/30 p-5">
-              <div className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-[var(--celo-yellow)] text-[var(--celo-ink)]">
+            <div className="rounded-[2px] border-2 border-foreground bg-muted/30 p-5">
+              <div className="inline-flex h-8 w-8 items-center justify-center rounded-[2px] border-2 border-foreground bg-[var(--celo-yellow)] text-[var(--celo-ink)]">
                 <FontAwesomeIcon icon={faBolt} className="h-4 w-4" />
               </div>
               <h3 className="mt-3 font-semibold text-foreground">Invocation</h3>

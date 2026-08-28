@@ -41,6 +41,7 @@ function StackPage() {
           badge="Open-source agent stack"
           title="The Celina stack"
           wide
+          crumbs={[{ label: "Celina", to: "/" }, { label: "Stack" }]}
           description={
             <>
               One shared tool catalog on Celo mainnet —{" "}

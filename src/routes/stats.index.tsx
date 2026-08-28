@@ -56,7 +56,7 @@ function SectionCard({
   return (
     <Link
       to={to}
-      className="group flex flex-col gap-4 rounded-2xl border border-foreground/10 bg-card p-6 shadow-[var(--shadow-soft)] transition hover:border-[var(--celo-yellow)]"
+      className="group flex flex-col gap-4 rounded-[2px] border-2 border-foreground bg-card p-6 shadow-[var(--shadow-brutal)] transition-transform duration-150 ease-out hover:-translate-y-0.5 hover:shadow-[var(--shadow-brutal-lg)]"
     >
       <div className="flex items-center justify-between gap-3">
         {badge}
@@ -119,7 +119,7 @@ function OverviewPage() {
           <SectionCard
             to="/stats/onchain"
             badge={
-              <span className="inline-flex items-center gap-2 rounded-full border border-[var(--celo-forest)]/40 bg-card/80 px-3 py-1 text-[10px] font-medium uppercase tracking-[0.18em] text-foreground">
+              <span className="inline-flex items-center gap-2 rounded-[2px] border-2 border-foreground bg-card px-3 py-1 text-[10px] font-medium uppercase tracking-[0.18em] text-foreground">
                 On-chain · Dune
               </span>
             }
@@ -140,7 +140,7 @@ function OverviewPage() {
           <SectionCard
             to="/stats/offchain"
             badge={
-              <span className="inline-flex items-center gap-2 rounded-full border border-[var(--celo-forest)]/40 bg-card/80 px-3 py-1 text-[10px] font-medium uppercase tracking-[0.18em] text-foreground">
+              <span className="inline-flex items-center gap-2 rounded-[2px] border-2 border-foreground bg-card px-3 py-1 text-[10px] font-medium uppercase tracking-[0.18em] text-foreground">
                 Off-chain · Amplitude
               </span>
             }
@@ -153,7 +153,7 @@ function OverviewPage() {
                 <XAxis dataKey="label" stroke="var(--muted-foreground)" fontSize={10} tickLine={false} hide />
                 <YAxis stroke="var(--muted-foreground)" fontSize={10} tickLine={false} axisLine={false} width={32} />
                 <Tooltip contentStyle={tooltipStyle} itemStyle={tooltipItemStyle} labelStyle={tooltipLabelStyle} cursor={{ fill: "var(--muted)" }} />
-                <Bar dataKey="count" fill={yellow} radius={[3, 3, 0, 0]} />
+                <Bar dataKey="count" fill={yellow} radius={[0, 0, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </SectionCard>
@@ -161,7 +161,7 @@ function OverviewPage() {
           <SectionCard
             to="/stats/package"
             badge={
-              <span className="inline-flex items-center gap-2 rounded-full border border-[var(--celo-forest)]/40 bg-card/80 px-3 py-1 text-[10px] font-medium uppercase tracking-[0.18em] text-foreground">
+              <span className="inline-flex items-center gap-2 rounded-[2px] border-2 border-foreground bg-card px-3 py-1 text-[10px] font-medium uppercase tracking-[0.18em] text-foreground">
                 <FontAwesomeIcon icon={faNpm} className="h-3 w-3 text-foreground dark:text-[var(--celo-yellow)]" />
                 npm downloads
               </span>
@@ -176,11 +176,11 @@ function OverviewPage() {
                   <XAxis dataKey="label" stroke="var(--muted-foreground)" fontSize={10} tickLine={false} hide />
                   <YAxis stroke="var(--muted-foreground)" fontSize={10} tickLine={false} axisLine={false} width={32} />
                   <Tooltip contentStyle={tooltipStyle} itemStyle={tooltipItemStyle} labelStyle={tooltipLabelStyle} cursor={{ fill: "var(--muted)" }} />
-                  <Bar dataKey="downloads" fill={forest} radius={[3, 3, 0, 0]} isAnimationActive={false} />
+                  <Bar dataKey="downloads" fill={forest} radius={[0, 0, 0, 0]} isAnimationActive={false} />
                 </BarChart>
               </ResponsiveContainer>
             ) : (
-              <div className="h-full w-full animate-pulse rounded-xl bg-muted" />
+              <div className="h-full w-full animate-pulse rounded-[2px] bg-muted" />
             )}
           </SectionCard>
         </div>

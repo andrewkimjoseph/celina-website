@@ -87,7 +87,7 @@ function OffchainPage() {
     <>
       <section className="mx-auto max-w-6xl px-4 pb-6 sm:px-6">
         <div className="mb-5 min-w-0">
-          <div className="inline-flex max-w-full items-center gap-2 rounded-full border border-[var(--celo-forest)]/40 bg-card/80 px-3 py-1 text-[10px] font-medium text-foreground sm:text-xs">
+          <div className="inline-flex max-w-full items-center gap-2 rounded-[2px] border-2 border-foreground bg-card px-3 py-1 text-[10px] font-medium text-foreground sm:text-xs">
             <FontAwesomeIcon icon={faChartLine} className="h-3 w-3 shrink-0 text-[var(--celo-forest)] dark:text-foreground" />
             <span className="uppercase tracking-[0.14em] sm:tracking-[0.18em]">Off-chain · Amplitude</span>
           </div>
@@ -143,7 +143,7 @@ function OffchainPage() {
                 <XAxis dataKey="label" stroke="var(--muted-foreground)" fontSize={10} tickLine={false} interval={Math.max(0, Math.floor(agg.daily.length / 8))} />
                 <YAxis stroke="var(--muted-foreground)" fontSize={11} tickLine={false} axisLine={false} width={40} />
                 <Tooltip contentStyle={tooltipStyle} itemStyle={tooltipItemStyle} labelStyle={tooltipLabelStyle} cursor={{ fill: "var(--muted)" }} />
-                <Bar dataKey="count" name="Calls" fill={yellow} radius={[4, 4, 0, 0]} />
+                <Bar dataKey="count" name="Calls" fill={yellow} radius={[0, 0, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </ChartCard>
@@ -155,7 +155,7 @@ function OffchainPage() {
                 <XAxis dataKey="label" stroke="var(--muted-foreground)" fontSize={10} tickLine={false} interval={Math.max(0, Math.floor(queriedWalletsDaily.length / 8))} />
                 <YAxis stroke="var(--muted-foreground)" fontSize={11} tickLine={false} axisLine={false} width={40} allowDecimals={false} />
                 <Tooltip contentStyle={tooltipStyle} itemStyle={tooltipItemStyle} labelStyle={tooltipLabelStyle} cursor={{ fill: "var(--muted)" }} />
-                <Bar dataKey="count" name="Queried wallets" fill={forest} radius={[4, 4, 0, 0]} />
+                <Bar dataKey="count" name="Queried wallets" fill={forest} radius={[0, 0, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </ChartCard>
@@ -174,7 +174,7 @@ function OffchainPage() {
                     <span style={{ color: "var(--foreground)" }}>{value}</span>
                   )}
                 />
-                <Bar yAxisId="calls" dataKey="calls" name="Calls" fill={yellow} radius={[4, 4, 0, 0]} />
+                <Bar yAxisId="calls" dataKey="calls" name="Calls" fill={yellow} radius={[0, 0, 0, 0]} />
                 <Line yAxisId="walletsQueried" type="monotone" dataKey="walletsQueried" name="Wallets queried" stroke={lineStroke} strokeWidth={2} dot={false} />
               </ComposedChart>
             </ResponsiveContainer>
@@ -191,7 +191,7 @@ function OffchainPage() {
                 <XAxis type="number" stroke="var(--muted-foreground)" fontSize={11} tickLine={false} axisLine={false} />
                 <YAxis type="category" dataKey="event" stroke="var(--muted-foreground)" fontSize={11} tickLine={false} axisLine={false} width={170} />
                 <Tooltip contentStyle={tooltipStyle} itemStyle={tooltipItemStyle} labelStyle={tooltipLabelStyle} cursor={{ fill: "var(--muted)" }} />
-                <Bar dataKey="count" name="Calls" radius={[0, 4, 4, 0]}>
+                <Bar dataKey="count" name="Calls" radius={[0, 0, 0, 0]}>
                   {agg.topTools.map((_, i) => (
                     <Cell key={i} fill={i === 0 ? yellow : forest} />
                   ))}
@@ -211,10 +211,10 @@ function OffchainPage() {
                   {agg.topTools.map((t, i) => (
                     <li
                       key={t.event}
-                      className="flex items-center justify-between gap-3 rounded-lg border border-foreground/10 bg-background/60 px-3 py-2"
+                      className="flex items-center justify-between gap-3 rounded-[2px] border-2 border-foreground bg-background px-3 py-2"
                     >
                       <div className="flex min-w-0 items-center gap-3">
-                        <span className="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-muted text-[10px] font-semibold text-foreground/80">
+                        <span className="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-[2px] border-2 border-foreground bg-muted text-[10px] font-semibold text-foreground/80">
                           {i + 1}
                         </span>
                         <span className="truncate font-mono text-xs text-foreground/90">
@@ -244,7 +244,7 @@ function OffchainPage() {
                     <span style={{ color: "var(--foreground)" }}>{value}</span>
                   )}
                 />
-                <Bar dataKey="count" name="Calls" fill={yellow} radius={[4, 4, 0, 0]} />
+                <Bar dataKey="count" name="Calls" fill={yellow} radius={[0, 0, 0, 0]} />
                 <Line type="monotone" dataKey="rolling7" name="7-day rolling average" stroke={lineStroke} strokeWidth={2} dot={false} />
               </ComposedChart>
             </ResponsiveContainer>
@@ -257,7 +257,7 @@ function OffchainPage() {
                 <XAxis dataKey="name" stroke="var(--muted-foreground)" fontSize={11} tickLine={false} />
                 <YAxis stroke="var(--muted-foreground)" fontSize={11} tickLine={false} axisLine={false} width={40} />
                 <Tooltip contentStyle={tooltipStyle} itemStyle={tooltipItemStyle} labelStyle={tooltipLabelStyle} cursor={{ fill: "var(--muted)" }} />
-                <Bar dataKey="count" name="Calls" fill={forest} radius={[4, 4, 0, 0]} />
+                <Bar dataKey="count" name="Calls" fill={forest} radius={[0, 0, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </ChartCard>
@@ -281,6 +281,8 @@ function OffchainPage() {
                   outerRadius={80}
                   innerRadius={48}
                   paddingAngle={2}
+                  stroke="var(--background)"
+                  strokeWidth={2}
                 >
                   {agg.share.map((_, i) => {
                     const palette = [yellow, forest, "var(--celo-forest)", lineStroke, "var(--muted-foreground)", "var(--celo-yellow)", "var(--border)"];

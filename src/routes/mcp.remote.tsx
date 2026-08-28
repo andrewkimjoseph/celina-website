@@ -27,10 +27,10 @@ export const Route = createFileRoute("/mcp/remote")({
 function McpRemotePage() {
   return (
     <section className="mx-auto max-w-6xl px-4 pb-16 sm:px-6">
-      <article className="min-w-0 overflow-hidden rounded-2xl border border-foreground/15 bg-card p-7 shadow-[var(--shadow-soft)]">
+      <article className="min-w-0 overflow-hidden rounded-[2px] border-2 border-foreground bg-card p-7 shadow-[var(--shadow-brutal)]">
         <div className="mb-1 flex flex-wrap items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-[var(--celo-forest)]">
           <FontAwesomeIcon icon={faCloud} className="h-3.5 w-3.5" /> Remote hosted
-          <span className="rounded-full border border-[var(--celo-forest)]/40 bg-[var(--celo-forest)]/10 px-2 py-0.5 text-[10px] tracking-[0.18em] text-[var(--celo-forest)] dark:border-[var(--celo-yellow)]/40 dark:bg-[var(--celo-yellow)]/10 dark:text-[var(--celo-yellow)]">
+          <span className="rounded-[2px] border-2 border-[var(--celo-forest)] bg-[var(--celo-forest)]/10 px-2 py-0.5 text-[10px] tracking-[0.18em] text-[var(--celo-forest)] dark:border-[var(--celo-yellow)] dark:bg-[var(--celo-yellow)]/10 dark:text-[var(--celo-yellow)]">
             Read-only
           </span>
         </div>
@@ -90,7 +90,7 @@ function McpRemotePage() {
       </article>
 
       <div className="mt-8 grid gap-4 sm:grid-cols-2">
-        <div className="rounded-xl border border-foreground/10 bg-card p-5">
+        <div className="rounded-[2px] border-2 border-foreground bg-card p-5 shadow-[var(--shadow-brutal-sm)]">
           <p className="text-sm font-semibold text-foreground">Works remotely</p>
           <ul className="mt-2 space-y-1 text-sm text-muted-foreground">
             <li>Chain reads and balances</li>
@@ -101,7 +101,7 @@ function McpRemotePage() {
             <li>Self verify / lookup (read-only)</li>
           </ul>
         </div>
-        <div className="rounded-xl border border-foreground/10 bg-card p-5">
+        <div className="rounded-[2px] border-2 border-foreground bg-card p-5 shadow-[var(--shadow-brutal-sm)]">
           <p className="text-sm font-semibold text-foreground">Requires local stdio</p>
           <ul className="mt-2 space-y-1 text-sm text-muted-foreground">
             <li>
@@ -116,7 +116,7 @@ function McpRemotePage() {
         </div>
       </div>
 
-      <div className="mt-6 flex items-start gap-3 rounded-xl border border-[var(--celo-yellow)]/30 bg-[var(--celo-yellow)]/5 p-4 text-sm">
+      <div className="mt-6 flex items-start gap-3 rounded-[2px] border-2 border-[var(--celo-forest)] bg-[var(--celo-yellow)]/5 p-4 text-sm dark:border-[var(--celo-yellow)]">
         <FontAwesomeIcon icon={faLock} className="mt-0.5 h-4 w-4 shrink-0 text-[var(--celo-forest)] dark:text-[var(--celo-yellow)]" />
         <p className="text-muted-foreground">
           <span className="font-medium text-foreground">Never send private keys to the hosted endpoint.</span>{" "}
