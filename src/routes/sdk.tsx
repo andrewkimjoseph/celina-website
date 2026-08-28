@@ -1,8 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+  faAward,
   faBookOpen,
   faBolt,
+  faFingerprint,
   faGaugeHigh,
   faLayerGroup,
   faLock,
@@ -112,8 +114,8 @@ function CapabilityCard({
   body: string;
 }) {
   return (
-    <div className="rounded-2xl border border-foreground/10 bg-card p-6 shadow-[var(--shadow-soft)]">
-      <div className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-[var(--celo-yellow)] text-[var(--celo-ink)]">
+    <div className="rounded-[2px] border-2 border-foreground bg-card p-6 shadow-[var(--shadow-brutal)] transition-transform duration-150 ease-out hover:-translate-y-0.5 hover:shadow-[var(--shadow-brutal-lg)]">
+      <div className="inline-flex h-9 w-9 items-center justify-center rounded-[2px] border-2 border-foreground bg-[var(--celo-yellow)] text-[var(--celo-ink)]">
         <FontAwesomeIcon icon={icon} className="h-4 w-4" />
       </div>
       <h3
@@ -138,6 +140,7 @@ function SdkPage() {
           badge="SDK · Shared tool catalog"
           title="Celina SDK"
           wide
+          crumbs={[{ label: "Celina", to: "/" }, { label: "SDK" }]}
           description={
             <>
               One mainnet library for Celo agents — <span className="font-medium text-foreground">reads</span>,{" "}
@@ -163,7 +166,7 @@ function SdkPage() {
               href={SDK_DOCS_URL}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-2 rounded-lg bg-[var(--celo-yellow)] px-5 py-3 text-sm font-semibold text-[var(--celo-ink)] transition hover:-translate-y-0.5"
+              className="inline-flex items-center gap-2 rounded-[2px] border-2 border-foreground bg-[var(--celo-yellow)] px-5 py-3 text-sm font-semibold text-[var(--celo-ink)] shadow-[var(--shadow-brutal)] transition-[transform,box-shadow] hover:-translate-y-0.5 hover:shadow-[var(--shadow-brutal-lg)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none"
             >
               <FontAwesomeIcon icon={faBookOpen} className="h-4 w-4" />
               Read the docs
@@ -173,7 +176,7 @@ function SdkPage() {
               href={SDK_NPM_URL}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-2 rounded-lg border border-border bg-card px-5 py-3 text-sm font-semibold text-foreground transition hover:border-[var(--celo-forest)] hover:bg-muted"
+              className="inline-flex items-center gap-2 rounded-[2px] border-2 border-foreground bg-card px-5 py-3 text-sm font-semibold text-foreground shadow-[var(--shadow-brutal-sm)] transition-[transform,box-shadow,background-color] hover:bg-muted active:translate-x-[2px] active:translate-y-[2px] active:shadow-none"
             >
               <FontAwesomeIcon icon={faNpm} className="h-4 w-4" /> View on npm
             </a>
@@ -225,8 +228,18 @@ function SdkPage() {
             title="Tool catalog"
             body="Import @andrewkimjoseph/celina-sdk/tools — filter by surface (mcp or browser), family (read/execute). Same schemas celina-mcp registers."
           />
+          <CapabilityCard
+            icon={faFingerprint}
+            title="Humanness"
+            body="checkHumanness — Self Agent ID or GoodDollar IdentityV4. Gates governance and staking prepares until one rail passes."
+          />
+          <CapabilityCard
+            icon={faAward}
+            title="Reputation"
+            body="AgentKarma karma, ERC-8004 agent lookup, and counterparty trust policy — read-only via agentkarma.io."
+          />
         </div>
-        <div className="mt-5 flex items-start gap-3 rounded-xl border border-[var(--celo-forest)]/30 bg-[var(--celo-forest)]/5 p-4 text-sm text-foreground">
+        <div className="mt-5 flex items-start gap-3 rounded-[2px] border-2 border-[var(--celo-forest)] bg-[var(--celo-forest)]/5 p-4 text-sm text-foreground">
           <FontAwesomeIcon icon={faLock} className="mt-0.5 h-4 w-4 text-[var(--celo-forest)] dark:text-[var(--celo-yellow)]" />
           <span>
             <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">createCelinaClient</span> never holds CELO wallet keys — pass prepared <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">steps</span> to wagmi. For sponsored UserOps, <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">createAAClient</span> uses an owner key and your app-owned gas sponsorship credentials. Optional-address defaults and <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">get_wallet_address</span> are celina-mcp only (local stdio + server key).
@@ -269,7 +282,7 @@ function SdkPage() {
         >
           Install
         </h2>
-        <div className="flex w-full items-center gap-2 overflow-hidden rounded-full border border-[var(--celo-yellow)]/20 bg-[var(--celo-ink)] py-2 pl-4 pr-2 text-[12px] text-[var(--celo-cream)] shadow-[var(--shadow-soft)] sm:w-auto sm:inline-flex sm:gap-3 sm:pl-5 sm:text-sm">
+        <div className="flex w-full items-center gap-2 overflow-hidden rounded-[2px] border-2 border-foreground bg-[var(--celo-ink)] py-2 pl-4 pr-2 text-[12px] text-[var(--celo-cream)] shadow-[var(--shadow-brutal-sm)] sm:w-auto sm:inline-flex sm:gap-3 sm:pl-5 sm:text-sm">
           <span className="font-mono text-[var(--celo-yellow)]">$</span>
           <code className="flex-1 overflow-x-auto whitespace-nowrap font-mono">{INSTALL_CMD}</code>
           <CopyButton text={INSTALL_CMD} />
@@ -313,10 +326,10 @@ function SdkPage() {
         >
           API overview
         </h2>
-        <div className="overflow-hidden rounded-2xl border border-foreground/10 bg-card shadow-[var(--shadow-soft)]">
+        <div className="overflow-hidden rounded-[2px] border-2 border-foreground bg-card shadow-[var(--shadow-brutal)]">
           <div className="overflow-x-auto">
             <table className="w-full text-left text-sm">
-              <thead className="border-b border-foreground/10 bg-muted/40 text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
+              <thead className="border-b-2 border-foreground bg-muted/40 text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
                 <tr>
                   <th className="px-5 py-3 font-semibold">Service</th>
                   <th className="px-5 py-3 font-semibold">Reads</th>
@@ -325,7 +338,7 @@ function SdkPage() {
               </thead>
               <tbody>
                 {API_ROWS.map((r) => (
-                  <tr key={r.service} className="border-b border-foreground/5 last:border-0">
+                  <tr key={r.service} className="border-b-2 border-foreground/20 last:border-0">
                     <td className="px-5 py-3 align-top">
                       <code className="font-mono text-xs font-semibold text-foreground">{r.service}</code>
                     </td>
@@ -377,7 +390,7 @@ function SdkPage() {
           Related packages
         </h2>
         <div className="grid gap-4 sm:grid-cols-2">
-          <div className="group rounded-2xl border border-foreground/10 bg-card p-5 shadow-[var(--shadow-soft)] transition hover:border-[var(--celo-forest)]">
+          <div className="group rounded-[2px] border-2 border-foreground bg-card p-5 shadow-[var(--shadow-brutal)] transition-transform duration-150 ease-out hover:-translate-y-0.5 hover:shadow-[var(--shadow-brutal-lg)]">
             <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-[var(--celo-forest)] dark:text-[var(--celo-yellow)]">
               <FontAwesomeIcon icon={faNpm} className="h-3.5 w-3.5" /> MCP server
             </div>
@@ -388,7 +401,7 @@ function SdkPage() {
             <div className="mt-3 flex flex-wrap gap-2">
               <Link
                 to="/mcp"
-                className="inline-flex items-center gap-1 rounded-md border border-border bg-background px-3 py-1.5 text-xs font-medium text-foreground transition hover:border-[var(--celo-yellow)]"
+                className="inline-flex items-center gap-1 rounded-[2px] border-2 border-foreground bg-background px-3 py-1.5 text-xs font-medium text-foreground shadow-[var(--shadow-brutal-sm)] transition-[transform,box-shadow] hover:bg-[var(--celo-yellow)] hover:text-[var(--celo-ink)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none"
               >
                 MCP hub
               </Link>
@@ -396,7 +409,7 @@ function SdkPage() {
                 href={MCP_NPM_URL}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-1 rounded-md border border-border bg-background px-3 py-1.5 text-xs font-medium text-foreground transition hover:border-[var(--celo-yellow)]"
+                className="inline-flex items-center gap-1 rounded-[2px] border-2 border-foreground bg-background px-3 py-1.5 text-xs font-medium text-foreground shadow-[var(--shadow-brutal-sm)] transition-[transform,box-shadow] hover:bg-[var(--celo-yellow)] hover:text-[var(--celo-ink)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none"
               >
                 <FontAwesomeIcon icon={faNpm} className="h-3 w-3" /> npm
               </a>
@@ -406,7 +419,7 @@ function SdkPage() {
             href={SELF_AGENT_URL}
             target="_blank"
             rel="noreferrer"
-            className="group rounded-2xl border border-foreground/10 bg-card p-5 shadow-[var(--shadow-soft)] transition hover:border-[var(--celo-forest)]"
+            className="group rounded-[2px] border-2 border-foreground bg-card p-5 shadow-[var(--shadow-brutal)] transition-transform duration-150 ease-out hover:-translate-y-0.5 hover:shadow-[var(--shadow-brutal-lg)]"
           >
             <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-[var(--celo-forest)] dark:text-[var(--celo-yellow)]">
               <FontAwesomeIcon icon={faNpm} className="h-3.5 w-3.5" /> Self Agent ID
@@ -420,7 +433,7 @@ function SdkPage() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-foreground/10">
+      <footer className="border-t-2 border-foreground">
         <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-6 py-8 sm:flex-row">
           <p className="text-sm text-muted-foreground">
             Built by{" "}
