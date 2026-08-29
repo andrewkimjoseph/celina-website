@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowUpRightFromSquare, faChartLine } from "@fortawesome/free-solid-svg-icons";
+import { cn } from "@/lib/utils";
 import { useStatsStore } from "@/lib/stats-store";
 import {
   KpiCard,
@@ -46,6 +47,21 @@ export const Route = createFileRoute("/stats/onchain")({
   }),
   component: OnchainPage,
 });
+
+const pagerBtnClass =
+  "rounded-[2px] border-2 border-foreground px-2.5 py-1.5 text-foreground/80 shadow-[var(--shadow-brutal-sm)] transition-[transform,box-shadow,background-color] hover:bg-muted active:translate-x-[1px] active:translate-y-[1px] active:shadow-none disabled:opacity-40 disabled:active:translate-x-0 disabled:active:translate-y-0 disabled:active:shadow-[var(--shadow-brutal-sm)]";
+
+function pageWindow(currentZero: number, totalPages: number): Array<number | "ellipsis"> {
+  const current = currentZero + 1;
+  const set = new Set<number>([1, totalPages, current, current - 1, current + 1]);
+  const nums = [...set].filter((n) => n >= 1 && n <= totalPages).sort((a, b) => a - b);
+  const out: Array<number | "ellipsis"> = [];
+  for (let i = 0; i < nums.length; i++) {
+    if (i > 0 && nums[i] - nums[i - 1] > 1) out.push("ellipsis");
+    out.push(nums[i]);
+  }
+  return out;
+}
 
 function OnchainPage() {
   const { rows, loading, error, partial, queryUrl, queryExecutedAt } =
@@ -282,22 +298,75 @@ function OnchainPage() {
             </table>
           </div>
           {rows.length > 0 && (
-            <div className="flex items-center justify-between gap-2 border-t-2 border-foreground px-4 py-3 text-xs text-muted-foreground">
+            <div className="flex flex-col gap-3 border-t-2 border-foreground px-4 py-3 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
               <span>
                 {currentPage * pageSize + 1}–{Math.min((currentPage + 1) * pageSize, rows.length)} of{" "}
                 {rows.length.toLocaleString()} txn{rows.length === 1 ? "" : "s"}
                 {totalPages > 1 && (
                   <>
                     {" "}
-                    · page {currentPage + 1} of {totalPages}
+                    · page {currentPage + 1} of {totalPages.toLocaleString()}
                   </>
                 )}
               </span>
               {totalPages > 1 && (
-                <div className="flex gap-2">
-                  <button onClick={() => setPage((p) => Math.max(0, p - 1))} disabled={currentPage === 0} className="rounded-[2px] border-2 border-foreground px-3 py-1.5 text-foreground/80 shadow-[var(--shadow-brutal-sm)] transition-[transform,box-shadow,background-color] hover:bg-muted active:translate-x-[1px] active:translate-y-[1px] active:shadow-none disabled:opacity-40 disabled:active:translate-x-0 disabled:active:translate-y-0 disabled:active:shadow-[var(--shadow-brutal-sm)]">Prev</button>
-                  <button onClick={() => setPage((p) => Math.min(totalPages - 1, p + 1))} disabled={currentPage >= totalPages - 1} className="rounded-[2px] border-2 border-foreground px-3 py-1.5 text-foreground/80 shadow-[var(--shadow-brutal-sm)] transition-[transform,box-shadow,background-color] hover:bg-muted active:translate-x-[1px] active:translate-y-[1px] active:shadow-none disabled:opacity-40 disabled:active:translate-x-0 disabled:active:translate-y-0 disabled:active:shadow-[var(--shadow-brutal-sm)]">Next</button>
-                </div>
+                <nav aria-label="Transaction pages" className="flex flex-wrap items-center gap-1.5">
+                  <button
+                    type="button"
+                    onClick={() => setPage(0)}
+                    disabled={currentPage === 0}
+                    className={pagerBtnClass}
+                  >
+                    First
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setPage((p) => Math.max(0, p - 1))}
+                    disabled={currentPage === 0}
+                    className={pagerBtnClass}
+                  >
+                    Prev
+                  </button>
+                  {pageWindow(currentPage, totalPages).map((item, i) =>
+                    item === "ellipsis" ? (
+                      <span key={`e-${i}`} className="px-1 text-muted-foreground" aria-hidden>
+                        …
+                      </span>
+                    ) : (
+                      <button
+                        key={item}
+                        type="button"
+                        onClick={() => setPage(item - 1)}
+                        aria-label={`Go to page ${item}`}
+                        aria-current={item === currentPage + 1 ? "page" : undefined}
+                        className={cn(
+                          pagerBtnClass,
+                          "min-w-8 tabular-nums",
+                          item === currentPage + 1 &&
+                            "bg-foreground text-background hover:bg-foreground",
+                        )}
+                      >
+                        {item.toLocaleString()}
+                      </button>
+                    ),
+                  )}
+                  <button
+                    type="button"
+                    onClick={() => setPage((p) => Math.min(totalPages - 1, p + 1))}
+                    disabled={currentPage >= totalPages - 1}
+                    className={pagerBtnClass}
+                  >
+                    Next
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setPage(totalPages - 1)}
+                    disabled={currentPage >= totalPages - 1}
+                    className={pagerBtnClass}
+                  >
+                    Last
+                  </button>
+                </nav>
               )}
             </div>
           )}
