@@ -3,6 +3,7 @@ import "./lib/error-capture";
 import { consumeLastCapturedError } from "./lib/error-capture";
 import { renderErrorPage } from "./lib/error-page";
 import { syncAmplitudeExport } from "./lib/amplitude.functions";
+import { syncDuneResults } from "./lib/dune.functions";
 
 type ServerEntry = {
   fetch: (request: Request, env: unknown, ctx: unknown) => Promise<Response> | Response;
@@ -93,11 +94,22 @@ export default {
         }
       }
     }
-    console.log(`[cron ${event.cron}] running amplitude sync`);
+    console.log(`[cron ${event.cron}] running amplitude then dune sync`);
     ctx.waitUntil(
-      syncAmplitudeExport()
-        .then(() => console.log(`[cron ${event.cron}] amplitude sync complete`))
-        .catch((err) => console.error(`[cron ${event.cron}] amplitude sync failed`, err)),
+      (async () => {
+        try {
+          await syncAmplitudeExport();
+          console.log(`[cron ${event.cron}] amplitude sync complete`);
+        } catch (err) {
+          console.error(`[cron ${event.cron}] amplitude sync failed`, err);
+        }
+        try {
+          await syncDuneResults();
+          console.log(`[cron ${event.cron}] dune sync complete`);
+        } catch (err) {
+          console.error(`[cron ${event.cron}] dune sync failed`, err);
+        }
+      })(),
     );
   },
 };

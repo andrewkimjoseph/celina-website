@@ -27,7 +27,7 @@ This repo is the **marketing site** for Celina. The SDK and MCP packages live in
 - **Tools catalog** (`/tools`) — browse all MCP tools by category
   - Category pages: `/tools/blockchain`, `/tools/mento-fx`, `/tools/uniswap`, `/tools/aave`, `/tools/gooddollar` (UBI + reserve quote), `/tools/self`, and more
   - Individual tool docs: `/tools/:category/:toolSlug`
-- **Stats dashboard** (`/stats`) — on-chain activity (Dune), off-chain MCP tool calls and wallets queried (Amplitude → Supabase), and npm downloads
+- **Stats dashboard** (`/stats`) — on-chain activity (Dune → Supabase), off-chain MCP tool calls and wallets queried (Amplitude → Supabase), and npm downloads
 
 ## Stack
 
@@ -80,20 +80,24 @@ Stats pages call server functions that need API keys. Without them, dashboards s
 
 | Variable | Used for |
 |----------|----------|
-| `DUNE_API_KEY` | On-chain activity API auth (`/stats/onchain`) |
-| `DUNE_QUERY_ID` | Dune query ID for on-chain stats fetch and dashboard link (required with `DUNE_API_KEY`) |
+| `DUNE_API_KEY` | Dune execute/results for incremental on-chain sync (`node scripts/run-dune-sync.mjs`) |
+| `DUNE_QUERY_ID` | Dune query ID for sync and the `/stats/onchain` dashboard link |
 | `AMPLITUDE_API_KEY` / `AMPLITUDE_SECRET_KEY` | Off-chain MCP tool calls (`/stats/offchain`) |
 | `AMPLITUDE_REGION` | Optional — `us` (default) or `eu` |
-| `CUSTOM_SUPABASE_URL` / `CUSTOM_SUPABASE_SERVICE_ROLE_KEY` | Amplitude export cache in Supabase |
+| `CUSTOM_SUPABASE_URL` / `CUSTOM_SUPABASE_SERVICE_ROLE_KEY` | Amplitude + Dune caches in Supabase (`/stats/onchain` and `/stats/offchain` read from here) |
 | `CRON_SECRET` | Vercel Cron auth for `/api/cron/amplitude-sync` (Amplitude export sync) |
 
 - **Local (Vite):** copy [`.env.example`](.env.example) to `.env.local` or `.env`
 - **Cloudflare Workers:** copy [`.dev.vars.example`](.dev.vars.example) to `.dev.vars`, or set secrets in the dashboard
 - **Vercel:** project → Settings → Environment Variables (same names)
 
-Manual Amplitude sync (e.g. cron debugging): `node scripts/run-amplitude-sync.mjs` reads `.env.local` then `.env`.
+Manual sync (e.g. cron debugging) reads `.env.local` then `.env`:
 
-**Supabase setup (one-time):** after deploying off-chain stats changes, run [`scripts/supabase-amplitude-aggregates.sql`](scripts/supabase-amplitude-aggregates.sql) in the custom Supabase SQL editor (plus optional [`scripts/supabase-amplitude-user-id-index.sql`](scripts/supabase-amplitude-user-id-index.sql)). Production sync runs on Vercel Cron daily at midnight UTC (`/api/cron/amplitude-sync`); use `node scripts/run-amplitude-sync.mjs` for manual runs.
+- Amplitude: `node scripts/run-amplitude-sync.mjs`
+- Dune tagged txns: `node scripts/run-dune-sync.mjs`
+- Dune full backfill: `node scripts/run-dune-backfill.mjs`
+
+**Supabase setup (one-time):** after deploying stats changes, run [`scripts/supabase-amplitude-aggregates.sql`](scripts/supabase-amplitude-aggregates.sql) (plus optional [`scripts/supabase-amplitude-user-id-index.sql`](scripts/supabase-amplitude-user-id-index.sql)) and [`scripts/supabase-dune-celina-txns.sql`](scripts/supabase-dune-celina-txns.sql) in the custom Supabase SQL editor. Backfill `dune_celina_txns` (upsert on `hash`) before relying on incremental Dune sync. Production sync runs on the Cloudflare Worker daily at midnight UTC (`scheduled` in `src/server.ts`); use the scripts above for manual runs.
 
 Never commit real keys. `.env`, `.env.local`, and `.dev.vars` are gitignored; only the `*.example` templates are tracked.
 

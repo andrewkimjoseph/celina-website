@@ -90,17 +90,28 @@ export type Aggregates = {
   topSenders: Array<{ address: string; count: number }>;
 };
 
+function dayKey(row: CelinaTxRow): string {
+  if (row.day) return row.day;
+  const d = new Date(row.block_time.replace(" UTC", "Z").replace(" ", "T"));
+  if (Number.isNaN(d.getTime())) return "";
+  return d.toISOString().slice(0, 10);
+}
+
 export function aggregate(rows: CelinaTxRow[]): Aggregates {
-  const dayMap = new Map<string, { count: number; cumulative: number }>();
+  const dayHashes = new Map<string, Set<string>>();
   const recvMap = new Map<string, number>();
   const sendMap = new Map<string, number>();
   const hourMap = new Map<number, number>();
 
   for (const r of rows) {
-    const day = r.day;
-    const existing = dayMap.get(day);
-    if (!existing || r.cumulative_txns > existing.cumulative) {
-      dayMap.set(day, { count: r.txn_count, cumulative: r.cumulative_txns });
+    const day = dayKey(r);
+    if (day) {
+      let hashes = dayHashes.get(day);
+      if (!hashes) {
+        hashes = new Set();
+        dayHashes.set(day, hashes);
+      }
+      if (r.hash) hashes.add(r.hash);
     }
     recvMap.set(r.to, (recvMap.get(r.to) ?? 0) + 1);
     sendMap.set(r.from, (sendMap.get(r.from) ?? 0) + 1);
@@ -111,14 +122,18 @@ export function aggregate(rows: CelinaTxRow[]): Aggregates {
     }
   }
 
-  const daily = Array.from(dayMap.entries())
+  let running = 0;
+  const daily = Array.from(dayHashes.entries())
     .sort(([a], [b]) => a.localeCompare(b))
-    .map(([day, v]) => ({
-      day,
-      label: formatDateOnly(day),
-      count: v.count,
-      cumulative: v.cumulative,
-    }));
+    .map(([day, hashes]) => {
+      running += hashes.size;
+      return {
+        day,
+        label: formatDateOnly(day),
+        count: hashes.size,
+        cumulative: running,
+      };
+    });
 
   const hourly = Array.from({ length: 24 }, (_, h) => ({
     hour: `${String(h).padStart(2, "0")}:00`,
@@ -136,8 +151,7 @@ export function aggregate(rows: CelinaTxRow[]): Aggregates {
     .slice(0, 8);
 
   const totalTx = daily.reduce((m, d) => Math.max(m, d.cumulative), 0);
-  const todayStr = daily[daily.length - 1]?.day;
-  const todayCount = todayStr ? (dayMap.get(todayStr)?.count ?? 0) : 0;
+  const todayCount = daily[daily.length - 1]?.count ?? 0;
 
   return {
     totalTx,
