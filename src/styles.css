@@ -94,6 +94,7 @@
   --celo-cream:  oklch(1 0 0);              /* #ffffff pure white */
 
   --chart-line: oklch(0 0 0);               /* black line charts in light mode */
+  --chart-bar: oklch(0.78 0.14 105);        /* muted gold / ochre — still Celo-adjacent */
 
   /* Brutalist structure: hard offset shadows, no blur. Uses --foreground so
      the shadow color flips light/dark automatically (black on light surfaces,
@@ -147,6 +148,7 @@
   --celo-cream:  oklch(1 0 0);
 
   --chart-line: oklch(0.62 0.13 130);      /* forest green line charts in dark mode */
+  --chart-bar: oklch(0.97 0.20 110);       /* keep neon yellow on black */
 
   --chart-1: oklch(0.488 0.243 264.376);
   --chart-2: oklch(0.696 0.17 162.48);

@@ -285,7 +285,7 @@ function OffchainPage() {
                   strokeWidth={2}
                 >
                   {agg.share.map((_, i) => {
-                    const palette = [yellow, forest, "var(--celo-forest)", lineStroke, "var(--muted-foreground)", "var(--celo-yellow)", "var(--border)"];
+                    const palette = [yellow, forest, lineStroke, "var(--muted-foreground)", "var(--border)", "var(--celo-forest)"];
                     return <Cell key={i} fill={palette[i % palette.length]} />;
                   })}
                 </Pie>

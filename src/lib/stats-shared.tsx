@@ -25,7 +25,7 @@ export const NPM_STAT_URL =
   "https://npm-stat.com/charts.html?package=@andrewkimjoseph/celina-mcp&package=@andrewkimjoseph/celina-sdk&package=@andrewkimjoseph/celina";
 export { Bar, BarChart, CartesianGrid, Cell, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis };
 
-export const yellow = "var(--celo-yellow)";
+export const yellow = "var(--chart-bar)";
 export const lineStroke = "var(--chart-line)";
 export const forest = "var(--celo-forest)";
 
