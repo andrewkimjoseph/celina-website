@@ -75,7 +75,7 @@ export const useStatsStore = create<StatsState>()(
       },
     }),
     {
-      name: "celina-stats",
+      name: "celina-stats-v2",
       partialize: (s) => ({
         rows: s.rows,
         fetchedAt: s.fetchedAt,

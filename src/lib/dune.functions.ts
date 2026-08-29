@@ -357,14 +357,33 @@ export async function syncDuneResults(): Promise<void> {
   await setDuneSyncState(executionEndedAt);
 }
 
+function parseContentRangeTotal(header: string | null): number | null {
+  if (!header) return null;
+  const slash = header.lastIndexOf("/");
+  if (slash < 0) return null;
+  const raw = header.slice(slash + 1).trim();
+  if (raw === "*") return null;
+  const total = Number(raw);
+  return Number.isFinite(total) ? total : null;
+}
+
 async function readStoredTxns(): Promise<CelinaTxRow[]> {
   const rows: CelinaTxRow[] = [];
-  let offset = 0;
+  let from = 0;
+  let expectedTotal: number | null = null;
   while (true) {
+    const to = from + SB_PAGE_SIZE - 1;
     const res = await sbFetch(
-      `/rest/v1/dune_celina_txns?select=*&order=block_time.desc&limit=${SB_PAGE_SIZE}&offset=${offset}`,
+      `/rest/v1/dune_celina_txns?select=*&order=block_time.desc`,
+      {
+        headers: {
+          Range: `${from}-${to}`,
+          Prefer: "count=exact",
+        },
+      },
     );
-    if (!res.ok) {
+    // 206 = partial page; 200 = full result within one page
+    if (!res.ok && res.status !== 206) {
       throw new Error(
         `Supabase read dune_celina_txns ${res.status}: ${(await res.text()).slice(0, 200)}`,
       );
@@ -374,8 +393,13 @@ async function readStoredTxns(): Promise<CelinaTxRow[]> {
       const mapped = mapDuneRow(r);
       if (mapped) rows.push(mapped);
     }
+    if (expectedTotal === null) {
+      expectedTotal = parseContentRangeTotal(res.headers.get("content-range"));
+    }
+    if (page.length === 0) break;
+    if (expectedTotal !== null && rows.length >= expectedTotal) break;
     if (page.length < SB_PAGE_SIZE) break;
-    offset += SB_PAGE_SIZE;
+    from += page.length;
   }
   return rows;
 }
