@@ -167,7 +167,7 @@ function A2APage() {
                 className="rounded-[2px] border-2 border-foreground bg-card p-4 shadow-[var(--shadow-brutal-sm)]"
               >
                 <div className="flex flex-wrap items-baseline gap-2">
-                  <code className="text-xs font-semibold text-[var(--celo-yellow)]">
+                  <code className="text-xs font-semibold text-[var(--celo-forest)] dark:text-[var(--celo-yellow)]">
                     {skill.id}
                   </code>
                   <span className="text-sm font-medium">{skill.name}</span>
