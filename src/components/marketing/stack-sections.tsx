@@ -6,6 +6,7 @@ import {
   faChartLine,
   faCircleNodes,
   faCloud,
+  faCode,
   faCodeBranch,
   faWandMagicSparkles,
 } from "@fortawesome/free-solid-svg-icons";
@@ -16,6 +17,7 @@ import { ArchNode } from "@/components/marketing/arch-node";
 import { ProductCard } from "@/components/marketing/product-card";
 
 const SDK_DOCS_URL = "https://andrewkimjoseph.gitbook.io/celina-sdk";
+const API_DOCS_URL = "https://andrewkimjoseph.gitbook.io/celina-api/";
 const CELESTE_GITHUB_URL = "https://github.com/andrewkimjoseph/celeste-ai";
 
 export function ArchitectureSection() {
@@ -38,10 +40,11 @@ export function ArchitectureSection() {
         <span className="font-mono text-xs">mcp</span> vs{" "}
         <span className="font-mono text-xs">browser</span>) and wire signing their own way.
       </p>
-      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         <ArchNode label="celina-sdk" detail="/tools catalog + services" highlight />
         <ArchNode label="celina-mcp" detail="stdio MCP server" />
         <ArchNode label="mcp.usecelina.xyz" detail="remote hosted HTTP" />
+        <ArchNode label="celina-api" detail="read-only REST" />
         <ArchNode label="Celeste AI" detail="browser chat UI" />
       </div>
       <p className="mt-4 text-center text-xs text-muted-foreground">
@@ -123,6 +126,28 @@ export function StackProductsSection() {
             className="inline-flex items-center gap-1 rounded-[2px] border-2 border-foreground bg-background px-3 py-1.5 text-xs font-medium text-foreground shadow-[var(--shadow-brutal-sm)] transition-[transform,box-shadow] hover:bg-[var(--celo-yellow)] hover:text-[var(--celo-ink)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none"
           >
             Endpoint <FontAwesomeIcon icon={faArrowUpRightFromSquare} className="h-2.5 w-2.5" />
+          </a>
+        </ProductCard>
+
+        <ProductCard
+          icon={faCode}
+          title="Celina API"
+          subtitle="Read-only HTTP"
+          body="Public read-only HTTP API for Celo mainnet. Same snake_case tool names as Celina SDK/MCP, without server private keys."
+        >
+          <Link
+            to="/api"
+            className="inline-flex items-center gap-1 rounded-[2px] border-2 border-foreground bg-background px-3 py-1.5 text-xs font-medium text-foreground shadow-[var(--shadow-brutal-sm)] transition-[transform,box-shadow] hover:bg-[var(--celo-yellow)] hover:text-[var(--celo-ink)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none"
+          >
+            API page
+          </Link>
+          <a
+            href={API_DOCS_URL}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center gap-1 rounded-[2px] border-2 border-foreground bg-background px-3 py-1.5 text-xs font-medium text-foreground shadow-[var(--shadow-brutal-sm)] transition-[transform,box-shadow] hover:bg-[var(--celo-yellow)] hover:text-[var(--celo-ink)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none"
+          >
+            Docs <FontAwesomeIcon icon={faArrowUpRightFromSquare} className="h-2.5 w-2.5" />
           </a>
         </ProductCard>
 
