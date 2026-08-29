@@ -10,12 +10,12 @@ config.autoAddCss = false;
 type Theme = "light" | "dark";
 
 function getInitialTheme(): Theme {
-  if (typeof document === "undefined") return "dark";
+  if (typeof document === "undefined") return "light";
   return document.documentElement.classList.contains("dark") ? "dark" : "light";
 }
 
 export function ThemeToggle({ className }: { className?: string }) {
-  const [theme, setTheme] = useState<Theme>("dark");
+  const [theme, setTheme] = useState<Theme>("light");
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -33,7 +33,7 @@ export function ThemeToggle({ className }: { className?: string }) {
     } catch {}
   };
 
-  const isDark = mounted ? theme === "dark" : true;
+  const isDark = mounted ? theme === "dark" : false;
 
   return (
     <button
