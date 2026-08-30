@@ -97,7 +97,7 @@ Manual sync (e.g. cron debugging) reads `.env.local` then `.env`:
 - Dune tagged txns: `node scripts/run-dune-sync.mjs`
 - Dune full backfill: `node scripts/run-dune-backfill.mjs`
 
-**Supabase setup (one-time):** after deploying stats changes, run [`scripts/supabase-amplitude-aggregates.sql`](scripts/supabase-amplitude-aggregates.sql) (plus optional [`scripts/supabase-amplitude-user-id-index.sql`](scripts/supabase-amplitude-user-id-index.sql)) and [`scripts/supabase-dune-celina-txns.sql`](scripts/supabase-dune-celina-txns.sql) in the custom Supabase SQL editor. Backfill `dune_celina_txns` (upsert on `hash`) before relying on incremental Dune sync. Production sync runs on the Cloudflare Worker daily at midnight UTC (`scheduled` in `src/server.ts`); use the scripts above for manual runs.
+**Supabase setup (one-time):** after deploying off-chain stats changes, run [`scripts/supabase-amplitude-aggregates.sql`](scripts/supabase-amplitude-aggregates.sql) in the custom Supabase SQL editor. Dune tagged txns (`dune_celina_txns`) are already migrated in the live project; use `node scripts/run-dune-backfill.mjs` then `node scripts/run-dune-sync.mjs`. Production sync runs on the Cloudflare Worker daily at midnight UTC (`scheduled` in `src/server.ts`).
 
 Never commit real keys. `.env`, `.env.local`, and `.dev.vars` are gitignored; only the `*.example` templates are tracked.
 

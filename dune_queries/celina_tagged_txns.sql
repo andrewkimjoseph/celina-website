@@ -41,33 +41,13 @@ combined AS (
   SELECT hash, block_time, block_number, "from", "to" FROM legacy_tagged
   UNION
   SELECT hash, block_time, block_number, "from", "to" FROM erc8021_tagged
-),
-
-daily_counts AS (
-  SELECT
-    DATE_TRUNC('day', block_time) AS day,
-    COUNT(*) AS txn_count
-  FROM combined
-  GROUP BY 1
-),
-
-daily_with_cumulative AS (
-  SELECT
-    day,
-    txn_count,
-    SUM(txn_count) OVER (ORDER BY day ASC) AS cumulative_txns
-  FROM daily_counts
 )
 
 SELECT
-  d.day,
-  d.txn_count,
-  d.cumulative_txns,
-  c.hash,
-  c.block_time,
-  c.block_number,
-  c."from",
-  c."to"
-FROM daily_with_cumulative d
-LEFT JOIN combined c ON DATE_TRUNC('day', c.block_time) = d.day
-ORDER BY c.block_time DESC
+  hash,
+  block_time,
+  block_number,
+  "from",
+  "to"
+FROM combined
+ORDER BY block_time DESC

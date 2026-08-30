@@ -11,6 +11,7 @@ import {
   YAxis,
 } from "recharts";
 import type { CelinaTxRow } from "@/lib/dune.functions";
+import { dailyCumulative, parseBlockTime } from "@/lib/onchain-cumulative";
 import { aggregateNpm, type NpmAgg } from "@/lib/npm-aggregate";
 import type {
   AmplitudeEventDay,
@@ -90,50 +91,24 @@ export type Aggregates = {
   topSenders: Array<{ address: string; count: number }>;
 };
 
-function dayKey(row: CelinaTxRow): string {
-  if (row.day) return row.day;
-  const d = new Date(row.block_time.replace(" UTC", "Z").replace(" ", "T"));
-  if (Number.isNaN(d.getTime())) return "";
-  return d.toISOString().slice(0, 10);
-}
-
 export function aggregate(rows: CelinaTxRow[]): Aggregates {
-  const dayHashes = new Map<string, Set<string>>();
   const recvMap = new Map<string, number>();
   const sendMap = new Map<string, number>();
   const hourMap = new Map<number, number>();
 
   for (const r of rows) {
-    const day = dayKey(r);
-    if (day) {
-      let hashes = dayHashes.get(day);
-      if (!hashes) {
-        hashes = new Set();
-        dayHashes.set(day, hashes);
-      }
-      if (r.hash) hashes.add(r.hash);
-    }
     recvMap.set(r.to, (recvMap.get(r.to) ?? 0) + 1);
     sendMap.set(r.from, (sendMap.get(r.from) ?? 0) + 1);
-    const d = new Date(r.block_time.replace(" UTC", "Z").replace(" ", "T"));
-    if (!Number.isNaN(d.getTime())) {
-      const h = d.getUTCHours();
-      hourMap.set(h, (hourMap.get(h) ?? 0) + 1);
+    const d = parseBlockTime(r.block_time);
+    if (d) {
+      hourMap.set(d.getUTCHours(), (hourMap.get(d.getUTCHours()) ?? 0) + 1);
     }
   }
 
-  let running = 0;
-  const daily = Array.from(dayHashes.entries())
-    .sort(([a], [b]) => a.localeCompare(b))
-    .map(([day, hashes]) => {
-      running += hashes.size;
-      return {
-        day,
-        label: formatDateOnly(day),
-        count: hashes.size,
-        cumulative: running,
-      };
-    });
+  const daily = dailyCumulative(rows).map((d) => ({
+    ...d,
+    label: formatDateOnly(d.day),
+  }));
 
   const hourly = Array.from({ length: 24 }, (_, h) => ({
     hour: `${String(h).padStart(2, "0")}:00`,

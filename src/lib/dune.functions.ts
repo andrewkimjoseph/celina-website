@@ -1,10 +1,9 @@
 import { createServerFn } from "@tanstack/react-start";
+import { dayKey } from "./onchain-cumulative.ts";
 import { sbFetch } from "./supabase.ts";
 
 export type CelinaTxRow = {
   day: string;
-  txn_count: number;
-  cumulative_txns: number;
   hash: string;
   block_time: string;
   block_number: number;
@@ -61,16 +60,21 @@ function mapDuneRow(r: Record<string, unknown>): CelinaTxRow | null {
   const hash = String(r.hash ?? "").trim();
   const block_time = String(r.block_time ?? "").trim();
   if (!hash || !block_time) return null;
-  return {
-    day: String(r.day ?? block_time),
-    txn_count: Number(r.txn_count ?? 0),
-    cumulative_txns: Number(r.cumulative_txns ?? 0),
+  const mapped = {
+    day: "",
     hash,
     block_time,
     block_number: Number(r.block_number ?? 0),
     from: String(r.from ?? ""),
     to: String(r.to ?? ""),
   };
+  mapped.day = dayKey({
+    hash,
+    block_time,
+    day: typeof r.day === "string" ? r.day : undefined,
+  });
+  if (!mapped.day) return null;
+  return mapped;
 }
 
 function sleep(ms: number): Promise<void> {
@@ -167,8 +171,6 @@ async function upsertTxnRows(rows: CelinaTxRow[]): Promise<void> {
     const chunk = rows.slice(i, i + DUNE_UPSERT_CHUNK).map((r) => ({
       hash: r.hash,
       day: r.day,
-      txn_count: r.txn_count,
-      cumulative_txns: r.cumulative_txns,
       block_time: r.block_time,
       block_number: r.block_number,
       from: r.from,
