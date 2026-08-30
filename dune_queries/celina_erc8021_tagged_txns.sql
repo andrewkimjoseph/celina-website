@@ -1,41 +1,52 @@
 WITH candidate_txns AS (
   SELECT
-    hash,
-    block_time,
-    block_number,
-    "from",
-    "to",
-    data,
-    length(data) AS data_len
+    hash, block_time, block_number, "from", "to", data
   FROM celo.transactions
   WHERE block_number >= 76121998
+    AND block_time >= TIMESTAMP '2026-08-29 16:59:16'
+),
+
+erc8021_located AS (
+  SELECT
+    hash, block_time, block_number, "from", "to", data,
+    bytearray_position(data, 0x80218021802180218021802180218021) AS marker_pos
+  FROM candidate_txns
+),
+
+erc8021_base AS (
+  SELECT
+    hash, block_time, block_number, "from", "to", data, marker_pos,
+    bytearray_substring(data, CAST(marker_pos - 1 AS bigint), 1) AS schema_id,
+    bytearray_substring(data, CAST(marker_pos - 2 AS bigint), 1) AS codes_length_byte
+  FROM erc8021_located
+  WHERE marker_pos >= 3
+),
+
+erc8021_matched AS (
+  SELECT
+    hash, block_time, block_number, "from", "to", data, marker_pos,
+    bytearray_to_bigint(codes_length_byte) AS codes_length
+  FROM erc8021_base
+  WHERE schema_id = 0x00
 ),
 
 erc8021_parsed AS (
   SELECT
     hash, block_time, block_number, "from", "to",
-    bytearray_substring(data, CAST(data_len - 15 AS bigint), 16) AS erc_marker,
-    bytearray_substring(data, CAST(data_len - 16 AS bigint), 1) AS schema_id,
-    bytearray_substring(data, CAST(data_len - 22 AS bigint), 6) AS codes_candidate,
-    bytearray_substring(data, CAST(data_len - 23 AS bigint), 1) AS codes_length_byte
-  FROM candidate_txns
-  WHERE data_len >= 39  -- enough bytes for marker(16) + schemaId(1) + len(1) + "celina"(6) + at least some tx_data
+    bytearray_substring(data, CAST(marker_pos - 2 - codes_length AS bigint), CAST(codes_length AS bigint)) AS codes_field
+  FROM erc8021_matched
+  WHERE codes_length > 0
+    AND marker_pos - 2 - codes_length >= 1
 ),
 
 erc8021_tagged AS (
   SELECT hash, block_time, block_number, "from", "to"
   FROM erc8021_parsed
-  WHERE erc_marker = 0x80218021802180218021802180218021
-    AND schema_id = 0x00
-    AND codes_length_byte = 0x06
-    AND codes_candidate = 0x63656c696e61  -- "celina"
+  WHERE codes_field = 0x63656c696e61
+     OR bytearray_position(codes_field, 0x2c63656c696e61) > 0
+     OR bytearray_position(codes_field, 0x63656c696e612c) > 0
 )
 
-SELECT
-  hash,
-  block_time,
-  block_number,
-  "from",
-  "to"
+SELECT hash, block_time, block_number, "from", "to"
 FROM erc8021_tagged
 ORDER BY block_time DESC
