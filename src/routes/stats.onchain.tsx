@@ -35,13 +35,13 @@ export const Route = createFileRoute("/stats/onchain")({
       {
         name: "description",
         content:
-          "On-chain stats for transactions tagged CELINA on Celo mainnet — sourced from Dune Analytics.",
+          "On-chain stats for Celo mainnet transactions tagged celina — sourced from Dune Analytics.",
       },
       { property: "og:title", content: "Celina stats — On-chain activity" },
       {
         property: "og:description",
         content:
-          "On-chain stats for transactions tagged CELINA on Celo mainnet — sourced from Dune Analytics.",
+          "On-chain stats for Celo mainnet transactions tagged celina — sourced from Dune Analytics.",
       },
     ],
   }),
@@ -102,10 +102,10 @@ function OnchainPage() {
               className="mt-3 text-xl font-bold tracking-tight break-words sm:text-2xl"
               style={{ fontFamily: "var(--font-display)" }}
             >
-              Celo mainnet transactions tagged CELINA
+              Celo mainnet transactions tagged celina
             </h2>
             <p className="mt-2 text-sm leading-relaxed text-muted-foreground sm:mt-1 sm:text-xs sm:leading-normal">
-              Celo mainnet transactions that include the CELINA attribution tag in calldata, indexed by Dune. Unique senders and receivers are distinct on-chain wallet addresses — not MCP users or off-chain wallet lookups.
+              Calldata includes the celina attribution tag, indexed by Dune. Unique senders and receivers are distinct on-chain addresses — not MCP users or off-chain wallet lookups.
             </p>
             {lastUpdatedLabel && (
               <p className="mt-2 text-xs text-muted-foreground/80 sm:mt-1 sm:text-[11px]">
