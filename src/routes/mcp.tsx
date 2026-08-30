@@ -34,7 +34,7 @@ function SubNavLink({ to, label }: { to: string; label: string }) {
       className="rounded-[2px] border-2 border-transparent px-3.5 py-1.5 text-sm font-medium text-muted-foreground transition hover:text-foreground"
       activeProps={{
         className:
-          "rounded-[2px] border-2 border-foreground bg-[var(--celo-forest)] px-3.5 py-1.5 text-sm font-semibold !text-white shadow-[var(--shadow-brutal-sm)] dark:bg-[var(--celo-yellow)] dark:!text-black",
+          "rounded-[2px] border-2 border-foreground bg-[var(--celo-forest)] px-3.5 py-1.5 text-sm font-semibold !text-white shadow-[var(--shadow-brutal-sm)] dark:bg-[var(--celo-yellow)] dark:!text-[var(--celo-ink)]",
       }}
     >
       {label}

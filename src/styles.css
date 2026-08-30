@@ -119,36 +119,36 @@
 }
 
 .dark {
-  /* Celo Native — dark variant (pure black + yellow hero) */
-  --background: oklch(0 0 0);               /* #000000 pure black */
-  --foreground: oklch(1 0 0);               /* #ffffff pure white */
-  --card: oklch(0.14 0 0);                  /* near-black surface */
-  --card-foreground: oklch(1 0 0);
-  --popover: oklch(0.14 0 0);
-  --popover-foreground: oklch(1 0 0);
-  --primary: oklch(0.97 0.20 110);          /* Celo yellow as primary */
-  --primary-foreground: oklch(0 0 0);
-  --secondary: oklch(0.18 0 0);
-  --secondary-foreground: oklch(1 0 0);
-  --muted: oklch(0.18 0 0);
-  --muted-foreground: oklch(0.74 0.005 110);
-  --accent: oklch(0.97 0.20 110);
-  --accent-foreground: oklch(0 0 0);
+  /* Celo Native — dark variant (charcoal + muted yellow) */
+  --background: oklch(0.18 0 0);            /* charcoal, not pure black */
+  --foreground: oklch(0.92 0 0);            /* off-white */
+  --card: oklch(0.22 0 0);
+  --card-foreground: oklch(0.92 0 0);
+  --popover: oklch(0.22 0 0);
+  --popover-foreground: oklch(0.92 0 0);
+  --primary: oklch(0.86 0.14 110);          /* muted Celo yellow */
+  --primary-foreground: oklch(0.18 0 0);
+  --secondary: oklch(0.24 0 0);
+  --secondary-foreground: oklch(0.92 0 0);
+  --muted: oklch(0.24 0 0);
+  --muted-foreground: oklch(0.72 0.005 110);
+  --accent: oklch(0.86 0.14 110);
+  --accent-foreground: oklch(0.18 0 0);
   --destructive: oklch(0.62 0.22 27);
-  --destructive-foreground: oklch(1 0 0);
-  --border: oklch(1 0 0);
-  --input: oklch(1 0 0);
-  --ring: oklch(0.97 0.20 110);
+  --destructive-foreground: oklch(0.92 0 0);
+  --border: oklch(0.68 0 0);
+  --input: oklch(0.68 0 0);
+  --ring: oklch(0.86 0.14 110);
 
   /* Celo Native brand tokens (dark) */
-  --celo-yellow: oklch(0.97 0.20 110);      /* #FCFF52 */
-  --celo-forest: oklch(0.62 0.13 130);      /* lifted forest for legibility on black */
+  --celo-yellow: oklch(0.86 0.14 110);
+  --celo-forest: oklch(0.62 0.13 130);
   --celo-deep:   oklch(0.14 0 0);
-  --celo-ink:    oklch(0 0 0);
-  --celo-cream:  oklch(1 0 0);
+  --celo-ink:    oklch(0.12 0 0);
+  --celo-cream:  oklch(0.92 0 0);
 
-  --chart-line: oklch(0.62 0.13 130);      /* forest green line charts in dark mode */
-  --chart-bar: oklch(0.97 0.20 110);       /* keep neon yellow on black */
+  --chart-line: oklch(0.62 0.13 130);
+  --chart-bar: oklch(0.86 0.14 110);
 
   --chart-1: oklch(0.488 0.243 264.376);
   --chart-2: oklch(0.696 0.17 162.48);
