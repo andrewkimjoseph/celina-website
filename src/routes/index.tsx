@@ -485,7 +485,7 @@ function Index() {
 
       {/* Demo */}
       <section id="demo" className="mx-auto max-w-6xl px-4 pb-20 sm:px-6 sm:pb-24">
-        <figure>
+        <figure className="hidden" aria-hidden>
           <div className="relative">
             <div className="absolute -left-4 -top-4 hidden h-24 w-24 border-l-4 border-t-4 border-[var(--celo-yellow)] sm:block" />
             <div className="absolute -bottom-4 -right-4 hidden h-24 w-24 border-b-4 border-r-4 border-[var(--celo-forest)] sm:block" />
