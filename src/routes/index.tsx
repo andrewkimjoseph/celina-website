@@ -12,7 +12,12 @@ import {
   faShieldHalved,
 } from "@fortawesome/free-solid-svg-icons";
 import { faNpm, faGithub } from "@fortawesome/free-brands-svg-icons";
-import { TOOLS as TOOL_DOCS, categorySlug, HOSTED_TOOL_COUNT } from "@/data/tools";
+import {
+  TOOLS as TOOL_DOCS,
+  TOOLS_BY_NAME,
+  categorySlug,
+  HOSTED_TOOL_COUNT,
+} from "@/data/tools";
 import { MCP_INSTALL_CMD, MCP_NPM_URL } from "@/data/mcp";
 import { CopyButton } from "@/components/marketing/code-block";
 import { SiteHeader } from "@/components/site-header";
@@ -64,20 +69,102 @@ function BrowserFrame({
   );
 }
 
+const PANEL_ACCENT =
+  "text-[var(--celo-forest)] dark:text-[var(--celo-yellow)]";
+
 function Y({ children }: { children: React.ReactNode }) {
-  return <span className="text-[var(--celo-yellow)]">{children}</span>;
+  return <span className={PANEL_ACCENT}>{children}</span>;
 }
 
 function Dim({ children }: { children: React.ReactNode }) {
-  return <span className="text-[var(--celo-cream)]/60">{children}</span>;
+  return <span className="text-muted-foreground">{children}</span>;
 }
 
-type TermLine =
-  | { kind: "prompt"; content: React.ReactNode; divider?: boolean }
-  | { kind: "read"; tool: string; params: string; result: React.ReactNode }
-  | { kind: "write"; tool: string; params?: string; result: React.ReactNode };
-
+type PromptLine = { kind: "prompt"; content: React.ReactNode; divider?: boolean };
+type ToolLine = {
+  kind: "tool";
+  tool: string;
+  args?: Record<string, unknown>;
+  result: React.ReactNode;
+};
+type TermLine = PromptLine | ToolLine;
 type Scene = { lines: TermLine[] };
+
+function formatToolArgs(args?: Record<string, unknown>): string {
+  if (!args || Object.keys(args).length === 0) return "{}";
+  return JSON.stringify(args);
+}
+
+function SceneLines({ scene, animate }: { scene: Scene; animate: boolean }) {
+  return (
+    <>
+      {scene.lines.map((line, i) => {
+        const enter = animate ? "terminal-line-in" : undefined;
+        const delay = animate ? { animationDelay: `${i * 70}ms` } : undefined;
+
+        if (line.kind === "prompt") {
+          return (
+            <div
+              key={i}
+              className={cn(
+                enter,
+                "flex gap-3 text-sm text-foreground",
+                line.divider && "border-t-2 border-foreground pt-4",
+              )}
+              style={delay}
+            >
+              <span className={cn("shrink-0", PANEL_ACCENT)}>{">"}</span>
+              <span>{line.content}</span>
+            </div>
+          );
+        }
+
+        const doc = TOOLS_BY_NAME[line.tool];
+        if (!doc) return null;
+        const isWrite = doc.kind === "write";
+
+        return (
+          <div
+            key={i}
+            className={cn(
+              enter,
+              "rounded-[2px] border-2 bg-muted px-3 py-2 shadow-[var(--shadow-brutal-sm)]",
+              isWrite
+                ? "border-[var(--celo-forest)] dark:border-[var(--celo-yellow)]"
+                : "border-foreground",
+            )}
+            style={delay}
+          >
+            <div className={cn("text-xs", PANEL_ACCENT)}>
+              tool ·{" "}
+              <Link
+                to="/tools/$category/$toolSlug"
+                params={{
+                  category: categorySlug(doc.category),
+                  toolSlug: doc.slug,
+                }}
+                className="font-mono font-semibold hover:underline"
+              >
+                {doc.name}
+              </Link>
+              {isWrite ? " · write" : null}
+            </div>
+            <div className="mt-1.5 font-mono whitespace-pre-wrap break-all text-[12px] text-foreground">
+              {formatToolArgs(line.args)}
+            </div>
+            <div className="mt-2 flex gap-3 text-[12px] text-foreground">
+              <span className={cn("shrink-0", PANEL_ACCENT)}>↳</span>
+              <span className="min-w-0">{line.result}</span>
+            </div>
+          </div>
+        );
+      })}
+      <div className="flex gap-3 pt-1">
+        <span className={cn("terminal-cursor", PANEL_ACCENT)}>▍</span>
+      </div>
+    </>
+  );
+}
 
 const AGENT_STACK_SCENES: Scene[] = [
   {
@@ -91,13 +178,12 @@ const AGENT_STACK_SCENES: Scene[] = [
         ),
       },
       {
-        kind: "read",
+        kind: "tool",
         tool: "get_stablecoin_balances",
-        params: '{ address: "0x4a…f10c", stablecoins: ["USDm"] }',
+        args: { address: "0x4a…f10c", stablecoins: ["USDm"] },
         result: (
           <>
-            <span className="text-[var(--celo-cream)]">USDm</span> <Y>1,248.32</Y>
-            <Dim> · last block 30,418,221</Dim>
+            <span className="text-foreground">USDm</span> <Y>1,248.32</Y>
           </>
         ),
       },
@@ -111,12 +197,13 @@ const AGENT_STACK_SCENES: Scene[] = [
         ),
       },
       {
-        kind: "write",
+        kind: "tool",
         tool: "send_token",
-        params: '{ to: "andrewkimjoseph.celo.eth", token: "USDm", amount: "5" }',
+        args: { to: "andrewkimjoseph.celo.eth", token: "USDm", amount: "5" },
         result: (
           <>
-            tx <Y>0x9c2…aa31</Y> confirmed in block 30,418,224
+            hash <Y>0x9c2…aa31</Y>
+            <Dim> · status confirmed · blockNumber 30418224</Dim>
           </>
         ),
       },
@@ -126,13 +213,12 @@ const AGENT_STACK_SCENES: Scene[] = [
     lines: [
       { kind: "prompt", content: <>Any governance proposals I can vote on?</> },
       {
-        kind: "read",
+        kind: "tool",
         tool: "get_votable_proposals",
-        params: "{}",
         result: (
           <>
-            <Y>CGP-142</Y>
-            <Dim> · referendum · closes in 2d</Dim>
+            id <Y>142</Y>
+            <Dim> · stage referendum · dequeueIndex 3</Dim>
           </>
         ),
       },
@@ -141,17 +227,18 @@ const AGENT_STACK_SCENES: Scene[] = [
         divider: true,
         content: (
           <>
-            Vote yes on <Y>CGP-142</Y>.
+            Vote yes on proposal <Y>142</Y>.
           </>
         ),
       },
       {
-        kind: "write",
+        kind: "tool",
         tool: "execute_vote",
-        params: '{ proposalId: 142, vote: "Yes" }',
+        args: { proposal_id: 142, vote: "Yes" },
         result: (
           <>
-            tx <Y>0x71e…4c02</Y> confirmed in block 30,419,015
+            hash <Y>0x71e…4c02</Y>
+            <Dim> · status confirmed · blockNumber 30419015</Dim>
           </>
         ),
       },
@@ -161,24 +248,24 @@ const AGENT_STACK_SCENES: Scene[] = [
     lines: [
       { kind: "prompt", content: <>Am I eligible for today&apos;s GoodDollar UBI?</> },
       {
-        kind: "read",
+        kind: "tool",
         tool: "get_gooddollar_ubi_entitlement",
-        params: '{ address: "0x4a…f10c" }',
+        args: { address: "0x4a…f10c" },
         result: (
           <>
-            <Y>178.4 G$</Y>
-            <Dim> entitlement · claimable now</Dim>
+            claimableAmount <Y>178.4 G$</Y>
+            <Dim> · isEligibleToClaim true</Dim>
           </>
         ),
       },
       { kind: "prompt", divider: true, content: <>Claim it.</> },
       {
-        kind: "write",
+        kind: "tool",
         tool: "claim_daily_gooddollar_ubi",
-        params: "{}",
         result: (
           <>
-            tx <Y>0x2af…9b10</Y> confirmed in block 30,419,208
+            hash <Y>0x2af…9b10</Y>
+            <Dim> · status confirmed · amountClaimed 178.4 G$</Dim>
           </>
         ),
       },
@@ -186,15 +273,14 @@ const AGENT_STACK_SCENES: Scene[] = [
   },
   {
     lines: [
-      { kind: "prompt", content: <>What&apos;s my Aave supply APY for USDm?</> },
+      { kind: "prompt", content: <>What do I have supplied on Aave?</> },
       {
-        kind: "read",
+        kind: "tool",
         tool: "get_aave_balances",
-        params: '{ address: "0x4a…f10c" }',
+        args: { address: "0x4a…f10c" },
         result: (
           <>
-            <Y>USDm 500.00</Y>
-            <Dim> supplied · APY 4.8%</Dim>
+            <Y>USDm</Y> formatted <Y>500.00</Y>
           </>
         ),
       },
@@ -208,12 +294,13 @@ const AGENT_STACK_SCENES: Scene[] = [
         ),
       },
       {
-        kind: "write",
+        kind: "tool",
         tool: "supply_aave",
-        params: '{ asset: "USDm", amount: "100" }',
+        args: { token: "USDm", amount: "100" },
         result: (
           <>
-            tx <Y>0x3b7…e819</Y> confirmed in block 30,419,780
+            supplyHash <Y>0x3b7…e819</Y>
+            <Dim> · status confirmed · blockNumber 30419780</Dim>
           </>
         ),
       },
@@ -260,11 +347,9 @@ function AgentStackPanel({ toolCount }: { toolCount: number }) {
     startTimer();
   };
 
-  const scene = mounted ? AGENT_STACK_SCENES[activeIndex] : AGENT_STACK_SCENES[0];
-
   return (
     <div
-      className="relative overflow-hidden rounded-[2px] border-2 border-[var(--celo-cream)] bg-[var(--celo-ink)] shadow-[var(--shadow-brutal-lg)]"
+      className="relative rounded-[2px] border-2 border-foreground bg-background shadow-[var(--shadow-brutal-lg)]"
       onMouseEnter={() => {
         pausedRef.current = true;
       }}
@@ -272,85 +357,51 @@ function AgentStackPanel({ toolCount }: { toolCount: number }) {
         pausedRef.current = false;
       }}
     >
-      <div className="flex items-center justify-between border-b-2 border-white/10 bg-black/30 px-4 py-2.5">
-        <div className="flex items-center gap-2 text-[11px] uppercase tracking-[0.18em] text-[var(--celo-cream)]/60">
-          <FontAwesomeIcon icon={faTerminal} className="h-3 w-3 text-[var(--celo-yellow)]" />
+      <div className="flex items-center justify-between border-b-2 border-foreground px-4 py-2.5">
+        <div
+          className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-foreground"
+          style={{ fontFamily: "var(--font-display)" }}
+        >
+          <FontAwesomeIcon icon={faTerminal} className={cn("h-3 w-3", PANEL_ACCENT)} />
           celina · agent stack
         </div>
-        <span className="inline-flex items-center gap-1.5 rounded-[2px] border border-[var(--celo-yellow)]/40 bg-[var(--celo-yellow)]/15 px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.16em] text-[var(--celo-yellow)]">
-          <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[var(--celo-yellow)]" /> live
+        <span className="inline-flex items-center gap-1.5 rounded-[2px] border-2 border-[var(--celo-yellow)] bg-[var(--celo-yellow)] px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.16em] text-[var(--celo-ink)] shadow-[var(--shadow-brutal-sm)]">
+          <span className="h-1.5 w-1.5 rounded-full bg-[var(--celo-ink)]" /> live
         </span>
       </div>
-      <div className="space-y-4 px-5 py-5 font-mono text-[12px] leading-relaxed text-[var(--celo-cream)]/90 sm:text-[13px]">
-        <div key={mounted ? activeIndex : "ssr"} className="space-y-4">
-          {scene.lines.map((line, i) => (
+      <div className="grid px-5 py-5 text-[13px] leading-relaxed text-foreground sm:text-sm">
+        {AGENT_STACK_SCENES.map((scene, i) => {
+          const active = i === activeIndex;
+          return (
             <div
               key={i}
-              className={cn(
-                "terminal-line-in",
-                line.kind === "prompt" &&
-                  (line.divider ? "flex gap-3 border-t border-white/5 pt-4" : "flex gap-3"),
-                line.kind === "read" &&
-                  "rounded-[2px] border border-white/10 bg-white/5 px-3 py-2 text-[var(--celo-cream)]/70",
-                line.kind === "write" &&
-                  "rounded-[2px] border border-[var(--celo-yellow)]/40 bg-[var(--celo-yellow)]/[0.06] px-3 py-2",
-              )}
-              style={{ animationDelay: `${i * 70}ms` }}
+              className={cn("col-start-1 row-start-1 space-y-4", !active && "invisible")}
+              aria-hidden={!active}
             >
-              {line.kind === "prompt" && (
-                <>
-                  <span className="shrink-0 text-[var(--celo-yellow)]">{">"}</span>
-                  <span>{line.content}</span>
-                </>
-              )}
-              {line.kind === "read" && (
-                <>
-                  <div className="text-[10px] uppercase tracking-[0.18em] text-[var(--celo-yellow)]/80">
-                    tool · {line.tool}
-                  </div>
-                  <div className="mt-1.5 whitespace-pre text-[11px]">{line.params}</div>
-                  <div className="mt-2 flex gap-3">
-                    <span className="shrink-0 text-[var(--celo-yellow)]">↳</span>
-                    <span>{line.result}</span>
-                  </div>
-                </>
-              )}
-              {line.kind === "write" && (
-                <>
-                  <div className="text-[10px] uppercase tracking-[0.18em] text-[var(--celo-yellow)]">
-                    tool · {line.tool} ⚡ write
-                  </div>
-                  {line.params && (
-                    <div className="mt-1.5 whitespace-pre text-[11px] text-[var(--celo-cream)]/70">
-                      {line.params}
-                    </div>
-                  )}
-                  <div className="mt-1.5 text-[var(--celo-cream)]/80">{line.result}</div>
-                </>
-              )}
+              <SceneLines scene={scene} animate={mounted && active} />
             </div>
-          ))}
-          <div className="flex gap-3 pt-1">
-            <span className="terminal-cursor text-[var(--celo-yellow)]">▍</span>
-          </div>
-        </div>
+          );
+        })}
       </div>
-      <div className="flex items-center justify-center gap-2.5 border-t border-white/5 px-5 py-3">
+      <div className="flex items-center justify-center gap-2.5 border-t-2 border-foreground px-5 py-3">
         {AGENT_STACK_SCENES.map((_, i) => (
           <button
             key={i}
             type="button"
             aria-label={`Show scene ${i + 1} of ${AGENT_STACK_SCENES.length}`}
-            aria-current={mounted && i === activeIndex}
+            aria-current={i === activeIndex}
             onClick={() => goToScene(i)}
             className={cn(
-              "h-2.5 w-2.5 shrink-0 rounded-[2px] border-2 border-[var(--celo-cream)]/60 shadow-[2px_2px_0_0_var(--celo-cream)] transition-[transform,box-shadow,background-color,border-color] hover:border-[var(--celo-yellow)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none",
-              mounted && i === activeIndex && "border-[var(--celo-yellow)] bg-[var(--celo-yellow)]",
+              "h-2.5 w-2.5 shrink-0 rounded-[2px] border-2 border-foreground shadow-[var(--shadow-brutal-sm)] transition-[transform,box-shadow,background-color,border-color] hover:border-[var(--celo-yellow)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none",
+              i === activeIndex && "border-[var(--celo-yellow)] bg-[var(--celo-yellow)]",
             )}
           />
         ))}
       </div>
-      <div className="flex items-center justify-between border-t-2 border-white/10 bg-black/30 px-4 py-2 text-[10px] uppercase tracking-[0.16em] text-[var(--celo-cream)]/40">
+      <div
+        className="flex items-center justify-between border-t-2 border-foreground px-4 py-2 text-[10px] font-bold uppercase tracking-[0.16em] text-foreground"
+        style={{ fontFamily: "var(--font-display)" }}
+      >
         <span>sdk → mcp → celo mainnet</span>
         <span>{toolCount} tools</span>
       </div>
