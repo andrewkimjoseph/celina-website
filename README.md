@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./public/celina-banner.png" alt="Celina — Give your LLM a wallet on Celo">
+  <img src="./public/celina-banner.svg" alt="Celina — Give your LLM a wallet on Celo">
 </p>
 
 # Celina — marketing site
