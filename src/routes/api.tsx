@@ -144,6 +144,13 @@ function ApiPage() {
             >
               tools page
             </Link>
+            , or call the same reads from Telegram on the{" "}
+            <Link
+              to="/bot"
+              className="text-foreground underline decoration-[var(--celo-yellow)] decoration-2 underline-offset-4"
+            >
+              bot page
+            </Link>
             .
           </p>
         </article>

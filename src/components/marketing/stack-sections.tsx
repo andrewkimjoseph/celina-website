@@ -10,9 +10,10 @@ import {
   faCodeBranch,
   faWandMagicSparkles,
 } from "@fortawesome/free-solid-svg-icons";
-import { faGithub } from "@fortawesome/free-brands-svg-icons";
+import { faGithub, faTelegram } from "@fortawesome/free-brands-svg-icons";
 import { HOSTED_TOOL_COUNT } from "@/data/tools";
 import { HOSTED_MCP_URL, STDIO_TOOL_COUNT } from "@/data/mcp";
+import { BOT_GITHUB_URL, TELEGRAM_BOT_URL } from "@/data/bot";
 import { ArchNode } from "@/components/marketing/arch-node";
 import { ProductCard } from "@/components/marketing/product-card";
 
@@ -45,6 +46,7 @@ export function ArchitectureSection() {
         <ArchNode label="celina-mcp" detail="stdio MCP server" />
         <ArchNode label="mcp.usecelina.xyz" detail="remote hosted HTTP" />
         <ArchNode label="celina-api" detail="read-only REST" />
+        <ArchNode label="celina-bot" detail="Telegram" />
         <ArchNode label="Celeste AI" detail="browser chat UI" />
       </div>
       <p className="mt-4 text-center text-xs text-muted-foreground">
@@ -148,6 +150,36 @@ export function StackProductsSection() {
             className="inline-flex items-center gap-1 rounded-[2px] border-2 border-foreground bg-background px-3 py-1.5 text-xs font-medium text-foreground shadow-[var(--shadow-brutal-sm)] transition-[transform,box-shadow] hover:bg-[var(--celo-yellow)] hover:text-[var(--celo-ink)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none"
           >
             Docs <FontAwesomeIcon icon={faArrowUpRightFromSquare} className="h-2.5 w-2.5" />
+          </a>
+        </ProductCard>
+
+        <ProductCard
+          icon={faTelegram}
+          title="Celina bot"
+          subtitle="Telegram"
+          body="Read-only Celo tools in Telegram — balances, quotes, governance. Talks to the Celina API. No keys, no signing."
+        >
+          <Link
+            to="/bot"
+            className="inline-flex items-center gap-1 rounded-[2px] border-2 border-foreground bg-background px-3 py-1.5 text-xs font-medium text-foreground shadow-[var(--shadow-brutal-sm)] transition-[transform,box-shadow] hover:bg-[var(--celo-yellow)] hover:text-[var(--celo-ink)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none"
+          >
+            Bot page
+          </Link>
+          <a
+            href={TELEGRAM_BOT_URL}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center gap-1 rounded-[2px] border-2 border-foreground bg-background px-3 py-1.5 text-xs font-medium text-foreground shadow-[var(--shadow-brutal-sm)] transition-[transform,box-shadow] hover:bg-[var(--celo-yellow)] hover:text-[var(--celo-ink)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none"
+          >
+            Telegram <FontAwesomeIcon icon={faArrowUpRightFromSquare} className="h-2.5 w-2.5" />
+          </a>
+          <a
+            href={BOT_GITHUB_URL}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center gap-1 rounded-[2px] border-2 border-foreground bg-background px-3 py-1.5 text-xs font-medium text-foreground shadow-[var(--shadow-brutal-sm)] transition-[transform,box-shadow] hover:bg-[var(--celo-yellow)] hover:text-[var(--celo-ink)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none"
+          >
+            <FontAwesomeIcon icon={faGithub} className="h-3 w-3" /> GitHub
           </a>
         </ProductCard>
 

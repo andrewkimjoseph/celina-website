@@ -14,6 +14,7 @@ import { Route as StackRouteImport } from './routes/stack'
 import { Route as SdkRouteImport } from './routes/sdk'
 import { Route as OasfRouteImport } from './routes/oasf'
 import { Route as McpRouteImport } from './routes/mcp'
+import { Route as BotRouteImport } from './routes/bot'
 import { Route as ApiRouteImport } from './routes/api'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as A2aRouteImport } from './routes/a2a'
@@ -54,6 +55,11 @@ const OasfRoute = OasfRouteImport.update({
 const McpRoute = McpRouteImport.update({
   id: '/mcp',
   path: '/mcp',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BotRoute = BotRouteImport.update({
+  id: '/bot',
+  path: '/bot',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiRoute = ApiRouteImport.update({
@@ -143,6 +149,7 @@ export interface FileRoutesByFullPath {
   '/a2a': typeof A2aRoute
   '/about': typeof AboutRoute
   '/api': typeof ApiRouteWithChildren
+  '/bot': typeof BotRoute
   '/mcp': typeof McpRouteWithChildren
   '/oasf': typeof OasfRoute
   '/sdk': typeof SdkRoute
@@ -166,6 +173,7 @@ export interface FileRoutesByTo {
   '/a2a': typeof A2aRoute
   '/about': typeof AboutRoute
   '/api': typeof ApiRouteWithChildren
+  '/bot': typeof BotRoute
   '/oasf': typeof OasfRoute
   '/sdk': typeof SdkRoute
   '/stack': typeof StackRoute
@@ -188,6 +196,7 @@ export interface FileRoutesById {
   '/a2a': typeof A2aRoute
   '/about': typeof AboutRoute
   '/api': typeof ApiRouteWithChildren
+  '/bot': typeof BotRoute
   '/mcp': typeof McpRouteWithChildren
   '/oasf': typeof OasfRoute
   '/sdk': typeof SdkRoute
@@ -213,6 +222,7 @@ export interface FileRouteTypes {
     | '/a2a'
     | '/about'
     | '/api'
+    | '/bot'
     | '/mcp'
     | '/oasf'
     | '/sdk'
@@ -236,6 +246,7 @@ export interface FileRouteTypes {
     | '/a2a'
     | '/about'
     | '/api'
+    | '/bot'
     | '/oasf'
     | '/sdk'
     | '/stack'
@@ -257,6 +268,7 @@ export interface FileRouteTypes {
     | '/a2a'
     | '/about'
     | '/api'
+    | '/bot'
     | '/mcp'
     | '/oasf'
     | '/sdk'
@@ -281,6 +293,7 @@ export interface RootRouteChildren {
   A2aRoute: typeof A2aRoute
   AboutRoute: typeof AboutRoute
   ApiRoute: typeof ApiRouteWithChildren
+  BotRoute: typeof BotRoute
   McpRoute: typeof McpRouteWithChildren
   OasfRoute: typeof OasfRoute
   SdkRoute: typeof SdkRoute
@@ -327,6 +340,13 @@ declare module '@tanstack/react-router' {
       path: '/mcp'
       fullPath: '/mcp'
       preLoaderRoute: typeof McpRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/bot': {
+      id: '/bot'
+      path: '/bot'
+      fullPath: '/bot'
+      preLoaderRoute: typeof BotRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api': {
@@ -489,6 +509,7 @@ const rootRouteChildren: RootRouteChildren = {
   A2aRoute: A2aRoute,
   AboutRoute: AboutRoute,
   ApiRoute: ApiRouteWithChildren,
+  BotRoute: BotRoute,
   McpRoute: McpRouteWithChildren,
   OasfRoute: OasfRoute,
   SdkRoute: SdkRoute,

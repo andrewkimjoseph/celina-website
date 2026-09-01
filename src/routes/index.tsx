@@ -466,7 +466,14 @@ function Index() {
                 >
                   SDK
                 </Link>
-                , an MCP server, and a REST API.
+                , an MCP server, a REST API, and a{" "}
+                <Link
+                  className="underline decoration-[var(--celo-yellow)] decoration-2 underline-offset-4 hover:text-foreground"
+                  to="/bot"
+                >
+                  Telegram bot
+                </Link>
+                .
               </p>
               <div className="mt-8 flex flex-wrap items-center gap-3">
                 <Link
@@ -533,7 +540,7 @@ function Index() {
       <section className="mx-auto max-w-6xl px-4 pb-12 sm:px-6">
         <div className="rounded-[2px] border-2 border-foreground bg-card px-6 py-5 shadow-[var(--shadow-brutal)] sm:flex sm:items-center sm:justify-between sm:gap-6">
           <p className="text-sm leading-relaxed text-muted-foreground sm:text-base">
-            One catalog, four surfaces. SDK, local MCP, hosted endpoint, and browser apps.
+            One catalog. SDK, local MCP, hosted endpoint, browser apps, and Telegram.
           </p>
           <Link
             to="/stack"
@@ -788,6 +795,9 @@ function Index() {
           <div className="flex items-center gap-4 text-sm text-muted-foreground">
             <Link to="/about" className="hover:text-foreground">
               About
+            </Link>
+            <Link to="/bot" className="hover:text-foreground">
+              Bot
             </Link>
             <Link to="/mcp" className="hover:text-foreground">
               MCP

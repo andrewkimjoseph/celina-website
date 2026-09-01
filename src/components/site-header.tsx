@@ -19,6 +19,7 @@ const NAV_LINKS: NavLink[] = [
   { to: "/", label: "Home", exact: true },
   { to: "/about", label: "About" },
   { to: "/api", label: "API" },
+  { to: "/bot", label: "Bot" },
   { to: "/tools", label: "Tools" },
   { to: "/mcp", label: "MCP" },
   { to: "/a2a", label: "A2A" },

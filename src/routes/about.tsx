@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import type { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 import { PageCrumbs } from "@/components/marketing/page-hero";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -11,10 +12,11 @@ import {
   faShieldHalved,
   faWandMagicSparkles,
 } from "@fortawesome/free-solid-svg-icons";
-import { faGithub, faNpm } from "@fortawesome/free-brands-svg-icons";
+import { faGithub, faNpm, faTelegram } from "@fortawesome/free-brands-svg-icons";
 import { SiteHeader } from "@/components/site-header";
 import { HOSTED_TOOL_COUNT, TOOLS } from "@/data/tools";
 import { CELO_DOCS_URL } from "@/data/mcp";
+import { BOT_GITHUB_URL, TELEGRAM_BOT_URL } from "@/data/bot";
 
 const SDK_NPM_URL = "https://www.npmjs.com/package/@andrewkimjoseph/celina-sdk";
 const SDK_DOCS_URL = "https://andrewkimjoseph.gitbook.io/celina-sdk";
@@ -54,7 +56,7 @@ function ProductCard({
   body,
   children,
 }: {
-  icon: typeof faBolt;
+  icon: IconDefinition;
   title: string;
   subtitle: string;
   body: string;
@@ -326,6 +328,38 @@ function AboutPage() {
               </a>
               <a
                 href={CELESTE_GITHUB_URL}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-1 rounded-[2px] border-2 border-foreground bg-background px-3 py-1.5 text-xs font-medium text-foreground shadow-[var(--shadow-brutal-sm)] transition-[transform,box-shadow] hover:bg-[var(--celo-yellow)] hover:text-[var(--celo-ink)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none"
+              >
+                <FontAwesomeIcon icon={faGithub} className="h-3 w-3" /> GitHub
+              </a>
+            </div>
+          </ProductCard>
+
+          <ProductCard
+            icon={faTelegram}
+            title="Celina bot"
+            subtitle="Telegram"
+            body="Read-only Celo tools in Telegram — balances, quotes, governance. Talks to the Celina API. No keys, no signing."
+          >
+            <div className="flex flex-wrap gap-2">
+              <Link
+                to="/bot"
+                className="inline-flex items-center gap-1 rounded-[2px] border-2 border-foreground bg-background px-3 py-1.5 text-xs font-medium text-foreground shadow-[var(--shadow-brutal-sm)] transition-[transform,box-shadow] hover:bg-[var(--celo-yellow)] hover:text-[var(--celo-ink)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none"
+              >
+                Bot page
+              </Link>
+              <a
+                href={TELEGRAM_BOT_URL}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-1 rounded-[2px] border-2 border-foreground bg-background px-3 py-1.5 text-xs font-medium text-foreground shadow-[var(--shadow-brutal-sm)] transition-[transform,box-shadow] hover:bg-[var(--celo-yellow)] hover:text-[var(--celo-ink)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none"
+              >
+                Telegram <FontAwesomeIcon icon={faArrowUpRightFromSquare} className="h-2.5 w-2.5" />
+              </a>
+              <a
+                href={BOT_GITHUB_URL}
                 target="_blank"
                 rel="noreferrer"
                 className="inline-flex items-center gap-1 rounded-[2px] border-2 border-foreground bg-background px-3 py-1.5 text-xs font-medium text-foreground shadow-[var(--shadow-brutal-sm)] transition-[transform,box-shadow] hover:bg-[var(--celo-yellow)] hover:text-[var(--celo-ink)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none"
