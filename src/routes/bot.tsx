@@ -10,7 +10,7 @@ const COMMANDS: { command: string; does: string }[] = [
   { command: "/start", does: "Welcome + shortcut keyboard" },
   { command: "/tools", does: "Browse tools by category (tap to run or fill params)" },
   { command: "/call <tool> [key=value …] [--human]", does: "Power-user invoke" },
-  { command: "/setaddress 0x…", does: "Save a default wallet for address / from fields" },
+  { command: "/setaddress 0x…", does: "Save a default wallet, or send /setaddress then the address" },
   { command: "/clearaddress", does: "Forget the saved wallet" },
   { command: "/whoami", does: "Show the saved wallet" },
   { command: "/help / /help <tool>", does: "Commands, or one tool's inputs" },
