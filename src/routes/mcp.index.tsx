@@ -10,6 +10,7 @@ import {
   HOSTED_TOOL_COUNT,
   MCP_GITHUB_URL,
   MCP_NPM_URL,
+  CELO_DOCS_URL,
   STDIO_TOOL_COUNT,
 } from "@/data/mcp";
 
@@ -40,6 +41,18 @@ function McpOverviewPage() {
           Pick a deployment mode: <strong className="text-foreground">local stdio</strong> for the full catalog
           with execute/write when you set <code className="rounded-[2px] bg-secondary px-1 py-0.5 text-sm">CELO_PRIVATE_KEY</code>,
           or <strong className="text-foreground">remote hosted</strong> for instant reads without installing Node.
+        </p>
+        <p>
+          Celina is listed in the{" "}
+          <a
+            className="font-medium text-foreground underline decoration-[var(--celo-yellow)] decoration-2 underline-offset-4"
+            href={CELO_DOCS_URL}
+            target="_blank"
+            rel="noreferrer"
+          >
+            official Celo MCP docs
+          </a>
+          .
         </p>
       </div>
 

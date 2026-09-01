@@ -18,7 +18,7 @@ import {
   categorySlug,
   HOSTED_TOOL_COUNT,
 } from "@/data/tools";
-import { MCP_INSTALL_CMD, MCP_NPM_URL } from "@/data/mcp";
+import { MCP_INSTALL_CMD, MCP_NPM_URL, CELO_DOCS_URL } from "@/data/mcp";
 import { CopyButton } from "@/components/marketing/code-block";
 import { SiteHeader } from "@/components/site-header";
 import { cn } from "@/lib/utils";
@@ -496,7 +496,7 @@ function Index() {
                 <CopyButton text={MCP_INSTALL_CMD} />
               </div>
 
-              <div className="mt-8 flex items-center gap-3 text-xs uppercase tracking-[0.22em] text-muted-foreground">
+              <div className="mt-8 flex flex-wrap items-center gap-x-3 gap-y-2 text-xs uppercase tracking-[0.22em] text-muted-foreground">
                 <span>Built on</span>
                 <img
                   src="/celo-wordmark-onyx.svg"
@@ -508,6 +508,17 @@ function Index() {
                   alt="Celo"
                   className="hidden h-4 w-auto opacity-90 dark:inline-block"
                 />
+                <span aria-hidden className="text-foreground/30">
+                  ·
+                </span>
+                <a
+                  href={CELO_DOCS_URL}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="normal-case tracking-normal text-foreground/80 underline decoration-[var(--celo-yellow)] decoration-2 underline-offset-4 hover:text-foreground"
+                >
+                  Listed in the official Celo MCP docs
+                </a>
               </div>
             </div>
 

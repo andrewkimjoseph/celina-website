@@ -14,6 +14,7 @@ import {
 import { faGithub, faNpm } from "@fortawesome/free-brands-svg-icons";
 import { SiteHeader } from "@/components/site-header";
 import { HOSTED_TOOL_COUNT, TOOLS } from "@/data/tools";
+import { CELO_DOCS_URL } from "@/data/mcp";
 
 const SDK_NPM_URL = "https://www.npmjs.com/package/@andrewkimjoseph/celina-sdk";
 const SDK_DOCS_URL = "https://andrewkimjoseph.gitbook.io/celina-sdk";
@@ -167,7 +168,16 @@ function AboutPage() {
           <p>
             Celina targets <span className="font-medium text-foreground">Celo mainnet</span> today — stablecoins,
             Mento FX, Uniswap v4, Aave V3, GoodDollar, Self Agent ID, governance, staking, and core chain reads.
-            Humanness-gated writes (lock CELO, vote, stake, delegate) require Self Agent ID or GoodDollar
+            It is listed in the{" "}
+            <a
+              className="font-medium text-foreground underline decoration-[var(--celo-yellow)] decoration-2 underline-offset-4"
+              href={CELO_DOCS_URL}
+              target="_blank"
+              rel="noreferrer"
+            >
+              official Celo MCP docs
+            </a>
+            . Humanness-gated writes (lock CELO, vote, stake, delegate) require Self Agent ID or GoodDollar
             IdentityV4 verification. MIT licensed and built for builders shipping real on-chain agents.
           </p>
         </div>
