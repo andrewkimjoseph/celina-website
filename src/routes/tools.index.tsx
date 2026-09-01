@@ -86,7 +86,7 @@ function ToolsIndex() {
             to="/tools/prepare"
             icon={faPenToSquare}
             title="Prepare"
-            body="Unsigned wallet flows. The user signs in Celeste."
+            body="Unsigned wallet flows. The user signs in browser apps."
             count={PREPARE_TOOL_COUNT}
           />
         </div>

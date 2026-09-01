@@ -8,7 +8,7 @@ export const Route = createFileRoute("/tools/prepare")({
       { title: "Prepare tools — Celina" },
       {
         name: "description",
-        content: `Celina prepare tools — unsigned wallet flows for Celeste and browser apps. ${PREPARE_TOOL_COUNT} operations.`,
+        content: `Celina prepare tools — unsigned wallet flows for browser apps. ${PREPARE_TOOL_COUNT} operations.`,
       },
     ],
   }),
@@ -20,7 +20,7 @@ function PrepareToolsPage() {
     <ToolsKindHub
       kind="prepare"
       title="Prepare"
-      description="Unsigned wallet flows. Celeste and other browser apps; the user signs."
+      description="Unsigned wallet flows. The user signs in browser apps."
     />
   );
 }
