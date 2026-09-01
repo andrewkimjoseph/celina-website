@@ -22,6 +22,9 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as ToolsIndexRouteImport } from './routes/tools.index'
 import { Route as StatsIndexRouteImport } from './routes/stats.index'
 import { Route as McpIndexRouteImport } from './routes/mcp.index'
+import { Route as ToolsWriteRouteImport } from './routes/tools.write'
+import { Route as ToolsReadRouteImport } from './routes/tools.read'
+import { Route as ToolsPrepareRouteImport } from './routes/tools.prepare'
 import { Route as StatsPackageRouteImport } from './routes/stats.package'
 import { Route as StatsOnchainRouteImport } from './routes/stats.onchain'
 import { Route as StatsOffchainRouteImport } from './routes/stats.offchain'
@@ -97,6 +100,21 @@ const McpIndexRoute = McpIndexRouteImport.update({
   path: '/',
   getParentRoute: () => McpRoute,
 } as any)
+const ToolsWriteRoute = ToolsWriteRouteImport.update({
+  id: '/tools/write',
+  path: '/tools/write',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ToolsReadRoute = ToolsReadRouteImport.update({
+  id: '/tools/read',
+  path: '/tools/read',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ToolsPrepareRoute = ToolsPrepareRouteImport.update({
+  id: '/tools/prepare',
+  path: '/tools/prepare',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const StatsPackageRoute = StatsPackageRouteImport.update({
   id: '/package',
   path: '/package',
@@ -160,6 +178,9 @@ export interface FileRoutesByFullPath {
   '/stats/offchain': typeof StatsOffchainRoute
   '/stats/onchain': typeof StatsOnchainRoute
   '/stats/package': typeof StatsPackageRoute
+  '/tools/prepare': typeof ToolsPrepareRoute
+  '/tools/read': typeof ToolsReadRoute
+  '/tools/write': typeof ToolsWriteRoute
   '/mcp/': typeof McpIndexRoute
   '/stats/': typeof StatsIndexRoute
   '/tools/': typeof ToolsIndexRoute
@@ -182,6 +203,9 @@ export interface FileRoutesByTo {
   '/stats/offchain': typeof StatsOffchainRoute
   '/stats/onchain': typeof StatsOnchainRoute
   '/stats/package': typeof StatsPackageRoute
+  '/tools/prepare': typeof ToolsPrepareRoute
+  '/tools/read': typeof ToolsReadRoute
+  '/tools/write': typeof ToolsWriteRoute
   '/mcp': typeof McpIndexRoute
   '/stats': typeof StatsIndexRoute
   '/tools': typeof ToolsIndexRoute
@@ -207,6 +231,9 @@ export interface FileRoutesById {
   '/stats/offchain': typeof StatsOffchainRoute
   '/stats/onchain': typeof StatsOnchainRoute
   '/stats/package': typeof StatsPackageRoute
+  '/tools/prepare': typeof ToolsPrepareRoute
+  '/tools/read': typeof ToolsReadRoute
+  '/tools/write': typeof ToolsWriteRoute
   '/mcp/': typeof McpIndexRoute
   '/stats/': typeof StatsIndexRoute
   '/tools/': typeof ToolsIndexRoute
@@ -233,6 +260,9 @@ export interface FileRouteTypes {
     | '/stats/offchain'
     | '/stats/onchain'
     | '/stats/package'
+    | '/tools/prepare'
+    | '/tools/read'
+    | '/tools/write'
     | '/mcp/'
     | '/stats/'
     | '/tools/'
@@ -255,6 +285,9 @@ export interface FileRouteTypes {
     | '/stats/offchain'
     | '/stats/onchain'
     | '/stats/package'
+    | '/tools/prepare'
+    | '/tools/read'
+    | '/tools/write'
     | '/mcp'
     | '/stats'
     | '/tools'
@@ -279,6 +312,9 @@ export interface FileRouteTypes {
     | '/stats/offchain'
     | '/stats/onchain'
     | '/stats/package'
+    | '/tools/prepare'
+    | '/tools/read'
+    | '/tools/write'
     | '/mcp/'
     | '/stats/'
     | '/tools/'
@@ -299,6 +335,9 @@ export interface RootRouteChildren {
   SdkRoute: typeof SdkRoute
   StackRoute: typeof StackRoute
   StatsRoute: typeof StatsRouteWithChildren
+  ToolsPrepareRoute: typeof ToolsPrepareRoute
+  ToolsReadRoute: typeof ToolsReadRoute
+  ToolsWriteRoute: typeof ToolsWriteRoute
   ToolsIndexRoute: typeof ToolsIndexRoute
   GooddollarVerifyCallbackRoute: typeof GooddollarVerifyCallbackRoute
   ToolsCategoryToolSlugRoute: typeof ToolsCategoryToolSlugRoute
@@ -397,6 +436,27 @@ declare module '@tanstack/react-router' {
       fullPath: '/mcp/'
       preLoaderRoute: typeof McpIndexRouteImport
       parentRoute: typeof McpRoute
+    }
+    '/tools/write': {
+      id: '/tools/write'
+      path: '/tools/write'
+      fullPath: '/tools/write'
+      preLoaderRoute: typeof ToolsWriteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools/read': {
+      id: '/tools/read'
+      path: '/tools/read'
+      fullPath: '/tools/read'
+      preLoaderRoute: typeof ToolsReadRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tools/prepare': {
+      id: '/tools/prepare'
+      path: '/tools/prepare'
+      fullPath: '/tools/prepare'
+      preLoaderRoute: typeof ToolsPrepareRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/stats/package': {
       id: '/stats/package'
@@ -515,6 +575,9 @@ const rootRouteChildren: RootRouteChildren = {
   SdkRoute: SdkRoute,
   StackRoute: StackRoute,
   StatsRoute: StatsRouteWithChildren,
+  ToolsPrepareRoute: ToolsPrepareRoute,
+  ToolsReadRoute: ToolsReadRoute,
+  ToolsWriteRoute: ToolsWriteRoute,
   ToolsIndexRoute: ToolsIndexRoute,
   GooddollarVerifyCallbackRoute: GooddollarVerifyCallbackRoute,
   ToolsCategoryToolSlugRoute: ToolsCategoryToolSlugRoute,

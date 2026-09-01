@@ -1,10 +1,11 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft, faBolt, faCircleNodes, faTerminal, faCopy, faCheck } from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft, faTerminal, faCopy, faCheck } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 import { findTool, categorySlug, getToolAvailability, availabilityLabel, type ToolDoc } from "@/data/tools";
 import { SiteHeader } from "@/components/site-header";
 import { PageCrumbs } from "@/components/marketing/page-hero";
+import { kindBadge } from "@/components/tools/tool-card";
 
 export const Route = createFileRoute("/tools/$category/$toolSlug")({
   loader: ({ params }) => {
@@ -61,11 +62,7 @@ function CopyInline({ text }: { text: string }) {
 
 function ToolPage() {
   const { tool } = Route.useLoaderData() as { tool: ToolDoc };
-  const isWrite = tool.kind === "write";
-  const kindIcon = isWrite ? faBolt : faCircleNodes;
-  const kindClass = isWrite
-    ? "border-2 border-foreground bg-[var(--celo-yellow)] text-[var(--celo-ink)]"
-    : "border-2 border-foreground text-[var(--celo-forest)] dark:text-[var(--celo-yellow)]";
+  const badge = kindBadge(tool.kind);
   const availability = getToolAvailability(tool);
   const catSlug = categorySlug(tool.category);
 
@@ -85,9 +82,9 @@ function ToolPage() {
 
         <div className="flex flex-wrap items-center gap-2">
           <span
-            className={`inline-flex items-center gap-1.5 rounded-[2px] px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.18em] ${kindClass}`}
+            className={`inline-flex items-center gap-1.5 rounded-[2px] border-2 border-foreground px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.18em] ${badge.className}`}
           >
-            <FontAwesomeIcon icon={kindIcon} className="h-2.5 w-2.5" />
+            <FontAwesomeIcon icon={badge.icon} className="h-2.5 w-2.5" />
             {tool.kind}
           </span>
           <Link
@@ -98,7 +95,7 @@ function ToolPage() {
             {tool.category}
           </Link>
           <span className="rounded-[2px] border-2 border-foreground px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.18em] text-muted-foreground">
-            {availabilityLabel(availability)}
+            {tool.kind === "prepare" ? "Browser · wallet" : availabilityLabel(availability)}
           </span>
         </div>
 

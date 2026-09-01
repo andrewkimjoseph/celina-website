@@ -1,9 +1,11 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft, faBolt, faCircleNodes } from "@fortawesome/free-solid-svg-icons";
-import { TOOLS, CATEGORY_BY_SLUG, categorySlug, type ToolDoc } from "@/data/tools";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { TOOLS, CATEGORY_BY_SLUG, type ToolDoc } from "@/data/tools";
 import { SiteHeader } from "@/components/site-header";
 import { PageCrumbs } from "@/components/marketing/page-hero";
+import { ToolsKindNav } from "@/components/tools/kind-nav";
+import { ToolCard } from "@/components/tools/tool-card";
 
 export const Route = createFileRoute("/tools/$category/")({
   loader: ({ params }) => {
@@ -17,7 +19,7 @@ export const Route = createFileRoute("/tools/$category/")({
     if (!cat) return { meta: [{ title: "Category not found — Celina" }] };
     const count = loaderData?.tools.length ?? 0;
     const title = `${cat} tools — Celina MCP`;
-    const desc = `Every Celina MCP tool in the ${cat} category — ${count} operations for Celo mainnet.`;
+    const desc = `Every Celina tool in the ${cat} category — ${count} operations for Celo mainnet.`;
     return {
       meta: [
         { title },
@@ -46,9 +48,9 @@ function CategoryPage() {
     category: ToolDoc["category"];
     tools: ToolDoc[];
   };
-  const catSlug = categorySlug(category);
   const readCount = tools.filter((t) => t.kind === "read").length;
   const writeCount = tools.filter((t) => t.kind === "write").length;
+  const prepareCount = tools.filter((t) => t.kind === "prepare").length;
 
   return (
     <main className="min-h-screen bg-background text-foreground">
@@ -73,42 +75,17 @@ function CategoryPage() {
           {category} tools
         </h1>
         <p className="mt-4 max-w-2xl text-lg text-muted-foreground">
-          {tools.length} tool{tools.length === 1 ? "" : "s"} in this category — {readCount} read, {writeCount} write.
+          {tools.length} tool{tools.length === 1 ? "" : "s"} in this category — {readCount} read
+          {writeCount ? `, ${writeCount} write` : ""}
+          {prepareCount ? `, ${prepareCount} prepare` : ""}.
         </p>
 
+        <ToolsKindNav />
+
         <div className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {tools.map((t) => {
-            const isWrite = t.kind === "write";
-            const kindIcon = isWrite ? faBolt : faCircleNodes;
-            const badgeClass = isWrite
-              ? "bg-[var(--celo-yellow)] text-[var(--celo-ink)]"
-              : "bg-[var(--celo-forest)] text-[var(--celo-yellow)] dark:bg-[var(--celo-yellow)]/15 dark:text-[var(--celo-yellow)]";
-            return (
-              <Link
-                key={t.name}
-                to="/tools/$category/$toolSlug"
-                params={{ category: catSlug, toolSlug: t.slug }}
-                className="group relative block overflow-hidden rounded-[2px] border-2 border-foreground bg-card p-4 shadow-[var(--shadow-brutal-sm)] transition-transform duration-150 ease-out hover:-translate-y-0.5 hover:shadow-[var(--shadow-brutal-lg)]"
-              >
-                <span
-                  aria-hidden
-                  className="absolute left-0 top-0 h-full w-1 bg-[var(--celo-yellow)] opacity-0 transition-opacity group-hover:opacity-100"
-                />
-                <div className="flex items-center justify-between gap-2">
-                  <code className="truncate font-mono text-sm font-semibold text-foreground group-hover:underline">
-                    {t.name}
-                  </code>
-                  <span
-                    className={`inline-flex shrink-0 items-center gap-1 rounded-[2px] border-2 border-foreground px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.14em] ${badgeClass}`}
-                  >
-                    <FontAwesomeIcon icon={kindIcon} className="h-2.5 w-2.5" />
-                    {t.kind}
-                  </span>
-                </div>
-                <p className="mt-1.5 text-sm text-muted-foreground">{t.summary}</p>
-              </Link>
-            );
-          })}
+          {tools.map((t) => (
+            <ToolCard key={t.name} tool={t} />
+          ))}
         </div>
       </section>
     </main>

@@ -1,4 +1,4 @@
-export type ToolKind = "read" | "write";
+export type ToolKind = "read" | "write" | "prepare";
 export type ToolAvailability = "hosted" | "stdio" | "both";
 
 export interface ToolField {

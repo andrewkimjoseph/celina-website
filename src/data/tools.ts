@@ -1,6 +1,6 @@
 import { GENERATED_HOSTED_TOOL_COUNT, GENERATED_TOOLS } from "./tools.generated.js";
 import { TOOL_OVERRIDES } from "./tools.overrides.js";
-import type { ToolAvailability, ToolDoc } from "./tools.types.js";
+import type { ToolAvailability, ToolDoc, ToolKind } from "./tools.types.js";
 
 function mergeTool(
   base: Omit<ToolDoc, "returns">,
@@ -47,6 +47,30 @@ export function findTool(catSlug: string, toolSlug: string): ToolDoc | undefined
     (t) => categorySlug(t.category) === catSlug && t.slug === toolSlug,
   );
 }
+
+export function toolsByKind(kind: ToolKind): ToolDoc[] {
+  return TOOLS.filter((tool) => tool.kind === kind);
+}
+
+export function groupToolsByCategory(tools: ToolDoc[]): {
+  category: ToolDoc["category"];
+  tools: ToolDoc[];
+}[] {
+  const grouped = new Map<ToolDoc["category"], ToolDoc[]>();
+  for (const tool of tools) {
+    const list = grouped.get(tool.category);
+    if (list) list.push(tool);
+    else grouped.set(tool.category, [tool]);
+  }
+  return [...grouped.entries()].map(([category, groupedTools]) => ({
+    category,
+    tools: groupedTools,
+  }));
+}
+
+export const READ_TOOL_COUNT = toolsByKind("read").length;
+export const WRITE_TOOL_COUNT = toolsByKind("write").length;
+export const PREPARE_TOOL_COUNT = toolsByKind("prepare").length;
 
 /** Hosted endpoint tool count — derived from SDK catalog filter profile. */
 export const HOSTED_TOOL_COUNT = GENERATED_HOSTED_TOOL_COUNT;

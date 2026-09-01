@@ -3,7 +3,7 @@ import type { ToolDoc } from "./tools.types.js";
 
 export const GENERATED_HOSTED_TOOL_COUNT = 48;
 
-export const GENERATED_TOOL_NAMES = ["get_network_status","get_block","get_latest_blocks","get_transaction","verify_attribution_tag","check_attribution_tag","get_wallet_address","get_account","get_celo_account_registration","execute_register_celo_account","get_celo_balances","get_stablecoin_balances","get_token_info","get_token_balance","estimate_send","send_token","get_gas_fee_data","estimate_transaction","get_mento_fx_quote","estimate_mento_fx","execute_mento_fx","get_uniswap_quote","estimate_uniswap_swap","execute_uniswap_swap","get_aave_balances","supply_aave","withdraw_aave","resolve_ens","get_gooddollar_whitelisting_info","get_gooddollar_identity_link","get_gooddollar_ubi_entitlement","claim_daily_gooddollar_ubi","get_gooddollar_reserve_quote","estimate_gooddollar_reserve_swap","execute_gooddollar_reserve_swap","get_gooddollar_face_verification_link","execute_connect_gooddollar_identity","execute_disconnect_gooddollar_identity","get_governance_proposals","get_proposal_details","get_locked_celo_balance","get_pending_withdrawals","get_votable_proposals","get_queued_proposals","get_actionable_governance_proposals","get_governance_votes","execute_lock_celo","execute_unlock_celo","execute_relock_celo","execute_withdraw_celo","execute_vote","execute_upvote","execute_dequeue_proposals_if_ready","execute_revoke_governance_votes","execute_revoke_governance_upvote","check_humanness","get_staking_balances","get_activatable_stakes","get_validator_groups","get_validator_group_details","get_total_staking_info","get_delegation_info","get_stake_eligibility","execute_stake","execute_activate_stake","execute_unstake","get_governance_delegates","get_governance_delegate_details","execute_delegate_power","execute_undelegate_power","get_nft_info","get_nft_balance","call_contract_function","estimate_contract_gas","execute_contract_function","verify_self_agent","lookup_self_agent","verify_self_request","register_self_agent","check_self_registration","get_self_identity","refresh_self_proof","deregister_self_agent","sign_self_request","authenticated_self_fetch","get_agentkarma_reputation","get_agentkarma_celo_agent","check_agentkarma_counterparty"] as const;
+export const GENERATED_TOOL_NAMES = ["get_network_status","get_block","get_latest_blocks","get_transaction","verify_attribution_tag","check_attribution_tag","get_wallet_address","get_account","get_celo_account_registration","execute_register_celo_account","get_celo_balances","get_stablecoin_balances","get_token_info","get_token_balance","estimate_send","send_token","get_gas_fee_data","estimate_transaction","get_mento_fx_quote","estimate_mento_fx","execute_mento_fx","get_uniswap_quote","estimate_uniswap_swap","execute_uniswap_swap","get_aave_balances","supply_aave","withdraw_aave","resolve_ens","get_gooddollar_whitelisting_info","get_gooddollar_identity_link","get_gooddollar_ubi_entitlement","claim_daily_gooddollar_ubi","get_gooddollar_reserve_quote","estimate_gooddollar_reserve_swap","execute_gooddollar_reserve_swap","get_gooddollar_face_verification_link","execute_connect_gooddollar_identity","execute_disconnect_gooddollar_identity","get_governance_proposals","get_proposal_details","get_locked_celo_balance","get_pending_withdrawals","get_votable_proposals","get_queued_proposals","get_actionable_governance_proposals","get_governance_votes","execute_lock_celo","execute_unlock_celo","execute_relock_celo","execute_withdraw_celo","execute_vote","execute_upvote","execute_dequeue_proposals_if_ready","execute_revoke_governance_votes","execute_revoke_governance_upvote","check_humanness","get_staking_balances","get_activatable_stakes","get_validator_groups","get_validator_group_details","get_total_staking_info","get_delegation_info","get_stake_eligibility","execute_stake","execute_activate_stake","execute_unstake","get_governance_delegates","get_governance_delegate_details","execute_delegate_power","execute_undelegate_power","get_nft_info","get_nft_balance","call_contract_function","estimate_contract_gas","execute_contract_function","verify_self_agent","lookup_self_agent","verify_self_request","register_self_agent","check_self_registration","get_self_identity","refresh_self_proof","deregister_self_agent","sign_self_request","authenticated_self_fetch","get_agentkarma_reputation","get_agentkarma_celo_agent","check_agentkarma_counterparty","prepare_register_celo_account","prepare_send","prepare_mento_fx","prepare_uniswap_swap","prepare_aave_supply","prepare_aave_withdraw","prepare_claim_daily_gooddollar_ubi","prepare_gooddollar_reserve_swap","prepare_connect_gooddollar_identity","prepare_disconnect_gooddollar_identity","prepare_lock_celo","prepare_unlock_celo","prepare_relock_celo","prepare_withdraw_celo","prepare_vote","prepare_upvote","prepare_dequeue_proposals_if_ready","prepare_revoke_governance_votes","prepare_revoke_governance_upvote","prepare_stake","prepare_activate_stake","prepare_unstake","prepare_delegate_power","prepare_undelegate_power","prepare_contract_function","prepare_swap"] as const;
 
 export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
   {
@@ -2300,6 +2300,796 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
         "type": "boolean",
         "required": false,
         "description": "Require at least one Tier-1 receipt-backed signal on the face."
+      }
+    ]
+  },
+  {
+    "name": "prepare_register_celo_account",
+    "slug": "prepare-register-celo-account",
+    "title": "prepare register celo account",
+    "summary": "Prepare unsigned Celo account registration for wallet signing.",
+    "description": "Prepare unsigned Celo account registration for wallet signing.",
+    "kind": "prepare",
+    "category": "Account",
+    "inputs": [
+      {
+        "name": "from",
+        "type": "string",
+        "required": false,
+        "description": "Wallet on Celo mainnet. Omit to use the connected wallet or the configured MCP signer (CELO or Self agent)."
+      }
+    ]
+  },
+  {
+    "name": "prepare_send",
+    "slug": "prepare-send",
+    "title": "prepare send",
+    "summary": "Prepare an unsigned send transaction.",
+    "description": "Prepare an unsigned send transaction. User must confirm and sign in wallet.",
+    "kind": "prepare",
+    "category": "Blockchain",
+    "inputs": [
+      {
+        "name": "to",
+        "type": "string",
+        "required": true,
+        "description": "Recipient 0x address or ENS name (e.g. andrewkimjoseph.celo.eth, celina.eth)"
+      },
+      {
+        "name": "token",
+        "type": "string",
+        "required": true,
+        "description": "token"
+      },
+      {
+        "name": "amount",
+        "type": "string",
+        "required": true,
+        "description": "amount"
+      },
+      {
+        "name": "from",
+        "type": "string",
+        "required": false,
+        "description": "Wallet on Celo mainnet. Omit to use the connected wallet or the configured MCP signer (CELO or Self agent)."
+      }
+    ]
+  },
+  {
+    "name": "prepare_mento_fx",
+    "slug": "prepare-mento-fx",
+    "title": "prepare mento fx",
+    "summary": "Prepare Mento FX swap only.",
+    "description": "Prepare Mento FX swap only. For general swaps after get_swap_quote, use prepare_swap.",
+    "kind": "prepare",
+    "category": "Mento FX",
+    "inputs": [
+      {
+        "name": "token_in",
+        "type": "string",
+        "required": true,
+        "description": "Input token symbol or address"
+      },
+      {
+        "name": "token_out",
+        "type": "string",
+        "required": true,
+        "description": "Output token symbol or address"
+      },
+      {
+        "name": "amount",
+        "type": "string",
+        "required": true,
+        "description": "Human-readable amount of token_in, e.g. 100"
+      },
+      {
+        "name": "from",
+        "type": "string",
+        "required": false,
+        "description": "Wallet on Celo mainnet. Omit to use the connected wallet or the configured MCP signer (CELO or Self agent)."
+      },
+      {
+        "name": "recipient",
+        "type": "string",
+        "required": false,
+        "description": "Address that receives output tokens (defaults to signer)"
+      },
+      {
+        "name": "slippage_tolerance",
+        "type": "number",
+        "required": false,
+        "description": "Max slippage in percent (default 0.5)"
+      },
+      {
+        "name": "deadline_minutes",
+        "type": "number",
+        "required": false,
+        "description": "Transaction deadline in minutes (default 5)"
+      }
+    ]
+  },
+  {
+    "name": "prepare_uniswap_swap",
+    "slug": "prepare-uniswap-swap",
+    "title": "prepare uniswap swap",
+    "summary": "Prepare Uniswap v4 swap only.",
+    "description": "Prepare Uniswap v4 swap only. Prefer prepare_swap after get_swap_quote for automatic routing.",
+    "kind": "prepare",
+    "category": "Uniswap",
+    "inputs": [
+      {
+        "name": "token_in",
+        "type": "string",
+        "required": true,
+        "description": "Celo mainnet token symbol (e.g. CELO, USDm, USDC, USDT)"
+      },
+      {
+        "name": "token_out",
+        "type": "string",
+        "required": true,
+        "description": "Celo mainnet token symbol (e.g. CELO, USDm, USDC, USDT)"
+      },
+      {
+        "name": "amount",
+        "type": "string",
+        "required": true,
+        "description": "Human-readable amount of token_in"
+      },
+      {
+        "name": "from",
+        "type": "string",
+        "required": false,
+        "description": "Wallet on Celo mainnet. Omit to use the connected wallet or the configured MCP signer (CELO or Self agent)."
+      },
+      {
+        "name": "recipient",
+        "type": "string",
+        "required": false,
+        "description": "recipient"
+      },
+      {
+        "name": "slippage_tolerance",
+        "type": "number",
+        "required": false,
+        "description": "slippage tolerance"
+      },
+      {
+        "name": "deadline_minutes",
+        "type": "number",
+        "required": false,
+        "description": "deadline minutes"
+      }
+    ]
+  },
+  {
+    "name": "prepare_aave_supply",
+    "slug": "prepare-aave-supply",
+    "title": "prepare aave supply",
+    "summary": "Prepare unsigned Aave V3 supply steps.",
+    "description": "Prepare unsigned Aave V3 supply steps. User signs in wallet.",
+    "kind": "prepare",
+    "category": "Blockchain",
+    "inputs": [
+      {
+        "name": "token",
+        "type": "string",
+        "required": true,
+        "description": "token"
+      },
+      {
+        "name": "amount",
+        "type": "string",
+        "required": true,
+        "description": "amount"
+      },
+      {
+        "name": "from",
+        "type": "string",
+        "required": false,
+        "description": "Wallet on Celo mainnet. Omit to use the connected wallet or the configured MCP signer (CELO or Self agent)."
+      }
+    ]
+  },
+  {
+    "name": "prepare_aave_withdraw",
+    "slug": "prepare-aave-withdraw",
+    "title": "prepare aave withdraw",
+    "summary": "Prepare unsigned Aave V3 withdraw.",
+    "description": "Prepare unsigned Aave V3 withdraw. User signs in wallet. For full/max/all withdrawals set withdraw_max true — do not pass a human amount unless the user names a specific partial amount.",
+    "kind": "prepare",
+    "category": "Blockchain",
+    "inputs": [
+      {
+        "name": "token",
+        "type": "string",
+        "required": true,
+        "description": "token"
+      },
+      {
+        "name": "amount",
+        "type": "string",
+        "required": false,
+        "description": "amount"
+      },
+      {
+        "name": "withdraw_max",
+        "type": "boolean",
+        "required": false,
+        "description": "withdraw max"
+      },
+      {
+        "name": "from",
+        "type": "string",
+        "required": false,
+        "description": "Wallet on Celo mainnet. Omit to use the connected wallet or the configured MCP signer (CELO or Self agent)."
+      }
+    ]
+  },
+  {
+    "name": "prepare_claim_daily_gooddollar_ubi",
+    "slug": "prepare-claim-daily-gooddollar-ubi",
+    "title": "prepare claim daily gooddollar ubi",
+    "summary": "Prepare unsigned GoodDollar daily UBI claim.",
+    "description": "Prepare unsigned GoodDollar daily UBI claim. User must sign in wallet.",
+    "kind": "prepare",
+    "category": "GoodDollar",
+    "inputs": [
+      {
+        "name": "from",
+        "type": "string",
+        "required": false,
+        "description": "Wallet on Celo mainnet. Omit to use the connected wallet or the configured MCP signer (CELO or Self agent)."
+      }
+    ]
+  },
+  {
+    "name": "prepare_gooddollar_reserve_swap",
+    "slug": "prepare-gooddollar-reserve-swap",
+    "title": "prepare gooddollar reserve swap",
+    "summary": "Prepare unsigned GoodDollar reserve swap for G$ ↔ USDm.",
+    "description": "Prepare unsigned GoodDollar reserve swap for G$ ↔ USDm. User must sign in wallet. Use amount_side \"out\" when the user names the receive amount (same params as quote). Uses the literal signing wallet address for balances; does not resolve GoodDollar identity roots.",
+    "kind": "prepare",
+    "category": "GoodDollar",
+    "inputs": [
+      {
+        "name": "token_in",
+        "type": "string",
+        "required": true,
+        "description": "GoodDollar or G$"
+      },
+      {
+        "name": "token_out",
+        "type": "string",
+        "required": true,
+        "description": "USDm or cUSD"
+      },
+      {
+        "name": "amount",
+        "type": "string",
+        "required": true,
+        "description": "Human-readable amount; paired with amount_side (in = spend, out = receive)"
+      },
+      {
+        "name": "amount_side",
+        "type": "string",
+        "required": false,
+        "description": "'in': amount is token_in spend (default). 'out': amount is desired token_out receive amount."
+      },
+      {
+        "name": "from",
+        "type": "string",
+        "required": false,
+        "description": "Wallet on Celo mainnet. Omit to use the connected wallet or the configured MCP signer (CELO or Self agent)."
+      },
+      {
+        "name": "recipient",
+        "type": "string",
+        "required": false,
+        "description": "recipient"
+      },
+      {
+        "name": "slippage_tolerance",
+        "type": "number",
+        "required": false,
+        "description": "slippage tolerance"
+      }
+    ]
+  },
+  {
+    "name": "prepare_connect_gooddollar_identity",
+    "slug": "prepare-connect-gooddollar-identity",
+    "title": "prepare connect gooddollar identity",
+    "summary": "Prepare unsigned GoodDollar identity connect for wallet signing.",
+    "description": "Prepare unsigned GoodDollar identity connect for wallet signing.",
+    "kind": "prepare",
+    "category": "GoodDollar",
+    "inputs": [
+      {
+        "name": "from",
+        "type": "string",
+        "required": false,
+        "description": "Wallet on Celo mainnet. Omit to use the connected wallet or the configured MCP signer (CELO or Self agent)."
+      },
+      {
+        "name": "connected_account",
+        "type": "string",
+        "required": true,
+        "description": "connected account"
+      }
+    ]
+  },
+  {
+    "name": "prepare_disconnect_gooddollar_identity",
+    "slug": "prepare-disconnect-gooddollar-identity",
+    "title": "prepare disconnect gooddollar identity",
+    "summary": "Prepare unsigned GoodDollar identity disconnect for wallet signing.",
+    "description": "Prepare unsigned GoodDollar identity disconnect for wallet signing.",
+    "kind": "prepare",
+    "category": "GoodDollar",
+    "inputs": [
+      {
+        "name": "from",
+        "type": "string",
+        "required": false,
+        "description": "Wallet on Celo mainnet. Omit to use the connected wallet or the configured MCP signer (CELO or Self agent)."
+      },
+      {
+        "name": "connected_account",
+        "type": "string",
+        "required": true,
+        "description": "connected account"
+      }
+    ]
+  },
+  {
+    "name": "prepare_lock_celo",
+    "slug": "prepare-lock-celo",
+    "title": "prepare lock celo",
+    "summary": "Prepare unsigned lock CELO flow for wallet signing.",
+    "description": "Prepare unsigned lock CELO flow for wallet signing.",
+    "kind": "prepare",
+    "category": "Governance",
+    "inputs": [
+      {
+        "name": "from",
+        "type": "string",
+        "required": false,
+        "description": "Wallet on Celo mainnet. Omit to use the connected wallet or the configured MCP signer (CELO or Self agent)."
+      },
+      {
+        "name": "amount",
+        "type": "string",
+        "required": true,
+        "description": "amount"
+      }
+    ]
+  },
+  {
+    "name": "prepare_unlock_celo",
+    "slug": "prepare-unlock-celo",
+    "title": "prepare unlock celo",
+    "summary": "Prepare unsigned unlock CELO flow for wallet signing.",
+    "description": "Prepare unsigned unlock CELO flow for wallet signing.",
+    "kind": "prepare",
+    "category": "Governance",
+    "inputs": [
+      {
+        "name": "from",
+        "type": "string",
+        "required": false,
+        "description": "Wallet on Celo mainnet. Omit to use the connected wallet or the configured MCP signer (CELO or Self agent)."
+      },
+      {
+        "name": "amount",
+        "type": "string",
+        "required": true,
+        "description": "amount"
+      }
+    ]
+  },
+  {
+    "name": "prepare_relock_celo",
+    "slug": "prepare-relock-celo",
+    "title": "prepare relock celo",
+    "summary": "Prepare unsigned relock CELO flow for wallet signing.",
+    "description": "Prepare unsigned relock CELO flow for wallet signing.",
+    "kind": "prepare",
+    "category": "Governance",
+    "inputs": [
+      {
+        "name": "from",
+        "type": "string",
+        "required": false,
+        "description": "Wallet on Celo mainnet. Omit to use the connected wallet or the configured MCP signer (CELO or Self agent)."
+      },
+      {
+        "name": "index",
+        "type": "number",
+        "required": true,
+        "description": "index"
+      },
+      {
+        "name": "amount",
+        "type": "string",
+        "required": true,
+        "description": "amount"
+      }
+    ]
+  },
+  {
+    "name": "prepare_withdraw_celo",
+    "slug": "prepare-withdraw-celo",
+    "title": "prepare withdraw celo",
+    "summary": "Prepare unsigned withdraw matured CELO flow for wallet signing.",
+    "description": "Prepare unsigned withdraw matured CELO flow for wallet signing.",
+    "kind": "prepare",
+    "category": "Governance",
+    "inputs": [
+      {
+        "name": "from",
+        "type": "string",
+        "required": false,
+        "description": "Wallet on Celo mainnet. Omit to use the connected wallet or the configured MCP signer (CELO or Self agent)."
+      }
+    ]
+  },
+  {
+    "name": "prepare_vote",
+    "slug": "prepare-vote",
+    "title": "prepare vote",
+    "summary": "Prepare unsigned governance vote for wallet signing.",
+    "description": "Prepare unsigned governance vote for wallet signing.",
+    "kind": "prepare",
+    "category": "Governance",
+    "inputs": [
+      {
+        "name": "from",
+        "type": "string",
+        "required": false,
+        "description": "Wallet on Celo mainnet. Omit to use the connected wallet or the configured MCP signer (CELO or Self agent)."
+      },
+      {
+        "name": "proposal_id",
+        "type": "number",
+        "required": true,
+        "description": "proposal id"
+      },
+      {
+        "name": "vote",
+        "type": "string",
+        "required": true,
+        "description": "vote"
+      }
+    ]
+  },
+  {
+    "name": "prepare_upvote",
+    "slug": "prepare-upvote",
+    "title": "prepare upvote",
+    "summary": "Prepare unsigned governance queue upvote for wallet signing.",
+    "description": "Prepare unsigned governance queue upvote for wallet signing. Requires locked CELO. Fails early if dequeue is overdue for this proposal — use prepare_dequeue_proposals_if_ready first.",
+    "kind": "prepare",
+    "category": "Governance",
+    "inputs": [
+      {
+        "name": "from",
+        "type": "string",
+        "required": false,
+        "description": "Wallet on Celo mainnet. Omit to use the connected wallet or the configured MCP signer (CELO or Self agent)."
+      },
+      {
+        "name": "proposal_id",
+        "type": "number",
+        "required": true,
+        "description": "proposal id"
+      }
+    ]
+  },
+  {
+    "name": "prepare_dequeue_proposals_if_ready",
+    "slug": "prepare-dequeue-proposals-if-ready",
+    "title": "prepare dequeue proposals if ready",
+    "summary": "Prepare unsigned Governance.",
+    "description": "Prepare unsigned Governance.dequeueProposalsIfReady for wallet signing. When overdue, moves top queued proposals into Approval. MCP execute_dequeue_proposals_if_ready requires humanness verification.",
+    "kind": "prepare",
+    "category": "Governance",
+    "inputs": [
+      {
+        "name": "from",
+        "type": "string",
+        "required": false,
+        "description": "Wallet on Celo mainnet. Omit to use the connected wallet or the configured MCP signer (CELO or Self agent)."
+      }
+    ]
+  },
+  {
+    "name": "prepare_revoke_governance_votes",
+    "slug": "prepare-revoke-governance-votes",
+    "title": "prepare revoke governance votes",
+    "summary": "Prepare unsigned bulk referendum vote revoke for wallet signing.",
+    "description": "Prepare unsigned bulk referendum vote revoke for wallet signing.",
+    "kind": "prepare",
+    "category": "Governance",
+    "inputs": [
+      {
+        "name": "from",
+        "type": "string",
+        "required": false,
+        "description": "Wallet on Celo mainnet. Omit to use the connected wallet or the configured MCP signer (CELO or Self agent)."
+      }
+    ]
+  },
+  {
+    "name": "prepare_revoke_governance_upvote",
+    "slug": "prepare-revoke-governance-upvote",
+    "title": "prepare revoke governance upvote",
+    "summary": "Prepare unsigned queue upvote revoke for wallet signing.",
+    "description": "Prepare unsigned queue upvote revoke for wallet signing.",
+    "kind": "prepare",
+    "category": "Governance",
+    "inputs": [
+      {
+        "name": "from",
+        "type": "string",
+        "required": false,
+        "description": "Wallet on Celo mainnet. Omit to use the connected wallet or the configured MCP signer (CELO or Self agent)."
+      },
+      {
+        "name": "proposal_id",
+        "type": "number",
+        "required": false,
+        "description": "proposal id"
+      }
+    ]
+  },
+  {
+    "name": "prepare_stake",
+    "slug": "prepare-stake",
+    "title": "prepare stake",
+    "summary": "Prepare unsigned stake CELO flow for wallet signing.",
+    "description": "Prepare unsigned stake CELO flow for wallet signing.",
+    "kind": "prepare",
+    "category": "Staking",
+    "inputs": [
+      {
+        "name": "from",
+        "type": "string",
+        "required": false,
+        "description": "Wallet on Celo mainnet. Omit to use the connected wallet or the configured MCP signer (CELO or Self agent)."
+      },
+      {
+        "name": "group_address",
+        "type": "string",
+        "required": true,
+        "description": "group address"
+      },
+      {
+        "name": "amount",
+        "type": "string",
+        "required": true,
+        "description": "amount"
+      }
+    ]
+  },
+  {
+    "name": "prepare_activate_stake",
+    "slug": "prepare-activate-stake",
+    "title": "prepare activate stake",
+    "summary": "Prepare unsigned activate stake flow for wallet signing.",
+    "description": "Prepare unsigned activate stake flow for wallet signing.",
+    "kind": "prepare",
+    "category": "Staking",
+    "inputs": [
+      {
+        "name": "from",
+        "type": "string",
+        "required": false,
+        "description": "Wallet on Celo mainnet. Omit to use the connected wallet or the configured MCP signer (CELO or Self agent)."
+      },
+      {
+        "name": "group_address",
+        "type": "string",
+        "required": true,
+        "description": "group address"
+      }
+    ]
+  },
+  {
+    "name": "prepare_unstake",
+    "slug": "prepare-unstake",
+    "title": "prepare unstake",
+    "summary": "Prepare unsigned unstake flow for wallet signing.",
+    "description": "Prepare unsigned unstake flow for wallet signing.",
+    "kind": "prepare",
+    "category": "Staking",
+    "inputs": [
+      {
+        "name": "from",
+        "type": "string",
+        "required": false,
+        "description": "Wallet on Celo mainnet. Omit to use the connected wallet or the configured MCP signer (CELO or Self agent)."
+      },
+      {
+        "name": "group_address",
+        "type": "string",
+        "required": true,
+        "description": "group address"
+      },
+      {
+        "name": "amount",
+        "type": "string",
+        "required": true,
+        "description": "amount"
+      }
+    ]
+  },
+  {
+    "name": "prepare_delegate_power",
+    "slug": "prepare-delegate-power",
+    "title": "prepare delegate power",
+    "summary": "Prepare unsigned delegate governance power flow for wallet signing.",
+    "description": "Prepare unsigned delegate governance power flow for wallet signing.",
+    "kind": "prepare",
+    "category": "Staking",
+    "inputs": [
+      {
+        "name": "from",
+        "type": "string",
+        "required": false,
+        "description": "Wallet on Celo mainnet. Omit to use the connected wallet or the configured MCP signer (CELO or Self agent)."
+      },
+      {
+        "name": "delegatee",
+        "type": "string",
+        "required": true,
+        "description": "delegatee"
+      },
+      {
+        "name": "percent",
+        "type": "number",
+        "required": true,
+        "description": "percent"
+      }
+    ]
+  },
+  {
+    "name": "prepare_undelegate_power",
+    "slug": "prepare-undelegate-power",
+    "title": "prepare undelegate power",
+    "summary": "Prepare unsigned undelegate governance power flow for wallet signing.",
+    "description": "Prepare unsigned undelegate governance power flow for wallet signing.",
+    "kind": "prepare",
+    "category": "Staking",
+    "inputs": [
+      {
+        "name": "from",
+        "type": "string",
+        "required": false,
+        "description": "Wallet on Celo mainnet. Omit to use the connected wallet or the configured MCP signer (CELO or Self agent)."
+      },
+      {
+        "name": "delegatee",
+        "type": "string",
+        "required": true,
+        "description": "delegatee"
+      },
+      {
+        "name": "percent",
+        "type": "number",
+        "required": true,
+        "description": "percent"
+      }
+    ]
+  },
+  {
+    "name": "prepare_contract_function",
+    "slug": "prepare-contract-function",
+    "title": "prepare contract function",
+    "summary": "Prepare an unsigned contract write (caller ABI).",
+    "description": "Prepare an unsigned contract write (caller ABI). User signs in wallet. Prefer estimate_contract_gas first. Optional value is wei as a decimal string.",
+    "kind": "prepare",
+    "category": "Contract",
+    "inputs": [
+      {
+        "name": "contract_address",
+        "type": "string",
+        "required": true,
+        "description": "contract address"
+      },
+      {
+        "name": "function_name",
+        "type": "string",
+        "required": true,
+        "description": "function name"
+      },
+      {
+        "name": "abi",
+        "type": "array",
+        "required": true,
+        "description": "Contract ABI as a JSON array"
+      },
+      {
+        "name": "function_args",
+        "type": "array",
+        "required": false,
+        "description": "function args"
+      },
+      {
+        "name": "value",
+        "type": "string",
+        "required": false,
+        "description": "value"
+      },
+      {
+        "name": "from",
+        "type": "string",
+        "required": false,
+        "description": "Wallet on Celo mainnet. Omit to use the connected wallet or the configured MCP signer (CELO or Self agent)."
+      }
+    ]
+  },
+  {
+    "name": "prepare_swap",
+    "slug": "prepare-swap",
+    "title": "prepare swap",
+    "summary": "Prepare unsigned swap using the best route (Mento FX, GoodDollar reserve, or Uniswap v4).",
+    "description": "Prepare unsigned swap using the best route (Mento FX, GoodDollar reserve, or Uniswap v4).",
+    "kind": "prepare",
+    "category": "Uniswap",
+    "inputs": [
+      {
+        "name": "token_in",
+        "type": "string",
+        "required": true,
+        "description": "Celo mainnet token symbol (e.g. CELO, USDm, USDC, USDT)"
+      },
+      {
+        "name": "token_out",
+        "type": "string",
+        "required": true,
+        "description": "Celo mainnet token symbol (e.g. CELO, USDm, USDC, USDT)"
+      },
+      {
+        "name": "amount",
+        "type": "string",
+        "required": true,
+        "description": "Human-readable amount of token_in"
+      },
+      {
+        "name": "from",
+        "type": "string",
+        "required": false,
+        "description": "Wallet on Celo mainnet. Omit to use the connected wallet or the configured MCP signer (CELO or Self agent)."
+      },
+      {
+        "name": "recipient",
+        "type": "string",
+        "required": false,
+        "description": "recipient"
+      },
+      {
+        "name": "slippage_tolerance",
+        "type": "number",
+        "required": false,
+        "description": "slippage tolerance"
+      },
+      {
+        "name": "deadline_minutes",
+        "type": "number",
+        "required": false,
+        "description": "deadline minutes"
+      },
+      {
+        "name": "protocol",
+        "type": "string",
+        "required": false,
+        "description": "protocol"
+      },
+      {
+        "name": "amount_side",
+        "type": "string",
+        "required": false,
+        "description": "'in': amount is token_in spend (default). 'out': amount is desired token_out receive amount."
       }
     ]
   }

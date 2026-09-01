@@ -1,14 +1,29 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBolt, faCircleNodes } from "@fortawesome/free-solid-svg-icons";
-import { TOOLS, type ToolDoc, categorySlug, HOSTED_TOOL_COUNT } from "@/data/tools";
+import {
+  faArrowRight,
+  faBolt,
+  faCircleNodes,
+  faPenToSquare,
+} from "@fortawesome/free-solid-svg-icons";
+import {
+  TOOLS,
+  type ToolDoc,
+  categorySlug,
+  HOSTED_TOOL_COUNT,
+  READ_TOOL_COUNT,
+  WRITE_TOOL_COUNT,
+  PREPARE_TOOL_COUNT,
+} from "@/data/tools";
 import { SiteHeader } from "@/components/site-header";
 import { PageCrumbs } from "@/components/marketing/page-hero";
+import { ToolsKindNav } from "@/components/tools/kind-nav";
+import { ToolCategoryGrid } from "@/components/tools/category-grid";
 
 export const Route = createFileRoute("/tools/")({
   head: () => {
     const title = "All Celina tools — Celo MCP";
-    const desc = `Browse every Celina MCP tool: ${TOOLS.length} operations on Celo mainnet (${HOSTED_TOOL_COUNT} on hosted, full stdio with server-key writes). Reads, Mento FX, GoodDollar reserve, Uniswap v4, Aave, GoodDollar UBI, governance, staking, NFTs, contract calls, and AgentKarma reputation.`;
+    const desc = `Browse every Celina tool: ${TOOLS.length} operations on Celo mainnet (${HOSTED_TOOL_COUNT} on hosted, full stdio with server-key writes, plus browser prepare). ${READ_TOOL_COUNT} read, ${WRITE_TOOL_COUNT} write, ${PREPARE_TOOL_COUNT} prepare.`;
     return {
       meta: [
         { title },
@@ -27,8 +42,6 @@ function ToolsIndex() {
     return acc;
   }, {});
   const categories = Object.keys(byCategory);
-  const readCount = TOOLS.filter((t) => t.kind === "read").length;
-  const writeCount = TOOLS.filter((t) => t.kind === "write").length;
 
   return (
     <main className="min-h-screen bg-background text-foreground">
@@ -47,8 +60,36 @@ function ToolsIndex() {
           {TOOLS.length} tools. One agent. Whole chain.
         </h1>
         <p className="mt-4 max-w-2xl text-lg text-muted-foreground">
-          Every operation Celina exposes to your LLM — {readCount} read, {writeCount} write — across Celo mainnet, Mento FX, GoodDollar reserve (G$ ↔ USDm), Uniswap v4, Aave, and GoodDollar UBI. Click any tool for its full spec.
+          Every operation Celina exposes — {READ_TOOL_COUNT} read, {WRITE_TOOL_COUNT} write,{" "}
+          {PREPARE_TOOL_COUNT} prepare — across Celo mainnet, Mento FX, GoodDollar, Uniswap v4, Aave,
+          and governance. Click any tool for its full spec.
         </p>
+
+        <ToolsKindNav />
+
+        <div className="mt-10 grid gap-4 sm:grid-cols-3">
+          <KindHubCard
+            to="/tools/read"
+            icon={faCircleNodes}
+            title="Read"
+            body="Chain state, quotes, and lookups. No keys."
+            count={READ_TOOL_COUNT}
+          />
+          <KindHubCard
+            to="/tools/write"
+            icon={faBolt}
+            title="Write"
+            body="Execute and send on MCP with a server key."
+            count={WRITE_TOOL_COUNT}
+          />
+          <KindHubCard
+            to="/tools/prepare"
+            icon={faPenToSquare}
+            title="Prepare"
+            body="Unsigned wallet flows. The user signs in Celeste."
+            count={PREPARE_TOOL_COUNT}
+          />
+        </div>
 
         <nav className="mt-8 flex flex-wrap gap-2 text-sm">
           {categories.map((c) => (
@@ -63,64 +104,43 @@ function ToolsIndex() {
           ))}
         </nav>
 
-        <div className="mt-12 space-y-14">
-          {categories.map((category) => (
-            <section key={category} id={slugify(category)} className="scroll-mt-24">
-              <div className="mb-4 flex items-baseline justify-between border-b-2 border-foreground pb-3">
-                <Link
-                  to="/tools/$category"
-                  params={{ category: categorySlug(category as ToolDoc["category"]) }}
-                  className="text-2xl font-bold tracking-tight hover:text-[var(--celo-forest)] dark:hover:text-[var(--celo-yellow)] transition"
-                  style={{ fontFamily: "var(--font-display)" }}
-                >
-                  {category}
-                </Link>
-                <span className="text-xs uppercase tracking-[0.18em] text-muted-foreground">
-                  {byCategory[category].length} tool{byCategory[category].length === 1 ? "" : "s"}
-                </span>
-              </div>
-              <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                {byCategory[category].map((t) => {
-                  const isWrite = t.kind === "write";
-                  const kindIcon = isWrite ? faBolt : faCircleNodes;
-                  const badgeClass = isWrite
-                    ? "bg-[var(--celo-yellow)] text-[var(--celo-ink)]"
-                    : "bg-[var(--celo-forest)] text-[var(--celo-yellow)] dark:bg-[var(--celo-yellow)]/15 dark:text-[var(--celo-yellow)]";
-                  return (
-                    <Link
-                      key={t.name}
-                      to="/tools/$category/$toolSlug"
-                      params={{ category: categorySlug(t.category), toolSlug: t.slug }}
-                      className="group relative block overflow-hidden rounded-[2px] border-2 border-foreground bg-card p-4 shadow-[var(--shadow-brutal-sm)] transition-transform duration-150 ease-out hover:-translate-y-0.5 hover:shadow-[var(--shadow-brutal-lg)]"
-                    >
-                      <span
-                        aria-hidden
-                        className="absolute left-0 top-0 h-full w-1 bg-[var(--celo-yellow)] opacity-0 transition-opacity group-hover:opacity-100"
-                      />
-                      <div className="flex items-center justify-between gap-2">
-                        <code className="truncate font-mono text-sm font-semibold text-foreground group-hover:underline">
-                          {t.name}
-                        </code>
-                        <span
-                          className={`inline-flex shrink-0 items-center gap-1 rounded-[2px] border-2 border-foreground px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.14em] ${badgeClass}`}
-                        >
-                          <FontAwesomeIcon icon={kindIcon} className="h-2.5 w-2.5" />
-                          {t.kind}
-                        </span>
-                      </div>
-                      <p className="mt-1.5 text-sm text-muted-foreground">{t.summary}</p>
-                    </Link>
-                  );
-                })}
-              </div>
-            </section>
-          ))}
-        </div>
+        <ToolCategoryGrid tools={TOOLS} />
       </section>
     </main>
   );
 }
 
-function slugify(s: string) {
-  return s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+function KindHubCard({
+  to,
+  icon,
+  title,
+  body,
+  count,
+}: {
+  to: "/tools/read" | "/tools/write" | "/tools/prepare";
+  icon: typeof faBolt;
+  title: string;
+  body: string;
+  count: number;
+}) {
+  return (
+    <Link
+      to={to}
+      className="group flex flex-col rounded-[2px] border-2 border-foreground bg-card p-6 shadow-[var(--shadow-brutal)] transition-transform duration-150 ease-out hover:-translate-y-0.5 hover:shadow-[var(--shadow-brutal-lg)]"
+    >
+      <div className="inline-flex h-9 w-9 items-center justify-center rounded-[2px] border-2 border-foreground bg-[var(--celo-yellow)] text-[var(--celo-ink)]">
+        <FontAwesomeIcon icon={icon} className="h-4 w-4" />
+      </div>
+      <h2
+        className="mt-4 text-lg font-semibold tracking-tight"
+        style={{ fontFamily: "var(--font-display)" }}
+      >
+        {title}
+      </h2>
+      <p className="mt-1.5 flex-1 text-sm text-muted-foreground">{body}</p>
+      <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-foreground group-hover:underline">
+        {count} tools <FontAwesomeIcon icon={faArrowRight} className="h-3 w-3" />
+      </span>
+    </Link>
+  );
 }
