@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowUpRightFromSquare } from "@fortawesome/free-solid-svg-icons";
-import { faTelegram } from "@fortawesome/free-brands-svg-icons";
+import { faGithub, faTelegram } from "@fortawesome/free-brands-svg-icons";
 import { PageHero, PageHeroSection } from "@/components/marketing/page-hero";
 import { SiteHeader } from "@/components/site-header";
 import { BOT_GITHUB_URL, TELEGRAM_BOT_URL } from "@/data/bot";
@@ -62,6 +62,7 @@ function BotPage() {
               rel="noreferrer"
               className="inline-flex items-center gap-2 rounded-[2px] border-2 border-foreground bg-card px-5 py-3 text-sm font-semibold text-foreground shadow-[var(--shadow-brutal-sm)] transition-[transform,box-shadow,background-color] hover:bg-muted active:translate-x-[2px] active:translate-y-[2px] active:shadow-none"
             >
+              <FontAwesomeIcon icon={faGithub} className="h-4 w-4" />
               GitHub
             </a>
           </div>
