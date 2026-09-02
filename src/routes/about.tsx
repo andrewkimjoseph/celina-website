@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import type { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 import { PageCrumbs } from "@/components/marketing/page-hero";
+import { ProductCard } from "@/components/marketing/product-card";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArrowUpRightFromSquare,
@@ -10,7 +10,6 @@ import {
   faCodeBranch,
   faLock,
   faShieldHalved,
-  faWandMagicSparkles,
 } from "@fortawesome/free-solid-svg-icons";
 import { faGithub, faNpm, faTelegram } from "@fortawesome/free-brands-svg-icons";
 import { SiteHeader } from "@/components/site-header";
@@ -48,39 +47,6 @@ export const Route = createFileRoute("/about")({
   }),
   component: AboutPage,
 });
-
-function ProductCard({
-  icon,
-  title,
-  subtitle,
-  body,
-  children,
-}: {
-  icon: IconDefinition;
-  title: string;
-  subtitle: string;
-  body: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <div className="flex flex-col rounded-[2px] border-2 border-foreground bg-card p-6 shadow-[var(--shadow-brutal)] transition-transform duration-150 ease-out hover:-translate-y-0.5 hover:shadow-[var(--shadow-brutal-lg)]">
-      <div className="inline-flex h-9 w-9 items-center justify-center rounded-[2px] border-2 border-foreground bg-[var(--celo-yellow)] text-[var(--celo-ink)]">
-        <FontAwesomeIcon icon={icon} className="h-4 w-4" />
-      </div>
-      <h3
-        className="mt-4 text-lg font-semibold tracking-tight"
-        style={{ fontFamily: "var(--font-display)" }}
-      >
-        {title}
-      </h3>
-      <p className="mt-0.5 text-xs font-medium uppercase tracking-[0.16em] text-muted-foreground">
-        {subtitle}
-      </p>
-      <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">{body}</p>
-      <div className="mt-4 flex flex-wrap gap-2">{children}</div>
-    </div>
-  );
-}
 
 function ArchNode({
   label,
@@ -312,7 +278,7 @@ function AboutPage() {
           </ProductCard>
 
           <ProductCard
-            icon={faWandMagicSparkles}
+            iconImage={{ src: "/celeste-logo.svg", alt: "Celeste AI" }}
             title="Celeste AI"
             subtitle="Reference browser app"
             body="DeFAI chat UI using surface: browser + wagmi. Users sign in their wallet — no MCP server, no CELO_PRIVATE_KEY. Independent of usecelina.xyz."

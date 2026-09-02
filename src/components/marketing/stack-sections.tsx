@@ -8,7 +8,6 @@ import {
   faCloud,
   faCode,
   faCodeBranch,
-  faWandMagicSparkles,
 } from "@fortawesome/free-solid-svg-icons";
 import { faGithub, faTelegram } from "@fortawesome/free-brands-svg-icons";
 import { HOSTED_TOOL_COUNT } from "@/data/tools";
@@ -212,7 +211,7 @@ export function StackProductsSection() {
         </ProductCard>
 
         <ProductCard
-          icon={faWandMagicSparkles}
+          iconImage={{ src: "/celeste-logo.svg", alt: "Celeste AI" }}
           title="Celeste AI"
           subtitle="Reference browser app"
           body="DeFAI chat UI using surface: browser + wagmi. Users sign in their wallet — no MCP server."

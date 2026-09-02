@@ -3,12 +3,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export function ProductCard({
   icon,
+  iconImage,
   title,
   subtitle,
   body,
   children,
 }: {
-  icon: IconDefinition;
+  icon?: IconDefinition;
+  iconImage?: { src: string; alt: string };
   title: string;
   subtitle: string;
   body: string;
@@ -16,8 +18,18 @@ export function ProductCard({
 }) {
   return (
     <div className="flex flex-col rounded-[2px] border-2 border-foreground bg-card p-6 shadow-[var(--shadow-brutal)] transition-transform duration-150 ease-out hover:-translate-y-0.5 hover:shadow-[var(--shadow-brutal-lg)]">
-      <div className="inline-flex h-9 w-9 items-center justify-center rounded-[2px] border-2 border-foreground bg-[var(--celo-yellow)] text-[var(--celo-ink)]">
-        <FontAwesomeIcon icon={icon} className="h-4 w-4" />
+      <div className="inline-flex h-9 w-9 items-center justify-center overflow-hidden rounded-[2px] border-2 border-foreground bg-[var(--celo-yellow)] text-[var(--celo-ink)]">
+        {iconImage ? (
+          <img
+            src={iconImage.src}
+            alt={iconImage.alt}
+            width={28}
+            height={28}
+            className="h-7 w-7 object-contain"
+          />
+        ) : icon ? (
+          <FontAwesomeIcon icon={icon} className="h-4 w-4" />
+        ) : null}
       </div>
       <h3
         className="mt-4 text-lg font-semibold tracking-tight"
