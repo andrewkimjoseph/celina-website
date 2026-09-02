@@ -152,16 +152,23 @@ function postgrestInList(values: string[]): string {
 
 async function existingHashes(hashes: string[]): Promise<Set<string>> {
   if (hashes.length === 0) return new Set();
-  const res = await sbFetch(
-    `/rest/v1/dune_celina_txns?select=hash&hash=in.(${postgrestInList(hashes)})`,
-  );
-  if (!res.ok) {
-    throw new Error(
-      `Supabase hash lookup ${res.status}: ${(await res.text()).slice(0, 200)}`,
+  // PostgREST rejects long `in.(...)` GET URLs (~500×66-char hashes → 400).
+  const LOOKUP_CHUNK = 100;
+  const known = new Set<string>();
+  for (let i = 0; i < hashes.length; i += LOOKUP_CHUNK) {
+    const chunk = hashes.slice(i, i + LOOKUP_CHUNK);
+    const res = await sbFetch(
+      `/rest/v1/dune_celina_txns?select=hash&hash=in.(${postgrestInList(chunk)})`,
     );
+    if (!res.ok) {
+      throw new Error(
+        `Supabase hash lookup ${res.status}: ${(await res.text()).slice(0, 200)}`,
+      );
+    }
+    const rows = (await res.json()) as Array<{ hash: string }>;
+    for (const row of rows) known.add(row.hash);
   }
-  const rows = (await res.json()) as Array<{ hash: string }>;
-  return new Set(rows.map((r) => r.hash));
+  return known;
 }
 
 async function upsertTxnRows(rows: CelinaTxRow[]): Promise<void> {
