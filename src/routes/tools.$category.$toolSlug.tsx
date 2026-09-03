@@ -1,11 +1,20 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft, faTerminal, faCopy, faCheck } from "@fortawesome/free-solid-svg-icons";
+import {
+  faArrowLeft,
+  faArrowUpRightFromSquare,
+  faTerminal,
+  faCopy,
+  faCheck,
+  faWallet,
+} from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 import { findTool, categorySlug, getToolAvailability, availabilityLabel, type ToolDoc } from "@/data/tools";
 import { SiteHeader } from "@/components/site-header";
 import { PageCrumbs } from "@/components/marketing/page-hero";
 import { kindBadge } from "@/components/tools/tool-card";
+
+const CELESTE_URL = "https://celeste.usecelina.xyz";
 
 export const Route = createFileRoute("/tools/$category/$toolSlug")({
   loader: ({ params }) => {
@@ -18,7 +27,10 @@ export const Route = createFileRoute("/tools/$category/$toolSlug")({
     if (!tool) {
       return { meta: [{ title: "Tool not found — Celina" }] };
     }
-    const title = `${tool.title} — Celina MCP tool`;
+    const title =
+      tool.kind === "prepare"
+        ? `${tool.title} — Celina prepare tool`
+        : `${tool.title} — Celina MCP tool`;
     const desc = tool.description.length > 155 ? tool.description.slice(0, 152) + "…" : tool.description;
     return {
       meta: [
@@ -65,6 +77,7 @@ function ToolPage() {
   const badge = kindBadge(tool.kind);
   const availability = getToolAvailability(tool);
   const catSlug = categorySlug(tool.category);
+  const isPrepare = tool.kind === "prepare";
 
   return (
     <main className="min-h-screen bg-background text-foreground">
@@ -95,7 +108,7 @@ function ToolPage() {
             {tool.category}
           </Link>
           <span className="rounded-[2px] border-2 border-foreground px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.18em] text-muted-foreground">
-            {tool.kind === "prepare" ? "Browser · wallet" : availabilityLabel(availability)}
+            {isPrepare ? "Browser · wallet" : availabilityLabel(availability)}
           </span>
         </div>
 
@@ -116,6 +129,36 @@ function ToolPage() {
         <p className="mt-6 max-w-2xl text-lg leading-relaxed text-muted-foreground">
           {tool.description}
         </p>
+
+        {isPrepare && (
+          <p className="mt-4 max-w-2xl rounded-[2px] border-2 border-foreground bg-muted/40 px-4 py-3 text-sm leading-relaxed text-foreground/85 shadow-[var(--shadow-brutal-sm)]">
+            Browser / SDK wallet flow — not an MCP tool. Apps like{" "}
+            <a
+              href={CELESTE_URL}
+              target="_blank"
+              rel="noreferrer"
+              className="font-medium text-foreground underline decoration-[var(--celo-yellow)] decoration-2 underline-offset-2"
+            >
+              Celeste
+            </a>{" "}
+            call this via the SDK; the user signs with their wallet. MCP agents with{" "}
+            <code className="rounded bg-secondary px-1 py-0.5 text-xs">CELO_PRIVATE_KEY</code> use the
+            matching{" "}
+            <Link to="/tools/write" className="font-medium text-foreground underline decoration-[var(--celo-yellow)] decoration-2 underline-offset-2">
+              write
+            </Link>{" "}
+            <code className="rounded bg-secondary px-1 py-0.5 text-xs">execute_*</code> /{" "}
+            <code className="rounded bg-secondary px-1 py-0.5 text-xs">send_*</code> tools instead. See{" "}
+            <Link to="/tools/prepare" className="font-medium text-foreground underline decoration-[var(--celo-yellow)] decoration-2 underline-offset-2">
+              prepare tools
+            </Link>{" "}
+            and the{" "}
+            <Link to="/sdk" className="font-medium text-foreground underline decoration-[var(--celo-yellow)] decoration-2 underline-offset-2">
+              SDK
+            </Link>
+            .
+          </p>
+        )}
 
         <section className="mt-12">
           <h2 className="text-xs font-bold uppercase tracking-[0.22em] text-foreground">§ Inputs</h2>
@@ -157,13 +200,15 @@ function ToolPage() {
         </section>
 
         <section className="mt-10">
-          <h2 className="text-xs font-bold uppercase tracking-[0.22em] text-foreground">§ Returns</h2>
+          <h2 className="text-xs font-bold uppercase tracking-[0.22em] text-foreground">
+            {isPrepare ? "§ Returns (prepared flow)" : "§ Returns"}
+          </h2>
           <div className="mt-3 rounded-[2px] border-2 border-foreground bg-card p-5 text-sm shadow-[var(--shadow-brutal-sm)]">
             <code className="font-mono text-[13px] text-foreground/85">{tool.returns}</code>
           </div>
         </section>
 
-        {tool.examples && tool.examples.length > 0 && (
+        {!isPrepare && tool.examples && tool.examples.length > 0 && (
           <section className="mt-10">
             <h2 className="text-xs font-bold uppercase tracking-[0.22em] text-foreground">§ Try saying</h2>
             <ul className="mt-3 space-y-2">
@@ -181,29 +226,74 @@ function ToolPage() {
         )}
 
         <section className="mt-12 rounded-[2px] border-2 border-foreground bg-card p-6 shadow-[var(--shadow-brutal)]">
-          <h2 className="flex items-center gap-2 text-sm font-semibold">
-            <FontAwesomeIcon icon={faTerminal} className="h-3.5 w-3.5 text-[var(--celo-forest)]" /> Use this tool
-          </h2>
-          <p className="mt-2 text-sm text-muted-foreground">
-            Once Celina is wired into your MCP client, just ask in plain language. The LLM picks{" "}
-            <code className="rounded bg-secondary px-1 py-0.5 text-xs">{tool.name}</code> automatically.
-          </p>
-          <div className="mt-4 flex flex-wrap gap-2">
-            <Link
-              to="/"
-              hash="install"
-              className="inline-flex items-center gap-2 rounded-[2px] border-2 border-foreground bg-[var(--celo-deep)] px-4 py-2 text-sm font-medium text-[var(--celo-cream)] shadow-[var(--shadow-brutal-sm)] transition-[transform,box-shadow,background-color] hover:bg-[var(--celo-ink)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none"
-            >
-              Install Celina
-            </Link>
-            <Link
-              to="/tools/$category"
-              params={{ category: catSlug }}
-              className="inline-flex items-center gap-2 rounded-[2px] border-2 border-foreground bg-background px-4 py-2 text-sm font-medium text-foreground shadow-[var(--shadow-brutal-sm)] transition-[transform,box-shadow,background-color,color] hover:bg-accent hover:text-accent-foreground active:translate-x-[1px] active:translate-y-[1px] active:shadow-none"
-            >
-              More {tool.category} tools
-            </Link>
-          </div>
+          {isPrepare ? (
+            <>
+              <h2 className="flex items-center gap-2 text-sm font-semibold">
+                <FontAwesomeIcon icon={faWallet} className="h-3.5 w-3.5 text-[var(--celo-forest)]" /> Use
+                this prepare
+              </h2>
+              <p className="mt-2 text-sm text-muted-foreground">
+                Call{" "}
+                <code className="rounded bg-secondary px-1 py-0.5 text-xs">{tool.name}</code> from a
+                browser or SDK app with{" "}
+                <code className="rounded bg-secondary px-1 py-0.5 text-xs">surface: &quot;browser&quot;</code>
+                . It returns unsigned steps for the connected wallet to sign — it is{" "}
+                <strong className="font-semibold text-foreground">not</strong> registered on celina-mcp.
+                For a reference UI, try Celeste; for the API shape, see the SDK prepared-flows docs.
+              </p>
+              <div className="mt-4 flex flex-wrap gap-2">
+                <Link
+                  to="/sdk"
+                  className="inline-flex items-center gap-2 rounded-[2px] border-2 border-foreground bg-[var(--celo-deep)] px-4 py-2 text-sm font-medium text-[var(--celo-cream)] shadow-[var(--shadow-brutal-sm)] transition-[transform,box-shadow,background-color] hover:bg-[var(--celo-ink)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none"
+                >
+                  SDK docs
+                </Link>
+                <a
+                  href={CELESTE_URL}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-2 rounded-[2px] border-2 border-foreground bg-background px-4 py-2 text-sm font-medium text-foreground shadow-[var(--shadow-brutal-sm)] transition-[transform,box-shadow,background-color,color] hover:bg-accent hover:text-accent-foreground active:translate-x-[1px] active:translate-y-[1px] active:shadow-none"
+                >
+                  Open Celeste <FontAwesomeIcon icon={faArrowUpRightFromSquare} className="h-2.5 w-2.5" />
+                </a>
+                <Link
+                  to="/tools/$category"
+                  params={{ category: catSlug }}
+                  className="inline-flex items-center gap-2 rounded-[2px] border-2 border-foreground bg-background px-4 py-2 text-sm font-medium text-foreground shadow-[var(--shadow-brutal-sm)] transition-[transform,box-shadow,background-color,color] hover:bg-accent hover:text-accent-foreground active:translate-x-[1px] active:translate-y-[1px] active:shadow-none"
+                >
+                  More {tool.category} tools
+                </Link>
+              </div>
+            </>
+          ) : (
+            <>
+              <h2 className="flex items-center gap-2 text-sm font-semibold">
+                <FontAwesomeIcon icon={faTerminal} className="h-3.5 w-3.5 text-[var(--celo-forest)]" /> Use
+                this tool
+              </h2>
+              <p className="mt-2 text-sm text-muted-foreground">
+                Once Celina is wired into your MCP client, just ask in plain language. The LLM picks{" "}
+                <code className="rounded bg-secondary px-1 py-0.5 text-xs">{tool.name}</code>{" "}
+                automatically.
+              </p>
+              <div className="mt-4 flex flex-wrap gap-2">
+                <Link
+                  to="/"
+                  hash="install"
+                  className="inline-flex items-center gap-2 rounded-[2px] border-2 border-foreground bg-[var(--celo-deep)] px-4 py-2 text-sm font-medium text-[var(--celo-cream)] shadow-[var(--shadow-brutal-sm)] transition-[transform,box-shadow,background-color] hover:bg-[var(--celo-ink)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none"
+                >
+                  Install Celina
+                </Link>
+                <Link
+                  to="/tools/$category"
+                  params={{ category: catSlug }}
+                  className="inline-flex items-center gap-2 rounded-[2px] border-2 border-foreground bg-background px-4 py-2 text-sm font-medium text-foreground shadow-[var(--shadow-brutal-sm)] transition-[transform,box-shadow,background-color,color] hover:bg-accent hover:text-accent-foreground active:translate-x-[1px] active:translate-y-[1px] active:shadow-none"
+                >
+                  More {tool.category} tools
+                </Link>
+              </div>
+            </>
+          )}
         </section>
       </article>
     </main>

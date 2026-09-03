@@ -86,7 +86,7 @@ function ToolsIndex() {
             to="/tools/prepare"
             icon={faPenToSquare}
             title="Prepare"
-            body="Unsigned wallet flows. The user signs in browser apps."
+            body="Unsigned wallet flows for browser apps. Not on MCP — use write/execute with a server key instead."
             count={PREPARE_TOOL_COUNT}
           />
         </div>

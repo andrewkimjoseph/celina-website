@@ -12,7 +12,11 @@ function mergeTool(
     description: override?.description ?? base.description,
     summary: override?.summary ?? base.summary,
     inputs: override?.inputs ?? base.inputs,
-    returns: override?.returns ?? "{ … }",
+    returns:
+      override?.returns ??
+      (base.kind === "prepare"
+        ? "SerializedPreparedFlow — unsigned steps for a connected wallet to sign (SDK / browser apps; not an MCP call)."
+        : "{ … }"),
     examples: override?.examples,
     availability: override?.availability,
   };
