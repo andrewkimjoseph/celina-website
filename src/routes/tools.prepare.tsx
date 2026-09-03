@@ -8,7 +8,7 @@ export const Route = createFileRoute("/tools/prepare")({
       { title: "Prepare tools — Celina" },
       {
         name: "description",
-        content: `Celina prepare tools — unsigned wallet flows for browser/SDK apps (not MCP). ${PREPARE_TOOL_COUNT} operations.`,
+        content: `Celina prepare tools — unsigned wallet flows for browser/SDK apps (not MCP). ${PREPARE_TOOL_COUNT} operations across Celo mainnet protocols.`,
       },
     ],
   }),
@@ -20,7 +20,7 @@ function PrepareToolsPage() {
     <ToolsKindHub
       kind="prepare"
       title="Prepare"
-      description="Builds unsigned wallet flows for browser apps (Celeste, wagmi); the user signs. Not available on MCP — agents with CELO_PRIVATE_KEY use write/execute tools instead."
+      description="Unsigned wallet flows for browser apps (Celeste, wagmi); the user signs. Not on MCP — agents with CELO_PRIVATE_KEY use write/execute instead. Click any tool for its full spec."
     />
   );
 }

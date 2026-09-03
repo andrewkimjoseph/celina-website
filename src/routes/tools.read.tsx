@@ -8,7 +8,7 @@ export const Route = createFileRoute("/tools/read")({
       { title: "Read tools — Celina" },
       {
         name: "description",
-        content: `Celina read tools on Celo mainnet — chain state and quotes, no keys. ${READ_TOOL_COUNT} operations.`,
+        content: `Celina read tools on Celo mainnet — chain state, quotes, and lookups with no keys. ${READ_TOOL_COUNT} operations across Mento FX, GoodDollar, Uniswap v4, Aave, and governance.`,
       },
     ],
   }),
@@ -20,7 +20,7 @@ function ReadToolsPage() {
     <ToolsKindHub
       kind="read"
       title="Read"
-      description="Chain state, quotes, and lookups. No keys."
+      description="Chain state, quotes, and lookups with no keys — available on hosted MCP and full stdio. Browse balances, governance, Mento FX, GoodDollar, Uniswap v4, Aave, and more. Click any tool for its full spec."
     />
   );
 }
