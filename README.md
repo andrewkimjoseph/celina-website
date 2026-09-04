@@ -85,11 +85,9 @@ Stats pages call server functions that need API keys. Without them, dashboards s
 | `AMPLITUDE_API_KEY` / `AMPLITUDE_SECRET_KEY` | Off-chain MCP tool calls (`/stats/offchain`) |
 | `AMPLITUDE_REGION` | Optional — `us` (default) or `eu` |
 | `CUSTOM_SUPABASE_URL` / `CUSTOM_SUPABASE_SERVICE_ROLE_KEY` | Amplitude + Dune caches in Supabase (`/stats/onchain` and `/stats/offchain` read from here) |
-| `CRON_SECRET` | Vercel Cron auth for `/api/cron/amplitude-sync` (Amplitude export sync) |
 
 - **Local (Vite):** copy [`.env.example`](.env.example) to `.env.local` or `.env`
 - **Cloudflare Workers:** copy [`.dev.vars.example`](.dev.vars.example) to `.dev.vars`, or set secrets in the dashboard
-- **Vercel:** project → Settings → Environment Variables (same names)
 
 Manual sync (e.g. cron debugging) reads `.env.local` then `.env`:
 

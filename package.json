@@ -9,6 +9,7 @@
     "build": "vite build",
     "build:dev": "vite build --mode development",
     "preview": "vite preview",
+    "deploy": "vite build && wrangler deploy",
     "lint": "eslint .",
     "format": "prettier --write .",
     "test": "vitest run",
@@ -90,12 +91,11 @@
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.20",
     "globals": "^15.15.0",
-    "lru-cache": "^11.5.2",
-    "nitro": "3.0.260603-beta",
     "prettier": "^3.7.3",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.56.1",
     "vite": "^7.3.1",
-    "vitest": "^3.2.6"
+    "vitest": "^3.2.6",
+    "wrangler": "^4.96.0"
   }
 }
