@@ -5,6 +5,7 @@ import {
   type AmplitudeEventDay,
   type AmplitudeEventTotal,
 } from "./amplitude.functions";
+import { browserPersistStorage } from "./persist-storage";
 import { withTimeout } from "./refresh-utils";
 import { STALE_MS } from "./stats-store";
 
@@ -89,6 +90,7 @@ export const useAmplitudeStore = create<AmplitudeState>()(
     }),
     {
       name: "celina-amplitude-v8",
+      storage: browserPersistStorage,
       partialize: (s) => ({
         daily: s.daily,
         dailyWalletsQueried: s.dailyWalletsQueried,

@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { getNpmDownloads, type NpmDownloadDay } from "./npm.functions";
+import { browserPersistStorage } from "./persist-storage";
 import { withTimeout } from "./refresh-utils";
 import { STALE_MS } from "./stats-store";
 
@@ -63,6 +64,7 @@ export const useNpmStore = create<NpmState>()(
     }),
     {
       name: "celina-npm-v2",
+      storage: browserPersistStorage,
       partialize: (s) => ({ rows: s.rows, fetchedAt: s.fetchedAt }),
     },
   ),

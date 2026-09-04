@@ -2,11 +2,16 @@ import { useEffect, useState } from "react";
 import { useNpmStore } from "./npm-store";
 
 export function useNpmHydrated(): boolean {
-  const [hydrated, setHydrated] = useState(() => useNpmStore.persist.hasHydrated());
+  const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
-    setHydrated(useNpmStore.persist.hasHydrated());
-    return useNpmStore.persist.onFinishHydration(() => setHydrated(true));
+    const persist = useNpmStore.persist;
+    if (!persist) {
+      setHydrated(true);
+      return;
+    }
+    setHydrated(persist.hasHydrated());
+    return persist.onFinishHydration(() => setHydrated(true));
   }, []);
 
   return hydrated;

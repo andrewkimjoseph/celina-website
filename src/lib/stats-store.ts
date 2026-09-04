@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { getCelinaStats, type CelinaTxRow } from "./dune.functions";
+import { browserPersistStorage } from "./persist-storage";
 import { withTimeout } from "./refresh-utils";
 
 type StatsState = {
@@ -76,6 +77,7 @@ export const useStatsStore = create<StatsState>()(
     }),
     {
       name: "celina-stats-v2",
+      storage: browserPersistStorage,
       partialize: (s) => ({
         rows: s.rows,
         fetchedAt: s.fetchedAt,
