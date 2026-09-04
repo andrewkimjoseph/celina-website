@@ -1,4 +1,8 @@
-import { GENERATED_HOSTED_TOOL_COUNT, GENERATED_TOOLS } from "./tools.generated.js";
+import {
+  GENERATED_HOSTED_TOOL_COUNT,
+  GENERATED_HOSTED_TOOL_NAMES,
+  GENERATED_TOOLS,
+} from "./tools.generated.js";
 import { TOOL_OVERRIDES } from "./tools.overrides.js";
 import type { ToolAvailability, ToolDoc, ToolKind } from "./tools.types.js";
 
@@ -78,6 +82,20 @@ export const PREPARE_TOOL_COUNT = toolsByKind("prepare").length;
 
 /** Hosted endpoint tool count — derived from SDK catalog filter profile. */
 export const HOSTED_TOOL_COUNT = GENERATED_HOSTED_TOOL_COUNT;
+
+if (GENERATED_HOSTED_TOOL_NAMES.length !== GENERATED_HOSTED_TOOL_COUNT) {
+  throw new Error(
+    `GENERATED_HOSTED_TOOL_NAMES length ${GENERATED_HOSTED_TOOL_NAMES.length} !== GENERATED_HOSTED_TOOL_COUNT ${GENERATED_HOSTED_TOOL_COUNT}`,
+  );
+}
+
+/** Hosted MCP names (same profile as SDK HOSTED_MCP_FILTER). */
+export const HOSTED_MCP_TOOL_NAMES_CSV = GENERATED_HOSTED_TOOL_NAMES.join(", ");
+
+/** Local stdio MCP names: reads + writes + estimates. Prepare stays browser/SDK-only. */
+export const STDIO_MCP_TOOL_NAMES_CSV = TOOLS.filter((tool) => tool.kind !== "prepare")
+  .map((tool) => tool.name)
+  .join(", ");
 
 const STDIO_ONLY_TOOLS = new Set([
   "send_token",

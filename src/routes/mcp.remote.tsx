@@ -2,7 +2,13 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCloud, faLock } from "@fortawesome/free-solid-svg-icons";
 import { CodeBlock, EndpointCopyCard } from "@/components/marketing/code-block";
-import { HOSTED_CONFIG, HOSTED_MCP_URL, HOSTED_TOOL_COUNT, MCP_REMOTE_CONFIG } from "@/data/mcp";
+import {
+  HOSTED_CONFIG,
+  HOSTED_MCP_TOOL_NAMES_CSV,
+  HOSTED_MCP_URL,
+  HOSTED_TOOL_COUNT,
+  MCP_REMOTE_CONFIG,
+} from "@/data/mcp";
 
 export const Route = createFileRoute("/mcp/remote")({
   head: () => ({
@@ -48,6 +54,19 @@ function McpRemotePage() {
 
         <div className="mt-5">
           <EndpointCopyCard label="Endpoint" value={HOSTED_MCP_URL} />
+        </div>
+        <div className="mt-4">
+          <EndpointCopyCard
+            label="Hosted MCP tool names"
+            value={HOSTED_MCP_TOOL_NAMES_CSV}
+            hint={
+              <>
+                {HOSTED_TOOL_COUNT} read-only names from this endpoint — paste into a client
+                allowlist or registry form. Prepare tools are browser/SDK-only and are not in this
+                MCP list.
+              </>
+            }
+          />
         </div>
 
         <h3 className="mt-8 text-lg font-semibold tracking-tight" style={{ fontFamily: "var(--font-display)" }}>

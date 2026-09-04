@@ -6,11 +6,14 @@ import {
   faTerminal,
 } from "@fortawesome/free-solid-svg-icons";
 import { faGithub, faNpm } from "@fortawesome/free-brands-svg-icons";
+import { EndpointCopyCard } from "@/components/marketing/code-block";
 import {
+  HOSTED_MCP_TOOL_NAMES_CSV,
   HOSTED_TOOL_COUNT,
   MCP_GITHUB_URL,
   MCP_NPM_URL,
   CELO_DOCS_URL,
+  STDIO_MCP_TOOL_NAMES_CSV,
   STDIO_TOOL_COUNT,
 } from "@/data/mcp";
 
@@ -87,6 +90,25 @@ function McpOverviewPage() {
             ))}
           </tbody>
         </table>
+      </div>
+
+      <div className="mt-10 grid gap-4">
+        <EndpointCopyCard
+          label="Hosted MCP tool names"
+          value={HOSTED_MCP_TOOL_NAMES_CSV}
+          hint={
+            <>
+              {HOSTED_TOOL_COUNT} read-only names from the hosted endpoint — paste into a client
+              allowlist or registry form. Prepare tools are browser/SDK-only and are not in either
+              MCP list.
+            </>
+          }
+        />
+        <EndpointCopyCard
+          label="Local stdio MCP tool names"
+          value={STDIO_MCP_TOOL_NAMES_CSV}
+          hint="Reads, writes, and estimates registered on local stdio — paste into a client allowlist or registry form. Prepare tools are browser/SDK-only and are not in either MCP list."
+        />
       </div>
 
       <div className="mt-10 grid gap-4 sm:grid-cols-2">

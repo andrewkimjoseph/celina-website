@@ -1,12 +1,13 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTerminal } from "@fortawesome/free-solid-svg-icons";
-import { CodeBlock, ShellCommand } from "@/components/marketing/code-block";
+import { CodeBlock, EndpointCopyCard, ShellCommand } from "@/components/marketing/code-block";
 import {
   LOCAL_BRIDGE_CONFIG_MAC,
   LOCAL_BRIDGE_CONFIG_WINDOWS,
   MCP_INSTALL_CMD,
   RESOLVE_CELINA_MCP_CMD,
+  STDIO_MCP_TOOL_NAMES_CSV,
 } from "@/data/mcp";
 
 export const Route = createFileRoute("/mcp/local")({
@@ -88,6 +89,13 @@ function McpLocalPage() {
             </p>
             <div className="mt-2">
               <CodeBlock code={LOCAL_BRIDGE_CONFIG_WINDOWS} />
+            </div>
+            <div className="mt-4">
+              <EndpointCopyCard
+                label="Stdio MCP tool names"
+                value={STDIO_MCP_TOOL_NAMES_CSV}
+                hint="Reads, writes, and estimates registered on local stdio — paste into a client allowlist or registry form. Prepare tools are browser/SDK-only and are not in this MCP list."
+              />
             </div>
           </li>
           <li>

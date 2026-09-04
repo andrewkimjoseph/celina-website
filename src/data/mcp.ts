@@ -1,4 +1,9 @@
-import { HOSTED_TOOL_COUNT, TOOLS } from "@/data/tools";
+import {
+  HOSTED_MCP_TOOL_NAMES_CSV,
+  HOSTED_TOOL_COUNT,
+  STDIO_MCP_TOOL_NAMES_CSV,
+  TOOLS,
+} from "@/data/tools";
 
 export const MCP_NPM_URL = "https://www.npmjs.com/package/@andrewkimjoseph/celina-mcp";
 export const MCP_GITHUB_URL = "https://github.com/andrewkimjoseph/celina-mcp";
@@ -29,7 +34,7 @@ export const RESOLVE_CELINA_MCP_CMD = {
 
 export const STDIO_TOOL_COUNT = TOOLS.length;
 
-export { HOSTED_TOOL_COUNT };
+export { HOSTED_MCP_TOOL_NAMES_CSV, HOSTED_TOOL_COUNT, STDIO_MCP_TOOL_NAMES_CSV };
 
 export const LOCAL_BRIDGE_CONFIG_MAC = `{
   "mcpServers": {
