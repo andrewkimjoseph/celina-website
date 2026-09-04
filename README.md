@@ -74,6 +74,8 @@ bun run dev
 
 Route files live in `src/routes/`. TanStack Router auto-generates `src/routeTree.gen.ts` — do not edit it manually.
 
+`bun.lock` is intentionally not committed — Cloudflare Workers Builds pins an older Bun (`1.2.15`) that can't parse the newer `lockfileVersion: 2` text format a current local Bun writes. `bun install` still works fine locally without a tracked lockfile; `package-lock.json` (npm) is the lockfile Cloudflare's build actually installs from.
+
 ### Environment variables
 
 Stats pages call server functions that need API keys. Without them, dashboards still render but show a “missing config” error instead of live data.

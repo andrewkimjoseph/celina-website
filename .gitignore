@@ -21,6 +21,12 @@ dist-ssr
 .wrangler/
 .dev.vars
 
+# bun.lock is intentionally untracked: Cloudflare Workers Builds pins an
+# older Bun (1.2.15) that can't parse the newer lockfileVersion 2 text
+# format a current local Bun writes. npm/package-lock.json is the
+# CI-authoritative lockfile; bun install still works locally without it.
+bun.lock
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
