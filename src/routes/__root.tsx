@@ -87,11 +87,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:description", content: "Celina is a third-party, open-source stack that gives an LLM read, prepare, and execute access to Celo mainnet through an SDK, an MCP server, and a REST API." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
-      { name: "twitter:site", content: "@Lovable" },
       { name: "twitter:title", content: "Celina — Celo agent stack for LLMs" },
       { name: "twitter:description", content: "Celina is a third-party, open-source stack that gives an LLM read, prepare, and execute access to Celo mainnet through an SDK, an MCP server, and a REST API." },
-      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/Q29nlNheFxeBZWdInbKmVPulbJu2/social-images/social-1781008301481-Celina.webp" },
-      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/Q29nlNheFxeBZWdInbKmVPulbJu2/social-images/social-1781008301481-Celina.webp" },
+      { property: "og:image", content: "https://usecelina.xyz/celina-logo-black.png" },
+      { name: "twitter:image", content: "https://usecelina.xyz/celina-logo-black.png" },
     ],
     links: [
       {
