@@ -72,11 +72,15 @@ function RegistryField({
         {label}
       </h2>
       {hint ? <p className="mt-2 text-sm text-muted-foreground">{hint}</p> : null}
-      <div className="mt-4 flex items-center gap-2 rounded-[2px] border-2 border-foreground bg-muted/40 px-3 py-2">
-        <code className="flex-1 overflow-x-auto text-xs whitespace-pre-wrap break-all">
+      <div className="relative mt-4 rounded-[2px] border-2 border-foreground bg-muted/40 px-3 py-2">
+        <div className="pointer-events-none absolute right-2 top-2 z-10">
+          <div className="pointer-events-auto">
+            <CopyButton text={value} />
+          </div>
+        </div>
+        <code className="block overflow-x-auto text-xs whitespace-pre-wrap break-all">
           {value}
         </code>
-        <CopyButton text={value} />
       </div>
     </div>
   );
