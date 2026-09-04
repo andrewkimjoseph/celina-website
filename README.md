@@ -9,7 +9,7 @@
 - Website: [usecelina.xyz](https://usecelina.xyz)
 - SDK: [@andrewkimjoseph/celina-sdk](https://www.npmjs.com/package/@andrewkimjoseph/celina-sdk) — reads, wallet signing flows, `/simulation` for revert-before-send, and the shared LLM tool catalog
 - MCP: [@andrewkimjoseph/celina-mcp](https://www.npmjs.com/package/@andrewkimjoseph/celina-mcp) — registers the catalog for IDE / CLI agents
-- Hosted endpoint: `https://mcp.usecelina.xyz/api/mcp` — remote read/prepare profile (currently **48 tools** via `HOSTED_TOOL_COUNT` in `src/data/tools.generated.ts`; no `estimate_*` or server-key writes). Public read-only — no API key; see [celina-mcp-remote SECURITY.md](../celina-mcp-remote/SECURITY.md).
+- Hosted endpoint: `https://mcp.usecelina.xyz/mcp` — remote read/prepare profile (currently **48 tools** via `HOSTED_TOOL_COUNT` in `src/data/tools.generated.ts`; no `estimate_*` or server-key writes). Public read-only — no API key; see [celina-mcp-remote SECURITY.md](../celina-mcp-remote/SECURITY.md).
 - Celeste AI: [celeste.usecelina.xyz](https://celeste.usecelina.xyz) — reference browser wallet chat UI (SDK + wagmi, not MCP)
 - Full stdio catalog: all tools in `src/data/tools.generated.ts` (currently **87**; adds server-key execute/write paths). Regenerate with `npm run sync-tools` from this repo.
 
@@ -157,7 +157,7 @@ No install, no keys — chain reads and chain reads:
 {
   "mcpServers": {
     "celina-mcp": {
-      "url": "https://mcp.usecelina.xyz/api/mcp"
+      "url": "https://mcp.usecelina.xyz/mcp"
     }
   }
 }
@@ -177,7 +177,7 @@ For stdio-only clients that cannot use Streamable HTTP directly, bridge to the h
       "args": [
         "-y",
         "mcp-remote",
-        "https://mcp.usecelina.xyz/api/mcp",
+        "https://mcp.usecelina.xyz/mcp",
         "--transport",
         "http-only"
       ]

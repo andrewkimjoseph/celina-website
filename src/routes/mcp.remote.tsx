@@ -47,16 +47,7 @@ function McpRemotePage() {
         </p>
 
         <div className="mt-5">
-          <EndpointCopyCard
-            label="Endpoint"
-            value={HOSTED_MCP_URL}
-            hint={
-              <>
-                Alias: <code className="rounded bg-secondary px-1 py-0.5">https://mcp.usecelina.xyz/mcp</code> rewrites
-                to <code className="rounded bg-secondary px-1 py-0.5">/api/mcp</code>
-              </>
-            }
-          />
+          <EndpointCopyCard label="Endpoint" value={HOSTED_MCP_URL} />
         </div>
 
         <h3 className="mt-8 text-lg font-semibold tracking-tight" style={{ fontFamily: "var(--font-display)" }}>

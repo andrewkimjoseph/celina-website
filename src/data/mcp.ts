@@ -3,11 +3,11 @@ import { HOSTED_TOOL_COUNT, TOOLS } from "@/data/tools";
 export const MCP_NPM_URL = "https://www.npmjs.com/package/@andrewkimjoseph/celina-mcp";
 export const MCP_GITHUB_URL = "https://github.com/andrewkimjoseph/celina-mcp";
 export const MCP_REMOTE_GITHUB_URL = "https://github.com/andrewkimjoseph/celina-mcp-remote";
-export const HOSTED_MCP_URL = "https://mcp.usecelina.xyz/api/mcp";
+export const HOSTED_MCP_URL = "https://mcp.usecelina.xyz/mcp";
 export const CELO_DOCS_URL =
   "https://docs.celo.org/build-on-celo/build-with-ai/mcp/celina";
 export const A2A_AGENT_CARD_URL = "https://usecelina.xyz/.well-known/agent-card.json";
-export const A2A_JSONRPC_URL = "https://mcp.usecelina.xyz/api/a2a";
+export const A2A_JSONRPC_URL = "https://mcp.usecelina.xyz/a2a";
 export const OASF_MANIFEST_URL = "https://usecelina.xyz/.well-known/oasf.json";
 export const AGENT_JSON_URL = "https://usecelina.xyz/agent.json";
 export const OASF_REPO_URL = "https://github.com/agntcy/oasf/";
@@ -65,7 +65,7 @@ export const LOCAL_BRIDGE_CONFIG = LOCAL_BRIDGE_CONFIG_MAC;
 export const HOSTED_CONFIG = `{
   "mcpServers": {
     "celina-mcp": {
-      "url": "https://mcp.usecelina.xyz/api/mcp"
+      "url": "https://mcp.usecelina.xyz/mcp"
     }
   }
 }`;
@@ -74,7 +74,7 @@ export const MCP_REMOTE_CONFIG = `{
   "mcpServers": {
     "celina-mcp": {
       "command": "npx",
-      "args": ["-y", "mcp-remote", "https://mcp.usecelina.xyz/api/mcp"]
+      "args": ["-y", "mcp-remote", "https://mcp.usecelina.xyz/mcp"]
     }
   }
 }`;

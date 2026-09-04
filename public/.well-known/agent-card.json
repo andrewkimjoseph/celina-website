@@ -2,8 +2,8 @@
   "name": "Celina",
   "description": "Celina is a third-party, open-source stack that gives an LLM read, prepare, and execute access to Celo mainnet through an SDK, an MCP server, and a REST API. This hosted agent exposes read-only access to balances, DeFi quotes, governance, staking, NFTs, and Self Agent ID verification via structured tool calls.",
   "protocolVersion": "0.3.0",
-  "version": "0.25.16",
-  "url": "https://mcp.usecelina.xyz/api/a2a",
+  "version": "0.25.24",
+  "url": "https://mcp.usecelina.xyz/a2a",
   "skills": [
     {
       "id": "aave",
@@ -211,7 +211,7 @@
   ],
   "additionalInterfaces": [
     {
-      "url": "https://mcp.usecelina.xyz/api/a2a",
+      "url": "https://mcp.usecelina.xyz/a2a",
       "transport": "JSONRPC"
     }
   ],
