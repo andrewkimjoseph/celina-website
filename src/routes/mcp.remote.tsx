@@ -55,19 +55,6 @@ function McpRemotePage() {
         <div className="mt-5">
           <EndpointCopyCard label="Endpoint" value={HOSTED_MCP_URL} />
         </div>
-        <div className="mt-4">
-          <EndpointCopyCard
-            label="Hosted MCP tool names"
-            value={HOSTED_MCP_TOOL_NAMES_CSV}
-            hint={
-              <>
-                {HOSTED_TOOL_COUNT} read-only names from this endpoint — paste into a client
-                allowlist or registry form. Prepare tools are browser/SDK-only and are not in this
-                MCP list.
-              </>
-            }
-          />
-        </div>
 
         <h3 className="mt-8 text-lg font-semibold tracking-tight" style={{ fontFamily: "var(--font-display)" }}>
           Streamable HTTP clients
@@ -96,6 +83,20 @@ function McpRemotePage() {
         </p>
         <div className="mt-4">
           <CodeBlock code={MCP_REMOTE_CONFIG} />
+        </div>
+
+        <div className="mt-8">
+          <EndpointCopyCard
+            label="Hosted MCP tool names"
+            value={HOSTED_MCP_TOOL_NAMES_CSV}
+            hint={
+              <>
+                {HOSTED_TOOL_COUNT} read-only names from this endpoint — paste into a client
+                allowlist or registry form. Prepare tools are browser/SDK-only and are not in this
+                MCP list.
+              </>
+            }
+          />
         </div>
       </article>
 

@@ -16,7 +16,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { faNpm, faGithub } from "@fortawesome/free-brands-svg-icons";
 import { PageHero, PageHeroSection } from "@/components/marketing/page-hero";
-import { CodeBlock, CopyButton } from "@/components/marketing/code-block";
+import { CodeBlock, ShellCommand } from "@/components/marketing/code-block";
 import { SiteHeader } from "@/components/site-header";
 import { HOSTED_TOOL_COUNT } from "@/data/tools";
 
@@ -282,11 +282,7 @@ function SdkPage() {
         >
           Install
         </h2>
-        <div className="flex w-full items-center gap-2 overflow-hidden rounded-[2px] border-2 border-foreground bg-[var(--celo-ink)] py-2 pl-4 pr-2 text-[12px] text-[var(--celo-cream)] shadow-[var(--shadow-brutal-sm)] sm:w-auto sm:inline-flex sm:gap-3 sm:pl-5 sm:text-sm">
-          <span className="font-mono text-[var(--celo-yellow)]">$</span>
-          <code className="flex-1 overflow-x-auto whitespace-nowrap font-mono">{INSTALL_CMD}</code>
-          <CopyButton text={INSTALL_CMD} />
-        </div>
+        <ShellCommand command={INSTALL_CMD} />
       </section>
 
       {/* Quick start */}

@@ -30,7 +30,7 @@ export function ShellCommand({
 }) {
   return (
     <div
-      className={`flex max-w-full items-center gap-2 overflow-hidden rounded-[2px] border-2 border-foreground bg-[var(--celo-ink)] py-2 pl-4 pr-2 text-[12px] text-[var(--celo-cream)] shadow-[var(--shadow-brutal-sm)] sm:text-sm ${className}`}
+      className={`flex w-full max-w-full items-center gap-2 overflow-hidden rounded-[2px] border-2 border-foreground bg-[var(--celo-ink)] py-2 pl-4 pr-2 text-[12px] text-[var(--celo-cream)] shadow-[var(--shadow-brutal-sm)] sm:text-sm ${className}`}
     >
       <span className="font-mono text-[var(--celo-yellow)]">{prompt}</span>
       <code className="flex-1 overflow-x-auto whitespace-nowrap font-mono">{command}</code>
@@ -51,9 +51,11 @@ export function EndpointCopyCard({
   return (
     <div className="rounded-[2px] border-2 border-foreground bg-muted/30 p-4 text-sm">
       <p className="font-medium text-foreground">{label}</p>
-      <div className="relative mt-2 rounded-[2px] border-2 border-foreground bg-background px-3 py-2 pr-20">
-        <div className="absolute right-2 top-2 z-10">
-          <CopyButton text={value} />
+      <div className="relative mt-2 rounded-[2px] border-2 border-foreground bg-background px-3 py-2">
+        <div className="pointer-events-none absolute right-2 top-2 z-10">
+          <div className="pointer-events-auto">
+            <CopyButton text={value} />
+          </div>
         </div>
         <code className="block overflow-x-auto break-all font-mono text-xs text-muted-foreground">
           {value}
