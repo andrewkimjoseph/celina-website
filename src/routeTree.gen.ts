@@ -33,7 +33,6 @@ import { Route as McpLocalRouteImport } from './routes/mcp.local'
 import { Route as ToolsCategoryIndexRouteImport } from './routes/tools.$category.index'
 import { Route as ToolsCategoryToolSlugRouteImport } from './routes/tools.$category.$toolSlug'
 import { Route as GooddollarVerifyCallbackRouteImport } from './routes/gooddollar.verify.callback'
-import { Route as ApiCronAmplitudeSyncRouteImport } from './routes/api/cron/amplitude-sync'
 
 const StatsRoute = StatsRouteImport.update({
   id: '/stats',
@@ -156,17 +155,12 @@ const GooddollarVerifyCallbackRoute =
     path: '/gooddollar/verify/callback',
     getParentRoute: () => rootRouteImport,
   } as any)
-const ApiCronAmplitudeSyncRoute = ApiCronAmplitudeSyncRouteImport.update({
-  id: '/cron/amplitude-sync',
-  path: '/cron/amplitude-sync',
-  getParentRoute: () => ApiRoute,
-} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/a2a': typeof A2aRoute
   '/about': typeof AboutRoute
-  '/api': typeof ApiRouteWithChildren
+  '/api': typeof ApiRoute
   '/bot': typeof BotRoute
   '/mcp': typeof McpRouteWithChildren
   '/oasf': typeof OasfRoute
@@ -184,7 +178,6 @@ export interface FileRoutesByFullPath {
   '/mcp/': typeof McpIndexRoute
   '/stats/': typeof StatsIndexRoute
   '/tools/': typeof ToolsIndexRoute
-  '/api/cron/amplitude-sync': typeof ApiCronAmplitudeSyncRoute
   '/gooddollar/verify/callback': typeof GooddollarVerifyCallbackRoute
   '/tools/$category/$toolSlug': typeof ToolsCategoryToolSlugRoute
   '/tools/$category/': typeof ToolsCategoryIndexRoute
@@ -193,7 +186,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/a2a': typeof A2aRoute
   '/about': typeof AboutRoute
-  '/api': typeof ApiRouteWithChildren
+  '/api': typeof ApiRoute
   '/bot': typeof BotRoute
   '/oasf': typeof OasfRoute
   '/sdk': typeof SdkRoute
@@ -209,7 +202,6 @@ export interface FileRoutesByTo {
   '/mcp': typeof McpIndexRoute
   '/stats': typeof StatsIndexRoute
   '/tools': typeof ToolsIndexRoute
-  '/api/cron/amplitude-sync': typeof ApiCronAmplitudeSyncRoute
   '/gooddollar/verify/callback': typeof GooddollarVerifyCallbackRoute
   '/tools/$category/$toolSlug': typeof ToolsCategoryToolSlugRoute
   '/tools/$category': typeof ToolsCategoryIndexRoute
@@ -219,7 +211,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/a2a': typeof A2aRoute
   '/about': typeof AboutRoute
-  '/api': typeof ApiRouteWithChildren
+  '/api': typeof ApiRoute
   '/bot': typeof BotRoute
   '/mcp': typeof McpRouteWithChildren
   '/oasf': typeof OasfRoute
@@ -237,7 +229,6 @@ export interface FileRoutesById {
   '/mcp/': typeof McpIndexRoute
   '/stats/': typeof StatsIndexRoute
   '/tools/': typeof ToolsIndexRoute
-  '/api/cron/amplitude-sync': typeof ApiCronAmplitudeSyncRoute
   '/gooddollar/verify/callback': typeof GooddollarVerifyCallbackRoute
   '/tools/$category/$toolSlug': typeof ToolsCategoryToolSlugRoute
   '/tools/$category/': typeof ToolsCategoryIndexRoute
@@ -266,7 +257,6 @@ export interface FileRouteTypes {
     | '/mcp/'
     | '/stats/'
     | '/tools/'
-    | '/api/cron/amplitude-sync'
     | '/gooddollar/verify/callback'
     | '/tools/$category/$toolSlug'
     | '/tools/$category/'
@@ -291,7 +281,6 @@ export interface FileRouteTypes {
     | '/mcp'
     | '/stats'
     | '/tools'
-    | '/api/cron/amplitude-sync'
     | '/gooddollar/verify/callback'
     | '/tools/$category/$toolSlug'
     | '/tools/$category'
@@ -318,7 +307,6 @@ export interface FileRouteTypes {
     | '/mcp/'
     | '/stats/'
     | '/tools/'
-    | '/api/cron/amplitude-sync'
     | '/gooddollar/verify/callback'
     | '/tools/$category/$toolSlug'
     | '/tools/$category/'
@@ -328,7 +316,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   A2aRoute: typeof A2aRoute
   AboutRoute: typeof AboutRoute
-  ApiRoute: typeof ApiRouteWithChildren
+  ApiRoute: typeof ApiRoute
   BotRoute: typeof BotRoute
   McpRoute: typeof McpRouteWithChildren
   OasfRoute: typeof OasfRoute
@@ -514,25 +502,8 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GooddollarVerifyCallbackRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/cron/amplitude-sync': {
-      id: '/api/cron/amplitude-sync'
-      path: '/cron/amplitude-sync'
-      fullPath: '/api/cron/amplitude-sync'
-      preLoaderRoute: typeof ApiCronAmplitudeSyncRouteImport
-      parentRoute: typeof ApiRoute
-    }
   }
 }
-
-interface ApiRouteChildren {
-  ApiCronAmplitudeSyncRoute: typeof ApiCronAmplitudeSyncRoute
-}
-
-const ApiRouteChildren: ApiRouteChildren = {
-  ApiCronAmplitudeSyncRoute: ApiCronAmplitudeSyncRoute,
-}
-
-const ApiRouteWithChildren = ApiRoute._addFileChildren(ApiRouteChildren)
 
 interface McpRouteChildren {
   McpLocalRoute: typeof McpLocalRoute
@@ -568,7 +539,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   A2aRoute: A2aRoute,
   AboutRoute: AboutRoute,
-  ApiRoute: ApiRouteWithChildren,
+  ApiRoute: ApiRoute,
   BotRoute: BotRoute,
   McpRoute: McpRouteWithChildren,
   OasfRoute: OasfRoute,
