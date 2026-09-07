@@ -10,7 +10,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import type { CelinaTxRow } from "@/lib/dune.functions";
+import type { CelinaTxRow } from "@/lib/onchain.functions";
 import { dailyCumulative, parseBlockTime } from "@/lib/onchain-cumulative";
 import { aggregateNpm, type NpmAgg } from "@/lib/npm-aggregate";
 import type {

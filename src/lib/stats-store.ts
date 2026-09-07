@@ -1,14 +1,13 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { getCelinaStats, type CelinaTxRow } from "./dune.functions";
+import { getCelinaStats, type CelinaTxRow } from "./onchain.functions";
 import { browserPersistStorage } from "./persist-storage";
 import { withTimeout } from "./refresh-utils";
 
 type StatsState = {
   rows: CelinaTxRow[];
   fetchedAt: number | null;
-  queryExecutedAt: string | null;
-  queryUrl: string | null;
+  lastSyncedAt: string | null;
   loading: boolean;
   error: string | null;
   partial: boolean;
@@ -22,8 +21,7 @@ export const useStatsStore = create<StatsState>()(
     (set, get) => ({
       rows: [],
       fetchedAt: null,
-      queryExecutedAt: null,
-      queryUrl: null,
+      lastSyncedAt: null,
       loading: false,
       error: null,
       partial: false,
@@ -54,8 +52,7 @@ export const useStatsStore = create<StatsState>()(
               : {
                   rows: result.rows,
                   fetchedAt: result.fetchedAt,
-                  queryExecutedAt: result.queryExecutedAt,
-                  queryUrl: result.queryUrl,
+                  lastSyncedAt: result.lastSyncedAt,
                 }),
             error: result.error,
             partial:
@@ -76,13 +73,12 @@ export const useStatsStore = create<StatsState>()(
       },
     }),
     {
-      name: "celina-stats-v2",
+      name: "celina-stats-v3",
       storage: browserPersistStorage,
       partialize: (s) => ({
         rows: s.rows,
         fetchedAt: s.fetchedAt,
-        queryExecutedAt: s.queryExecutedAt,
-        queryUrl: s.queryUrl,
+        lastSyncedAt: s.lastSyncedAt,
       }),
     },
   ),

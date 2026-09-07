@@ -120,7 +120,7 @@ function OverviewPage() {
             to="/stats/onchain"
             badge={
               <span className="inline-flex items-center gap-2 rounded-[2px] border-2 border-foreground bg-card px-3 py-1 text-[10px] font-medium uppercase tracking-[0.18em] text-foreground">
-                On-chain · Dune
+                On-chain
               </span>
             }
             title="On-chain activity"

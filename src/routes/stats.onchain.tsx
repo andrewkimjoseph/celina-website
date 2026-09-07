@@ -35,13 +35,13 @@ export const Route = createFileRoute("/stats/onchain")({
       {
         name: "description",
         content:
-          "On-chain stats for Celo mainnet transactions tagged celina — sourced from Dune Analytics.",
+          "On-chain stats for Celo mainnet transactions tagged celina.",
       },
       { property: "og:title", content: "Celina stats — On-chain activity" },
       {
         property: "og:description",
         content:
-          "On-chain stats for Celo mainnet transactions tagged celina — sourced from Dune Analytics.",
+          "On-chain stats for Celo mainnet transactions tagged celina.",
       },
     ],
   }),
@@ -64,21 +64,21 @@ function pageWindow(currentZero: number, totalPages: number): Array<number | "el
 }
 
 function OnchainPage() {
-  const { rows, loading, error, partial, queryUrl, queryExecutedAt } =
+  const { rows, loading, error, partial, lastSyncedAt } =
     useStatsStore();
   const unavailable = Boolean(error) && !partial && rows.length === 0;
   const [page, setPage] = useState(0);
   const pageSize = 25;
 
   const lastUpdatedLabel = useMemo(() => {
-    if (!queryExecutedAt) return null;
-    const d = new Date(queryExecutedAt);
+    if (!lastSyncedAt) return null;
+    const d = new Date(lastSyncedAt);
     if (Number.isNaN(d.getTime())) return null;
     return d.toLocaleString(undefined, {
       dateStyle: "medium",
       timeStyle: "short",
     });
-  }, [queryExecutedAt]);
+  }, [lastSyncedAt]);
 
   const agg = useMemo(() => aggregate(rows), [rows]);
   const txs = useMemo(
@@ -96,7 +96,7 @@ function OnchainPage() {
           <div className="min-w-0">
             <div className="inline-flex max-w-full items-center gap-2 rounded-[2px] border-2 border-foreground bg-card px-3 py-1 text-[10px] font-medium text-foreground sm:text-xs">
               <FontAwesomeIcon icon={faChartLine} className="h-3 w-3 shrink-0 text-[var(--celo-forest)] dark:text-foreground" />
-              <span className="uppercase tracking-[0.14em] sm:tracking-[0.18em]">On-chain · Dune Analytics</span>
+              <span className="uppercase tracking-[0.14em] sm:tracking-[0.18em]">On-chain</span>
             </div>
             <h2
               className="mt-3 text-xl font-bold tracking-tight break-words sm:text-2xl"
@@ -105,25 +105,14 @@ function OnchainPage() {
               Celo mainnet transactions tagged celina
             </h2>
             <p className="mt-2 text-sm leading-relaxed text-muted-foreground sm:mt-1 sm:text-xs sm:leading-normal">
-              Calldata includes the celina attribution tag, indexed by Dune. Unique senders and receivers are distinct on-chain addresses — not MCP users or off-chain wallet lookups.
+              Calldata includes the celina attribution tag. Unique senders and receivers are distinct on-chain addresses — not MCP users or off-chain wallet lookups.
             </p>
             {lastUpdatedLabel && (
               <p className="mt-2 text-xs text-muted-foreground/80 sm:mt-1 sm:text-[11px]">
-                Last updated {lastUpdatedLabel} · syncs daily at 00:00 UTC
+                Last updated {lastUpdatedLabel}
               </p>
             )}
           </div>
-          {queryUrl && (
-            <a
-              href={queryUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex shrink-0 items-center gap-1.5 self-start text-xs font-medium text-muted-foreground transition hover:text-foreground"
-            >
-              Dune query
-              <FontAwesomeIcon icon={faArrowUpRightFromSquare} className="h-2.5 w-2.5" />
-            </a>
-          )}
         </div>
 
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
@@ -142,7 +131,7 @@ function OnchainPage() {
               On-chain stats are temporarily unavailable.
             </p>
             <p className="mx-auto mt-2 max-w-md text-sm text-muted-foreground">
-              Our data provider (Dune Analytics) is currently unreachable. Off-chain and package stats are still available.
+              On-chain stats could not be loaded. Off-chain and package stats are still available.
             </p>
           </div>
         ) : (
@@ -265,7 +254,7 @@ function OnchainPage() {
                       {unavailable ? (
                         <div>
                           <p className="font-medium text-foreground">On-chain stats are temporarily unavailable.</p>
-                          <p className="mt-1 text-sm">Our data provider (Dune Analytics) is currently unreachable.</p>
+                          <p className="mt-1 text-sm">On-chain stats could not be loaded.</p>
                         </div>
                       ) : (
                         "No transactions yet."

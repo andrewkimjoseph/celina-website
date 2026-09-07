@@ -27,7 +27,7 @@ This repo is the **marketing site** for Celina. The SDK and MCP packages live in
 - **Tools catalog** (`/tools`) — browse all MCP tools by category
   - Category pages: `/tools/blockchain`, `/tools/mento-fx`, `/tools/uniswap`, `/tools/aave`, `/tools/gooddollar` (UBI + reserve quote), `/tools/self`, and more
   - Individual tool docs: `/tools/:category/:toolSlug`
-- **Stats dashboard** (`/stats`) — on-chain activity (Dune → Supabase), off-chain MCP tool calls and wallets queried (Amplitude → Supabase), and npm downloads
+- **Stats dashboard** (`/stats`) — on-chain activity and off-chain MCP tool calls (via [celina-stats-api](https://api.stats.usecelina.xyz)), and npm downloads
 
 ## Stack
 
@@ -78,26 +78,16 @@ Route files live in `src/routes/`. TanStack Router auto-generates `src/routeTree
 
 ### Environment variables
 
-Stats pages call server functions that need API keys. Without them, dashboards still render but show a “missing config” error instead of live data.
+Stats pages call server functions that fetch [celina-stats-api](https://api.stats.usecelina.xyz). Override the base URL locally if you run the stats Worker on localhost.
 
 | Variable | Used for |
 |----------|----------|
-| `DUNE_API_KEY` | Dune execute/results for incremental on-chain sync (`node scripts/run-dune-sync.mjs`) |
-| `DUNE_QUERY_ID` | Dune query ID for sync and the `/stats/onchain` dashboard link |
-| `AMPLITUDE_API_KEY` / `AMPLITUDE_SECRET_KEY` | Off-chain MCP tool calls (`/stats/offchain`) |
-| `AMPLITUDE_REGION` | Optional — `us` (default) or `eu` |
-| `CUSTOM_SUPABASE_URL` / `CUSTOM_SUPABASE_SERVICE_ROLE_KEY` | Amplitude + Dune caches in Supabase (`/stats/onchain` and `/stats/offchain` read from here) |
+| `STATS_API_BASE_URL` | Optional — default `https://api.stats.usecelina.xyz` |
 
 - **Local (Vite):** copy [`.env.example`](.env.example) to `.env.local` or `.env`
-- **Cloudflare Workers:** copy [`.dev.vars.example`](.dev.vars.example) to `.dev.vars`, or set secrets in the dashboard
+- **Cloudflare Workers:** set `STATS_API_BASE_URL` only if you need a non-production stats host
 
-Manual sync (e.g. cron debugging) reads `.env.local` then `.env`:
-
-- Amplitude: `node scripts/run-amplitude-sync.mjs`
-- Dune tagged txns: `node scripts/run-dune-sync.mjs`
-- Dune full backfill: `node scripts/run-dune-backfill.mjs`
-
-**Supabase setup (one-time):** after deploying off-chain stats changes, run [`scripts/supabase-amplitude-aggregates.sql`](scripts/supabase-amplitude-aggregates.sql) in the custom Supabase SQL editor. Dune tagged txns (`dune_celina_txns`) are already migrated in the live project; use `node scripts/run-dune-backfill.mjs` then `node scripts/run-dune-sync.mjs`. Production sync runs on the Cloudflare Worker daily at midnight UTC (`scheduled` in `src/server.ts`).
+On-chain ingest and Amplitude export sync run in **celina-stats-api** (midnight UTC cron for Amplitude). This website has no cron.
 
 Never commit real keys. `.env`, `.env.local`, and `.dev.vars` are gitignored; only the `*.example` templates are tracked.
 

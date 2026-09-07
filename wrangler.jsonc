@@ -4,13 +4,4 @@
   "compatibility_date": "2025-09-24",
   "compatibility_flags": ["nodejs_compat"],
   "main": "src/server.ts"
-  ,
-  // Scheduled cron triggers (UTC). Edit this array to change the interval.
-  // Default: once a day at midnight UTC. Examples:
-  //   "0 */6 * * *"   every 6 hours
-  //   "0 * * * *"     every hour
-  //   "*/15 * * * *"  every 15 minutes
-  "triggers": {
-    "crons": ["0 0 * * *"]
-  }
 }

@@ -140,7 +140,7 @@ function StatsLayout() {
               Celina stats
             </h1>
             <p className="mt-3 max-w-xl text-muted-foreground">
-              On-chain activity on Celo and npm package downloads — data updates daily; refresh available once per day.
+              On-chain activity on Celo, off-chain MCP usage, and npm package downloads.
             </p>
           </div>
           <button

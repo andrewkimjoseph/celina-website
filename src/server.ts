@@ -2,8 +2,6 @@ import "./lib/error-capture";
 
 import { consumeLastCapturedError } from "./lib/error-capture";
 import { renderErrorPage } from "./lib/error-page";
-import { syncAmplitudeExport } from "./lib/amplitude.functions";
-import { syncDuneResults } from "./lib/dune.functions";
 
 type ServerEntry = {
   fetch: (request: Request, env: unknown, ctx: unknown) => Promise<Response> | Response;
@@ -78,38 +76,5 @@ export default {
       console.error(error);
       return brandedErrorResponse();
     }
-  },
-  async scheduled(
-    event: { cron: string; scheduledTime: number },
-    env: Record<string, string | undefined>,
-    ctx: { waitUntil: (p: Promise<unknown>) => void },
-  ) {
-    // Cloudflare scheduled handlers receive env as the second arg; copy any
-    // bindings into process.env so downstream code that reads process.env keeps
-    // working in the scheduled context.
-    if (env && typeof env === "object") {
-      for (const [k, v] of Object.entries(env)) {
-        if (typeof v === "string" && process.env[k] === undefined) {
-          process.env[k] = v;
-        }
-      }
-    }
-    console.log(`[cron ${event.cron}] running amplitude then dune sync`);
-    ctx.waitUntil(
-      (async () => {
-        try {
-          await syncAmplitudeExport();
-          console.log(`[cron ${event.cron}] amplitude sync complete`);
-        } catch (err) {
-          console.error(`[cron ${event.cron}] amplitude sync failed`, err);
-        }
-        try {
-          await syncDuneResults();
-          console.log(`[cron ${event.cron}] dune sync complete`);
-        } catch (err) {
-          console.error(`[cron ${event.cron}] dune sync failed`, err);
-        }
-      })(),
-    );
   },
 };
