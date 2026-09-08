@@ -27,7 +27,7 @@ This repo is the **marketing site** for Celina. The SDK and MCP packages live in
 - **Tools catalog** (`/tools`) — browse all MCP tools by category
   - Category pages: `/tools/blockchain`, `/tools/mento-fx`, `/tools/uniswap`, `/tools/aave`, `/tools/gooddollar` (UBI + reserve quote), `/tools/self`, and more
   - Individual tool docs: `/tools/:category/:toolSlug`
-- **Stats dashboard** (`/stats`) — on-chain activity and off-chain MCP tool calls (via [celina-stats-api](https://api.stats.usecelina.xyz)), and npm downloads
+- **Stats dashboard** (`/stats`) — on-chain activity (via [celina-stats-api](https://api.stats.usecelina.xyz)), off-chain tool-call aggregates (via [celina-api](https://api.usecelina.xyz) `GET /offchain/*`), and npm downloads
 
 ## Stack
 
@@ -78,14 +78,15 @@ Route files live in `src/routes/`. TanStack Router auto-generates `src/routeTree
 
 ### Environment variables
 
-Stats pages call server functions that fetch [celina-stats-api](https://api.stats.usecelina.xyz). Override the base URL locally if you run the stats Worker on localhost.
+Stats pages call server functions that fetch [celina-api](https://api.usecelina.xyz) for off-chain aggregates and [celina-stats-api](https://api.stats.usecelina.xyz) for on-chain rows and npm downloads. Override the base URLs locally if you run those Workers on localhost.
 
 | Variable | Used for |
 |----------|----------|
-| `STATS_API_BASE_URL` | Optional — default `https://api.stats.usecelina.xyz` |
+| `CELINA_API_BASE_URL` | Optional — default `https://api.usecelina.xyz` (`/stats/offchain` → `GET /offchain/*`) |
+| `STATS_API_BASE_URL` | Optional — default `https://api.stats.usecelina.xyz` (`/stats/onchain`, `/stats/package`) |
 
 - **Local (Vite):** copy [`.env.example`](.env.example) to `.env.local` or `.env`
-- **Cloudflare Workers:** set `STATS_API_BASE_URL` only if you need a non-production stats host
+- **Cloudflare Workers:** set `CELINA_API_BASE_URL` / `STATS_API_BASE_URL` only if you need a non-production host
 
 On-chain ingest and Amplitude export sync run in **celina-stats-api** (midnight UTC cron for Amplitude). This website has no cron.
 

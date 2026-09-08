@@ -1,5 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
-import { statsApiBaseUrl } from "./stats-api.ts";
+import { celinaApiBaseUrl } from "./celina-api.ts";
 
 export type AmplitudeEventDay = {
   day: string;
@@ -35,28 +35,66 @@ const empty = (error: string | null): AmplitudeStatsResult => ({
   error,
 });
 
+type DailyBody = { rows?: AmplitudeEventDay[]; total?: number; error?: string };
+type WalletsBody = {
+  daily?: AmplitudeEventDay[];
+  total?: number;
+  error?: string;
+};
+type ToolsBody = { rows?: AmplitudeEventTotal[]; error?: string };
+type DevicesBody = { uniqueDevices?: number; error?: string };
+type SyncBody = { lastSyncedAt?: string | null; error?: string };
+
 export const getAmplitudeStats = createServerFn({ method: "GET" }).handler(
   async (): Promise<AmplitudeStatsResult> => {
+    const base = celinaApiBaseUrl();
     try {
-      const res = await fetch(`${statsApiBaseUrl()}/offchain`);
-      if (!res.ok) {
-        throw new Error(`Stats API ${res.status}`);
+      const [dailyRes, walletsRes, toolsRes, devicesRes, syncRes] =
+        await Promise.all([
+          fetch(`${base}/offchain/daily`),
+          fetch(`${base}/offchain/wallets`),
+          fetch(`${base}/offchain/tools`),
+          fetch(`${base}/offchain/devices`),
+          fetch(`${base}/offchain/sync`),
+        ]);
+      const failed = [
+        dailyRes,
+        walletsRes,
+        toolsRes,
+        devicesRes,
+        syncRes,
+      ].find((res) => !res.ok);
+      if (failed) {
+        throw new Error(`Celina API ${failed.status}`);
       }
-      const json = (await res.json()) as Omit<AmplitudeStatsResult, "fetchedAt"> & {
-        error?: string;
-      };
-      if (json.error && (!json.daily || json.daily.length === 0)) {
-        return empty(json.error);
+
+      const [daily, wallets, tools, devices, sync] = (await Promise.all([
+        dailyRes.json(),
+        walletsRes.json(),
+        toolsRes.json(),
+        devicesRes.json(),
+        syncRes.json(),
+      ])) as [DailyBody, WalletsBody, ToolsBody, DevicesBody, SyncBody];
+
+      const error =
+        daily.error ||
+        wallets.error ||
+        tools.error ||
+        devices.error ||
+        sync.error;
+      if (error && (!daily.rows || daily.rows.length === 0)) {
+        return empty(error);
       }
+
       return {
-        daily: json.daily ?? [],
-        dailyWalletsQueried: json.dailyWalletsQueried ?? [],
-        perTool: json.perTool ?? [],
-        total: json.total ?? 0,
-        uniqueDevices: json.uniqueDevices ?? 0,
-        walletsQueried: json.walletsQueried ?? 0,
+        daily: daily.rows ?? [],
+        dailyWalletsQueried: wallets.daily ?? [],
+        perTool: tools.rows ?? [],
+        total: daily.total ?? 0,
+        uniqueDevices: devices.uniqueDevices ?? 0,
+        walletsQueried: wallets.total ?? 0,
         fetchedAt: Date.now(),
-        lastSyncedAt: json.lastSyncedAt ?? null,
+        lastSyncedAt: sync.lastSyncedAt ?? null,
         error: null,
       };
     } catch (e) {
