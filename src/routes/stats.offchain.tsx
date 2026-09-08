@@ -56,7 +56,7 @@ export const Route = createFileRoute("/stats/offchain")({
 });
 
 function OffchainPage() {
-  const { daily, dailyWalletsQueried, perTool, walletsQueried, loading, lastSyncedAt } =
+  const { daily, dailyWalletsQueried, perTool, walletsQueried, total, loading, lastSyncedAt } =
     useAmplitudeStore();
   const agg = useMemo(() => aggregateAmplitude(daily, perTool), [daily, perTool]);
   const queriedWalletsDaily = useMemo(
@@ -108,7 +108,7 @@ function OffchainPage() {
         </div>
 
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
-          <KpiCard label="Total calls (365d)" value={agg.total.toLocaleString()} />
+          <KpiCard label="Total calls" value={total.toLocaleString()} />
           <KpiCard label="Today" value={agg.today.toLocaleString()} />
           <KpiCard label="Last 7 days" value={agg.last7.toLocaleString()} />
           <KpiCard label="Last 30 days" value={agg.last30.toLocaleString()} />
@@ -124,7 +124,7 @@ function OffchainPage() {
 
       <section className="mx-auto max-w-6xl px-4 pb-16 sm:px-6">
         <div className="grid gap-4 lg:grid-cols-2">
-          <ChartCard title="Cumulative tool calls" subtitle="365 days">
+          <ChartCard title="Cumulative tool calls" subtitle="last 90 days">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={agg.daily} margin={{ top: 8, right: 12, left: 0, bottom: 0 }}>
                 <CartesianGrid stroke="var(--border)" strokeDasharray="3 3" vertical={false} />

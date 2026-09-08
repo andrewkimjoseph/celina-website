@@ -83,7 +83,7 @@ function OverviewPage() {
   const onchainUnavailable = Boolean(error) && !partial && rows.length === 0;
   const { rows: npmRows } = useNpmStore();
   const npmHydrated = useNpmHydrated();
-  const { daily: ampDaily, perTool: ampPerTool, walletsQueried } = useAmplitudeStore();
+  const { daily: ampDaily, perTool: ampPerTool, walletsQueried, total: ampTotal } = useAmplitudeStore();
   const agg = useMemo(() => aggregate(rows), [rows]);
   const npmAgg = useMemo(() => aggregateNpm(npmRows), [npmRows]);
   const ampAgg = useMemo(
@@ -97,7 +97,7 @@ function OverviewPage() {
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-7">
           <KpiCard label="On-chain total" value={onchainUnavailable ? "—" : agg.totalTx.toLocaleString()} />
           <KpiCard label="On-chain today" value={onchainUnavailable ? "—" : agg.todayCount.toLocaleString()} />
-          <KpiCard label="Off-chain total" value={ampAgg.total.toLocaleString()} />
+          <KpiCard label="Off-chain total" value={ampTotal.toLocaleString()} />
           <KpiCard label="Off-chain 7d" value={ampAgg.last7.toLocaleString()} />
           <KpiCard label="Wallets queried" value={walletsQueried.toLocaleString()} />
           {npmHydrated ? (
