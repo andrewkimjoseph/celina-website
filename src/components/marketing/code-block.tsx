@@ -62,6 +62,31 @@ export function EndpointCopyCard({
   );
 }
 
+export function ToolNamesCopyCard({
+  label,
+  value,
+  hint,
+}: {
+  label: string;
+  value: string;
+  hint?: ReactNode;
+}) {
+  return (
+    <div className="rounded-[2px] border-2 border-foreground bg-muted/30 p-4 text-sm">
+      <p className="font-medium text-foreground">{label}</p>
+      <div className="relative mt-2 rounded-[2px] border-2 border-foreground bg-background p-2">
+        <div className="absolute right-2 top-2 z-10">
+          <CopyButton text={value} />
+        </div>
+        <code className="block whitespace-pre-wrap break-all font-mono text-xs leading-snug text-muted-foreground">
+          {value}
+        </code>
+      </div>
+      {hint ? <div className="mt-2 text-xs text-muted-foreground">{hint}</div> : null}
+    </div>
+  );
+}
+
 export function CodeBlock({ code }: { code: string }) {
   return (
     <div className="relative">

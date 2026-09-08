@@ -6,7 +6,7 @@ import {
   faTerminal,
 } from "@fortawesome/free-solid-svg-icons";
 import { faGithub, faNpm } from "@fortawesome/free-brands-svg-icons";
-import { EndpointCopyCard } from "@/components/marketing/code-block";
+import { ToolNamesCopyCard } from "@/components/marketing/code-block";
 import {
   HOSTED_MCP_TOOL_NAMES_CSV,
   HOSTED_TOOL_COUNT,
@@ -93,7 +93,7 @@ function McpOverviewPage() {
       </div>
 
       <div className="mt-10 grid gap-4">
-        <EndpointCopyCard
+        <ToolNamesCopyCard
           label="Hosted MCP tool names"
           value={HOSTED_MCP_TOOL_NAMES_CSV}
           hint={
@@ -104,7 +104,7 @@ function McpOverviewPage() {
             </>
           }
         />
-        <EndpointCopyCard
+        <ToolNamesCopyCard
           label="Local stdio MCP tool names"
           value={STDIO_MCP_TOOL_NAMES_CSV}
           hint="Reads, writes, and estimates registered on local stdio — paste into a client allowlist or registry form. Prepare tools are browser/SDK-only and are not in either MCP list."

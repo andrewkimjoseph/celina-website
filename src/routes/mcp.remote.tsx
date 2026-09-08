@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCloud, faLock } from "@fortawesome/free-solid-svg-icons";
-import { CodeBlock, EndpointCopyCard } from "@/components/marketing/code-block";
+import { CodeBlock, EndpointCopyCard, ToolNamesCopyCard } from "@/components/marketing/code-block";
 import {
   HOSTED_CONFIG,
   HOSTED_MCP_TOOL_NAMES_CSV,
@@ -86,7 +86,7 @@ function McpRemotePage() {
         </div>
 
         <div className="mt-8">
-          <EndpointCopyCard
+          <ToolNamesCopyCard
             label="Hosted MCP tool names"
             value={HOSTED_MCP_TOOL_NAMES_CSV}
             hint={

@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleNodes, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { PageHero, PageHeroSection } from "@/components/marketing/page-hero";
 import { SiteHeader } from "@/components/site-header";
-import { CopyButton } from "@/components/marketing/code-block";
+import { CopyButton, ToolNamesCopyCard } from "@/components/marketing/code-block";
 import {
   A2A_AGENT_CARD_URL,
   A2A_JSONRPC_URL,
@@ -53,34 +53,6 @@ export const Route = createFileRoute("/a2a")({
   }),
   component: A2APage,
 });
-
-function RegistryField({
-  label,
-  value,
-  hint,
-}: {
-  label: string;
-  value: string;
-  hint?: string;
-}) {
-  return (
-    <div className="rounded-[2px] border-2 border-foreground bg-card p-6 shadow-[var(--shadow-brutal)]">
-      <h2
-        className="text-lg font-semibold tracking-tight"
-        style={{ fontFamily: "var(--font-display)" }}
-      >
-        {label}
-      </h2>
-      {hint ? <p className="mt-2 text-sm text-muted-foreground">{hint}</p> : null}
-      <div className="mt-4 flex items-center gap-2 rounded-[2px] border-2 border-foreground bg-muted/40 px-3 py-2">
-        <code className="min-w-0 flex-1 overflow-x-auto text-xs whitespace-pre-wrap break-all">
-          {value}
-        </code>
-        <CopyButton text={value} />
-      </div>
-    </div>
-  );
-}
 
 function A2APage() {
   return (
@@ -143,7 +115,7 @@ function A2APage() {
         </div>
 
         <div className="mt-10 grid gap-4">
-          <RegistryField
+          <ToolNamesCopyCard
             label="Skill IDs (comma-separated)"
             value={A2A_SKILL_IDS_CSV}
             hint="Celina A2A skills from the Agent Card — use when a registry or client asks for skill identifiers."
