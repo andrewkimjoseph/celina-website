@@ -47,7 +47,7 @@ export const Route = createFileRoute("/tools/$category/$toolSlug")({
       <div>
         <h1 className="text-3xl font-bold">Tool not found</h1>
         <p className="mt-2 text-muted-foreground">No Celina tool matches that URL.</p>
-        <Link to="/tools" className="mt-6 inline-flex items-center gap-2 rounded-[2px] border-2 border-foreground bg-[var(--celo-deep)] px-4 py-2 text-sm font-medium text-[var(--celo-cream)] shadow-[var(--shadow-brutal-sm)]">
+        <Link to="/tools" className="mt-6 inline-flex items-center gap-2 rounded-[2px] border-2 border-foreground bg-[var(--celo-deep)] px-4 py-2 text-sm font-medium text-[var(--celo-cream)] shadow-[var(--shadow-brutal-yellow-sm)]">
           <FontAwesomeIcon icon={faArrowLeft} className="h-3.5 w-3.5" /> All tools
         </Link>
       </div>
@@ -244,7 +244,7 @@ function ToolPage() {
               <div className="mt-4 flex flex-wrap gap-2">
                 <Link
                   to="/sdk"
-                  className="inline-flex items-center gap-2 rounded-[2px] border-2 border-foreground bg-[var(--celo-deep)] px-4 py-2 text-sm font-medium text-[var(--celo-cream)] shadow-[var(--shadow-brutal-sm)] transition-[transform,box-shadow,background-color] hover:bg-[var(--celo-ink)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none"
+                  className="inline-flex items-center gap-2 rounded-[2px] border-2 border-foreground bg-[var(--celo-deep)] px-4 py-2 text-sm font-medium text-[var(--celo-cream)] shadow-[var(--shadow-brutal-yellow-sm)] transition-[transform,box-shadow,background-color] hover:bg-[var(--celo-ink)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none"
                 >
                   SDK docs
                 </Link>
@@ -280,7 +280,7 @@ function ToolPage() {
                 <Link
                   to="/"
                   hash="install"
-                  className="inline-flex items-center gap-2 rounded-[2px] border-2 border-foreground bg-[var(--celo-deep)] px-4 py-2 text-sm font-medium text-[var(--celo-cream)] shadow-[var(--shadow-brutal-sm)] transition-[transform,box-shadow,background-color] hover:bg-[var(--celo-ink)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none"
+                  className="inline-flex items-center gap-2 rounded-[2px] border-2 border-foreground bg-[var(--celo-deep)] px-4 py-2 text-sm font-medium text-[var(--celo-cream)] shadow-[var(--shadow-brutal-yellow-sm)] transition-[transform,box-shadow,background-color] hover:bg-[var(--celo-ink)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none"
                 >
                   Install Celina
                 </Link>

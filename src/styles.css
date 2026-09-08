@@ -98,10 +98,15 @@
 
   /* Brutalist structure: hard offset shadows, no blur. Uses --foreground so
      the shadow color flips light/dark automatically (black on light surfaces,
-     white on dark surfaces) instead of GoClaim's fixed black-only shadow. */
+     white on dark surfaces) instead of GoClaim's fixed black-only shadow.
+     Yellow variants are for ink/black boxes, where a foreground shadow is
+     invisible. --celo-yellow already shifts in dark mode. */
   --shadow-brutal-sm: 3px 3px 0 0 var(--foreground);
   --shadow-brutal: 4px 4px 0 0 var(--foreground);
   --shadow-brutal-lg: 6px 6px 0 0 var(--foreground);
+  --shadow-brutal-yellow-sm: 3px 3px 0 0 var(--celo-yellow);
+  --shadow-brutal-yellow: 4px 4px 0 0 var(--celo-yellow);
+  --shadow-brutal-yellow-lg: 6px 6px 0 0 var(--celo-yellow);
 
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);

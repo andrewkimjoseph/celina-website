@@ -35,7 +35,7 @@ export const Route = createFileRoute("/tools/$category/")({
       <div>
         <h1 className="text-3xl font-bold">Category not found</h1>
         <p className="mt-2 text-muted-foreground">No Celina tool category matches that URL.</p>
-        <Link to="/tools" className="mt-6 inline-flex items-center gap-2 rounded-[2px] border-2 border-foreground bg-[var(--celo-deep)] px-4 py-2 text-sm font-medium text-[var(--celo-cream)] shadow-[var(--shadow-brutal-sm)]">
+        <Link to="/tools" className="mt-6 inline-flex items-center gap-2 rounded-[2px] border-2 border-foreground bg-[var(--celo-deep)] px-4 py-2 text-sm font-medium text-[var(--celo-cream)] shadow-[var(--shadow-brutal-yellow-sm)]">
           <FontAwesomeIcon icon={faArrowLeft} className="h-3.5 w-3.5" /> All tools
         </Link>
       </div>

@@ -51,7 +51,7 @@ function BrowserFrame({
   url?: string;
 }) {
   return (
-    <div className="relative overflow-hidden rounded-[2px] border-2 border-[var(--celo-cream)] bg-[var(--celo-ink)] shadow-[var(--shadow-brutal-lg)]">
+    <div className="relative overflow-hidden rounded-[2px] border-2 border-[var(--celo-cream)] bg-[var(--celo-ink)] shadow-[var(--shadow-brutal-yellow-lg)]">
       <div className="flex items-center gap-3 border-b-2 border-white/10 bg-black/40 px-4 py-2.5">
         <div className="flex gap-1.5">
           <span className="h-3 w-3 rounded-full bg-[#ff5f57]" />
@@ -495,7 +495,7 @@ function Index() {
                 </Link>
               </div>
 
-              <div className="mt-8 flex w-full max-w-full items-center gap-2 overflow-hidden rounded-[2px] border-2 border-[var(--celo-cream)] bg-[var(--celo-ink)] py-2 pl-4 pr-2 text-[11px] text-[var(--celo-cream)] shadow-[var(--shadow-brutal-sm)] sm:inline-flex sm:w-auto sm:gap-3 sm:pl-5 sm:text-sm">
+              <div className="mt-8 flex w-full max-w-full items-center gap-2 overflow-hidden rounded-[2px] border-2 border-[var(--celo-cream)] bg-[var(--celo-ink)] py-2 pl-4 pr-2 text-[11px] text-[var(--celo-cream)] shadow-[var(--shadow-brutal-yellow-sm)] sm:inline-flex sm:w-auto sm:gap-3 sm:pl-5 sm:text-sm">
                 <span className="font-mono text-[var(--celo-yellow)]">$</span>
                 <code className="flex-1 overflow-x-auto whitespace-nowrap font-mono">
                   {MCP_INSTALL_CMD}
@@ -736,7 +736,7 @@ function Index() {
 
       {/* CTA */}
       <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-24">
-        <div className="relative overflow-hidden rounded-[2px] border-2 border-[var(--celo-cream)] bg-[var(--celo-ink)] p-8 text-[var(--celo-cream)] shadow-[6px_6px_0_0_var(--celo-yellow)] sm:p-12 lg:p-16">
+        <div className="relative overflow-hidden rounded-[2px] border-2 border-[var(--celo-cream)] bg-[var(--celo-ink)] p-8 text-[var(--celo-cream)] shadow-[var(--shadow-brutal-yellow-lg)] sm:p-12 lg:p-16">
           <div className="relative">
             <span className="rounded-[2px] border-2 border-[var(--celo-cream)] px-3 py-1 text-xs font-bold uppercase tracking-[0.22em] text-[var(--celo-cream)]">
               Ship it
@@ -763,7 +763,7 @@ function Index() {
                 href={MCP_NPM_URL}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-2 rounded-[2px] border-2 border-[var(--celo-cream)] px-6 py-3.5 text-sm font-semibold text-[var(--celo-cream)] shadow-[4px_4px_0_0_var(--celo-cream)] transition-[transform,box-shadow,background-color] hover:bg-[var(--celo-cream)]/10 active:translate-x-[2px] active:translate-y-[2px] active:shadow-none"
+                className="inline-flex items-center gap-2 rounded-[2px] border-2 border-[var(--celo-cream)] px-6 py-3.5 text-sm font-semibold text-[var(--celo-cream)] shadow-[var(--shadow-brutal-yellow)] transition-[transform,box-shadow,background-color] hover:bg-[var(--celo-cream)]/10 active:translate-x-[2px] active:translate-y-[2px] active:shadow-none"
               >
                 <FontAwesomeIcon icon={faNpm} className="h-4 w-4" /> Install from npm
               </a>

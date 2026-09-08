@@ -387,7 +387,7 @@ function AboutPage() {
 
       {/* Author */}
       <section className="mx-auto max-w-6xl px-4 pb-16 sm:px-6">
-        <div className="rounded-[2px] border-2 border-foreground bg-[var(--celo-ink)] p-8 text-[var(--celo-cream)] shadow-[var(--shadow-brutal)] sm:p-10">
+        <div className="rounded-[2px] border-2 border-foreground bg-[var(--celo-ink)] p-8 text-[var(--celo-cream)] shadow-[var(--shadow-brutal-yellow)] sm:p-10">
           <h2
             className="text-2xl font-bold tracking-tight sm:text-3xl"
             style={{ fontFamily: "var(--font-display)" }}
@@ -411,7 +411,7 @@ function AboutPage() {
               href={SDK_GITHUB_URL}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-2 rounded-[2px] border-2 border-[var(--celo-cream)] px-4 py-2 text-sm font-medium text-[var(--celo-cream)] shadow-[4px_4px_0_0_var(--celo-cream)] transition-[transform,box-shadow,background-color] hover:bg-[var(--celo-cream)]/10 active:translate-x-[2px] active:translate-y-[2px] active:shadow-none"
+              className="inline-flex items-center gap-2 rounded-[2px] border-2 border-[var(--celo-cream)] px-4 py-2 text-sm font-medium text-[var(--celo-cream)] shadow-[var(--shadow-brutal-yellow)] transition-[transform,box-shadow,background-color] hover:bg-[var(--celo-cream)]/10 active:translate-x-[2px] active:translate-y-[2px] active:shadow-none"
             >
               <FontAwesomeIcon icon={faGithub} className="h-4 w-4" /> celina-sdk
             </a>
@@ -419,7 +419,7 @@ function AboutPage() {
               href={MCP_GITHUB_URL}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-2 rounded-[2px] border-2 border-[var(--celo-cream)] px-4 py-2 text-sm font-medium text-[var(--celo-cream)] shadow-[4px_4px_0_0_var(--celo-cream)] transition-[transform,box-shadow,background-color] hover:bg-[var(--celo-cream)]/10 active:translate-x-[2px] active:translate-y-[2px] active:shadow-none"
+              className="inline-flex items-center gap-2 rounded-[2px] border-2 border-[var(--celo-cream)] px-4 py-2 text-sm font-medium text-[var(--celo-cream)] shadow-[var(--shadow-brutal-yellow)] transition-[transform,box-shadow,background-color] hover:bg-[var(--celo-cream)]/10 active:translate-x-[2px] active:translate-y-[2px] active:shadow-none"
             >
               <FontAwesomeIcon icon={faGithub} className="h-4 w-4" /> celina-mcp
             </a>
