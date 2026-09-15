@@ -117,7 +117,7 @@ export const TOOL_OVERRIDES: Record<string, ToolDocOverride> = {
   },
   "get_stablecoin_balances": {
     "summary": "Scan fiat-pegged registry stablecoins; omits zero balances by default",
-    "description": "Scan fiat-pegged registry stablecoins (Mento *m, USDT, USDC, etc.) in one call. Omits zero balances by default. Excludes GoodDollar (G$) and WETH — use get_token_balance or GoodDollar tools for those.",
+    "description": "Scan fiat-pegged registry stablecoins (Mento *m, USDT, USDC, USAT, etc.) in one call. Omits zero balances by default. Excludes GoodDollar (G$) and WETH — use get_token_balance or GoodDollar tools for those.",
     "returns": "Array of stablecoin balance entries.",
     "examples": [
       "Which stablecoins does 0x… hold?"

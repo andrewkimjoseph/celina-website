@@ -222,8 +222,8 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
     "name": "get_stablecoin_balances",
     "slug": "get-stablecoin-balances",
     "title": "Get Stablecoin Balances",
-    "summary": "Scan fiat-pegged registry stablecoins (Mento *m, USDT, USDC, etc.",
-    "description": "Scan fiat-pegged registry stablecoins (Mento *m, USDT, USDC, etc.) for an address in one call. Omits zero balances by default. Excludes GoodDollar (G$) and WETH — use get_token_balance or GoodDollar tools for those. Reads on-chain balances for the given address only; GoodDollar connected-wallet identity is not resolved.",
+    "summary": "Scan fiat-pegged registry stablecoins (Mento *m, USDT, USDC, USAT, etc.",
+    "description": "Scan fiat-pegged registry stablecoins (Mento *m, USDT, USDC, USAT, etc.) for an address in one call. Omits zero balances by default. Excludes GoodDollar (G$) and WETH — use get_token_balance or GoodDollar tools for those. Reads on-chain balances for the given address only; GoodDollar connected-wallet identity is not resolved.",
     "kind": "read",
     "category": "Token",
     "inputs": [
@@ -260,7 +260,7 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
         "name": "token",
         "type": "string",
         "required": true,
-        "description": "Celo mainnet token symbol (e.g. CELO, USDm, USDC, USDT)"
+        "description": "Celo mainnet token symbol (e.g. CELO, USDm, USDC, USDT, USAT)"
       }
     ]
   },
@@ -277,7 +277,7 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
         "name": "token",
         "type": "string",
         "required": true,
-        "description": "Celo mainnet token symbol (e.g. CELO, USDm, USDC, USDT)"
+        "description": "Celo mainnet token symbol (e.g. CELO, USDm, USDC, USDT, USAT)"
       },
       {
         "name": "address",
@@ -306,7 +306,7 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
         "name": "token",
         "type": "string",
         "required": false,
-        "description": "Celo mainnet token symbol (e.g. CELO, USDm, USDC, USDT)"
+        "description": "Celo mainnet token symbol (e.g. CELO, USDm, USDC, USDT, USAT)"
       },
       {
         "name": "amount",
@@ -347,7 +347,7 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
         "name": "token",
         "type": "string",
         "required": false,
-        "description": "Celo mainnet token symbol (e.g. CELO, USDm, USDC, USDT)"
+        "description": "Celo mainnet token symbol (e.g. CELO, USDm, USDC, USDT, USAT)"
       },
       {
         "name": "amount",
@@ -562,13 +562,13 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
         "name": "token_in",
         "type": "string",
         "required": true,
-        "description": "Celo mainnet token symbol (e.g. CELO, USDm, USDC, USDT)"
+        "description": "Celo mainnet token symbol (e.g. CELO, USDm, USDC, USDT, USAT)"
       },
       {
         "name": "token_out",
         "type": "string",
         "required": true,
-        "description": "Celo mainnet token symbol (e.g. CELO, USDm, USDC, USDT)"
+        "description": "Celo mainnet token symbol (e.g. CELO, USDm, USDC, USDT, USAT)"
       },
       {
         "name": "amount",
@@ -597,13 +597,13 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
         "name": "token_in",
         "type": "string",
         "required": true,
-        "description": "Celo mainnet token symbol (e.g. CELO, USDm, USDC, USDT)"
+        "description": "Celo mainnet token symbol (e.g. CELO, USDm, USDC, USDT, USAT)"
       },
       {
         "name": "token_out",
         "type": "string",
         "required": true,
-        "description": "Celo mainnet token symbol (e.g. CELO, USDm, USDC, USDT)"
+        "description": "Celo mainnet token symbol (e.g. CELO, USDm, USDC, USDT, USAT)"
       },
       {
         "name": "amount",
@@ -650,13 +650,13 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
         "name": "token_in",
         "type": "string",
         "required": true,
-        "description": "Celo mainnet token symbol (e.g. CELO, USDm, USDC, USDT)"
+        "description": "Celo mainnet token symbol (e.g. CELO, USDm, USDC, USDT, USAT)"
       },
       {
         "name": "token_out",
         "type": "string",
         "required": true,
-        "description": "Celo mainnet token symbol (e.g. CELO, USDm, USDC, USDT)"
+        "description": "Celo mainnet token symbol (e.g. CELO, USDm, USDC, USDT, USAT)"
       },
       {
         "name": "amount",
@@ -2423,13 +2423,13 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
         "name": "token_in",
         "type": "string",
         "required": true,
-        "description": "Celo mainnet token symbol (e.g. CELO, USDm, USDC, USDT)"
+        "description": "Celo mainnet token symbol (e.g. CELO, USDm, USDC, USDT, USAT)"
       },
       {
         "name": "token_out",
         "type": "string",
         "required": true,
-        "description": "Celo mainnet token symbol (e.g. CELO, USDm, USDC, USDT)"
+        "description": "Celo mainnet token symbol (e.g. CELO, USDm, USDC, USDT, USAT)"
       },
       {
         "name": "amount",
@@ -3043,13 +3043,13 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
         "name": "token_in",
         "type": "string",
         "required": true,
-        "description": "Celo mainnet token symbol (e.g. CELO, USDm, USDC, USDT)"
+        "description": "Celo mainnet token symbol (e.g. CELO, USDm, USDC, USDT, USAT)"
       },
       {
         "name": "token_out",
         "type": "string",
         "required": true,
-        "description": "Celo mainnet token symbol (e.g. CELO, USDm, USDC, USDT)"
+        "description": "Celo mainnet token symbol (e.g. CELO, USDm, USDC, USDT, USAT)"
       },
       {
         "name": "amount",
