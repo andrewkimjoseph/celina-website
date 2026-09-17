@@ -4,6 +4,7 @@ import {
   getAmplitudeStats,
   type AmplitudeEventDay,
   type AmplitudeEventTotal,
+  type AmplitudeProjectTotal,
 } from "./amplitude.functions";
 import { browserPersistStorage } from "./persist-storage";
 import { withTimeout } from "./refresh-utils";
@@ -13,6 +14,7 @@ type AmplitudeState = {
   daily: AmplitudeEventDay[];
   dailyWalletsQueried: AmplitudeEventDay[];
   perTool: AmplitudeEventTotal[];
+  projects: AmplitudeProjectTotal[];
   total: number;
   uniqueDevices: number;
   walletsQueried: number;
@@ -30,6 +32,7 @@ export const useAmplitudeStore = create<AmplitudeState>()(
       daily: [],
       dailyWalletsQueried: [],
       perTool: [],
+      projects: [],
       total: 0,
       uniqueDevices: 0,
       walletsQueried: 0,
@@ -66,6 +69,7 @@ export const useAmplitudeStore = create<AmplitudeState>()(
                   daily: result.daily,
                   dailyWalletsQueried: result.dailyWalletsQueried,
                   perTool: result.perTool,
+                  projects: result.projects,
                   total: result.total,
                   uniqueDevices: result.uniqueDevices,
                   walletsQueried: result.walletsQueried,
@@ -89,12 +93,13 @@ export const useAmplitudeStore = create<AmplitudeState>()(
       },
     }),
     {
-      name: "celina-amplitude-v9",
+      name: "celina-amplitude-v10",
       storage: browserPersistStorage,
       partialize: (s) => ({
         daily: s.daily,
         dailyWalletsQueried: s.dailyWalletsQueried,
         perTool: s.perTool,
+        projects: s.projects,
         total: s.total,
         uniqueDevices: s.uniqueDevices,
         walletsQueried: s.walletsQueried,

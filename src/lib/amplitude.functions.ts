@@ -11,10 +11,16 @@ export type AmplitudeEventTotal = {
   count: number;
 };
 
+export type AmplitudeProjectTotal = {
+  project: string;
+  count: number;
+};
+
 export type AmplitudeStatsResult = {
   daily: AmplitudeEventDay[];
   dailyWalletsQueried: AmplitudeEventDay[];
   perTool: AmplitudeEventTotal[];
+  projects: AmplitudeProjectTotal[];
   total: number;
   uniqueDevices: number;
   walletsQueried: number;
@@ -27,6 +33,7 @@ const empty = (error: string | null): AmplitudeStatsResult => ({
   daily: [],
   dailyWalletsQueried: [],
   perTool: [],
+  projects: [],
   total: 0,
   uniqueDevices: 0,
   walletsQueried: 0,
@@ -42,6 +49,7 @@ type WalletsBody = {
   error?: string;
 };
 type ToolsBody = { rows?: AmplitudeEventTotal[]; error?: string };
+type ProjectsBody = { rows?: AmplitudeProjectTotal[]; error?: string };
 type DevicesBody = { uniqueDevices?: number; error?: string };
 type SyncBody = { lastSyncedAt?: string | null; error?: string };
 
@@ -49,11 +57,12 @@ export const getAmplitudeStats = createServerFn({ method: "GET" }).handler(
   async (): Promise<AmplitudeStatsResult> => {
     const base = celinaApiBaseUrl();
     try {
-      const [dailyRes, walletsRes, toolsRes, devicesRes, syncRes] =
+      const [dailyRes, walletsRes, toolsRes, projectsRes, devicesRes, syncRes] =
         await Promise.all([
           fetch(`${base}/offchain/daily`),
           fetch(`${base}/offchain/wallets`),
           fetch(`${base}/offchain/tools`),
+          fetch(`${base}/offchain/projects`),
           fetch(`${base}/offchain/devices`),
           fetch(`${base}/offchain/sync`),
         ]);
@@ -61,6 +70,7 @@ export const getAmplitudeStats = createServerFn({ method: "GET" }).handler(
         dailyRes,
         walletsRes,
         toolsRes,
+        projectsRes,
         devicesRes,
         syncRes,
       ].find((res) => !res.ok);
@@ -68,18 +78,20 @@ export const getAmplitudeStats = createServerFn({ method: "GET" }).handler(
         throw new Error(`Celina API ${failed.status}`);
       }
 
-      const [daily, wallets, tools, devices, sync] = (await Promise.all([
+      const [daily, wallets, tools, projects, devices, sync] = (await Promise.all([
         dailyRes.json(),
         walletsRes.json(),
         toolsRes.json(),
+        projectsRes.json(),
         devicesRes.json(),
         syncRes.json(),
-      ])) as [DailyBody, WalletsBody, ToolsBody, DevicesBody, SyncBody];
+      ])) as [DailyBody, WalletsBody, ToolsBody, ProjectsBody, DevicesBody, SyncBody];
 
       const error =
         daily.error ||
         wallets.error ||
         tools.error ||
+        projects.error ||
         devices.error ||
         sync.error;
       if (error && (!daily.rows || daily.rows.length === 0)) {
@@ -90,6 +102,7 @@ export const getAmplitudeStats = createServerFn({ method: "GET" }).handler(
         daily: daily.rows ?? [],
         dailyWalletsQueried: wallets.daily ?? [],
         perTool: tools.rows ?? [],
+        projects: projects.rows ?? [],
         total: daily.total ?? 0,
         uniqueDevices: devices.uniqueDevices ?? 0,
         walletsQueried: wallets.total ?? 0,

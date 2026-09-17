@@ -56,7 +56,7 @@ export const Route = createFileRoute("/stats/offchain")({
 });
 
 function OffchainPage() {
-  const { daily, dailyWalletsQueried, perTool, walletsQueried, total, loading, lastSyncedAt } =
+  const { daily, dailyWalletsQueried, perTool, projects, walletsQueried, total, loading, lastSyncedAt } =
     useAmplitudeStore();
   const agg = useMemo(() => aggregateAmplitude(daily, perTool), [daily, perTool]);
   const queriedWalletsDaily = useMemo(
@@ -82,6 +82,15 @@ function OffchainPage() {
       timeStyle: "short",
     });
   }, [lastSyncedAt]);
+  const projectShare = useMemo(() => {
+    const sorted = [...projects].sort((a, b) => b.count - a.count);
+    const top = sorted.slice(0, 6);
+    const rest = sorted.slice(6).reduce((sum, row) => sum + row.count, 0);
+    return [
+      ...top.map((row) => ({ name: row.project, value: row.count })),
+      ...(rest > 0 ? [{ name: "Other", value: rest }] : []),
+    ];
+  }, [projects]);
 
   return (
     <>
@@ -118,7 +127,7 @@ function OffchainPage() {
           <KpiCard label="Wallets queried" value={walletsQueried.toLocaleString()} />
           <KpiCard label="Avg / active day" value={agg.avgPerActiveDay.toLocaleString()} />
           <KpiCard label="Peak day" value={agg.peakDay?.count.toLocaleString() ?? "—"} />
-          <KpiCard label="Unique tools" value={agg.topTools.length.toLocaleString()} />
+          <KpiCard label="Projects" value={projects.length.toLocaleString()} />
         </div>
       </section>
 
@@ -285,6 +294,57 @@ function OffchainPage() {
                   strokeWidth={2}
                 >
                   {agg.share.map((_, i) => {
+                    const palette = [yellow, forest, lineStroke, "var(--muted-foreground)", "var(--border)", "var(--celo-forest)"];
+                    return <Cell key={i} fill={palette[i % palette.length]} />;
+                  })}
+                </Pie>
+              </PieChart>
+            </ResponsiveContainer>
+          </ChartCard>
+
+          <ChartCard title="Calls by project" subtitle="90 days">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart
+                data={projects}
+                layout="vertical"
+                margin={{ top: 4, right: 16, left: 0, bottom: 0 }}
+              >
+                <CartesianGrid stroke="var(--border)" strokeDasharray="3 3" horizontal={false} />
+                <XAxis type="number" stroke="var(--muted-foreground)" fontSize={11} tickLine={false} axisLine={false} />
+                <YAxis type="category" dataKey="project" stroke="var(--muted-foreground)" fontSize={11} tickLine={false} axisLine={false} width={190} />
+                <Tooltip contentStyle={tooltipStyle} itemStyle={tooltipItemStyle} labelStyle={tooltipLabelStyle} cursor={{ fill: "var(--muted)" }} />
+                <Bar dataKey="count" name="Calls" radius={[0, 0, 0, 0]}>
+                  {projects.map((_, i) => (
+                    <Cell key={i} fill={i === 0 ? yellow : forest} />
+                  ))}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          </ChartCard>
+
+          <ChartCard title="Project share" subtitle="top 6 + other">
+            <ResponsiveContainer width="100%" height="100%">
+              <PieChart>
+                <Tooltip contentStyle={tooltipStyle} itemStyle={tooltipItemStyle} labelStyle={tooltipLabelStyle} />
+                <Legend
+                  wrapperStyle={{ fontSize: 11 }}
+                  formatter={(value) => (
+                    <span style={{ color: "var(--foreground)" }}>{value}</span>
+                  )}
+                />
+                <Pie
+                  data={projectShare}
+                  dataKey="value"
+                  nameKey="name"
+                  cx="50%"
+                  cy="50%"
+                  outerRadius={80}
+                  innerRadius={48}
+                  paddingAngle={2}
+                  stroke="var(--background)"
+                  strokeWidth={2}
+                >
+                  {projectShare.map((_, i) => {
                     const palette = [yellow, forest, lineStroke, "var(--muted-foreground)", "var(--border)", "var(--celo-forest)"];
                     return <Cell key={i} fill={palette[i % palette.length]} />;
                   })}
