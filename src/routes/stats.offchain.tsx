@@ -55,6 +55,10 @@ export const Route = createFileRoute("/stats/offchain")({
   component: OffchainPage,
 });
 
+function displayProjectId(id: string): string {
+  return id.replace(/^andrewkimjoseph_/, "");
+}
+
 function OffchainPage() {
   const { daily, dailyWalletsQueried, perTool, projects, walletsQueried, total, loading, lastSyncedAt } =
     useAmplitudeStore();
@@ -82,15 +86,23 @@ function OffchainPage() {
       timeStyle: "short",
     });
   }, [lastSyncedAt]);
+  const labeledProjects = useMemo(
+    () =>
+      projects.map((row) => ({
+        ...row,
+        project: displayProjectId(row.project),
+      })),
+    [projects],
+  );
   const projectShare = useMemo(() => {
-    const sorted = [...projects].sort((a, b) => b.count - a.count);
+    const sorted = [...labeledProjects].sort((a, b) => b.count - a.count);
     const top = sorted.slice(0, 6);
     const rest = sorted.slice(6).reduce((sum, row) => sum + row.count, 0);
     return [
       ...top.map((row) => ({ name: row.project, value: row.count })),
       ...(rest > 0 ? [{ name: "Other", value: rest }] : []),
     ];
-  }, [projects]);
+  }, [labeledProjects]);
 
   return (
     <>
@@ -305,16 +317,16 @@ function OffchainPage() {
           <ChartCard title="Calls by project" subtitle="90 days">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart
-                data={projects}
+                data={labeledProjects}
                 layout="vertical"
                 margin={{ top: 4, right: 16, left: 0, bottom: 0 }}
               >
                 <CartesianGrid stroke="var(--border)" strokeDasharray="3 3" horizontal={false} />
                 <XAxis type="number" stroke="var(--muted-foreground)" fontSize={11} tickLine={false} axisLine={false} />
-                <YAxis type="category" dataKey="project" stroke="var(--muted-foreground)" fontSize={11} tickLine={false} axisLine={false} width={190} />
+                <YAxis type="category" dataKey="project" stroke="var(--muted-foreground)" fontSize={11} tickLine={false} axisLine={false} width={140} />
                 <Tooltip contentStyle={tooltipStyle} itemStyle={tooltipItemStyle} labelStyle={tooltipLabelStyle} cursor={{ fill: "var(--muted)" }} />
                 <Bar dataKey="count" name="Calls" radius={[0, 0, 0, 0]}>
-                  {projects.map((_, i) => (
+                  {labeledProjects.map((_, i) => (
                     <Cell key={i} fill={i === 0 ? yellow : forest} />
                   ))}
                 </Bar>
