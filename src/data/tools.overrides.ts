@@ -204,9 +204,18 @@ export const TOOL_OVERRIDES: Record<string, ToolDocOverride> = {
       "Claim today's GoodDollar UBI."
     ]
   },
+  "get_mento_swap_pairs": {
+    "summary": "Which tokens have a real Mento FX route",
+    "description": "List tradable Mento FX registry-token pairs on Celo mainnet from the same route graph as get_mento_fx_quote. Call this before listing Mento pairs — do not invent them. Pass token to filter (e.g. EURm). G$ ↔ USDm is not Mento FX — use get_gooddollar_reserve_quote.",
+    "returns": "{ network, protocol: \"mento_fx\", token?, pairs: [{ token_a, token_b, hops }], counterparts? }",
+    "examples": [
+      "Which tokens can I swap EURm with on Mento?",
+      "List Mento FX pairs."
+    ]
+  },
   "get_mento_fx_quote": {
     "summary": "Oracle-priced FX quote between Mento stables",
-    "description": "Get an expected Mento FX conversion output for a token pair on mainnet (e.g. USDm → EURm), priced via the Mento oracle. Read-only and wallet-free. G$ ↔ USDm is not Mento FX — use get_gooddollar_reserve_quote for that pair.",
+    "description": "Get an expected Mento FX conversion output for a token pair on mainnet (e.g. USDm → EURm), priced via the Mento oracle. Read-only and wallet-free. Call get_mento_swap_pairs first if you are unsure the pair exists. G$ ↔ USDm is not Mento FX — use get_gooddollar_reserve_quote for that pair.",
     "returns": "{ amountIn, amountOut, rate, route }",
     "examples": [
       "Quote 100 USDm to EURm via Mento."
@@ -228,9 +237,18 @@ export const TOOL_OVERRIDES: Record<string, ToolDocOverride> = {
       "Convert 100 USDm to EURm."
     ]
   },
+  "get_uniswap_swap_pairs": {
+    "summary": "Which tokens have a Uniswap v4 pool or 2-hop path",
+    "description": "List Uniswap v4 registry-token pairs on Celo mainnet (direct pools and 2-hop routes). Call this before listing Uniswap pairs — do not invent them. Pass token to filter. For G$ ↔ USDm, use get_gooddollar_reserve_quote — Uniswap pools for that pair are typically illiquid.",
+    "returns": "{ network, protocol: \"uniswap_v4\", token?, pairs: [{ token_a, token_b, hops }], counterparts?, source }",
+    "examples": [
+      "Which tokens can I swap EURm with on Uniswap?",
+      "List Uniswap v4 pairs for USDC."
+    ]
+  },
   "get_uniswap_quote": {
     "summary": "Uniswap v4 expected output for a token pair",
-    "description": "Get an expected Uniswap v4 swap output on Celo mainnet for a token pair (e.g. G$ → USDT, USDC → USDT). Read-only and wallet-free. CELO swaps route through WCELO pools. For G$ ↔ USDm, use get_gooddollar_reserve_quote — Uniswap pools for that pair are typically illiquid.",
+    "description": "Get an expected Uniswap v4 swap output on Celo mainnet for a token pair (e.g. G$ → USDT, USDC → USDT). Read-only and wallet-free. Call get_uniswap_swap_pairs first if you are unsure the pair exists. CELO swaps route through WCELO pools. For G$ ↔ USDm, use get_gooddollar_reserve_quote — Uniswap pools for that pair are typically illiquid.",
     "returns": "{ amountIn, expectedOut, route, pool }",
     "examples": [
       "Quote 1000 G$ to USDT on Uniswap.",

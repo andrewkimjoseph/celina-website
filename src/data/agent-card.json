@@ -2,7 +2,7 @@
   "name": "Celina",
   "description": "Celina is a third-party, open-source stack that gives an LLM read, prepare, and execute access to Celo mainnet through an SDK, an MCP server, and a REST API. This hosted agent exposes read-only access to balances, DeFi quotes, governance, staking, NFTs, and Self Agent ID verification via structured tool calls.",
   "protocolVersion": "0.3.0",
-  "version": "0.25.24",
+  "version": "0.26.3",
   "url": "https://mcp.usecelina.xyz/a2a",
   "skills": [
     {
@@ -130,7 +130,7 @@
     {
       "id": "mento-fx",
       "name": "Mento FX quotes",
-      "description": "Mento FX quotes on Celo mainnet. Allowed tools: get_mento_fx_quote.",
+      "description": "Mento FX quotes on Celo mainnet. Allowed tools: get_mento_swap_pairs, get_mento_fx_quote.",
       "tags": [
         "celo",
         "mento",
@@ -138,7 +138,7 @@
         "swap"
       ],
       "examples": [
-        "Send a DataPart (application/vnd.celina.tool+json) with {\"tool\":\"get_mento_fx_quote\",\"arguments\":{...}}."
+        "Send a DataPart (application/vnd.celina.tool+json) with {\"tool\":\"get_mento_swap_pairs\",\"arguments\":{...}}."
       ]
     },
     {
@@ -185,7 +185,7 @@
     {
       "id": "uniswap",
       "name": "Uniswap v4 quotes",
-      "description": "Uniswap v4 quotes on Celo mainnet. Allowed tools: get_uniswap_quote.",
+      "description": "Uniswap v4 quotes on Celo mainnet. Allowed tools: get_uniswap_swap_pairs, get_uniswap_quote.",
       "tags": [
         "celo",
         "uniswap",
@@ -193,7 +193,7 @@
         "amm"
       ],
       "examples": [
-        "Send a DataPart (application/vnd.celina.tool+json) with {\"tool\":\"get_uniswap_quote\",\"arguments\":{...}}."
+        "Send a DataPart (application/vnd.celina.tool+json) with {\"tool\":\"get_uniswap_swap_pairs\",\"arguments\":{...}}."
       ]
     }
   ],

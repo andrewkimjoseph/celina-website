@@ -196,7 +196,7 @@ function SdkPage() {
           <CapabilityCard
             icon={faMagnifyingGlass}
             title="Reads"
-            body="Token balances, Mento FX quotes, GoodDollar reserve quotes (G$ ↔ USDm), governance proposals, locked CELO and staking/delegation info, browse governance delegates (Celo Mondo directory), humanness status, ENS resolution."
+            body="Token balances, Mento FX and Uniswap pair lists and quotes, GoodDollar reserve quotes (G$ ↔ USDm), governance proposals, locked CELO and staking/delegation info, browse governance delegates (Celo Mondo directory), humanness status, ENS resolution."
           />
           <CapabilityCard
             icon={faGaugeHigh}

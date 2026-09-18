@@ -73,7 +73,7 @@ function A2APage() {
         <div className="max-w-3xl space-y-4 text-base leading-relaxed text-muted-foreground">
           <p>
             Celina exposes a <strong className="text-foreground">read-only</strong> A2A server
-            with {HOSTED_TOOL_COUNT} hosted tools (balances, Mento FX quotes, GoodDollar reserve,
+            with {HOSTED_TOOL_COUNT} hosted tools (balances, Mento/Uniswap pair lists and quotes, GoodDollar reserve,
             governance, staking, Self verification, and more). Send structured tool invocations in
             a message <code className="rounded bg-secondary px-1 py-0.5 text-sm">DataPart</code> —
             natural-language routing is not required on v1.
