@@ -289,7 +289,7 @@ function OffchainPage() {
             </ResponsiveContainer>
           </ChartCard>
 
-          <ChartCard title="Tool share" subtitle="top 6 + other">
+          <ChartCard title="Tool share" subtitle="top 6">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Tooltip contentStyle={tooltipStyle} itemStyle={tooltipItemStyle} labelStyle={tooltipLabelStyle} />

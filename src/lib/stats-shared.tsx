@@ -249,13 +249,10 @@ export function aggregateAmplitude(
   }
   const dayOfWeek = dowNames.map((name, i) => ({ name, count: dowCounts[i] }));
 
-  const sortedTools = [...perTool].sort((a, b) => b.count - a.count);
-  const topShare = sortedTools.slice(0, 6);
-  const restTotal = sortedTools.slice(6).reduce((s, t) => s + t.count, 0);
-  const share = [
-    ...topShare.map((t) => ({ name: t.event, value: t.count })),
-    ...(restTotal > 0 ? [{ name: "Other", value: restTotal }] : []),
-  ];
+  const share = [...perTool]
+    .sort((a, b) => b.count - a.count)
+    .slice(0, 6)
+    .map((t) => ({ name: t.event, value: t.count }));
 
   const activeDays = sorted.filter((r) => r.count > 0).length;
   const avgPerActiveDay = activeDays
