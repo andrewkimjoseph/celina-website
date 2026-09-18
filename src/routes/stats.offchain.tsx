@@ -56,7 +56,11 @@ export const Route = createFileRoute("/stats/offchain")({
 });
 
 function displayProjectId(id: string): string {
-  return id.replace(/^andrewkimjoseph_/, "");
+  const stripped = id.replace(/^andrewkimjoseph_/, "");
+  if (stripped === "thegoodpax" || stripped === "thegoodpaxapp") {
+    return "the_good_pax_app";
+  }
+  return stripped;
 }
 
 function OffchainPage() {
@@ -86,23 +90,25 @@ function OffchainPage() {
       timeStyle: "short",
     });
   }, [lastSyncedAt]);
-  const labeledProjects = useMemo(
+  const labeledProjects = useMemo(() => {
+    const totals = new Map<string, number>();
+    for (const row of projects) {
+      const project = displayProjectId(row.project);
+      if (project === "g_usdm_quote") continue;
+      totals.set(project, (totals.get(project) ?? 0) + row.count);
+    }
+    return [...totals.entries()]
+      .map(([project, count]) => ({ project, count }))
+      .sort((a, b) => b.count - a.count);
+  }, [projects]);
+  const projectShare = useMemo(
     () =>
-      projects.map((row) => ({
-        ...row,
-        project: displayProjectId(row.project),
+      labeledProjects.slice(0, 6).map((row) => ({
+        name: row.project,
+        value: row.count,
       })),
-    [projects],
+    [labeledProjects],
   );
-  const projectShare = useMemo(() => {
-    const sorted = [...labeledProjects].sort((a, b) => b.count - a.count);
-    const top = sorted.slice(0, 6);
-    const rest = sorted.slice(6).reduce((sum, row) => sum + row.count, 0);
-    return [
-      ...top.map((row) => ({ name: row.project, value: row.count })),
-      ...(rest > 0 ? [{ name: "Other", value: rest }] : []),
-    ];
-  }, [labeledProjects]);
 
   return (
     <>
@@ -139,7 +145,7 @@ function OffchainPage() {
           <KpiCard label="Wallets queried" value={walletsQueried.toLocaleString()} />
           <KpiCard label="Avg / active day" value={agg.avgPerActiveDay.toLocaleString()} />
           <KpiCard label="Peak day" value={agg.peakDay?.count.toLocaleString() ?? "—"} />
-          <KpiCard label="Projects" value={projects.length.toLocaleString()} />
+          <KpiCard label="Projects" value={labeledProjects.length.toLocaleString()} />
         </div>
       </section>
 
@@ -334,7 +340,7 @@ function OffchainPage() {
             </ResponsiveContainer>
           </ChartCard>
 
-          <ChartCard title="Project share" subtitle="top 6 + other">
+          <ChartCard title="Project share" subtitle="top 6">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Tooltip contentStyle={tooltipStyle} itemStyle={tooltipItemStyle} labelStyle={tooltipLabelStyle} />
