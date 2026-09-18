@@ -1,19 +1,43 @@
+"use client";
+
 import { useState, type ReactNode } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faCopy } from "@fortawesome/free-solid-svg-icons";
+import { copyToClipboard } from "@/lib/copy-to-clipboard";
 
-export function CopyButton({ text }: { text: string }) {
+const COPY_SIZE_CLASS = {
+  default:
+    "px-2.5 py-1 text-xs shadow-[var(--shadow-brutal-sm)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none",
+  chip: "px-3 py-1.5 text-sm",
+  sm: "px-2 py-1 text-[11px]",
+} as const;
+
+const COPY_ICON_CLASS = {
+  default: "h-3.5 w-3.5",
+  chip: "h-3.5 w-3.5",
+  sm: "h-3 w-3",
+} as const;
+
+export function CopyButton({
+  text,
+  size = "default",
+}: {
+  text: string;
+  size?: keyof typeof COPY_SIZE_CLASS;
+}) {
   const [copied, setCopied] = useState(false);
   return (
     <button
-      onClick={() => {
-        navigator.clipboard.writeText(text);
+      type="button"
+      onClick={async () => {
+        const ok = await copyToClipboard(text);
+        if (!ok) return;
         setCopied(true);
         setTimeout(() => setCopied(false), 1600);
       }}
-      className="inline-flex shrink-0 items-center gap-1.5 rounded-[2px] border-2 border-foreground bg-background px-2.5 py-1 text-xs font-medium text-foreground/80 shadow-[var(--shadow-brutal-sm)] transition-[transform,box-shadow,background-color,color] hover:bg-accent hover:text-accent-foreground active:translate-x-[1px] active:translate-y-[1px] active:shadow-none"
+      className={`inline-flex shrink-0 items-center gap-1.5 rounded-[2px] border-2 border-foreground bg-background font-medium text-foreground/80 transition-[transform,box-shadow,background-color,color] hover:bg-accent hover:text-accent-foreground ${COPY_SIZE_CLASS[size]}`}
     >
-      <FontAwesomeIcon icon={copied ? faCheck : faCopy} className="h-3.5 w-3.5" />
+      <FontAwesomeIcon icon={copied ? faCheck : faCopy} className={COPY_ICON_CLASS[size]} />
       {copied ? "Copied" : "Copy"}
     </button>
   );

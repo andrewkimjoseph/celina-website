@@ -4,14 +4,12 @@ import {
   faArrowLeft,
   faArrowUpRightFromSquare,
   faTerminal,
-  faCopy,
-  faCheck,
   faWallet,
 } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
 import { findTool, categorySlug, getToolAvailability, availabilityLabel, type ToolDoc } from "@/data/tools";
 import { SiteHeader } from "@/components/site-header";
 import { PageCrumbs } from "@/components/marketing/page-hero";
+import { CopyButton } from "@/components/marketing/code-block";
 import { kindBadge } from "@/components/tools/tool-card";
 
 const CELESTE_URL = "https://celeste.usecelina.xyz";
@@ -54,23 +52,6 @@ export const Route = createFileRoute("/tools/$category/$toolSlug")({
     </div>
   ),
 });
-
-function CopyInline({ text }: { text: string }) {
-  const [copied, setCopied] = useState(false);
-  return (
-    <button
-      onClick={() => {
-        navigator.clipboard.writeText(text);
-        setCopied(true);
-        setTimeout(() => setCopied(false), 1400);
-      }}
-      className="inline-flex items-center gap-1.5 rounded-[2px] border-2 border-foreground bg-background px-2 py-1 text-[11px] font-medium text-foreground/70 transition hover:bg-accent hover:text-accent-foreground"
-    >
-      <FontAwesomeIcon icon={copied ? faCheck : faCopy} className="h-3 w-3" />
-      {copied ? "Copied" : "Copy"}
-    </button>
-  );
-}
 
 function ToolPage() {
   const { tool } = Route.useLoaderData() as { tool: ToolDoc };
@@ -119,11 +100,11 @@ function ToolPage() {
           {tool.title}
         </h1>
 
-        <div className="mt-5 flex flex-wrap items-center gap-2">
-          <code className="rounded-[2px] border-2 border-foreground bg-[var(--celo-ink)] px-3 py-1.5 font-mono text-sm font-semibold text-[var(--celo-cream)]">
+        <div className="mt-5 flex flex-wrap items-stretch gap-2">
+          <code className="inline-flex items-center rounded-[2px] border-2 border-foreground bg-[var(--celo-ink)] px-3 py-1.5 font-mono text-sm font-semibold text-[var(--celo-cream)]">
             {tool.name}
           </code>
-          <CopyInline text={tool.name} />
+          <CopyButton text={tool.name} size="chip" />
         </div>
 
         <p className="mt-6 max-w-2xl text-lg leading-relaxed text-muted-foreground">
@@ -218,7 +199,7 @@ function ToolPage() {
                   className="flex items-center justify-between gap-3 rounded-[2px] border-2 border-dashed border-[var(--celo-forest)] bg-muted/40 px-4 py-3 text-sm italic text-foreground/80 dark:border-[var(--celo-yellow)]"
                 >
                   <span>{e}</span>
-                  <CopyInline text={e} />
+                  <CopyButton text={e} size="sm" />
                 </li>
               ))}
             </ul>
