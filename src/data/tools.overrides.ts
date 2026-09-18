@@ -242,8 +242,8 @@ export const TOOL_OVERRIDES: Record<string, ToolDocOverride> = {
     "description": "List Uniswap v4 registry-token pairs on Celo mainnet (direct pools and 2-hop routes). Call this before listing Uniswap pairs — do not invent them. Pass token to filter. For G$ ↔ USDm, use get_gooddollar_reserve_quote — Uniswap pools for that pair are typically illiquid.",
     "returns": "{ network, protocol: \"uniswap_v4\", token?, pairs: [{ token_a, token_b, hops }], counterparts?, source }",
     "examples": [
-      "Which tokens can I swap EURm with on Uniswap?",
-      "List Uniswap v4 pairs for USDC."
+      "Which tokens can I swap USDC with on Uniswap?",
+      "List Uniswap v4 pairs for G$."
     ]
   },
   "get_uniswap_quote": {
