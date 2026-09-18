@@ -144,8 +144,8 @@ function OverviewPage() {
                 Off-chain · Amplitude
               </span>
             }
-            title="MCP tool calls"
-            description="Reads, registry lookups, and other non-chain tool invocations from LLMs — logged to Amplitude."
+            title="Off-chain tool calls"
+            description="Reads, registry lookups, and other non-chain tool invocations — logged from MCP, apps, the API, and the bot."
           >
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={ampAgg.daily.slice(-90)} margin={{ top: 8, right: 8, left: 0, bottom: 0 }}>

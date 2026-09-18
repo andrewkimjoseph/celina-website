@@ -200,7 +200,7 @@ export function StackProductsSection() {
           icon={faChartLine}
           title="Stats"
           subtitle="Live metrics"
-          body="On-chain activity, MCP tool calls, unique wallets, and npm package downloads."
+          body="On-chain activity, off-chain tool calls, and npm package downloads."
         >
           <Link
             to="/stats"

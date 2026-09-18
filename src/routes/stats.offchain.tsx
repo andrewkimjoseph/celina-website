@@ -42,13 +42,13 @@ export const Route = createFileRoute("/stats/offchain")({
       {
         name: "description",
         content:
-          "Off-chain Celina MCP tool-call stats — read tools, wallets queried, and registry queries logged to Amplitude.",
+          "Off-chain Celina tool-call stats — read tools, wallets queried, and registry queries.",
       },
       { property: "og:title", content: "Celina stats — Off-chain tool calls" },
       {
         property: "og:description",
         content:
-          "Off-chain Celina MCP tool-call stats — read tools, wallets queried, and registry queries logged to Amplitude.",
+          "Off-chain Celina tool-call stats — read tools, wallets queried, and registry queries.",
       },
     ],
   }),
@@ -122,10 +122,10 @@ function OffchainPage() {
             className="mt-3 text-xl font-bold tracking-tight break-words sm:text-2xl"
             style={{ fontFamily: "var(--font-display)" }}
           >
-            MCP tool calls — reads, lookups & registry queries
+            Off-chain tool calls — reads, lookups & registry queries
           </h2>
           <p className="mt-2 text-sm leading-relaxed text-muted-foreground sm:mt-1 sm:text-xs sm:leading-normal">
-            Every time an LLM invokes a Celina read tool, it&apos;s logged to Amplitude. Wallets queried counts distinct addresses passed into wallet-scoped read tools — not on-chain unique users.
+            Every Celina read-tool invocation is counted — MCP, apps, the API, and the bot. Wallets queried counts distinct addresses passed into wallet-scoped read tools — not on-chain unique users.
           </p>
           {lastUpdatedLabel && (
             <p className="mt-2 text-xs text-muted-foreground/80 sm:mt-1 sm:text-[11px]">
