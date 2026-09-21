@@ -95,15 +95,15 @@ function OverviewPage() {
     <>
       <section className="mx-auto max-w-6xl px-4 pb-6 sm:px-6">
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-7">
-          <KpiCard label="On-chain total" value={onchainUnavailable ? "—" : agg.totalTx.toLocaleString()} />
-          <KpiCard label="On-chain today" value={onchainUnavailable ? "—" : agg.todayCount.toLocaleString()} />
-          <KpiCard label="Off-chain total" value={ampTotal.toLocaleString()} />
-          <KpiCard label="Off-chain 7d" value={ampAgg.last7.toLocaleString()} />
-          <KpiCard label="Wallets queried" value={walletsQueried.toLocaleString()} />
+          <KpiCard label={"On-chain\nTotal"} value={onchainUnavailable ? "—" : agg.totalTx.toLocaleString()} />
+          <KpiCard label={"On-chain\nToday"} value={onchainUnavailable ? "—" : agg.todayCount.toLocaleString()} />
+          <KpiCard label={"Off-chain\nTotal"} value={ampTotal.toLocaleString()} />
+          <KpiCard label={"Off-chain\n7d"} value={ampAgg.last7.toLocaleString()} />
+          <KpiCard label={"Wallets\nQueried"} value={walletsQueried.toLocaleString()} />
           {npmHydrated ? (
             <>
-              <KpiCard label="npm 365d" value={npmAgg.total365.toLocaleString()} />
-              <KpiCard label="npm last 7d" value={npmAgg.last7.toLocaleString()} />
+              <KpiCard label={"npm\n365d"} value={npmAgg.total365.toLocaleString()} />
+              <KpiCard label={"npm\nLast 7d"} value={npmAgg.last7.toLocaleString()} />
             </>
           ) : (
             <>
