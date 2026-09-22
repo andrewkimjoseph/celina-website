@@ -2,13 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChartLine } from "@fortawesome/free-solid-svg-icons";
-import { categorySlug, findToolByName } from "@/data/tools";
-import {
-  Tooltip as ToolUrlTooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+import { findToolByName } from "@/data/tools";
 import { useAmplitudeStore } from "@/lib/amplitude-store";
 import { cn } from "@/lib/utils";
 import {
@@ -52,20 +46,14 @@ function ToolCallName({ name }: { name: string }) {
   if (!tool) {
     return <span className="font-mono text-xs text-foreground/80">{name}</span>;
   }
-  const canonical = `/tools/${categorySlug(tool.category)}/${tool.slug}`;
   return (
-    <ToolUrlTooltip>
-      <TooltipTrigger asChild>
-        <Link
-          to="/tools/$category"
-          params={{ category: tool.slug }}
-          className="font-mono text-xs text-foreground/80 hover:underline"
-        >
-          {name}
-        </Link>
-      </TooltipTrigger>
-      <TooltipContent>{canonical}</TooltipContent>
-    </ToolUrlTooltip>
+    <Link
+      to="/tools/$category"
+      params={{ category: tool.slug }}
+      className="font-mono text-xs text-foreground/80 hover:underline"
+    >
+      {name}
+    </Link>
   );
 }
 
@@ -446,8 +434,7 @@ function OffchainPage() {
           </span>
         </div>
 
-        <TooltipProvider delayDuration={200}>
-          <div className="overflow-hidden rounded-[2px] border-2 border-foreground bg-card shadow-[var(--shadow-brutal)]">
+        <div className="overflow-hidden rounded-[2px] border-2 border-foreground bg-card shadow-[var(--shadow-brutal)]">
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead className="border-b-2 border-foreground bg-muted/40 text-left text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
@@ -549,8 +536,7 @@ function OffchainPage() {
               )}
             </div>
           )}
-          </div>
-        </TooltipProvider>
+        </div>
       </section>
     </>
   );
