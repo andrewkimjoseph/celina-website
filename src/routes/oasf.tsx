@@ -85,7 +85,7 @@ function OasfPage() {
           badge="OASF · Open Agentic Schema Framework"
           title="Celina OASF discovery"
           crumbs={[{ label: "Celina", to: "/" }, { label: "OASF" }]}
-          description="Standardized skills and domains for ERC-8004 registries. Copy the values below into 8004scan or similar UIs — execution still goes through MCP and A2A on the MCP host."
+          description="Standardized skills and domains for ERC-8004 registries. Copy the values below into 8004scan or similar UIs — execution still goes through the remote MCP and A2A."
         />
       </PageHeroSection>
 
