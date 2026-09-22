@@ -1,5 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
-import { celinaApiBaseUrl } from "./celina-api.ts";
+import { statsApiBaseUrl } from "./stats-api.ts";
 
 export type AmplitudeEventDay = {
   day: string;
@@ -16,11 +16,19 @@ export type AmplitudeProjectTotal = {
   count: number;
 };
 
+export type OffchainEventRow = {
+  insert_id: string;
+  event_time: string;
+  event_type: string;
+  device_id: string;
+};
+
 export type AmplitudeStatsResult = {
   daily: AmplitudeEventDay[];
   dailyWalletsQueried: AmplitudeEventDay[];
   perTool: AmplitudeEventTotal[];
   projects: AmplitudeProjectTotal[];
+  events: OffchainEventRow[];
   total: number;
   uniqueDevices: number;
   walletsQueried: number;
@@ -34,6 +42,7 @@ const empty = (error: string | null): AmplitudeStatsResult => ({
   dailyWalletsQueried: [],
   perTool: [],
   projects: [],
+  events: [],
   total: 0,
   uniqueDevices: 0,
   walletsQueried: 0,
@@ -52,12 +61,13 @@ type ToolsBody = { rows?: AmplitudeEventTotal[]; error?: string };
 type ProjectsBody = { rows?: AmplitudeProjectTotal[]; error?: string };
 type DevicesBody = { uniqueDevices?: number; error?: string };
 type SyncBody = { lastSyncedAt?: string | null; error?: string };
+type EventsBody = { rows?: OffchainEventRow[]; lastSyncedAt?: string | null; error?: string };
 
 export const getAmplitudeStats = createServerFn({ method: "GET" }).handler(
   async (): Promise<AmplitudeStatsResult> => {
-    const base = celinaApiBaseUrl();
+    const base = statsApiBaseUrl();
     try {
-      const [dailyRes, walletsRes, toolsRes, projectsRes, devicesRes, syncRes] =
+      const [dailyRes, walletsRes, toolsRes, projectsRes, devicesRes, syncRes, eventsRes] =
         await Promise.all([
           fetch(`${base}/offchain/daily`),
           fetch(`${base}/offchain/wallets`),
@@ -65,6 +75,7 @@ export const getAmplitudeStats = createServerFn({ method: "GET" }).handler(
           fetch(`${base}/offchain/projects`),
           fetch(`${base}/offchain/devices`),
           fetch(`${base}/offchain/sync`),
+          fetch(`${base}/offchain/events`),
         ]);
       const failed = [
         dailyRes,
@@ -73,19 +84,21 @@ export const getAmplitudeStats = createServerFn({ method: "GET" }).handler(
         projectsRes,
         devicesRes,
         syncRes,
+        eventsRes,
       ].find((res) => !res.ok);
       if (failed) {
-        throw new Error(`Celina API ${failed.status}`);
+        throw new Error(`Stats API ${failed.status}`);
       }
 
-      const [daily, wallets, tools, projects, devices, sync] = (await Promise.all([
+      const [daily, wallets, tools, projects, devices, sync, events] = (await Promise.all([
         dailyRes.json(),
         walletsRes.json(),
         toolsRes.json(),
         projectsRes.json(),
         devicesRes.json(),
         syncRes.json(),
-      ])) as [DailyBody, WalletsBody, ToolsBody, ProjectsBody, DevicesBody, SyncBody];
+        eventsRes.json(),
+      ])) as [DailyBody, WalletsBody, ToolsBody, ProjectsBody, DevicesBody, SyncBody, EventsBody];
 
       const error =
         daily.error ||
@@ -93,7 +106,8 @@ export const getAmplitudeStats = createServerFn({ method: "GET" }).handler(
         tools.error ||
         projects.error ||
         devices.error ||
-        sync.error;
+        sync.error ||
+        events.error;
       if (error && (!daily.rows || daily.rows.length === 0)) {
         return empty(error);
       }
@@ -103,6 +117,7 @@ export const getAmplitudeStats = createServerFn({ method: "GET" }).handler(
         dailyWalletsQueried: wallets.daily ?? [],
         perTool: tools.rows ?? [],
         projects: projects.rows ?? [],
+        events: events.rows ?? [],
         total: daily.total ?? 0,
         uniqueDevices: devices.uniqueDevices ?? 0,
         walletsQueried: wallets.total ?? 0,

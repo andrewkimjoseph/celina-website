@@ -42,6 +42,39 @@ export const tooltipStyle = {
 export const tooltipItemStyle = { color: "var(--foreground)" };
 export const tooltipLabelStyle = { color: "var(--foreground)", fontWeight: 600 };
 
+export const pagerBtnClass =
+  "rounded-[2px] border-2 border-foreground px-2.5 py-1.5 text-foreground/80 shadow-[var(--shadow-brutal-sm)] transition-[transform,box-shadow,background-color] hover:bg-muted active:translate-x-[1px] active:translate-y-[1px] active:shadow-none disabled:opacity-40 disabled:active:translate-x-0 disabled:active:translate-y-0 disabled:active:shadow-[var(--shadow-brutal-sm)]";
+
+export function pageWindow(currentZero: number, totalPages: number): Array<number | "ellipsis"> {
+  const current = currentZero + 1;
+  const set = new Set<number>([1, totalPages, current, current - 1, current + 1]);
+  const nums = [...set].filter((n) => n >= 1 && n <= totalPages).sort((a, b) => a - b);
+  const out: Array<number | "ellipsis"> = [];
+  for (let i = 0; i < nums.length; i++) {
+    if (i > 0 && nums[i] - nums[i - 1] > 1) out.push("ellipsis");
+    out.push(nums[i]);
+  }
+  return out;
+}
+
+/** Snake_case project label used on off-chain charts and the calls table. Null means hide the row. */
+export function displayProjectId(id: string): string | null {
+  let project = id
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9_]+/g, "_")
+    .replace(/^_+|_+$/g, "");
+  if (project.startsWith("andrewkimjoseph_celina_mcp_")) {
+    project = "andrewkimjoseph_celina_mcp";
+  }
+  project = project.replace(/^andrewkimjoseph_/, "");
+  if (project === "thegoodpax" || project === "thegoodpaxapp") {
+    project = "the_good_pax_app";
+  }
+  if (!project || project === "celina_sdk" || project === "g_usdm_quote") return null;
+  return project;
+}
+
 export function truncate(addr: string, head = 6, tail = 4) {
   if (!addr) return "";
   if (addr.length <= head + tail + 1) return addr;

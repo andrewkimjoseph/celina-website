@@ -1,8 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChartLine } from "@fortawesome/free-solid-svg-icons";
 import { useAmplitudeStore } from "@/lib/amplitude-store";
+import { cn } from "@/lib/utils";
 import {
   ComposedChart,
   PieChart,
@@ -17,6 +18,10 @@ import {
   aggregateAmplitude,
   mergeAmplitudeDailyQueriedWallets,
   formatDateOnly,
+  formatDateTime,
+  displayProjectId,
+  pageWindow,
+  pagerBtnClass,
   tooltipStyle,
   tooltipItemStyle,
   tooltipLabelStyle,
@@ -55,17 +60,11 @@ export const Route = createFileRoute("/stats/offchain")({
   component: OffchainPage,
 });
 
-function displayProjectId(id: string): string {
-  const stripped = id.replace(/^andrewkimjoseph_/, "");
-  if (stripped === "thegoodpax" || stripped === "thegoodpaxapp") {
-    return "the_good_pax_app";
-  }
-  return stripped;
-}
-
 function OffchainPage() {
-  const { daily, dailyWalletsQueried, perTool, projects, walletsQueried, total, loading, lastSyncedAt } =
+  const { daily, dailyWalletsQueried, perTool, projects, events, walletsQueried, total, loading, lastSyncedAt } =
     useAmplitudeStore();
+  const [page, setPage] = useState(0);
+  const pageSize = 25;
   const agg = useMemo(() => aggregateAmplitude(daily, perTool), [daily, perTool]);
   const queriedWalletsDaily = useMemo(
     () =>
@@ -94,7 +93,7 @@ function OffchainPage() {
     const totals = new Map<string, number>();
     for (const row of projects) {
       const project = displayProjectId(row.project);
-      if (project === "g_usdm_quote") continue;
+      if (!project) continue;
       totals.set(project, (totals.get(project) ?? 0) + row.count);
     }
     return [...totals.entries()]
@@ -109,6 +108,23 @@ function OffchainPage() {
       })),
     [labeledProjects],
   );
+  const calls = useMemo(() => {
+    const rows: Array<{ id: string; event_time: string; event_type: string; project: string }> = [];
+    for (const row of events) {
+      const project = displayProjectId(row.device_id);
+      if (!project) continue;
+      rows.push({
+        id: row.insert_id,
+        event_time: row.event_time,
+        event_type: row.event_type,
+        project,
+      });
+    }
+    return rows;
+  }, [events]);
+  const totalPages = Math.max(1, Math.ceil(calls.length / pageSize));
+  const currentPage = Math.min(page, totalPages - 1);
+  const pageRows = calls.slice(currentPage * pageSize, (currentPage + 1) * pageSize);
 
   return (
     <>
@@ -149,7 +165,7 @@ function OffchainPage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-4 pb-16 sm:px-6">
+      <section className="mx-auto max-w-6xl px-4 pb-10 sm:px-6">
         <div className="grid gap-4 lg:grid-cols-2">
           <ChartCard title="Cumulative tool calls" subtitle="last 90 days">
             <ResponsiveContainer width="100%" height="100%">
@@ -385,6 +401,122 @@ function OffchainPage() {
               </LineChart>
             </ResponsiveContainer>
           </ChartCard>
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-6xl px-4 pb-16 sm:px-6">
+        <div className="mb-4 flex items-baseline justify-between gap-3">
+          <h2
+            className="text-2xl font-bold tracking-tight"
+            style={{ fontFamily: "var(--font-display)" }}
+          >
+            Calls
+          </h2>
+          <span className="text-xs uppercase tracking-[0.18em] text-muted-foreground">
+            {calls.length.toLocaleString()} total
+          </span>
+        </div>
+
+        <div className="overflow-hidden rounded-[2px] border-2 border-foreground bg-card shadow-[var(--shadow-brutal)]">
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead className="border-b-2 border-foreground bg-muted/40 text-left text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
+                <tr>
+                  <th className="w-px whitespace-nowrap py-3 pl-3 pr-1 font-medium">#</th>
+                  <th className="whitespace-nowrap px-3 py-3 font-medium">When</th>
+                  <th className="px-3 py-3 font-medium">Tool</th>
+                  <th className="px-3 py-3 font-medium">Project</th>
+                </tr>
+              </thead>
+              <tbody>
+                {pageRows.length === 0 && !loading && (
+                  <tr>
+                    <td colSpan={4} className="px-4 py-10 text-center text-muted-foreground">
+                      No calls yet.
+                    </td>
+                  </tr>
+                )}
+                {pageRows.map((r, i) => (
+                  <tr key={r.id} className="border-b-2 border-foreground/20 last:border-0 hover:bg-muted/30">
+                    <td className="w-px whitespace-nowrap py-3 pl-3 pr-1 text-right font-mono text-xs tabular-nums text-muted-foreground">
+                      {currentPage * pageSize + i + 1}
+                    </td>
+                    <td className="whitespace-nowrap px-3 py-3 text-foreground/80">{formatDateTime(r.event_time)}</td>
+                    <td className="px-3 py-3 font-mono text-xs text-foreground/80">{r.event_type}</td>
+                    <td className="px-3 py-3 font-mono text-xs text-foreground/80">{r.project}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          {calls.length > 0 && (
+            <div className="flex flex-col gap-3 border-t-2 border-foreground px-4 py-3 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
+              <span>
+                {currentPage * pageSize + 1}–{Math.min((currentPage + 1) * pageSize, calls.length)} of{" "}
+                {calls.length.toLocaleString()} call{calls.length === 1 ? "" : "s"}
+                {totalPages > 1 && (
+                  <>
+                    {" "}
+                    · page {currentPage + 1} of {totalPages.toLocaleString()}
+                  </>
+                )}
+              </span>
+              {totalPages > 1 && (
+                <nav aria-label="Call pages" className="flex flex-wrap items-center gap-1.5">
+                  <button type="button" onClick={() => setPage(0)} disabled={currentPage === 0} className={pagerBtnClass}>
+                    First
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setPage((p) => Math.max(0, p - 1))}
+                    disabled={currentPage === 0}
+                    className={pagerBtnClass}
+                  >
+                    Prev
+                  </button>
+                  {pageWindow(currentPage, totalPages).map((item, i) =>
+                    item === "ellipsis" ? (
+                      <span key={`e-${i}`} className="px-1 text-muted-foreground" aria-hidden>
+                        …
+                      </span>
+                    ) : (
+                      <button
+                        key={item}
+                        type="button"
+                        onClick={() => setPage(item - 1)}
+                        aria-label={`Go to page ${item}`}
+                        aria-current={item === currentPage + 1 ? "page" : undefined}
+                        className={cn(
+                          pagerBtnClass,
+                          "min-w-8 tabular-nums",
+                          item === currentPage + 1 &&
+                            "bg-foreground text-background hover:bg-foreground",
+                        )}
+                      >
+                        {item.toLocaleString()}
+                      </button>
+                    ),
+                  )}
+                  <button
+                    type="button"
+                    onClick={() => setPage((p) => Math.min(totalPages - 1, p + 1))}
+                    disabled={currentPage >= totalPages - 1}
+                    className={pagerBtnClass}
+                  >
+                    Next
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setPage(totalPages - 1)}
+                    disabled={currentPage >= totalPages - 1}
+                    className={pagerBtnClass}
+                  >
+                    Last
+                  </button>
+                </nav>
+              )}
+            </div>
+          )}
         </div>
       </section>
     </>
