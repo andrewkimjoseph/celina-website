@@ -1,7 +1,14 @@
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { createFileRoute, Link, notFound, redirect } from "@tanstack/react-router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
-import { TOOLS, CATEGORY_BY_SLUG, type ToolDoc } from "@/data/tools";
+import {
+  TOOLS,
+  CATEGORY_BY_SLUG,
+  categorySlug,
+  findToolByName,
+  findToolBySlug,
+  type ToolDoc,
+} from "@/data/tools";
 import { SiteHeader } from "@/components/site-header";
 import { PageCrumbs } from "@/components/marketing/page-hero";
 import { ToolsKindNav } from "@/components/tools/kind-nav";
@@ -10,9 +17,23 @@ import { ToolCard } from "@/components/tools/tool-card";
 export const Route = createFileRoute("/tools/$category/")({
   loader: ({ params }) => {
     const category = CATEGORY_BY_SLUG[params.category];
-    if (!category) throw notFound();
-    const tools = TOOLS.filter((t) => t.category === category);
-    return { category, tools };
+    if (category) {
+      const tools = TOOLS.filter((t) => t.category === category);
+      return { category, tools };
+    }
+    const tool = findToolBySlug(params.category) ?? findToolByName(params.category);
+    if (tool) {
+      throw redirect({
+        to: "/tools/$category/$toolSlug",
+        params: {
+          category: categorySlug(tool.category),
+          toolSlug: tool.slug,
+        },
+        replace: true,
+        statusCode: 301,
+      });
+    }
+    throw notFound();
   },
   head: ({ loaderData }) => {
     const cat = loaderData?.category;

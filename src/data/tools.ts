@@ -36,6 +36,10 @@ export const TOOLS_BY_NAME: Record<string, ToolDoc> = Object.fromEntries(
   TOOLS.map((tool) => [tool.name, tool]),
 );
 
+export const TOOLS_BY_SLUG: Record<string, ToolDoc> = Object.fromEntries(
+  TOOLS.map((tool) => [tool.slug, tool]),
+);
+
 export function categorySlug(category: ToolDoc["category"]): string {
   return category
     .toLowerCase()
@@ -54,6 +58,14 @@ export function findTool(catSlug: string, toolSlug: string): ToolDoc | undefined
   return TOOLS.find(
     (t) => categorySlug(t.category) === catSlug && t.slug === toolSlug,
   );
+}
+
+export function findToolBySlug(toolSlug: string): ToolDoc | undefined {
+  return TOOLS_BY_SLUG[toolSlug];
+}
+
+export function findToolByName(name: string): ToolDoc | undefined {
+  return TOOLS_BY_NAME[name];
 }
 
 export function toolsByKind(kind: ToolKind): ToolDoc[] {
@@ -87,6 +99,16 @@ if (GENERATED_HOSTED_TOOL_NAMES.length !== GENERATED_HOSTED_TOOL_COUNT) {
   throw new Error(
     `GENERATED_HOSTED_TOOL_NAMES length ${GENERATED_HOSTED_TOOL_NAMES.length} !== GENERATED_HOSTED_TOOL_COUNT ${GENERATED_HOSTED_TOOL_COUNT}`,
   );
+}
+
+const RESERVED_TOOL_SLUGS = new Set([...CATEGORY_SLUGS, "read", "write", "prepare"]);
+for (const tool of TOOLS) {
+  if (RESERVED_TOOL_SLUGS.has(tool.slug)) {
+    throw new Error(`Tool slug "${tool.slug}" collides with a reserved /tools path`);
+  }
+}
+if (Object.keys(TOOLS_BY_SLUG).length !== TOOLS.length) {
+  throw new Error("Tool slugs are not unique");
 }
 
 /** Hosted MCP names (same profile as SDK HOSTED_MCP_FILTER). */
