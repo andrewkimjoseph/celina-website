@@ -1,5 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
-import { statsApiBaseUrl } from "./stats-api.ts";
+import { statsApiBaseUrl, statsApiHeaders } from "./stats-api.ts";
 
 export type NpmDownloadDay = { day: string; downloads: number };
 
@@ -22,7 +22,9 @@ const empty = (error: string | null): NpmDownloadsResult => ({
 export const getNpmDownloads = createServerFn({ method: "GET" }).handler(
   async (): Promise<NpmDownloadsResult> => {
     try {
-      const res = await fetch(`${statsApiBaseUrl()}/package`);
+      const res = await fetch(`${statsApiBaseUrl()}/package`, {
+        headers: statsApiHeaders(),
+      });
       if (!res.ok && res.status !== 502) {
         throw new Error(`Stats API ${res.status}`);
       }

@@ -83,9 +83,10 @@ Stats pages call server functions that fetch [celina-stats-api](https://api.stat
 | Variable | Used for |
 |----------|----------|
 | `STATS_API_BASE_URL` | Optional — default `https://api.stats.usecelina.xyz` (`/stats/onchain`, `/stats/offchain`, `/stats/package`) |
+| `STATS_READ_KEY` | Bearer token for those reads. Same value as on celina-stats-api |
 
 - **Local (Vite):** copy [`.env.example`](.env.example) to `.env.local` or `.env`
-- **Cloudflare Workers:** set `STATS_API_BASE_URL` only if you need a non-production host
+- **Cloudflare Workers:** set `STATS_READ_KEY`. Set `STATS_API_BASE_URL` only if you need a non-production host
 
 On-chain ingest and Amplitude export sync run in **celina-stats-api** (midnight UTC cron for Amplitude). This website has no cron.
 

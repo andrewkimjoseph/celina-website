@@ -1,5 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
-import { statsApiBaseUrl } from "./stats-api.ts";
+import { statsApiBaseUrl, statsApiHeaders } from "./stats-api.ts";
 
 export type CelinaTxRow = {
   day: string;
@@ -22,7 +22,9 @@ const UNAVAILABLE_MSG = "On-chain stats are temporarily unavailable.";
 export const getCelinaStats = createServerFn({ method: "GET" }).handler(
   async (): Promise<CelinaStatsResult> => {
     try {
-      const res = await fetch(`${statsApiBaseUrl()}/onchain`);
+      const res = await fetch(`${statsApiBaseUrl()}/onchain`, {
+        headers: statsApiHeaders(),
+      });
       if (!res.ok) {
         throw new Error(`Stats API ${res.status}`);
       }

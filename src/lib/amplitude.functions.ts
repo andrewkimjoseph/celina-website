@@ -1,5 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
-import { statsApiBaseUrl } from "./stats-api.ts";
+import { statsApiBaseUrl, statsApiHeaders } from "./stats-api.ts";
 
 export type AmplitudeEventDay = {
   day: string;
@@ -66,16 +66,17 @@ type EventsBody = { rows?: OffchainEventRow[]; lastSyncedAt?: string | null; err
 export const getAmplitudeStats = createServerFn({ method: "GET" }).handler(
   async (): Promise<AmplitudeStatsResult> => {
     const base = statsApiBaseUrl();
+    const headers = statsApiHeaders();
     try {
       const [dailyRes, walletsRes, toolsRes, projectsRes, devicesRes, syncRes, eventsRes] =
         await Promise.all([
-          fetch(`${base}/offchain/daily`),
-          fetch(`${base}/offchain/wallets`),
-          fetch(`${base}/offchain/tools`),
-          fetch(`${base}/offchain/projects`),
-          fetch(`${base}/offchain/devices`),
-          fetch(`${base}/offchain/sync`),
-          fetch(`${base}/offchain/events`),
+          fetch(`${base}/offchain/daily`, { headers }),
+          fetch(`${base}/offchain/wallets`, { headers }),
+          fetch(`${base}/offchain/tools`, { headers }),
+          fetch(`${base}/offchain/projects`, { headers }),
+          fetch(`${base}/offchain/devices`, { headers }),
+          fetch(`${base}/offchain/sync`, { headers }),
+          fetch(`${base}/offchain/events`, { headers }),
         ]);
       const failed = [
         dailyRes,
