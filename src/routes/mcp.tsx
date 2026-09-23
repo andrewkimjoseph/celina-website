@@ -74,6 +74,9 @@ function McpLayout() {
       <Outlet />
 
       <footer className="border-t-2 border-foreground">
+        <p className="mx-auto max-w-6xl px-6 pt-6 text-center text-xs text-muted-foreground">
+          Celina is built by CNV Labs KO XYZ Limited. CNV was formerly Canvassing.
+        </p>
         <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-6 py-8 sm:flex-row">
           <p className="text-sm text-muted-foreground">
             Built by{" "}
