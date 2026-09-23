@@ -41,16 +41,16 @@ import {
   Tooltip,
 } from "@/lib/stats-shared";
 
-function ToolCallName({ name }: { name: string }) {
+function ToolCallName({ name, className }: { name: string; className?: string }) {
   const tool = findToolByName(name);
   if (!tool) {
-    return <span className="font-mono text-xs text-foreground/80">{name}</span>;
+    return <span className={cn("font-mono text-xs text-foreground/80", className)}>{name}</span>;
   }
   return (
     <Link
       to="/tools/$category"
       params={{ category: tool.slug }}
-      className="font-mono text-xs text-foreground/80 hover:underline"
+      className={cn("font-mono text-xs text-foreground/80 hover:underline", className)}
     >
       {name}
     </Link>
@@ -277,9 +277,7 @@ function OffchainPage() {
                         <span className="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-[2px] border-2 border-foreground bg-muted text-[10px] font-semibold text-foreground/80">
                           {i + 1}
                         </span>
-                        <span className="truncate font-mono text-xs text-foreground/90">
-                          {t.event}
-                        </span>
+                        <ToolCallName name={t.event} className="min-w-0 truncate text-foreground/90" />
                       </div>
                       <span className="shrink-0 font-mono text-xs text-muted-foreground">
                         {t.count.toLocaleString()}
