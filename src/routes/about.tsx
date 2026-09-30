@@ -10,6 +10,7 @@ import {
   faCodeBranch,
   faLock,
   faShieldHalved,
+  faSignal,
 } from "@fortawesome/free-solid-svg-icons";
 import { faGithub, faNpm, faTelegram } from "@fortawesome/free-brands-svg-icons";
 import { SiteHeader } from "@/components/site-header";
@@ -26,6 +27,8 @@ const MCP_REMOTE_GITHUB_URL = "https://github.com/andrewkimjoseph/celina-mcp-rem
 const HOSTED_MCP_URL = "https://mcp.usecelina.xyz/mcp";
 const CELESTE_URL = "https://celeste.usecelina.xyz";
 const CELESTE_GITHUB_URL = "https://github.com/andrewkimjoseph/celeste-ai";
+const STATUS_URL = "https://status.usecelina.xyz";
+const STATUS_GITHUB_URL = "https://github.com/andrewkimjoseph/celina-status";
 const AUTHOR_NPM_URL = "https://www.npmjs.com/~andrewkimjoseph";
 
 export const Route = createFileRoute("/about")({
@@ -175,6 +178,7 @@ function AboutPage() {
           <ArchNode label="celina-mcp" detail="stdio MCP server" />
           <ArchNode label="mcp.usecelina.xyz" detail="hosted HTTP" />
           <ArchNode label="celeste.usecelina.xyz" detail="browser chat UI" />
+          <ArchNode label="status.usecelina.xyz" detail="uptime and usage" />
         </div>
         <div className="mt-4 flex justify-center">
           <div className="hidden h-8 w-px bg-foreground/15 sm:block" aria-hidden />
@@ -334,6 +338,32 @@ function AboutPage() {
               </a>
             </div>
           </ProductCard>
+
+          <ProductCard
+            icon={faSignal}
+            title="Status"
+            subtitle="Uptime and usage"
+            body="Live health for the hosted stack, 30-day uptime, and on-chain, off-chain, and download stats."
+          >
+            <div className="flex flex-wrap gap-2">
+              <a
+                href={STATUS_URL}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-1 rounded-[2px] border-2 border-foreground bg-background px-3 py-1.5 text-xs font-medium text-foreground shadow-[var(--shadow-brutal-sm)] transition-[transform,box-shadow] hover:bg-[var(--celo-yellow)] hover:text-[var(--celo-ink)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none"
+              >
+                Open status <FontAwesomeIcon icon={faArrowUpRightFromSquare} className="h-2.5 w-2.5" />
+              </a>
+              <a
+                href={STATUS_GITHUB_URL}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-1 rounded-[2px] border-2 border-foreground bg-background px-3 py-1.5 text-xs font-medium text-foreground shadow-[var(--shadow-brutal-sm)] transition-[transform,box-shadow] hover:bg-[var(--celo-yellow)] hover:text-[var(--celo-ink)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none"
+              >
+                <FontAwesomeIcon icon={faGithub} className="h-3 w-3" /> GitHub
+              </a>
+            </div>
+          </ProductCard>
         </div>
       </section>
 
@@ -459,6 +489,9 @@ function AboutPage() {
             <Link to="/stats" className="hover:text-foreground">
               Stats
             </Link>
+            <a href="https://status.usecelina.xyz" target="_blank" rel="noreferrer" className="hover:text-foreground">
+              Status
+            </a>
             <a href={MCP_NPM_URL} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1.5 hover:text-foreground">
               <FontAwesomeIcon icon={faNpm} className="h-4 w-4" /> npm
             </a>

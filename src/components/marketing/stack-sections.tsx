@@ -8,6 +8,7 @@ import {
   faCloud,
   faCode,
   faCodeBranch,
+  faSignal,
 } from "@fortawesome/free-solid-svg-icons";
 import { faGithub, faTelegram } from "@fortawesome/free-brands-svg-icons";
 import { HOSTED_TOOL_COUNT } from "@/data/tools";
@@ -19,6 +20,8 @@ import { ProductCard } from "@/components/marketing/product-card";
 const SDK_DOCS_URL = "https://andrewkimjoseph.gitbook.io/celina-sdk";
 const API_DOCS_URL = "https://andrewkimjoseph.gitbook.io/celina-api/";
 const CELESTE_GITHUB_URL = "https://github.com/andrewkimjoseph/celeste-ai";
+const STATUS_URL = "https://status.usecelina.xyz";
+const STATUS_GITHUB_URL = "https://github.com/andrewkimjoseph/celina-status";
 
 export function ArchitectureSection() {
   return (
@@ -47,6 +50,7 @@ export function ArchitectureSection() {
         <ArchNode label="celina-api" detail="read-only REST" />
         <ArchNode label="celina-bot" detail="Telegram" />
         <ArchNode label="Celeste AI" detail="browser chat UI" />
+        <ArchNode label="celina-status" detail="uptime and usage" />
       </div>
       <p className="mt-4 text-center text-xs text-muted-foreground">
         {STDIO_TOOL_COUNT} tools in the full stdio catalog · {HOSTED_TOOL_COUNT} on the remote
@@ -208,6 +212,30 @@ export function StackProductsSection() {
           >
             View stats
           </Link>
+        </ProductCard>
+
+        <ProductCard
+          icon={faSignal}
+          title="Status"
+          subtitle="Uptime and usage"
+          body="Live health for the hosted stack, 30-day uptime, and the same on-chain, off-chain, and download stats."
+        >
+          <a
+            href={STATUS_URL}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center gap-1 rounded-[2px] border-2 border-foreground bg-background px-3 py-1.5 text-xs font-medium text-foreground shadow-[var(--shadow-brutal-sm)] transition-[transform,box-shadow] hover:bg-[var(--celo-yellow)] hover:text-[var(--celo-ink)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none"
+          >
+            Open status <FontAwesomeIcon icon={faArrowUpRightFromSquare} className="h-2.5 w-2.5" />
+          </a>
+          <a
+            href={STATUS_GITHUB_URL}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center gap-1 rounded-[2px] border-2 border-foreground bg-background px-3 py-1.5 text-xs font-medium text-foreground shadow-[var(--shadow-brutal-sm)] transition-[transform,box-shadow] hover:bg-[var(--celo-yellow)] hover:text-[var(--celo-ink)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none"
+          >
+            <FontAwesomeIcon icon={faGithub} className="h-3 w-3" /> GitHub
+          </a>
         </ProductCard>
 
         <ProductCard

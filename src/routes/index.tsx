@@ -808,6 +808,9 @@ function Index() {
             <Link to="/stats" className="hover:text-foreground">
               Stats
             </Link>
+            <a href="https://status.usecelina.xyz" target="_blank" rel="noreferrer" className="hover:text-foreground">
+              Status
+            </a>
             <a
               href={MCP_NPM_URL}
               target="_blank"
