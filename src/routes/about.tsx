@@ -10,6 +10,7 @@ import {
   faCodeBranch,
   faLock,
   faShieldHalved,
+  faComments,
   faSignal,
 } from "@fortawesome/free-solid-svg-icons";
 import { faGithub, faNpm, faTelegram } from "@fortawesome/free-brands-svg-icons";
@@ -27,6 +28,8 @@ const MCP_REMOTE_GITHUB_URL = "https://github.com/andrewkimjoseph/celina-mcp-rem
 const HOSTED_MCP_URL = "https://mcp.usecelina.xyz/mcp";
 const CELESTE_URL = "https://celeste.usecelina.xyz";
 const CELESTE_GITHUB_URL = "https://github.com/andrewkimjoseph/celeste-ai";
+const CHAT_URL = "https://chat.usecelina.xyz";
+const CHAT_GITHUB_URL = "https://github.com/andrewkimjoseph/celina-chat";
 const STATUS_URL = "https://status.usecelina.xyz";
 const STATUS_GITHUB_URL = "https://github.com/andrewkimjoseph/celina-status";
 const AUTHOR_NPM_URL = "https://www.npmjs.com/~andrewkimjoseph";
@@ -177,7 +180,8 @@ function AboutPage() {
           />
           <ArchNode label="celina-mcp" detail="stdio MCP server" />
           <ArchNode label="mcp.usecelina.xyz" detail="hosted HTTP" />
-          <ArchNode label="celeste.usecelina.xyz" detail="browser chat UI" />
+          <ArchNode label="celeste.usecelina.xyz" detail="DeFAI browser chat" />
+          <ArchNode label="chat.usecelina.xyz" detail="full-catalog wallet chat" />
           <ArchNode label="status.usecelina.xyz" detail="uptime and usage" />
         </div>
         <div className="mt-4 flex justify-center">
@@ -279,6 +283,32 @@ function AboutPage() {
             >
               <FontAwesomeIcon icon={faGithub} className="h-3 w-3" /> GitHub
             </a>
+          </ProductCard>
+
+          <ProductCard
+            icon={faComments}
+            title="Celina Chat"
+            subtitle="Full-catalog wallet chat"
+            body="Every browser-surface SDK tool in one chat — sends, swaps, governance, staking, NFTs, and contract calls. You sign in your wallet."
+          >
+            <div className="flex flex-wrap gap-2">
+              <a
+                href={CHAT_URL}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-1 rounded-[2px] border-2 border-foreground bg-background px-3 py-1.5 text-xs font-medium text-foreground shadow-[var(--shadow-brutal-sm)] transition-[transform,box-shadow] hover:bg-[var(--celo-yellow)] hover:text-[var(--celo-ink)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none"
+              >
+                Open chat <FontAwesomeIcon icon={faArrowUpRightFromSquare} className="h-2.5 w-2.5" />
+              </a>
+              <a
+                href={CHAT_GITHUB_URL}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-1 rounded-[2px] border-2 border-foreground bg-background px-3 py-1.5 text-xs font-medium text-foreground shadow-[var(--shadow-brutal-sm)] transition-[transform,box-shadow] hover:bg-[var(--celo-yellow)] hover:text-[var(--celo-ink)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none"
+              >
+                <FontAwesomeIcon icon={faGithub} className="h-3 w-3" /> GitHub
+              </a>
+            </div>
           </ProductCard>
 
           <ProductCard
@@ -489,6 +519,9 @@ function AboutPage() {
             <Link to="/stats" className="hover:text-foreground">
               Stats
             </Link>
+            <a href="https://chat.usecelina.xyz" target="_blank" rel="noreferrer" className="hover:text-foreground">
+              Chat
+            </a>
             <a href="https://status.usecelina.xyz" target="_blank" rel="noreferrer" className="hover:text-foreground">
               Status
             </a>

@@ -8,6 +8,7 @@ import {
   faCloud,
   faCode,
   faCodeBranch,
+  faComments,
   faSignal,
 } from "@fortawesome/free-solid-svg-icons";
 import { faGithub, faTelegram } from "@fortawesome/free-brands-svg-icons";
@@ -20,6 +21,8 @@ import { ProductCard } from "@/components/marketing/product-card";
 const SDK_DOCS_URL = "https://andrewkimjoseph.gitbook.io/celina-sdk";
 const API_DOCS_URL = "https://andrewkimjoseph.gitbook.io/celina-api/";
 const CELESTE_GITHUB_URL = "https://github.com/andrewkimjoseph/celeste-ai";
+const CHAT_URL = "https://chat.usecelina.xyz";
+const CHAT_GITHUB_URL = "https://github.com/andrewkimjoseph/celina-chat";
 const STATUS_URL = "https://status.usecelina.xyz";
 const STATUS_GITHUB_URL = "https://github.com/andrewkimjoseph/celina-status";
 
@@ -49,7 +52,8 @@ export function ArchitectureSection() {
         <ArchNode label="mcp.usecelina.xyz" detail="remote hosted HTTP" />
         <ArchNode label="celina-api" detail="read-only REST" />
         <ArchNode label="celina-bot" detail="Telegram" />
-        <ArchNode label="Celeste AI" detail="browser chat UI" />
+        <ArchNode label="Celeste AI" detail="DeFAI browser chat" />
+        <ArchNode label="Celina Chat" detail="full-catalog browser chat" />
         <ArchNode label="celina-status" detail="uptime and usage" />
       </div>
       <p className="mt-4 text-center text-xs text-muted-foreground">
@@ -230,6 +234,30 @@ export function StackProductsSection() {
           </a>
           <a
             href={STATUS_GITHUB_URL}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center gap-1 rounded-[2px] border-2 border-foreground bg-background px-3 py-1.5 text-xs font-medium text-foreground shadow-[var(--shadow-brutal-sm)] transition-[transform,box-shadow] hover:bg-[var(--celo-yellow)] hover:text-[var(--celo-ink)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none"
+          >
+            <FontAwesomeIcon icon={faGithub} className="h-3 w-3" /> GitHub
+          </a>
+        </ProductCard>
+
+        <ProductCard
+          icon={faComments}
+          title="Celina Chat"
+          subtitle="Full-catalog wallet chat"
+          body="Every browser-surface SDK tool — send, swap, govern, stake, and more. You sign in your wallet."
+        >
+          <a
+            href={CHAT_URL}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center gap-1 rounded-[2px] border-2 border-foreground bg-background px-3 py-1.5 text-xs font-medium text-foreground shadow-[var(--shadow-brutal-sm)] transition-[transform,box-shadow] hover:bg-[var(--celo-yellow)] hover:text-[var(--celo-ink)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none"
+          >
+            Open chat <FontAwesomeIcon icon={faArrowUpRightFromSquare} className="h-2.5 w-2.5" />
+          </a>
+          <a
+            href={CHAT_GITHUB_URL}
             target="_blank"
             rel="noreferrer"
             className="inline-flex items-center gap-1 rounded-[2px] border-2 border-foreground bg-background px-3 py-1.5 text-xs font-medium text-foreground shadow-[var(--shadow-brutal-sm)] transition-[transform,box-shadow] hover:bg-[var(--celo-yellow)] hover:text-[var(--celo-ink)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none"
