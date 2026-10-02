@@ -78,7 +78,7 @@ export function PageHero({
       <div className="inline-flex items-center gap-2 rounded-[2px] border-2 border-foreground bg-background px-3 py-1 text-xs font-medium text-foreground shadow-[var(--shadow-brutal-sm)]">
         <FontAwesomeIcon
           icon={icon}
-          className="h-3 w-3 text-[var(--celo-forest)] dark:text-foreground"
+          className="h-3 w-3 text-foreground"
         />
         <span className="uppercase tracking-[0.18em]">{badge}</span>
       </div>
