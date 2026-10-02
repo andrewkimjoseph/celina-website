@@ -2167,11 +2167,18 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
     "name": "get_self_identity",
     "slug": "get-self-identity",
     "title": "Get Self Agent Identity",
-    "summary": "Return the configured Self agent identity.",
-    "description": "Return the configured Self agent identity. Requires SELF_AGENT_PRIVATE_KEY.",
+    "summary": "Return a Self Agent ID identity.",
+    "description": "Return a Self Agent ID identity. Pass agent_address to read any wallet on-chain without a key; omit it in a wallet chat to use the connected wallet. With no agent_address and a configured SELF_AGENT_PRIVATE_KEY, returns that server agent's identity.",
     "kind": "read",
     "category": "Self",
-    "inputs": []
+    "inputs": [
+      {
+        "name": "agent_address",
+        "type": "string",
+        "required": false,
+        "description": "Agent address to look up on-chain. Omit to use the connected wallet, or the configured Self agent key when an MCP executor is present."
+      }
+    ]
   },
   {
     "name": "refresh_self_proof",
