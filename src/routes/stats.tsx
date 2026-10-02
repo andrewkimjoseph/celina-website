@@ -217,7 +217,7 @@ function StatsLayout() {
           </p>
           <div className="flex items-center gap-4 text-sm text-muted-foreground">
             <Link to="/stats" className="hover:text-foreground">Stats</Link>
-            <a href="https://status.usecelina.xyz" target="_blank" rel="noreferrer" className="hover:text-foreground">Status</a>
+            <Link to="/status" className="hover:text-foreground">Status</Link>
             <a href={NPM_URL} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1.5 hover:text-foreground">
               <FontAwesomeIcon icon={faNpm} className="h-4 w-4" /> npm
             </a>

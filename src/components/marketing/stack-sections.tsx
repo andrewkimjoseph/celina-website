@@ -224,6 +224,12 @@ export function StackProductsSection() {
           subtitle="Uptime and usage"
           body="Live health for the hosted stack, 30-day uptime, and the same on-chain, off-chain, and download stats."
         >
+          <Link
+            to="/status"
+            className="inline-flex items-center gap-1 rounded-[2px] border-2 border-foreground bg-background px-3 py-1.5 text-xs font-medium text-foreground shadow-[var(--shadow-brutal-sm)] transition-[transform,box-shadow] hover:bg-[var(--celo-yellow)] hover:text-[var(--celo-ink)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none"
+          >
+            Status page
+          </Link>
           <a
             href={STATUS_URL}
             target="_blank"
@@ -248,6 +254,12 @@ export function StackProductsSection() {
           subtitle="Full-catalog wallet chat"
           body="Every browser-surface SDK tool — send, swap, govern, stake, and more. You sign in your wallet."
         >
+          <Link
+            to="/chat"
+            className="inline-flex items-center gap-1 rounded-[2px] border-2 border-foreground bg-background px-3 py-1.5 text-xs font-medium text-foreground shadow-[var(--shadow-brutal-sm)] transition-[transform,box-shadow] hover:bg-[var(--celo-yellow)] hover:text-[var(--celo-ink)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none"
+          >
+            Chat page
+          </Link>
           <a
             href={CHAT_URL}
             target="_blank"

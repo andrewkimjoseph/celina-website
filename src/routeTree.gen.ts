@@ -9,11 +9,13 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as StatusRouteImport } from './routes/status'
 import { Route as StatsRouteImport } from './routes/stats'
 import { Route as StackRouteImport } from './routes/stack'
 import { Route as SdkRouteImport } from './routes/sdk'
 import { Route as OasfRouteImport } from './routes/oasf'
 import { Route as McpRouteImport } from './routes/mcp'
+import { Route as ChatRouteImport } from './routes/chat'
 import { Route as BotRouteImport } from './routes/bot'
 import { Route as ApiRouteImport } from './routes/api'
 import { Route as AboutRouteImport } from './routes/about'
@@ -34,6 +36,11 @@ import { Route as ToolsCategoryIndexRouteImport } from './routes/tools.$category
 import { Route as ToolsCategoryToolSlugRouteImport } from './routes/tools.$category.$toolSlug'
 import { Route as GooddollarVerifyCallbackRouteImport } from './routes/gooddollar.verify.callback'
 
+const StatusRoute = StatusRouteImport.update({
+  id: '/status',
+  path: '/status',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const StatsRoute = StatsRouteImport.update({
   id: '/stats',
   path: '/stats',
@@ -57,6 +64,11 @@ const OasfRoute = OasfRouteImport.update({
 const McpRoute = McpRouteImport.update({
   id: '/mcp',
   path: '/mcp',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ChatRoute = ChatRouteImport.update({
+  id: '/chat',
+  path: '/chat',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BotRoute = BotRouteImport.update({
@@ -162,11 +174,13 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/api': typeof ApiRoute
   '/bot': typeof BotRoute
+  '/chat': typeof ChatRoute
   '/mcp': typeof McpRouteWithChildren
   '/oasf': typeof OasfRoute
   '/sdk': typeof SdkRoute
   '/stack': typeof StackRoute
   '/stats': typeof StatsRouteWithChildren
+  '/status': typeof StatusRoute
   '/mcp/local': typeof McpLocalRoute
   '/mcp/remote': typeof McpRemoteRoute
   '/stats/offchain': typeof StatsOffchainRoute
@@ -188,9 +202,11 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/api': typeof ApiRoute
   '/bot': typeof BotRoute
+  '/chat': typeof ChatRoute
   '/oasf': typeof OasfRoute
   '/sdk': typeof SdkRoute
   '/stack': typeof StackRoute
+  '/status': typeof StatusRoute
   '/mcp/local': typeof McpLocalRoute
   '/mcp/remote': typeof McpRemoteRoute
   '/stats/offchain': typeof StatsOffchainRoute
@@ -213,11 +229,13 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/api': typeof ApiRoute
   '/bot': typeof BotRoute
+  '/chat': typeof ChatRoute
   '/mcp': typeof McpRouteWithChildren
   '/oasf': typeof OasfRoute
   '/sdk': typeof SdkRoute
   '/stack': typeof StackRoute
   '/stats': typeof StatsRouteWithChildren
+  '/status': typeof StatusRoute
   '/mcp/local': typeof McpLocalRoute
   '/mcp/remote': typeof McpRemoteRoute
   '/stats/offchain': typeof StatsOffchainRoute
@@ -241,11 +259,13 @@ export interface FileRouteTypes {
     | '/about'
     | '/api'
     | '/bot'
+    | '/chat'
     | '/mcp'
     | '/oasf'
     | '/sdk'
     | '/stack'
     | '/stats'
+    | '/status'
     | '/mcp/local'
     | '/mcp/remote'
     | '/stats/offchain'
@@ -267,9 +287,11 @@ export interface FileRouteTypes {
     | '/about'
     | '/api'
     | '/bot'
+    | '/chat'
     | '/oasf'
     | '/sdk'
     | '/stack'
+    | '/status'
     | '/mcp/local'
     | '/mcp/remote'
     | '/stats/offchain'
@@ -291,11 +313,13 @@ export interface FileRouteTypes {
     | '/about'
     | '/api'
     | '/bot'
+    | '/chat'
     | '/mcp'
     | '/oasf'
     | '/sdk'
     | '/stack'
     | '/stats'
+    | '/status'
     | '/mcp/local'
     | '/mcp/remote'
     | '/stats/offchain'
@@ -318,11 +342,13 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   ApiRoute: typeof ApiRoute
   BotRoute: typeof BotRoute
+  ChatRoute: typeof ChatRoute
   McpRoute: typeof McpRouteWithChildren
   OasfRoute: typeof OasfRoute
   SdkRoute: typeof SdkRoute
   StackRoute: typeof StackRoute
   StatsRoute: typeof StatsRouteWithChildren
+  StatusRoute: typeof StatusRoute
   ToolsPrepareRoute: typeof ToolsPrepareRoute
   ToolsReadRoute: typeof ToolsReadRoute
   ToolsWriteRoute: typeof ToolsWriteRoute
@@ -334,6 +360,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/status': {
+      id: '/status'
+      path: '/status'
+      fullPath: '/status'
+      preLoaderRoute: typeof StatusRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/stats': {
       id: '/stats'
       path: '/stats'
@@ -367,6 +400,13 @@ declare module '@tanstack/react-router' {
       path: '/mcp'
       fullPath: '/mcp'
       preLoaderRoute: typeof McpRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/chat': {
+      id: '/chat'
+      path: '/chat'
+      fullPath: '/chat'
+      preLoaderRoute: typeof ChatRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/bot': {
@@ -541,11 +581,13 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   ApiRoute: ApiRoute,
   BotRoute: BotRoute,
+  ChatRoute: ChatRoute,
   McpRoute: McpRouteWithChildren,
   OasfRoute: OasfRoute,
   SdkRoute: SdkRoute,
   StackRoute: StackRoute,
   StatsRoute: StatsRouteWithChildren,
+  StatusRoute: StatusRoute,
   ToolsPrepareRoute: ToolsPrepareRoute,
   ToolsReadRoute: ToolsReadRoute,
   ToolsWriteRoute: ToolsWriteRoute,

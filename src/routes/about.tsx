@@ -292,6 +292,12 @@ function AboutPage() {
             body="Every browser-surface SDK tool in one chat — sends, swaps, governance, staking, NFTs, and contract calls. You sign in your wallet."
           >
             <div className="flex flex-wrap gap-2">
+              <Link
+                to="/chat"
+                className="inline-flex items-center gap-1 rounded-[2px] border-2 border-foreground bg-background px-3 py-1.5 text-xs font-medium text-foreground shadow-[var(--shadow-brutal-sm)] transition-[transform,box-shadow] hover:bg-[var(--celo-yellow)] hover:text-[var(--celo-ink)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none"
+              >
+                Chat page
+              </Link>
               <a
                 href={CHAT_URL}
                 target="_blank"
@@ -376,6 +382,12 @@ function AboutPage() {
             body="Live health for the hosted stack, 30-day uptime, and on-chain, off-chain, and download stats."
           >
             <div className="flex flex-wrap gap-2">
+              <Link
+                to="/status"
+                className="inline-flex items-center gap-1 rounded-[2px] border-2 border-foreground bg-background px-3 py-1.5 text-xs font-medium text-foreground shadow-[var(--shadow-brutal-sm)] transition-[transform,box-shadow] hover:bg-[var(--celo-yellow)] hover:text-[var(--celo-ink)] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none"
+              >
+                Status page
+              </Link>
               <a
                 href={STATUS_URL}
                 target="_blank"
@@ -519,12 +531,12 @@ function AboutPage() {
             <Link to="/stats" className="hover:text-foreground">
               Stats
             </Link>
-            <a href="https://chat.usecelina.xyz" target="_blank" rel="noreferrer" className="hover:text-foreground">
+            <Link to="/chat" className="hover:text-foreground">
               Chat
-            </a>
-            <a href="https://status.usecelina.xyz" target="_blank" rel="noreferrer" className="hover:text-foreground">
+            </Link>
+            <Link to="/status" className="hover:text-foreground">
               Status
-            </a>
+            </Link>
             <a href={MCP_NPM_URL} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1.5 hover:text-foreground">
               <FontAwesomeIcon icon={faNpm} className="h-4 w-4" /> npm
             </a>

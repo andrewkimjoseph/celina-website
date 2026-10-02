@@ -11,7 +11,7 @@
 - MCP: [@andrewkimjoseph/celina-mcp](https://www.npmjs.com/package/@andrewkimjoseph/celina-mcp) — registers the catalog for IDE / CLI agents
 - Hosted endpoint: `https://mcp.usecelina.xyz/mcp` — remote read/prepare profile (currently **50 tools** via `HOSTED_TOOL_COUNT` in `src/data/tools.generated.ts`; no `estimate_*` or server-key writes). Public read-only — no API key; see [celina-mcp-remote SECURITY.md](../celina-mcp-remote/SECURITY.md).
 - Celeste AI: [celeste.usecelina.xyz](https://celeste.usecelina.xyz) — reference browser wallet chat UI (SDK + wagmi, not MCP)
-- Status: [status.usecelina.xyz](https://status.usecelina.xyz) — sibling Cloudflare Worker ([celina-status](https://github.com/andrewkimjoseph/celina-status)), not a route on this site. Live health, 30-day uptime, and usage stats.
+- Status: [/status](https://usecelina.xyz/status) explains the dashboard; the live page is [status.usecelina.xyz](https://status.usecelina.xyz), a sibling Cloudflare Worker ([celina-status](https://github.com/andrewkimjoseph/celina-status)). Live health, 30-day uptime, and usage stats.
 - Full stdio catalog: all tools in `src/data/tools.generated.ts` (currently **116**; adds server-key execute/write paths). Regenerate with `npm run sync-tools` from this repo.
 
 This repo is the **marketing site** for Celina. The SDK and MCP packages live in sibling directories in the monorepo.
@@ -29,7 +29,8 @@ This repo is the **marketing site** for Celina. The SDK and MCP packages live in
   - Category pages: `/tools/blockchain`, `/tools/mento-fx`, `/tools/uniswap`, `/tools/aave`, `/tools/gooddollar` (UBI + reserve quote), `/tools/self`, and more
   - Individual tool docs: `/tools/:category/:toolSlug`
 - **Stats dashboard** (`/stats`) — on-chain activity, off-chain tool-call aggregates and the call list, and npm downloads, all via [celina-stats-api](https://api.stats.usecelina.xyz)
-- **Status** ([status.usecelina.xyz](https://status.usecelina.xyz)) — public uptime and usage. Separate Worker in [celina-status](https://github.com/andrewkimjoseph/celina-status); this site only links to it
+- **Chat** (`/chat`) — brief page for Celina Chat; the app itself is [chat.usecelina.xyz](https://chat.usecelina.xyz)
+- **Status** (`/status`) — brief page for public uptime and usage. The live dashboard is a separate Worker in [celina-status](https://github.com/andrewkimjoseph/celina-status) at [status.usecelina.xyz](https://status.usecelina.xyz)
 
 ## Stack
 

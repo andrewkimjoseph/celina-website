@@ -13,8 +13,6 @@ import {
 } from "@/components/ui/sheet";
 
 const NPM_URL = "https://www.npmjs.com/package/@andrewkimjoseph/celina-mcp";
-const STATUS_URL = "https://status.usecelina.xyz";
-const CHAT_URL = "https://chat.usecelina.xyz";
 
 type NavLink = { to: string; label: string; exact?: boolean };
 const NAV_LINKS: NavLink[] = [
@@ -29,6 +27,8 @@ const NAV_LINKS: NavLink[] = [
   { to: "/stack", label: "Stack" },
   { to: "/sdk", label: "SDK" },
   { to: "/stats", label: "Stats" },
+  { to: "/chat", label: "Chat" },
+  { to: "/status", label: "Status" },
 ];
 
 export function SiteHeader() {
@@ -54,22 +54,6 @@ export function SiteHeader() {
               {link.label}
             </Link>
           ))}
-          <a
-            href={CHAT_URL}
-            target="_blank"
-            rel="noreferrer"
-            className="rounded-[2px] border-2 border-transparent px-3 py-1.5 text-foreground/70 transition hover:text-foreground"
-          >
-            Chat
-          </a>
-          <a
-            href={STATUS_URL}
-            target="_blank"
-            rel="noreferrer"
-            className="rounded-[2px] border-2 border-transparent px-3 py-1.5 text-foreground/70 transition hover:text-foreground"
-          >
-            Status
-          </a>
           <a
             href={NPM_URL}
             target="_blank"
@@ -109,24 +93,6 @@ export function SiteHeader() {
                     {link.label}
                   </Link>
                 ))}
-                <a
-                  href={CHAT_URL}
-                  target="_blank"
-                  rel="noreferrer"
-                  onClick={() => setOpen(false)}
-                  className="rounded-[2px] border-2 border-transparent px-3 py-2 text-foreground/75 transition hover:bg-muted hover:text-foreground"
-                >
-                  Chat
-                </a>
-                <a
-                  href={STATUS_URL}
-                  target="_blank"
-                  rel="noreferrer"
-                  onClick={() => setOpen(false)}
-                  className="rounded-[2px] border-2 border-transparent px-3 py-2 text-foreground/75 transition hover:bg-muted hover:text-foreground"
-                >
-                  Status
-                </a>
                 <a
                   href={NPM_URL}
                   target="_blank"
