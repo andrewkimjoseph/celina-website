@@ -33,6 +33,8 @@ function formatDateOnly(s: string) {
   });
 }
 
+const ISO_WEEK = /^(\d{4})-W(\d{2})$/;
+
 function isoWeek(d: Date) {
   const date = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate()));
   const dayNum = date.getUTCDay() || 7;
@@ -40,6 +42,16 @@ function isoWeek(d: Date) {
   const yearStart = new Date(Date.UTC(date.getUTCFullYear(), 0, 1));
   const week = Math.ceil(((+date - +yearStart) / 86400000 + 1) / 7);
   return `${date.getUTCFullYear()}-W${String(week).padStart(2, "0")}`;
+}
+
+/** Compact axis label. The full ISO week stays on the datum for the tooltip. */
+export function formatIsoWeekTick(week: string, previousWeek?: string): string {
+  const match = ISO_WEEK.exec(week);
+  if (!match) return week;
+  const [, year, weekNum] = match;
+  const prev = previousWeek ? ISO_WEEK.exec(previousWeek) : null;
+  if (prev && prev[1] !== year) return `'${year.slice(2)} W${weekNum}`;
+  return `W${weekNum}`;
 }
 
 /** Build contiguous UTC day series; missing days default to 0 downloads. */

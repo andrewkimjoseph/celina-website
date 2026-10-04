@@ -1,5 +1,20 @@
 import { describe, expect, it } from "vitest";
-import { aggregateNpm, fillDailyRange } from "./npm-aggregate";
+import { aggregateNpm, fillDailyRange, formatIsoWeekTick } from "./npm-aggregate";
+
+describe("formatIsoWeekTick", () => {
+  it("shows the week number without the year", () => {
+    expect(formatIsoWeekTick("2025-W40")).toBe("W40");
+    expect(formatIsoWeekTick("2025-W41", "2025-W40")).toBe("W41");
+  });
+
+  it("prefixes the new year when the week rolls over", () => {
+    expect(formatIsoWeekTick("2026-W01", "2025-W52")).toBe("'26 W01");
+  });
+
+  it("leaves unrecognized labels unchanged", () => {
+    expect(formatIsoWeekTick("not-a-week")).toBe("not-a-week");
+  });
+});
 
 describe("fillDailyRange", () => {
   it("fills missing days with zero downloads", () => {

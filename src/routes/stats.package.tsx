@@ -3,6 +3,7 @@ import { useMemo } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowUpRightFromSquare } from "@fortawesome/free-solid-svg-icons";
 import { faNpm } from "@fortawesome/free-brands-svg-icons";
+import { formatIsoWeekTick } from "@/lib/npm-aggregate";
 import { useNpmStore } from "@/lib/npm-store";
 import { useNpmHydrated } from "@/lib/use-persist-hydrated";
 import {
@@ -132,7 +133,18 @@ function PackagePage() {
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={npmAgg.weekly} margin={{ top: 8, right: 12, left: 0, bottom: 0 }}>
                 <CartesianGrid stroke="var(--border)" strokeDasharray="3 3" vertical={false} />
-                <XAxis dataKey="week" stroke="var(--muted-foreground)" fontSize={10} tickLine={false} interval={Math.max(0, Math.floor(npmAgg.weekly.length / 8))} />
+                <XAxis
+                  dataKey="week"
+                  stroke="var(--muted-foreground)"
+                  fontSize={10}
+                  tickLine={false}
+                  interval="equidistantPreserveStart"
+                  minTickGap={28}
+                  tickFormatter={(week: string) => {
+                    const index = npmAgg.weekly.findIndex((row) => row.week === week);
+                    return formatIsoWeekTick(week, index > 0 ? npmAgg.weekly[index - 1]?.week : undefined);
+                  }}
+                />
                 <YAxis stroke="var(--muted-foreground)" fontSize={11} tickLine={false} axisLine={false} width={40} />
                 <Tooltip contentStyle={tooltipStyle} itemStyle={tooltipItemStyle} labelStyle={tooltipLabelStyle} cursor={{ fill: "var(--muted)" }} />
                 <Bar dataKey="downloads" name="Downloads" fill={forest} radius={[0, 0, 0, 0]} isAnimationActive={false} />
