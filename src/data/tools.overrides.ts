@@ -150,8 +150,8 @@ export const TOOL_OVERRIDES: Record<string, ToolDocOverride> = {
   },
   "get_gooddollar_whitelisting_info": {
     "summary": "IdentityV4 whitelist status for a wallet",
-    "description": "Returns GoodDollar IdentityV4 whitelisting status for a wallet. Connected wallets resolve to their verified root — returns isWhitelisted, whitelistedRoot, checkedAddress, reverification timeline, and whitelist dates.",
-    "returns": "{ isWhitelisted, whitelistedRoot, isConnectedWallet, checkedAddress, reverification, … }",
+    "description": "Returns GoodDollar IdentityV4 whitelisting status for a wallet. Connected wallets resolve to their verified root — returns isWhitelisted, isWhitelistedRoot, whitelistedRoot, checkedAddress, reverification timeline, and whitelist dates.",
+    "returns": "{ isWhitelisted, isWhitelistedRoot, whitelistedRoot, isConnectedWallet, checkedAddress, reverification, … }",
     "examples": [
       "Is 0x… GoodDollar whitelisted?"
     ]
@@ -166,8 +166,8 @@ export const TOOL_OVERRIDES: Record<string, ToolDocOverride> = {
   },
   "get_gooddollar_ubi_entitlement": {
     "summary": "Daily UBI claim eligibility (amount, root, reasons)",
-    "description": "Check whether an address can claim today's GoodDollar UBI on Celo mainnet — returns the claimable G$ amount, the resolved whitelist root, and any reasons the claim is blocked.",
-    "returns": "{ isEligibleToClaim, claimableAmount, whitelistedRoot, isConnectedWallet, identity.isWhitelisted, reasons }",
+    "description": "Check whether an address can claim today's GoodDollar UBI on Celo mainnet — returns the claimable G$ amount, the resolved whitelist root, isWhitelistedRoot when the address is itself that root, and any reasons the claim is blocked.",
+    "returns": "{ isEligibleToClaim, claimableAmount, whitelistedRoot, isWhitelistedRoot, isConnectedWallet, identity.isWhitelisted, identity.isWhitelistedRoot, reasons }",
     "examples": [
       "Can 0x… claim GoodDollar UBI today?"
     ]
@@ -539,8 +539,8 @@ export const TOOL_OVERRIDES: Record<string, ToolDocOverride> = {
   },
   "check_humanness": {
     "summary": "Dual-rail humanness check (Self Agent ID or GoodDollar IdentityV4)",
-    "description": "Check whether an address passes humanness verification on Celo mainnet. Uses a dual-rail gate: Self Agent ID (verified human-backed agent) OR GoodDollar IdentityV4 (whitelisted face-verified identity). Passes if either rail succeeds. Required before governance and staking execute tools (lock, vote, stake, delegate). Call this first when an agent needs to perform humanness-gated actions.",
-    "returns": "{ address, passed, self?: { isVerified, … }, gooddollar?: { isWhitelisted, whitelistedRoot, … } }",
+    "description": "Check whether an address passes humanness verification on Celo mainnet. Uses a dual-rail gate: Self Agent ID (verified human-backed agent) OR GoodDollar IdentityV4 (whitelisted face-verified identity). Passes if either rail succeeds. The GoodDollar rail includes isWhitelistedRoot when the address is itself the identity root. Required before governance and staking execute tools (lock, vote, stake, delegate). Call this first when an agent needs to perform humanness-gated actions.",
+    "returns": "{ address, passed, self?: { isVerified, … }, gooddollar?: { isWhitelisted, whitelistedRoot, isWhitelistedRoot, … } }",
     "examples": [
       "Does 0x… pass humanness verification?",
       "Check humanness for my MCP server wallet before locking CELO."

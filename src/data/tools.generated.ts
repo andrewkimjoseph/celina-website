@@ -833,7 +833,7 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
     "slug": "get-gooddollar-whitelisting-info",
     "title": "Get GoodDollar Whitelisting Info",
     "summary": "Check GoodDollar IdentityV4 whitelist status for a wallet.",
-    "description": "Check GoodDollar IdentityV4 whitelist status for a wallet. Connected wallets resolve to their verified root; returns isWhitelisted, whitelistedRoot, and checkedAddress.",
+    "description": "Check GoodDollar IdentityV4 whitelist status for a wallet. Connected wallets resolve to their verified root; returns isWhitelisted, isWhitelistedRoot, whitelistedRoot, and checkedAddress.",
     "kind": "read",
     "category": "GoodDollar",
     "inputs": [
@@ -849,8 +849,8 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
     "name": "get_gooddollar_identity_link",
     "slug": "get-gooddollar-identity-link",
     "title": "Get GoodDollar Identity Link",
-    "summary": "How a wallet links to GoodDollar IdentityV4: whitelisted root, connected-to root, and live whitelist status.",
-    "description": "How a wallet links to GoodDollar IdentityV4: whitelisted root, connected-to root, and live whitelist status.",
+    "summary": "How a wallet links to GoodDollar IdentityV4: whitelisted root, whether the address is itself the root (isWhitelistedRoot), connected-to root, and live whitelist status.",
+    "description": "How a wallet links to GoodDollar IdentityV4: whitelisted root, whether the address is itself the root (isWhitelistedRoot), connected-to root, and live whitelist status.",
     "kind": "read",
     "category": "GoodDollar",
     "inputs": [
@@ -867,7 +867,7 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
     "slug": "get-gooddollar-ubi-entitlement",
     "title": "Get GoodDollar UBI Entitlement",
     "summary": "Daily GoodDollar UBI claim eligibility: whitelist root, claimable G$, already claimed.",
-    "description": "Daily GoodDollar UBI claim eligibility: whitelist root, claimable G$, already claimed. Nested identity.isWhitelisted reflects the resolved root.",
+    "description": "Daily GoodDollar UBI claim eligibility: whitelist root, claimable G$, already claimed. isWhitelistedRoot is true when the queried address is the identity root. Nested identity.isWhitelisted and identity.isWhitelistedRoot reflect the resolved root.",
     "kind": "read",
     "category": "GoodDollar",
     "inputs": [
@@ -1456,7 +1456,7 @@ export const GENERATED_TOOLS: Omit<ToolDoc, "returns">[] = [
     "slug": "check-humanness",
     "title": "Check Humanness",
     "summary": "Check whether an address passes humanness on Self Agent ID or GoodDollar IdentityV4.",
-    "description": "Check whether an address passes humanness on Self Agent ID or GoodDollar IdentityV4. Pass if either rail succeeds.",
+    "description": "Check whether an address passes humanness on Self Agent ID or GoodDollar IdentityV4. Pass if either rail succeeds. The GoodDollar rail returns isWhitelistedRoot when the checked address is itself the identity root.",
     "kind": "read",
     "category": "Humanness",
     "inputs": [
