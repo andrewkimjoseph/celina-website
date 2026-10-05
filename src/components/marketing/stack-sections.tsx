@@ -251,7 +251,7 @@ export function StackProductsSection() {
         <ProductCard
           icon={faComments}
           title="Celina Chat"
-          subtitle="Full-catalog wallet chat"
+          subtitle="Reference browser app"
           body="Every browser-surface SDK tool — send, swap, govern, stake, and more. You sign in your wallet."
         >
           <Link
@@ -281,7 +281,7 @@ export function StackProductsSection() {
         <ProductCard
           iconImage={{ src: "/celeste-logo.svg", alt: "Celeste AI" }}
           title="Celeste AI"
-          subtitle="Reference browser app"
+          subtitle="DeFAI browser app"
           body="DeFAI chat UI using surface: browser + wagmi. Users sign in their wallet — no MCP server."
         >
           <a

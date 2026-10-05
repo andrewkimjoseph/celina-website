@@ -288,7 +288,7 @@ function AboutPage() {
           <ProductCard
             icon={faComments}
             title="Celina Chat"
-            subtitle="Full-catalog wallet chat"
+            subtitle="Reference browser app"
             body="Every browser-surface SDK tool in one chat — sends, swaps, governance, staking, NFTs, and contract calls. You sign in your wallet."
           >
             <div className="flex flex-wrap gap-2">
@@ -320,7 +320,7 @@ function AboutPage() {
           <ProductCard
             iconImage={{ src: "/celeste-logo.svg", alt: "Celeste AI" }}
             title="Celeste AI"
-            subtitle="Reference browser app"
+            subtitle="DeFAI browser app"
             body="DeFAI chat UI using surface: browser + wagmi. Users sign in their wallet — no MCP server, no CELO_PRIVATE_KEY. Independent of usecelina.xyz."
           >
             <div className="flex flex-wrap gap-2">

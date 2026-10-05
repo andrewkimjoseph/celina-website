@@ -10,7 +10,8 @@
 - SDK: [@andrewkimjoseph/celina-sdk](https://www.npmjs.com/package/@andrewkimjoseph/celina-sdk) — reads, wallet signing flows, `/simulation` for revert-before-send, and the shared LLM tool catalog
 - MCP: [@andrewkimjoseph/celina-mcp](https://www.npmjs.com/package/@andrewkimjoseph/celina-mcp) — registers the catalog for IDE / CLI agents
 - Hosted endpoint: `https://mcp.usecelina.xyz/mcp` — remote read/prepare profile (currently **50 tools** via `HOSTED_TOOL_COUNT` in `src/data/tools.generated.ts`; no `estimate_*` or server-key writes). Public read-only — no API key; see [celina-mcp-remote SECURITY.md](../celina-mcp-remote/SECURITY.md).
-- Celeste AI: [celeste.usecelina.xyz](https://celeste.usecelina.xyz) — reference browser wallet chat UI (SDK + wagmi, not MCP)
+- Celeste AI: [celeste.usecelina.xyz](https://celeste.usecelina.xyz) — browser wallet chat UI (SDK + wagmi, not MCP)
+- Celina Chat: [chat.usecelina.xyz](https://chat.usecelina.xyz) — reference browser wallet chat UI, full SDK tool catalog (SDK + wagmi, not MCP)
 - Status: [/status](https://usecelina.xyz/status) explains the dashboard; the live page is [status.usecelina.xyz](https://status.usecelina.xyz), a sibling Cloudflare Worker ([celina-status](https://github.com/andrewkimjoseph/celina-status)). Live health, 30-day uptime, and usage stats.
 - Full stdio catalog: all tools in `src/data/tools.generated.ts` (currently **116**; adds server-key execute/write paths). Regenerate with `npm run sync-tools` from this repo.
 
