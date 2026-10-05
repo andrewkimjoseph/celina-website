@@ -20,7 +20,7 @@ function PrepareToolsPage() {
     <ToolsKindHub
       kind="prepare"
       title="Prepare"
-      description="Unsigned wallet flows for browser apps (Celeste, wagmi); the user signs. Not on MCP — agents with CELO_PRIVATE_KEY use write/execute instead. Click any tool for its full spec."
+      description="Unsigned wallet flows for browser apps (Celina Chat, wagmi); the user signs. Not on MCP — agents with CELO_PRIVATE_KEY use write/execute instead. Click any tool for its full spec."
     />
   );
 }

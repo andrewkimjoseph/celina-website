@@ -12,7 +12,7 @@ import { PageCrumbs } from "@/components/marketing/page-hero";
 import { CopyButton } from "@/components/marketing/code-block";
 import { kindBadge } from "@/components/tools/tool-card";
 
-const CELESTE_URL = "https://celeste.usecelina.xyz";
+const CHAT_URL = "https://chat.usecelina.xyz";
 
 export const Route = createFileRoute("/tools/$category/$toolSlug")({
   loader: ({ params }) => {
@@ -115,12 +115,12 @@ function ToolPage() {
           <p className="mt-4 max-w-2xl rounded-[2px] border-2 border-foreground bg-muted/40 px-4 py-3 text-sm leading-relaxed text-foreground/85 shadow-[var(--shadow-brutal-sm)]">
             Browser / SDK wallet flow — not an MCP tool. Apps like{" "}
             <a
-              href={CELESTE_URL}
+              href={CHAT_URL}
               target="_blank"
               rel="noreferrer"
               className="font-medium text-foreground underline decoration-[var(--celo-yellow)] decoration-2 underline-offset-2"
             >
-              Celeste
+              Celina Chat
             </a>{" "}
             call this via the SDK; the user signs with their wallet. MCP agents with{" "}
             <code className="rounded bg-secondary px-1 py-0.5 text-xs">CELO_PRIVATE_KEY</code> use the
@@ -220,7 +220,7 @@ function ToolPage() {
                 <code className="rounded bg-secondary px-1 py-0.5 text-xs">surface: &quot;browser&quot;</code>
                 . It returns unsigned steps for the connected wallet to sign — it is{" "}
                 <strong className="font-semibold text-foreground">not</strong> registered on celina-mcp.
-                For a reference UI, try Celeste; for the API shape, see the SDK prepared-flows docs.
+                For a reference UI, try Celina Chat; for the API shape, see the SDK prepared-flows docs.
               </p>
               <div className="mt-4 flex flex-wrap gap-2">
                 <Link
@@ -230,12 +230,12 @@ function ToolPage() {
                   SDK docs
                 </Link>
                 <a
-                  href={CELESTE_URL}
+                  href={CHAT_URL}
                   target="_blank"
                   rel="noreferrer"
                   className="inline-flex items-center gap-2 rounded-[2px] border-2 border-foreground bg-background px-4 py-2 text-sm font-medium text-foreground shadow-[var(--shadow-brutal-sm)] transition-[transform,box-shadow,background-color,color] hover:bg-accent hover:text-accent-foreground active:translate-x-[1px] active:translate-y-[1px] active:shadow-none"
                 >
-                  Open Celeste <FontAwesomeIcon icon={faArrowUpRightFromSquare} className="h-2.5 w-2.5" />
+                  Open Chat <FontAwesomeIcon icon={faArrowUpRightFromSquare} className="h-2.5 w-2.5" />
                 </a>
                 <Link
                   to="/tools/$category"
