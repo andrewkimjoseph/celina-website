@@ -1,12 +1,64 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowUpRightFromSquare, faSignal } from "@fortawesome/free-solid-svg-icons";
-import { faGithub } from "@fortawesome/free-brands-svg-icons";
+import {
+  faArrowUpRightFromSquare,
+  faBolt,
+  faBrain,
+  faChartBar,
+  faCloud,
+  faComments,
+  faGlobe,
+  faSignal,
+} from "@fortawesome/free-solid-svg-icons";
+import { faGithub, faTelegram } from "@fortawesome/free-brands-svg-icons";
 import { PageHero, PageHeroSection } from "@/components/marketing/page-hero";
 import { SiteHeader } from "@/components/site-header";
 
 const STATUS_URL = "https://status.usecelina.xyz";
 const STATUS_GITHUB_URL = "https://github.com/andrewkimjoseph/celina-status";
+
+const SERVICES = [
+  {
+    icon: faCloud,
+    title: "MCP Remote",
+    body: "Streamable HTTP server at mcp.usecelina.xyz.",
+  },
+  {
+    icon: faBolt,
+    title: "API",
+    body: "Read-only endpoints at api.usecelina.xyz.",
+  },
+  {
+    icon: faTelegram,
+    title: "Bot",
+    body: "Telegram bot @thecelinabot.",
+  },
+  {
+    icon: faChartBar,
+    title: "Stats API",
+    body: "Usage and analytics data endpoint.",
+  },
+  {
+    icon: faGlobe,
+    title: "Website",
+    body: "usecelina.xyz marketing site.",
+  },
+  {
+    icon: faBrain,
+    title: "Celeste AI",
+    body: "DeFAI chat at celeste.usecelina.xyz.",
+  },
+  {
+    icon: faComments,
+    title: "Chat",
+    body: "Full-catalog wallet chat at chat.usecelina.xyz.",
+  },
+  {
+    icon: faSignal,
+    title: "Status page",
+    body: "Live dashboard at status.usecelina.xyz.",
+  },
+];
 
 export const Route = createFileRoute("/status")({
   head: () => ({
@@ -72,6 +124,27 @@ function StatusPage() {
             </a>
             . It checks MCP Remote, the API, the bot, the stats API, this website, Celeste AI, Celina Chat, and the status page itself.
           </p>
+
+          <h2
+            className="mt-8 text-lg font-semibold tracking-tight"
+            style={{ fontFamily: "var(--font-display)" }}
+          >
+            Monitored services
+          </h2>
+          <div className="mt-4 grid gap-4 sm:grid-cols-2 md:grid-cols-4">
+            {SERVICES.map((item) => (
+              <div
+                key={item.title}
+                className="rounded-[2px] border-2 border-foreground bg-muted/30 p-5"
+              >
+                <div className="inline-flex h-8 w-8 items-center justify-center rounded-[2px] border-2 border-foreground bg-[var(--celo-yellow)] text-[var(--celo-ink)]">
+                  <FontAwesomeIcon icon={item.icon} className="h-4 w-4" />
+                </div>
+                <h3 className="mt-3 font-semibold text-foreground">{item.title}</h3>
+                <p className="mt-1 text-sm text-muted-foreground">{item.body}</p>
+              </div>
+            ))}
+          </div>
         </article>
       </section>
     </main>
