@@ -104,6 +104,7 @@ export const useAmplitudeStore = create<AmplitudeState>()(
         dailyWalletsQueried: s.dailyWalletsQueried,
         perTool: s.perTool,
         projects: s.projects,
+        events: s.events,
         total: s.total,
         uniqueDevices: s.uniqueDevices,
         walletsQueried: s.walletsQueried,
