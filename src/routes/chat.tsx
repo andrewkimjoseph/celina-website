@@ -1,12 +1,54 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowUpRightFromSquare, faComments } from "@fortawesome/free-solid-svg-icons";
+import {
+  faArrowUpRightFromSquare,
+  faCode,
+  faCoins,
+  faComments,
+  faImage,
+  faLandmark,
+  faPaperPlane,
+  faRightLeft,
+} from "@fortawesome/free-solid-svg-icons";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import { PageHero, PageHeroSection } from "@/components/marketing/page-hero";
 import { SiteHeader } from "@/components/site-header";
 
 const CHAT_URL = "https://chat.usecelina.xyz";
 const CHAT_GITHUB_URL = "https://github.com/andrewkimjoseph/celina-chat";
+
+const CAPABILITIES = [
+  {
+    icon: faPaperPlane,
+    title: "Send",
+    body: "Transfer CELO, stablecoins, and GoodDollar to any address or ENS name.",
+  },
+  {
+    icon: faRightLeft,
+    title: "Swap",
+    body: "Mento FX oracle-priced swaps and Uniswap v4 AMM routes.",
+  },
+  {
+    icon: faLandmark,
+    title: "Govern",
+    body: "Lock CELO, upvote queued proposals, and vote in Referendum.",
+  },
+  {
+    icon: faCoins,
+    title: "Stake",
+    body: "Delegate to validator groups, activate pending stakes, and unstake.",
+  },
+  {
+    icon: faImage,
+    title: "NFTs",
+    body: "View ERC-721 and ERC-1155 balances and token metadata.",
+  },
+  {
+    icon: faCode,
+    title: "Contracts",
+    body: "Read contract state and estimate gas for arbitrary calls.",
+  },
+];
 
 export const Route = createFileRoute("/chat")({
   head: () => ({
@@ -79,6 +121,27 @@ function ChatPage() {
             </Link>
             .
           </p>
+
+          <h2
+            className="mt-8 text-lg font-semibold tracking-tight"
+            style={{ fontFamily: "var(--font-display)" }}
+          >
+            What you can do
+          </h2>
+          <div className="mt-4 grid gap-4 md:grid-cols-3">
+            {CAPABILITIES.map((item) => (
+              <div
+                key={item.title}
+                className="rounded-[2px] border-2 border-foreground bg-muted/30 p-5"
+              >
+                <div className="inline-flex h-8 w-8 items-center justify-center rounded-[2px] border-2 border-foreground bg-[var(--celo-yellow)] text-[var(--celo-ink)]">
+                  <FontAwesomeIcon icon={item.icon} className="h-4 w-4" />
+                </div>
+                <h3 className="mt-3 font-semibold text-foreground">{item.title}</h3>
+                <p className="mt-1 text-sm text-muted-foreground">{item.body}</p>
+              </div>
+            ))}
+          </div>
         </article>
       </section>
     </main>
