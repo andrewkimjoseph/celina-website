@@ -97,7 +97,7 @@ export const useAmplitudeStore = create<AmplitudeState>()(
       },
     }),
     {
-      name: "celina-amplitude-v12",
+      name: "celina-amplitude-v13",
       storage: browserPersistStorage,
       partialize: (s) => ({
         daily: s.daily,
