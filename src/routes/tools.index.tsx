@@ -61,7 +61,7 @@ function ToolsIndex() {
         </h1>
         <p className="mt-4 max-w-2xl text-lg text-muted-foreground">
           Every operation Celina exposes — {READ_TOOL_COUNT} read, {WRITE_TOOL_COUNT} write,{" "}
-          {PREPARE_TOOL_COUNT} prepare — across Celo mainnet, Mento FX, GoodDollar, Uniswap v4, Aave,
+          {PREPARE_TOOL_COUNT} prepare — across Celo mainnet, Mento FX, GoodDollar, Uniswap v3 and v4, Aave,
           and governance. Click any tool for its full spec.
         </p>
 

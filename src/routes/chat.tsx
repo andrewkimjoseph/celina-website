@@ -26,7 +26,7 @@ const CAPABILITIES = [
   {
     icon: faRightLeft,
     title: "Swap",
-    body: "Mento FX oracle-priced swaps and Uniswap v4 AMM routes.",
+    body: "Mento FX oracle-priced swaps and Uniswap v3 and v4 AMM routes.",
   },
   {
     icon: faLandmark,

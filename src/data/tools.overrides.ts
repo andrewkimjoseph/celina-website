@@ -238,38 +238,38 @@ export const TOOL_OVERRIDES: Record<string, ToolDocOverride> = {
     ]
   },
   "get_uniswap_swap_pairs": {
-    "summary": "Which tokens have a Uniswap v4 pool or 2-hop path",
-    "description": "List Uniswap v4 registry-token pairs on Celo mainnet (direct pools and 2-hop routes). Call this before listing Uniswap pairs — do not invent them. Pass token to filter. For G$ ↔ USDm, use get_gooddollar_reserve_quote — Uniswap pools for that pair are typically illiquid.",
-    "returns": "{ network, protocol: \"uniswap_v4\", token?, pairs: [{ token_a, token_b, hops }], counterparts?, source }",
+    "summary": "Which tokens have a Uniswap v3 or v4 pool or 2-hop path",
+    "description": "List Uniswap v3 and v4 registry-token pairs on Celo mainnet. Each pair includes venues. v3 covers hub-token pools only. Call this before listing Uniswap pairs — do not invent them. Pass token to filter. For G$ ↔ USDm, use get_gooddollar_reserve_quote — Uniswap pools for that pair are typically illiquid.",
+    "returns": "{ network, protocol: \"uniswap_v4\", token?, pairs: [{ token_a, token_b, hops, venues }], counterparts?, source }",
     "examples": [
       "Which tokens can I swap USDC with on Uniswap?",
-      "List Uniswap v4 pairs for G$."
+      "List Uniswap pairs for G$."
     ]
   },
   "get_uniswap_quote": {
-    "summary": "Uniswap v4 expected output for a token pair",
-    "description": "Get an expected Uniswap v4 swap output on Celo mainnet for a token pair (e.g. G$ → USDT, USDC → USDT). Read-only and wallet-free. Call get_uniswap_swap_pairs first if you are unsure the pair exists. CELO swaps route through WCELO pools. For G$ ↔ USDm, use get_gooddollar_reserve_quote — Uniswap pools for that pair are typically illiquid.",
-    "returns": "{ amountIn, expectedOut, route, pool }",
+    "summary": "Uniswap v3 or v4 expected output for a token pair",
+    "description": "Get an expected Uniswap swap output on Celo mainnet for a token pair (e.g. G$ → USDT, USDC → USDT). Compares v3 and v4 and returns the higher output. protocol is uniswap_v3 or uniswap_v4. Read-only and wallet-free. Call get_uniswap_swap_pairs first if you are unsure the pair exists. CELO swaps route through WCELO pools. For G$ ↔ USDm, use get_gooddollar_reserve_quote — Uniswap pools for that pair are typically illiquid.",
+    "returns": "{ protocol, amountIn, expectedOut, route }",
     "examples": [
       "Quote 1000 G$ to USDT on Uniswap.",
-      "Quote 50 USDC to USDT on Uniswap v4."
+      "Quote 50 USDC to USDT on Uniswap."
     ]
   },
   "estimate_uniswap_swap": {
-    "summary": "Gas estimate for a Uniswap v4 swap",
-    "description": "Estimate gas for a Uniswap v4 swap on Celo mainnet, including any required ERC-20 approve and Permit2 approve steps. Requires CELO_PRIVATE_KEY — fails on hosted MCP without a local signer.",
+    "summary": "Gas estimate for a Uniswap v3 or v4 swap",
+    "description": "Estimate gas for the better Uniswap v3 or v4 swap on Celo mainnet. v4 includes ERC-20 and Permit2 approvals when needed. v3 includes one ERC-20 approval to SwapRouter02 when needed. Requires CELO_PRIVATE_KEY — fails on hosted MCP without a local signer.",
     "returns": "{ approvalGas?, permit2Gas?, swapGas, totalGas, estimatedCostWei }",
     "examples": [
-      "Estimate gas to swap 1000 G$ to USDT on Uniswap v4."
+      "Estimate gas to swap 1000 G$ to USDT on Uniswap."
     ]
   },
   "execute_uniswap_swap": {
-    "summary": "Swap via Uniswap v4 Universal Router + Permit2",
-    "description": "Execute a Uniswap v4 swap on Celo mainnet via the Universal Router with Permit2. Sends any required ERC-20 approve and Permit2 approve steps first, then the swap. CELO swaps require WCELO balance on the signer. Requires CELO_PRIVATE_KEY in your MCP client env. All on-chain steps include the CELINA attribution tag.",
+    "summary": "Swap via Uniswap v3 or v4",
+    "description": "Execute the better Uniswap v3 or v4 swap on Celo mainnet. v3 uses SwapRouter02 with one ERC-20 approval. v4 uses the Universal Router and Permit2. CELO swaps require WCELO balance on the signer. Requires CELO_PRIVATE_KEY in your MCP client env. All on-chain steps include the CELINA attribution tag.",
     "returns": "{ approvalHash?, permit2Hash?, swapHash, status, blockNumber }",
     "examples": [
       "Swap 1000 G$ to USDT on Uniswap.",
-      "Swap 25 USDC to USDT via Uniswap v4."
+      "Swap 25 USDC to USDT via Uniswap."
     ]
   },
   "get_aave_balances": {

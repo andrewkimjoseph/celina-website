@@ -141,7 +141,7 @@ function AboutPage() {
           </p>
           <p>
             Celina targets <span className="font-medium text-foreground">Celo mainnet</span> today — stablecoins,
-            Mento FX, Uniswap v4, Aave V3, GoodDollar, Self Agent ID, governance, staking, and core chain reads.
+            Mento FX, Uniswap v3 and v4, Aave V3, GoodDollar, Self Agent ID, governance, staking, and core chain reads.
             It is listed in the{" "}
             <a
               className="font-medium text-foreground underline decoration-[var(--celo-yellow)] decoration-2 underline-offset-4"
