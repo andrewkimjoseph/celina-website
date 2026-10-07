@@ -83,7 +83,8 @@ function StatusPage() {
         <PageHero
           icon={faSignal}
           badge="Uptime and usage"
-          title="Status"
+          title="Celina Status"
+          wide
           crumbs={[{ label: "Celina", to: "/" }, { label: "Status" }]}
           description="Live health for the hosted stack, 30-day uptime, and on-chain, off-chain, and download stats."
         >
@@ -111,41 +112,45 @@ function StatusPage() {
       </PageHeroSection>
 
       <section className="mx-auto max-w-6xl px-4 pb-16 sm:px-6">
-        <article className="min-w-0 overflow-hidden rounded-[2px] border-2 border-foreground bg-card p-7 shadow-[var(--shadow-brutal)]">
-          <p className="text-sm leading-relaxed text-muted-foreground">
-            The live dashboard is at{" "}
-            <a
-              href={STATUS_URL}
-              target="_blank"
-              rel="noreferrer"
-              className="font-medium text-foreground underline decoration-[var(--celo-yellow)] decoration-2 underline-offset-4"
-            >
-              status.usecelina.xyz
-            </a>
-            . It checks MCP Remote, the API, the bot, the stats API, this website, Celeste AI, Celina Chat, and the status page itself.
-          </p>
-
-          <h2
-            className="mt-8 text-lg font-semibold tracking-tight"
-            style={{ fontFamily: "var(--font-display)" }}
+        <p className="max-w-3xl text-base leading-relaxed text-muted-foreground">
+          The live dashboard is at{" "}
+          <a
+            href={STATUS_URL}
+            target="_blank"
+            rel="noreferrer"
+            className="font-medium text-foreground underline decoration-[var(--celo-yellow)] decoration-2 underline-offset-4"
           >
-            Monitored services
-          </h2>
-          <div className="mt-4 grid gap-4 sm:grid-cols-2 md:grid-cols-4">
-            {SERVICES.map((item) => (
-              <div
-                key={item.title}
-                className="rounded-[2px] border-2 border-foreground bg-muted/30 p-5"
-              >
-                <div className="inline-flex h-8 w-8 items-center justify-center rounded-[2px] border-2 border-foreground bg-[var(--celo-yellow)] text-[var(--celo-ink)]">
-                  <FontAwesomeIcon icon={item.icon} className="h-4 w-4" />
-                </div>
-                <h3 className="mt-3 font-semibold text-foreground">{item.title}</h3>
-                <p className="mt-1 text-sm text-muted-foreground">{item.body}</p>
+            status.usecelina.xyz
+          </a>
+          . It checks MCP Remote, the API, the bot, the stats API, this website, Celeste AI, Celina
+          Chat, and the status page itself.
+        </p>
+
+        <h2
+          className="mb-5 mt-10 text-2xl font-bold tracking-tight sm:text-3xl"
+          style={{ fontFamily: "var(--font-display)" }}
+        >
+          Monitored services
+        </h2>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {SERVICES.map((item) => (
+            <div
+              key={item.title}
+              className="rounded-[2px] border-2 border-foreground bg-card p-6 shadow-[var(--shadow-brutal)]"
+            >
+              <div className="inline-flex h-9 w-9 items-center justify-center rounded-[2px] border-2 border-foreground bg-[var(--celo-yellow)] text-[var(--celo-ink)]">
+                <FontAwesomeIcon icon={item.icon} className="h-4 w-4" />
               </div>
-            ))}
-          </div>
-        </article>
+              <h3
+                className="mt-4 text-lg font-semibold tracking-tight"
+                style={{ fontFamily: "var(--font-display)" }}
+              >
+                {item.title}
+              </h3>
+              <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">{item.body}</p>
+            </div>
+          ))}
+        </div>
       </section>
     </main>
   );
