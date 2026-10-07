@@ -49,7 +49,7 @@ function McpRemotePage() {
         <p className="mt-2 text-sm text-muted-foreground">
           No Node, no <span className="font-mono text-xs bg-secondary px-1.5 py-0.5 rounded">npx</span>, no keys.
           The hosted endpoint exposes <span className="font-semibold text-foreground">{HOSTED_TOOL_COUNT} tools</span>:
-          chain reads, oracle/AMM quotes (Mento FX, Uniswap v4, GoodDollar reserve), GoodDollar entitlement, and Self verify/lookup.
+          chain reads, oracle/AMM quotes (Mento FX, Uniswap v3 and v4, GoodDollar reserve), GoodDollar entitlement, and Self verify/lookup.
         </p>
 
         <div className="mt-5">
@@ -118,7 +118,7 @@ function McpRemotePage() {
             <li>
               <code className="rounded bg-secondary px-1 py-0.5 text-xs">send_token</code>
             </li>
-            <li>Mento FX, Uniswap v4, Aave execute</li>
+            <li>Mento FX, Uniswap v3 and v4, Aave execute</li>
             <li>Governance lock/vote and staking execute (<code className="rounded bg-secondary px-1 py-0.5 text-xs">execute_stake</code>, etc.)</li>
             <li>GoodDollar UBI claim, reserve execute</li>
             <li>Self Agent ID registration lifecycle</li>

@@ -206,7 +206,7 @@ function SdkPage() {
           <CapabilityCard
             icon={faPenRuler}
             title="Wallet signing"
-            body="Unsigned tx flows for sends, Mento FX, GoodDollar reserve (G$ ↔ USDm), Uniswap v4, Aave, GoodDollar UBI, governance (lock/vote/unlock), staking (stake/delegate), GoodDollar identity connect, and generic contract writes. Prepared flows return chainId 42220."
+            body="Unsigned tx flows for sends, Mento FX, GoodDollar reserve (G$ ↔ USDm), Uniswap v3 and v4, Aave, GoodDollar UBI, governance (lock/vote/unlock), staking (stake/delegate), GoodDollar identity connect, and generic contract writes. Prepared flows return chainId 42220."
           />
           <CapabilityCard
             icon={faLayerGroup}
