@@ -71,7 +71,7 @@ export function displayProjectId(id: string): string | null {
   if (project === "thegoodpax" || project === "thegoodpaxapp") {
     project = "the_good_pax_app";
   }
-  if (!project || project === "celina_sdk" || project === "g_usdm_quote") return null;
+  if (!project || project === "g_usdm_quote") return null;
   return project;
 }
 
